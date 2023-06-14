@@ -32,7 +32,7 @@ function Login({ closeModal, toggleLogin }) {
   const dispatch = useDispatch();
 
   return (
-    <Card className="w-96">
+    <Card className="w-80">
       <CardHeader
         variant="gradient"
         color="blue"
@@ -87,7 +87,20 @@ function Login({ closeModal, toggleLogin }) {
         <div className="divider flex justify-between">
           <Typography color="gray" className="mt-4 text-center font-normal">
             <span className="cursor-pointer" onClick={closeModal}>
-              Close
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
             </span>
           </Typography>
 

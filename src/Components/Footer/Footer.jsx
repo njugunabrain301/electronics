@@ -13,8 +13,8 @@ const Footer = () => {
           <img className="h-20" src={logo} alt="logo"></img>
         </div>
         <div>
-          <p className="text-black text-sm font-inter no-underline normal-case">
-            Copyright {year} page by Marko Web
+          <p className="text-black text-sm font-inter no-underline normal-case xs:pl-1">
+            Copyright {year} by Bunika
           </p>
         </div>
       </div>

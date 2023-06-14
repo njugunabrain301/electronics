@@ -11,6 +11,7 @@ const SingleProduct = () => {
   const productColor = product[0].color[0];
   const [size, setSize] = useState(productSize);
   const [color, setColor] = useState(productColor);
+  const authUser = useSelector((state) => state.user.user.authUser);
 
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -21,10 +22,13 @@ const SingleProduct = () => {
         .filter((product) => product.id === id)
         .map((item, index) => {
           return (
-            <div key={index} className="flex justify-center items-center py-10">
-              <div className="pl-44 grow-[2]">
+            <div
+              key={index}
+              className="flex justify-center items-center p-4 pb-8 flex-wrap"
+            >
+              <div className="flex justify-center m-4">
                 <img
-                  className="h-[850px] rounded-lg"
+                  className="min-h-300px max-h-700px rounded-lg max-w-[400px] w-full"
                   src={item.img}
                   alt={item.name}
                 ></img>
@@ -34,10 +38,12 @@ const SingleProduct = () => {
                   <h5 className="text-2xl font-inter font-bold tracking-normal leading-none pb-4">
                     {item.name}
                   </h5>
-                  <p className="text-orange-700 text-xl font-inter font-bold tracking-normal leading-none pb-4">
-                    15% OFF
-                  </p>
-                  <p className="text-gray-600 text-xl font-inter font-bold tracking-normal leading-none pb-4">
+                  {item.offer && (
+                    <p className="text-orange-700 text-xl font-inter font-bold tracking-normal leading-none pb-4">
+                      {item.offer}% OFF
+                    </p>
+                  )}
+                  <p className="text-gray-600 text-l font-inter tracking-normal leading-none pb-4">
                     {item.text}
                   </p>
                   <div className="pb-4">

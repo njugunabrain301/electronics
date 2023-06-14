@@ -52,7 +52,7 @@ function UserProfile({ closeModal }) {
   };
   return (
     <div className="w-full h-screen flex justify-center items-center">
-      <Card className="w-[350px] bg-white p-2 rounded-md">
+      <Card className="w-[330px] bg-white p-4 rounded-md pt-0">
         <CardHeader
           variant="gradient"
           color="blue"
@@ -63,7 +63,7 @@ function UserProfile({ closeModal }) {
           </Typography>
         </CardHeader>
         <hr className="h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
-        <form className="mt-8 mb-2 sm:w-80">
+        <form className="mt-8 mb-2 w-full">
           <div className="mb-4 flex flex-col gap-6">
             <Input
               size="lg"
@@ -99,7 +99,7 @@ function UserProfile({ closeModal }) {
             <Typography color="gray" className="mt-4 text-center font-normal">
               <a
                 href="#"
-                className="font-medium text-blue-500 transition-colors hover:text-blue-700"
+                className="font-normal text-blue-500 transition-colors hover:underline hover:text-blue-700"
                 onClick={updatePass}
               >
                 {updatePassState === "Update Password" ? "Update Password" : ""}
@@ -109,7 +109,7 @@ function UserProfile({ closeModal }) {
               <Link
                 to="/orders"
                 onClick={closeModal}
-                className="text-blue-400 hover:underline"
+                className="text-blue-400 hover:underline hover:text-blue-700"
               >
                 My Orders
               </Link>

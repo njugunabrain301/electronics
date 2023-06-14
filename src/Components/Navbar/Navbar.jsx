@@ -52,7 +52,7 @@ const Navbar = () => {
       <div className="flex justify-around items-center">
         <div>
           <img
-            className="md:h-28 w-full xs:h-20 lg:h-28"
+            className="md:h-28 w-full h-20 lg:h-28"
             src={logo}
             alt="store"
           ></img>
@@ -84,7 +84,7 @@ const Navbar = () => {
             )}
 
             <p className=" font-inter text-base font-medium tracking-normal leading-none text-center ">
-              Shopping Cart
+              <span className="hidden md:inline-block">Shopping</span> Cart
             </p>
 
             <button

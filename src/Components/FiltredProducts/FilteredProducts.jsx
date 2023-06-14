@@ -38,12 +38,12 @@ const FilteredProducts = () => {
 
   return (
     <div className="">
-      <div className="pt-16">
-        <div className="pl-14">
-          <h1 className="text-gray-600 text-4xl font-inter font-bold tracking-normal leading-none">
+      <div className="xs:pt-4 md:pt-16">
+        <div className="xs:pl-6 md:pl-14">
+          <h1 className="text-gray-600 xs:text-2xl md:text-4xl font-inter font-bold tracking-normal leading-none">
             {type}
           </h1>
-          <div className="flex items-center justify-between py-8 ">
+          <div className="items-center justify-between py-8 hidden md:flex">
             <div className="flex items-center">
               {genderButtons.map((item, index) => {
                 return (
@@ -69,9 +69,9 @@ const FilteredProducts = () => {
                 className="text-black hover:bg-gray-300 duration-300 ease-in-out mr-4"
                 onClick={() => dispatch(sortByPrice())}
               >
-                High Price
+                Sort By Price
               </Button>
-              <Menu>
+              {/* <Menu>
                 <MenuHandler>
                   <Button
                     color="gray"
@@ -96,8 +96,8 @@ const FilteredProducts = () => {
                     );
                   })}
                 </MenuList>
-              </Menu>
-              <Menu>
+              </Menu> */}
+              {/* <Menu>
                 <MenuHandler>
                   <Button
                     disabled={type === "Bags" || type === "Shoes"}
@@ -122,7 +122,7 @@ const FilteredProducts = () => {
                     );
                   })}
                 </MenuList>
-              </Menu>
+              </Menu> */}
             </div>
             <div className="pr-14">
               <Button
@@ -137,16 +137,53 @@ const FilteredProducts = () => {
               </Button>
             </div>
           </div>
+          <div className="flex items-center justify-between py-4 md:hidden">
+            <Menu>
+              <MenuHandler>
+                <Button
+                  disabled={type === "Bags" || type === "Shoes"}
+                  color="gray"
+                  size="lg"
+                  variant="outlined"
+                  ripple={true}
+                  className="text-black hover:bg-gray-300 duration-300 ease-in-out mr-4 p-2 px-4"
+                >
+                  Filter
+                </Button>
+              </MenuHandler>
+              <MenuList>
+                {genderButtons.map((item, index) => {
+                  return (
+                    <MenuItem
+                      key={index}
+                      onClick={() => dispatch(filterGender(item))}
+                    >
+                      {item.charAt(0).toUpperCase() + "" + item.slice(1)}
+                    </MenuItem>
+                  );
+                })}
+                <MenuItem key={10} onClick={() => dispatch(sortByPrice())}>
+                  Sort By Price
+                </MenuItem>
+                <MenuItem
+                  key={11}
+                  onClick={() => dispatch(filterProducts(type))}
+                >
+                  Clear Filter
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </div>
         </div>
         {error ? (
           <Error></Error>
         ) : (
-          <div className="grid grid-cols-4 justify-items-center py-8 gap-12 ">
+          <div className="flex justify-center py-8 flex-wrap">
             {products
               .filter((product) => product.type === type)
               .map((product, index) => {
                 return (
-                  <div key={index} className="">
+                  <div key={index} className="m-3">
                     <ProductCard
                       id={product.id}
                       name={product.name}

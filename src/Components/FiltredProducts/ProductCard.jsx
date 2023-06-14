@@ -15,20 +15,28 @@ const ProductCard = ({ id, name, text, img, price, colors }) => {
   const { type } = useParams();
 
   return (
-    <Link to={`/filteredProducts/${type}/` + id}>
-      <Card className="w-96" onClick={() => dispatch(singleProduct(id))}>
-        <CardHeader color="blue" className="relative h-96">
+    <Link
+      to={`/filteredProducts/${type}/` + id}
+      className="flex justify-center"
+    >
+      <Card
+        className=" min-w-[250px] xs:max-w-[280px] sm:w-[300px] mt-5"
+        onClick={() => dispatch(singleProduct(id))}
+      >
+        <CardHeader color="blue" className="relative h-60">
           <img src={img} alt="img-blur-shadow" className="h-full w-full" />
         </CardHeader>
         <CardBody className="text-center">
           <Typography variant="h5" className="mb-2">
             {name}
           </Typography>
-          <Typography>{text}</Typography>
+          <Typography>
+            {text.length > 100 ? text.slice(0, 80) + "..." : text}
+          </Typography>
         </CardBody>
         <CardFooter divider className="flex items-center justify-between py-3">
-          <Typography variant="small">{price}$</Typography>
-          <Typography variant="small" color="gray" className="flex gap-1">
+          <Typography variant="small">{"Ksh. " + price}</Typography>
+          {/* <Typography variant="small" color="gray" className="flex gap-1">
             {colors?.map((color, index) => {
               return (
                 <i
@@ -38,7 +46,7 @@ const ProductCard = ({ id, name, text, img, price, colors }) => {
                 ></i>
               );
             })}
-          </Typography>
+          </Typography> */}
         </CardFooter>
       </Card>
     </Link>

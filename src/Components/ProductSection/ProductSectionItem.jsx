@@ -20,6 +20,7 @@ const ProductSectionItem = ({
   price,
   color,
   totalPrice,
+  onOffer,
 }) => {
   const dispatch = useDispatch();
 
@@ -28,14 +29,17 @@ const ProductSectionItem = ({
 
   return (
     <div>
-      <Card className="w-96 relative">
-        <Typography
+      <Card className="sm:w-[300px] xs:w-[280px] md:w-[320px] relative">
+        {/* <Typography
           variant="h4"
           className="mb-2 absolute -rotate-45 top-12 right-8 z-10 text-red-700"
         >
           SALE%
-        </Typography>
-        <CardHeader floated={false} className="h-96">
+        </Typography> */}
+        <CardHeader
+          floated={false}
+          className="h-96 sm:h-[280px] xs:h-[280px] md:h-[320px]"
+        >
           <img src={img} alt={name} />
         </CardHeader>
         <CardBody className="text-center">
@@ -46,22 +50,19 @@ const ProductSectionItem = ({
             {text}
           </Typography>
           <div className="flex justify-between items-center pt-4">
-            <Typography color="red" className="font-medium" textGradient>
-              Size left:{" "}
-              <span className="text-gray-400 text-base font-extralight">
-                {defaultSize}
-              </span>
-            </Typography>
             <Typography color="gray" className="font-medium" textGradient>
+              Ksh. <span className="text-gray-400 text-base">{price}</span>
+            </Typography>
+            {/* <Typography color="gray" className="font-medium" textGradient>
               Color:{" "}
               <span
                 className="px-2 rounded-full ml-2"
                 style={{ backgroundColor: defaultColor }}
               ></span>
-            </Typography>
+            </Typography> */}
           </div>
         </CardBody>
-        <CardFooter className="flex justify-center gap-7 pt-2">
+        {/* <CardFooter className="flex justify-center gap-7 pt-2">
           <Tooltip content="Add to Cart" placement="bottom">
             <Button
               onClick={() =>
@@ -87,7 +88,7 @@ const ProductSectionItem = ({
               Add to Cart
             </Button>
           </Tooltip>
-        </CardFooter>
+        </CardFooter> */}
       </Card>
     </div>
   );

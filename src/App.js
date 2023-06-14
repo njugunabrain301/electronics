@@ -14,7 +14,7 @@ function App() {
   const { authUser } = user;
 
   return (
-    <div className="App min-w-[350px]">
+    <div className="App min-w-[330px]">
       <BrowserRouter>
         {<Navbar />}
         <Routes>
