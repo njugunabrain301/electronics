@@ -1,16 +1,15 @@
-import { Fragment, useState } from "react";
+import React from "react";
 import {
   Button,
-  Dialog,
   DialogHeader,
   DialogBody,
   DialogFooter,
+  Tooltip,
 } from "@material-tailwind/react";
-import { Tooltip } from "@material-tailwind/react";
 import { useSelector, useDispatch } from "react-redux";
 import { removeFromCart } from "../../features/slices/cartSlice";
 
-const Cart = ({ openModal, setOpen }) => {
+const Cart = ({ closeModal, open }) => {
   const cart = useSelector((state) => state.cart.cart);
   const totalPrice = useSelector((state) => state.cart.totalPrice);
 
@@ -18,17 +17,32 @@ const Cart = ({ openModal, setOpen }) => {
   return (
     <div>
       {cart.length > 0 ? (
-        <Fragment>
-          <Dialog
-            className="border-0 outline-0"
-            open={openModal}
-            handler={() => setOpen(false)}
-            animate={{
-              mount: { scale: 1, y: 0 },
-              unmount: { scale: 0.9, y: -100 },
-            }}
-          >
-            <DialogHeader>Shopping Bag</DialogHeader>
+        <div className="w-full h-screen flex justify-center items-center p-[20px]">
+          <div className="bg-white rounded-md border-0 outline-0">
+            <DialogHeader className="flex justify-between">
+              Shopping Bag
+              <button
+                type="button"
+                className="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+                aria-label="Close"
+                onClick={closeModal}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="h-6 w-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </DialogHeader>
             <DialogBody
               divider
               className="flex flex-col justify-center items-start"
@@ -105,20 +119,35 @@ const Cart = ({ openModal, setOpen }) => {
                 <span className="ml-2">{totalPrice}$</span>
               </p>
             </DialogFooter>
-          </Dialog>
-        </Fragment>
+          </div>
+        </div>
       ) : (
-        <Fragment>
-          <Dialog
-            className="border-0 outline-0"
-            open={openModal}
-            handler={() => setOpen(false)}
-            animate={{
-              mount: { scale: 1, y: 0 },
-              unmount: { scale: 0.9, y: -100 },
-            }}
-          >
-            <DialogHeader>Shopping Bag</DialogHeader>
+        <div className="w-full h-screen flex justify-center items-center p-[20px]">
+          <div className="bg-white rounded-md border-0 outline-0">
+            <DialogHeader className="flex justify-between">
+              Shopping Bag
+              <button
+                type="button"
+                className="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+                aria-label="Close"
+                onClick={closeModal}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="h-6 w-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </DialogHeader>
             <DialogBody divider>
               <div>
                 <h1 className="text-black text-3xl font-inter font-bold tracking-normal leading-none py-4">
@@ -129,8 +158,8 @@ const Cart = ({ openModal, setOpen }) => {
                 </p>
               </div>
             </DialogBody>
-          </Dialog>
-        </Fragment>
+          </div>
+        </div>
       )}
     </div>
   );

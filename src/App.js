@@ -4,25 +4,25 @@ import Main from "./Components/Main/Main";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import FilteredProducts from "./Components/FiltredProducts/FilteredProducts";
 import SingleProduct from "./Components/FiltredProducts/SingleProduct";
-import Login from "./Components/Login/Login";
 import { useSelector } from "react-redux";
 import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/Footer/Footer";
+import Orders from "./Components/Orders/Orders";
 
 function App() {
   const user = useSelector((state) => state.user.user);
   const { authUser } = user;
 
   return (
-    <div className="App">
+    <div className="App min-w-[350px]">
       <BrowserRouter>
         {<Navbar />}
         <Routes>
+          <Route path="/" element={<Main></Main>}></Route>
           <Route
-            path="/"
-            element={authUser ? <Main></Main> : <Login></Login>}
+            path="/orders"
+            element={authUser ? <Orders></Orders> : <Main></Main>}
           ></Route>
-
           <Route
             path="/filteredProducts/:type"
             element={<FilteredProducts></FilteredProducts>}
@@ -32,7 +32,7 @@ function App() {
             element={<SingleProduct></SingleProduct>}
           ></Route>
         </Routes>
-        {authUser && <Footer></Footer>}
+        {<Footer></Footer>}
       </BrowserRouter>
     </div>
   );
