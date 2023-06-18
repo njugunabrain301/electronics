@@ -1,18 +1,20 @@
 import React, { useState } from "react";
-import logo from "../../assets/images/logo.png";
+// import logo from "../../assets/images/logo.png";
 import Cart from "../Cart/Cart";
 import { useSelector } from "react-redux";
-import { Tooltip } from "@material-tailwind/react";
+import { Tooltip, Typography } from "@material-tailwind/react";
 import Auth from "../Auth/Auth";
 import MyModal from "../MyModal/MyModal";
 import UserProfile from "../UserProfile/UserProfile";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ handleAuth, setOpenAuth }) => {
   const totalAmount = useSelector((state) => state.cart.totalAmount);
   const user = useSelector((state) => state.user.user);
   const authUser = useSelector((state) => state.user.user.authUser);
   const { name } = user;
+  const businessName = "Welcome Back";
+  const logo = "";
 
   const closeCartModal = (e) => {
     setOpenCart(false);
@@ -28,11 +30,6 @@ const Navbar = () => {
     setOpenAuth(false);
     document.getElementById("close-authModal").click();
   };
-  const [openAuth, setOpenAuth] = useState(false);
-  const handleAuth = () => {
-    if (!openAuth) setOpenAuth(true);
-    if (!openAuth) document.getElementById("authModalBtn").click();
-  };
 
   const closeProfileModal = (e) => {
     setOpenProfile(false);
@@ -44,6 +41,42 @@ const Navbar = () => {
     if (!openProfile) document.getElementById("profileModalBtn").click();
   };
 
+  const genLogo = () => {
+    let names = businessName.split(" ");
+    let char1 = businessName.charAt(0).toUpperCase();
+    let char2 = businessName.charAt(1).toLowerCase();
+    let logo;
+    if (names.length > 1) {
+      char2 = names[1].charAt(0).toUpperCase();
+    }
+    logo = (
+      <div className="flex align-center bg-black m-2 px-[5px] rounded-md">
+        <span
+          className="font-inter"
+          style={{ fontSize: "27pt", fontWeight: "900", color: "white" }}
+        >
+          {char1}
+        </span>
+        <div className="flex flex-col justify-center">
+          <span
+            className="text-l font-inter"
+            style={{
+              borderBottom: "solid 6px white",
+              fontWeight: "900",
+              fontSize: "20pt",
+              color: "white",
+              lineHeight: "25px",
+            }}
+          >
+            {char2}
+          </span>
+        </div>
+      </div>
+    );
+
+    return logo;
+  };
+
   return (
     <>
       <div className="bg-black p-4 w-full flex justify-center items-center ">
@@ -51,11 +84,15 @@ const Navbar = () => {
       </div>
       <div className="flex justify-around items-center">
         <div>
-          <img
-            className="md:h-28 w-full h-20 lg:h-28"
-            src={logo}
-            alt="store"
-          ></img>
+          {logo ? (
+            <img
+              className="md:h-28 w-full h-20 lg:h-28"
+              src={logo}
+              alt="store"
+            />
+          ) : (
+            genLogo()
+          )}
         </div>
         <div className="flex flex-row items-center">
           <div
@@ -174,8 +211,27 @@ const Navbar = () => {
             </svg>
           </Link>
         </p>
-        <p className="text-white font-inter text-base font-medium ">
+        <p className="text-white font-inter text-base font-medium flex">
           <a href="tel: +254717563148" className="flex">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
+              />
+            </svg>
+
+            <span className="hidden md:block">&nbsp;&nbsp; mail@gmail.com</span>
+          </a>
+
+          <a href="tel: +254717563148" className="flex ml-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

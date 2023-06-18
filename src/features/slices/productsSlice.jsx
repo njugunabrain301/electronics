@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { storeData } from "../../assets/data/dummyData";
+import { storeData } from "../../assets/data/kitchenWareData";
 
 export const productSlice = createSlice({
   name: "products",
@@ -9,6 +9,7 @@ export const productSlice = createSlice({
     singleProduct:
       JSON.parse(sessionStorage.getItem("singleProduct")) || storeData,
     error: false,
+    filters: [],
   },
   reducers: {
     filterProducts(state, action) {
@@ -20,6 +21,7 @@ export const productSlice = createSlice({
         state.error = false;
         const savedState = JSON.stringify(filter);
         sessionStorage.setItem("filteredData", savedState);
+        state.filters.length = 0;
       } catch (err) {
         return err;
       }
@@ -52,6 +54,9 @@ export const productSlice = createSlice({
           state.error = true;
           state.filteredProducts = [];
         }
+        if (!state.filters.includes(action.payload)) {
+          state.filters.push(action.payload);
+        }
       } catch (err) {
         return err;
       }
@@ -74,6 +79,9 @@ export const productSlice = createSlice({
         } else {
           state.error = true;
           state.filteredProducts = [];
+        }
+        if (!state.filters.includes("price")) {
+          state.filters.push("price");
         }
       } catch (err) {
         return err;

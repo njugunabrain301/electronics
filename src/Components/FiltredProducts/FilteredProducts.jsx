@@ -21,6 +21,7 @@ import {
 const FilteredProducts = () => {
   const products = useSelector((state) => state.products.filteredProducts);
   const error = useSelector((state) => state.products.error);
+  const filters = useSelector((state) => state.products.filters);
   const { type } = useParams();
   const genderButtons = ["male", "female"];
   const colorButtons = [
@@ -53,7 +54,10 @@ const FilteredProducts = () => {
                       size="lg"
                       variant="outlined"
                       ripple={true}
-                      className="text-black hover:bg-gray-300 duration-300 ease-in-out mr-4"
+                      className={
+                        "text-black hover:bg-gray-300 duration-300 ease-in-out mr-4 " +
+                        (filters.includes(item) ? "text-green-500" : "")
+                      }
                       onClick={() => dispatch(filterGender(item))}
                     >
                       {item}
@@ -66,7 +70,10 @@ const FilteredProducts = () => {
                 size="lg"
                 variant="outlined"
                 ripple={true}
-                className="text-black hover:bg-gray-300 duration-300 ease-in-out mr-4"
+                className={
+                  "text-black hover:bg-gray-300 duration-300 ease-in-out mr-4 " +
+                  (filters.includes("price") ? "text-green-500" : "")
+                }
                 onClick={() => dispatch(sortByPrice())}
               >
                 Sort By Price
@@ -146,7 +153,7 @@ const FilteredProducts = () => {
                   size="lg"
                   variant="outlined"
                   ripple={true}
-                  className="text-black hover:bg-gray-300 duration-300 ease-in-out mr-4 p-2 px-4"
+                  className="text-black hover:bg-gray-300 duration-300 ease-in-out mr-4 p-2 px-4 "
                 >
                   Filter
                 </Button>
@@ -157,12 +164,17 @@ const FilteredProducts = () => {
                     <MenuItem
                       key={index}
                       onClick={() => dispatch(filterGender(item))}
+                      className={filters.includes(item) ? "text-green-500" : ""}
                     >
                       {item.charAt(0).toUpperCase() + "" + item.slice(1)}
                     </MenuItem>
                   );
                 })}
-                <MenuItem key={10} onClick={() => dispatch(sortByPrice())}>
+                <MenuItem
+                  key={10}
+                  onClick={() => dispatch(sortByPrice())}
+                  className={filters.includes("price") ? "text-green-500" : ""}
+                >
                   Sort By Price
                 </MenuItem>
                 <MenuItem

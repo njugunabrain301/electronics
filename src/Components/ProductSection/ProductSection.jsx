@@ -1,5 +1,5 @@
 import React from "react";
-import { storeData } from "../../assets/data/dummyData";
+import { storeData } from "../../assets/data/kitchenWareData";
 import ProductSectionItem from "./ProductSectionItem";
 
 const ProductSection = () => {
@@ -18,6 +18,7 @@ const ProductSection = () => {
                 totalPrice={product.totalPrice}
                 color={product.color}
                 size={product.size}
+                type={product.type}
               ></ProductSectionItem>
             </div>
           );

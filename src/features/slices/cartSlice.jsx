@@ -11,6 +11,7 @@ export const cartSlice = createSlice({
   reducers: {
     addToCart(state, action) {
       const productId = action.payload;
+      console.log(productId, state.cart);
       try {
         const exist = state.cart.find(
           (product) =>
@@ -39,6 +40,7 @@ export const cartSlice = createSlice({
           state.totalPrice += productId.price;
         }
       } catch (err) {
+        console.log(err);
         return err;
       }
     },
@@ -70,8 +72,9 @@ export const cartSlice = createSlice({
         return err;
       }
     },
+    checkout(state, action) {},
   },
 });
 
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, checkout } = cartSlice.actions;
 export default cartSlice.reducer;

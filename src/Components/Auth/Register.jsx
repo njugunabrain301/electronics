@@ -18,6 +18,7 @@ function Register({ closeModal, toggleLogin }) {
     email: "",
     password: "",
     name: "",
+    agreed: false,
     closeModal: closeModal,
   };
 
@@ -29,6 +30,10 @@ function Register({ closeModal, toggleLogin }) {
   };
 
   const dispatch = useDispatch();
+  const toggleTerms = () => {
+    if (values.agreed) setValues({ ...values, agreed: false });
+    else setValues({ ...values, agreed: true });
+  };
 
   return (
     <Card color="white" shadow={false} className="p-[20px] pt-[0]">
@@ -86,13 +91,12 @@ function Register({ closeModal, toggleLogin }) {
             </Typography>
           }
           containerProps={{ className: "-ml-2.5" }}
+          name="terms"
+          onChange={toggleTerms}
         />
         <div className="">
           {error && (
-            <Alert
-              variant="ghost"
-              className="flex align-items-center justify-center bg-red-300"
-            >
+            <Alert className="flex align-items-center justify-center bg-red-300">
               <p className="font-medium flex items-center text-center tracking-normal leading-none">
                 {error}
               </p>
@@ -102,7 +106,9 @@ function Register({ closeModal, toggleLogin }) {
         <Button
           className="mt-6"
           fullWidth
-          onClick={() => dispatch(register(values))}
+          onClick={() => {
+            dispatch(register(values));
+          }}
         >
           Register
         </Button>
@@ -112,7 +118,20 @@ function Register({ closeModal, toggleLogin }) {
               className="cursor-pointer hover:underline"
               onClick={closeModal}
             >
-              Close
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
             </span>
           </Typography>
           <Typography color="gray" className="mt-4 text-center font-normal">

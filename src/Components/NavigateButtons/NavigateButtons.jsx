@@ -6,18 +6,20 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 const NavigateButtons = () => {
-  const categories = [
-    "Hoodies",
-    "Dresses",
-    "Suits",
-    "Shoes",
-    "T-Shirts",
-    "Jeans",
-    "Jackets",
-    "Bags",
-  ];
+  // const categories = [
+  //   "Hoodies",
+  //   "Dresses",
+  //   "Suits",
+  //   "Shoes",
+  //   "T-Shirts",
+  //   "Jeans",
+  //   "Jackets",
+  //   "Bags",
+  // ];
 
-  let promotions = ["UP TO 20% OFF", "SUMMER T-Shirt SALE 30%"];
+  const categories = ["Cookware", "Bedding", "Kitchenware"];
+
+  let promotions = ["UP TO 20% OFF", "Steel Cooking Set 30%"];
   let promotionPhoto = "";
 
   const dispatch = useDispatch();
@@ -27,7 +29,7 @@ const NavigateButtons = () => {
       <div className="flex items-center justify-center py-8 flex-wrap">
         {categories.map((button, index) => {
           return (
-            <div key={index} className="mr-4 mb-3">
+            <div key={index} className="mx-2 mb-3">
               <Link to={"/filteredProducts/" + button}>
                 <Button
                   color="gray"

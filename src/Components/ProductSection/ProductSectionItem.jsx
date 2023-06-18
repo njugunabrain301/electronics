@@ -10,6 +10,7 @@ import {
 import { Button } from "@material-tailwind/react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../features/slices/cartSlice";
+import { Link } from "react-router-dom";
 
 const ProductSectionItem = ({
   id,
@@ -19,16 +20,20 @@ const ProductSectionItem = ({
   size,
   price,
   color,
+  type,
   totalPrice,
   onOffer,
 }) => {
   const dispatch = useDispatch();
 
-  const defaultSize = size[0];
-  const defaultColor = color[0];
+  const defaultSize = size ? size[0] : "-";
+  const defaultColor = color ? color[0] : "-";
 
   return (
-    <div>
+    <Link
+      to={`/filteredProducts/${type}/` + id}
+      className="flex justify-center"
+    >
       <Card className="sm:w-[300px] xs:w-[280px] md:w-[320px] relative">
         {/* <Typography
           variant="h4"
@@ -36,10 +41,7 @@ const ProductSectionItem = ({
         >
           SALE%
         </Typography> */}
-        <CardHeader
-          floated={false}
-          className="h-96 sm:h-[280px] xs:h-[280px] md:h-[320px]"
-        >
+        <CardHeader floated={false} className="">
           <img src={img} alt={name} />
         </CardHeader>
         <CardBody className="text-center">
@@ -47,7 +49,7 @@ const ProductSectionItem = ({
             {name}
           </Typography>
           <Typography color="gray" className="font-medium" textGradient>
-            {text}
+            {text.length > 110 ? text.slice(0, 110) + "..." : text}
           </Typography>
           <div className="flex justify-between items-center pt-4">
             <Typography color="gray" className="font-medium" textGradient>
@@ -90,7 +92,7 @@ const ProductSectionItem = ({
           </Tooltip>
         </CardFooter> */}
       </Card>
-    </div>
+    </Link>
   );
 };
 

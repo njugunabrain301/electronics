@@ -51,19 +51,24 @@ export const authSlice = createSlice({
         userId.password.length > 0 &&
         userId.name.length > 0
       ) {
-        state.error = "";
-        const user = {
-          email: userId.email,
-          password: userId.password,
-          name: userId.name,
-        };
-        users.push(user);
+        if (userId.agreed) {
+          state.error = "";
+          const user = {
+            email: userId.email,
+            password: userId.password,
+            name: userId.name,
+          };
+          users.push(user);
 
-        state.user = user;
-        state.user.authUser = true;
-        const saveState = JSON.stringify(state.user);
-        sessionStorage.setItem("authUser", saveState);
-        userId.closeModal();
+          state.user = user;
+          state.user.authUser = true;
+          const saveState = JSON.stringify(state.user);
+          sessionStorage.setItem("authUser", saveState);
+          userId.closeModal();
+        } else {
+          state.error = "You need to agree to the Terms";
+          state.user.authUser = false;
+        }
       } else {
         state.error = "Fill in all fields";
         state.user.authUser = false;

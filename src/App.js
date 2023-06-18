@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Main from "./Components/Main/Main";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -12,11 +12,16 @@ import Orders from "./Components/Orders/Orders";
 function App() {
   const user = useSelector((state) => state.user.user);
   const { authUser } = user;
+  const [openAuth, setOpenAuth] = useState(false);
+  const handleAuth = () => {
+    if (!openAuth) setOpenAuth(true);
+    if (!openAuth) document.getElementById("authModalBtn").click();
+  };
 
   return (
     <div className="App min-w-[330px]">
       <BrowserRouter>
-        {<Navbar />}
+        {<Navbar handleAuth={handleAuth} setOpenAuth={setOpenAuth} />}
         <Routes>
           <Route path="/" element={<Main></Main>}></Route>
           <Route
@@ -29,7 +34,7 @@ function App() {
           ></Route>
           <Route
             path="/filteredProducts/:type/:id"
-            element={<SingleProduct></SingleProduct>}
+            element={<SingleProduct handleAuth={handleAuth}></SingleProduct>}
           ></Route>
         </Routes>
         {<Footer></Footer>}
