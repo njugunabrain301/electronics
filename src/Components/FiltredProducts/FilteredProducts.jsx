@@ -34,6 +34,19 @@ const FilteredProducts = () => {
     "black",
     "brown",
   ];
+  const wearables = [
+    "shoes",
+    "trousers",
+    "bags",
+    "hoodies",
+    "shirts",
+    "t-shirts",
+    "socks",
+    "jackets",
+    "sweatshirts",
+    "sweatpants",
+    "swim suits",
+  ];
   const sizeButtons = ["S", "M", "L", "XL"];
   const dispatch = useDispatch();
 
@@ -46,25 +59,26 @@ const FilteredProducts = () => {
           </h1>
           <div className="items-center justify-between py-8 hidden md:flex">
             <div className="flex items-center">
-              {genderButtons.map((item, index) => {
-                return (
-                  <div key={index}>
-                    <Button
-                      color="gray"
-                      size="lg"
-                      variant="outlined"
-                      ripple={true}
-                      className={
-                        "text-black hover:bg-gray-300 duration-300 ease-in-out mr-4 " +
-                        (filters.includes(item) ? "text-green-500" : "")
-                      }
-                      onClick={() => dispatch(filterGender(item))}
-                    >
-                      {item}
-                    </Button>
-                  </div>
-                );
-              })}
+              {wearables.includes(type) &&
+                genderButtons.map((item, index) => {
+                  return (
+                    <div key={index}>
+                      <Button
+                        color="gray"
+                        size="lg"
+                        variant="outlined"
+                        ripple={true}
+                        className={
+                          "text-black hover:bg-gray-300 duration-300 ease-in-out mr-4 " +
+                          (filters.includes(item) ? "text-green-500" : "")
+                        }
+                        onClick={() => dispatch(filterGender(item))}
+                      >
+                        {item}
+                      </Button>
+                    </div>
+                  );
+                })}
               <Button
                 color="gray"
                 size="lg"

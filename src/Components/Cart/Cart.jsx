@@ -24,7 +24,7 @@ const Cart = ({ closeModal }) => {
         <div>
           {cart.length > 0 ? (
             <div className="w-full h-screen flex justify-center items-center p-[20px]">
-              <div className="bg-white rounded-md border-0 outline-0">
+              <div className="bg-white rounded-md border-0 outline-0 mt-[150px]">
                 <DialogHeader className="flex justify-between">
                   Shopping Cart
                   <button

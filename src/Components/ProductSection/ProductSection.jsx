@@ -6,7 +6,7 @@ const ProductSection = () => {
   return (
     <div>
       <div className="flex justify-evenly flex-wrap items-center py-8 mx-auto max-w-7xl">
-        {storeData.slice(0, 6).map((product, index) => {
+        {storeData.slice(0, 8).map((product, index) => {
           return (
             <div key={index} className="mb-3 mx-2">
               <ProductSectionItem
