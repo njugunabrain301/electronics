@@ -11,6 +11,7 @@ import { Button } from "@material-tailwind/react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../features/slices/cartSlice";
 import { Link } from "react-router-dom";
+import { singleProduct } from "../../features/slices/productsSlice";
 
 const ProductSectionItem = ({
   id,
@@ -34,7 +35,10 @@ const ProductSectionItem = ({
       to={`/filteredProducts/${type}/` + id}
       className="flex justify-center"
     >
-      <Card className="sm:w-[300px] xs:w-[280px] md:w-[320px] relative">
+      <Card
+        className="sm:w-[300px] xs:w-[280px] md:w-[320px] relative"
+        onClick={() => dispatch(singleProduct(id))}
+      >
         {/* <Typography
           variant="h4"
           className="mb-2 absolute -rotate-45 top-12 right-8 z-10 text-red-700"
@@ -42,7 +46,7 @@ const ProductSectionItem = ({
           SALE%
         </Typography> */}
         <CardHeader floated={false} className="">
-          <img src={img} alt={name} />
+          <img src={img} alt={name} style={{ aspectRatio: "3/2" }} />
         </CardHeader>
         <CardBody className="text-center">
           <Typography variant="h4" color="blue-gray" className="mb-2">

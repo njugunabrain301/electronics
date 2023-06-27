@@ -1,80 +1,178 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "../axios.config";
+
+let initialState = {
+  cart: JSON.parse(window.localStorage.getItem("cart")) || [],
+  amount: window.localStorage.getItem("cart-amount") || 0,
+  totalAmount: window.localStorage.getItem("cart-total-amt") || 0,
+  totalPrice: window.localStorage.getItem("cart-total-price") || 0,
+  isAddingToCart: false,
+  isCheckingOut: false,
+  counties: [],
+  deliveryLocations: [],
+  paymentOptions: [],
+};
+
+export const addToCart = createAsyncThunk(
+  "cart/addToCart",
+  async (payload, { rejectWithValue }) => {
+    try {
+      let res = await axios.post("/cart/add", payload);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const removeFromCart = createAsyncThunk(
+  "cart/removeFromCart",
+  async (payload, { rejectWithValue }) => {
+    try {
+      let res = await axios.post("/cart/remove", payload);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const checkout = createAsyncThunk(
+  "cart/checkout",
+  async (payload, { rejectWithValue }) => {
+    try {
+      let res = await axios.post("/checkout", payload);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const getCheckoutInfo = createAsyncThunk(
+  "cart/getCheckoutInfo",
+  async (payload, { rejectWithValue }) => {
+    try {
+      let res = await axios.get("/checkoutinfo");
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
 
 export const cartSlice = createSlice({
   name: "cart",
-  initialState: {
-    cart: [],
-    amount: 0,
-    totalAmount: 0,
-    totalPrice: 0,
-  },
-  reducers: {
-    addToCart(state, action) {
-      const productId = action.payload;
-      console.log(productId, state.cart);
-      try {
-        const exist = state.cart.find(
-          (product) =>
-            product.id === productId.id &&
-            product.size === productId.size &&
-            product.color === productId.color
-        );
-        if (exist) {
-          exist.amount++;
-          exist.totalPrice += productId.price;
-          state.totalAmount++;
-          state.totalPrice += productId.price;
-        } else {
-          state.cart.push({
-            id: productId.id,
-            price: productId.price,
-            size: productId.size,
-            amount: 1,
-            img: productId.img,
-            totalPrice: productId.price,
-            name: productId.name,
-            text: productId.text,
-            color: productId.color,
-          });
-          state.totalAmount++;
-          state.totalPrice += productId.price;
-        }
-      } catch (err) {
-        console.log(err);
-        return err;
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase("auth/login/fulfilled", (state, action) => {
+      if (action.payload.success) {
+        state.cart = action.payload.data.cart;
+        state.totalAmount = 0;
+        state.totalPrice = 0;
+        state.cart.map((item) => {
+          state.totalAmount += item.amount;
+          item.totalPrice = item.amount * item.price;
+          state.totalPrice += item.totalPrice;
+        });
+        window.localStorage.setItem("cart", JSON.stringify(state.cart));
+        window.localStorage.setItem("cart-amount", state.amount);
+        window.localStorage.setItem("cart-total-amt", state.totalAmount);
+        window.localStorage.setItem("cart-total-price", state.totalPrice);
       }
-    },
-    removeFromCart(state, action) {
-      const productId = action.payload;
-      try {
-        const exist = state.cart.find(
-          (product) =>
-            product.id === productId.id &&
-            product.size === productId.size &&
-            product.color === productId.color
-        );
-        if (exist.amount === 1) {
-          state.cart = state.cart.filter(
-            (product) =>
-              product.id !== productId.id ||
-              product.size !== productId.size ||
-              product.color !== productId.color
-          );
-          state.totalAmount--;
-          state.totalPrice -= productId.price;
-        } else {
-          exist.amount--;
-          exist.totalPrice -= productId.price;
-          state.totalAmount--;
-          state.totalPrice -= productId.price;
-        }
-      } catch (err) {
-        return err;
+    });
+
+    builder.addCase(addToCart.pending, (state) => {
+      state.isAddingToCart = true;
+    });
+    builder.addCase(addToCart.fulfilled, (state, action) => {
+      state.isAddingToCart = false;
+      if (action.payload.success) {
+        state.cart = action.payload.data;
+        state.totalAmount = 0;
+        state.totalPrice = 0;
+        state.cart.map((item) => {
+          state.totalAmount += item.amount;
+          item.totalPrice = item.amount * item.price;
+          state.totalPrice += item.totalPrice;
+        });
+        window.localStorage.setItem("cart", JSON.stringify(state.cart));
+        window.localStorage.setItem("cart-amount", state.amount);
+        window.localStorage.setItem("cart-total-amt", state.totalAmount);
+        window.localStorage.setItem("cart-total-price", state.totalPrice);
       }
-    },
-    checkout(state, action) {},
+    });
+    builder.addCase(addToCart.rejected, (state, action) => {
+      state.isAddingToCart = false;
+    });
+
+    builder.addCase(removeFromCart.pending, (state, action) => {});
+    builder.addCase(removeFromCart.fulfilled, (state, action) => {
+      if (action.payload.success) {
+        state.cart = action.payload.data;
+        state.totalAmount = 0;
+        state.totalPrice = 0;
+        state.cart.map((item) => {
+          state.totalAmount += item.amount;
+          item.totalPrice = item.amount * item.price;
+          state.totalPrice += item.totalPrice;
+        });
+        window.localStorage.setItem("cart", JSON.stringify(state.cart));
+        window.localStorage.setItem("cart-amount", state.amount);
+        window.localStorage.setItem("cart-total-amt", state.totalAmount);
+        window.localStorage.setItem("cart-total-price", state.totalPrice);
+      }
+    });
+
+    builder.addCase(checkout.pending, (state) => {
+      state.isCheckingOut = true;
+    });
+    builder.addCase(checkout.fulfilled, (state, action) => {
+      state.isCheckingOut = true;
+      console.log("checkout", action.payload);
+      if (action.payload.success) {
+        state.cart = [];
+        state.totalAmount = 0;
+        state.totalPrice = 0;
+        state.cart.map((item) => {
+          state.totalAmount += item.amount;
+          item.totalPrice = item.amount * item.price;
+          state.totalPrice += item.totalPrice;
+        });
+        window.localStorage.setItem("cart", JSON.stringify(state.cart));
+        window.localStorage.setItem("cart-amount", state.amount);
+        window.localStorage.setItem("cart-total-amt", state.totalAmount);
+        window.localStorage.setItem("cart-total-price", state.totalPrice);
+      }
+    });
+    builder.addCase(checkout.rejected, (state, action) => {
+      state.isCheckingOut = false;
+      if (action.payload.response.status === 403) {
+        state.cart = [];
+        state.totalAmount = 0;
+        state.totalPrice = 0;
+      }
+    });
+
+    builder.addCase(getCheckoutInfo.fulfilled, (state, action) => {
+      if (action.success) {
+        state.paymentOptions = action.payload.data.paymentOptions;
+        state.deliveryLocations = action.payload.data.deliveryLocations;
+        state.counties = [];
+        state.deliveryLocations.map((loc) => {
+          state.counties.push(loc.county);
+        });
+      }
+    });
+
+    builder.addCase("auth/logout", (state) => {
+      state.cart = [];
+      state.totalAmount = 0;
+      state.totalPrice = 0;
+    });
   },
 });
 
-export const { addToCart, removeFromCart, checkout } = cartSlice.actions;
+export const {} = cartSlice.actions;
 export default cartSlice.reducer;

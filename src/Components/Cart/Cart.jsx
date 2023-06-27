@@ -13,6 +13,7 @@ import Checkout from "./CheckOut";
 
 const Cart = ({ closeModal }) => {
   const cart = useSelector((state) => state.cart.cart);
+  console.log(cart);
   const totalPrice = useSelector((state) => state.cart.totalPrice);
 
   const [openCheckout, setOpenCheckout] = useState(false);
@@ -23,8 +24,8 @@ const Cart = ({ closeModal }) => {
       {!openCheckout ? (
         <div>
           {cart.length > 0 ? (
-            <div className="w-full h-screen flex justify-center items-center p-[20px]">
-              <div className="bg-white rounded-md border-0 outline-0 mt-[150px]">
+            <div className="w-full h-screen flex justify-center items-center py-[20px]">
+              <div className="bg-white rounded-md border-0 outline-0">
                 <DialogHeader className="flex justify-between">
                   Shopping Cart
                   <button
@@ -51,74 +52,78 @@ const Cart = ({ closeModal }) => {
                 </DialogHeader>
                 <DialogBody
                   divider
-                  className="flex flex-col justify-center items-start"
+                  className="flex flex-col justify-center items-start px-[0]"
                 >
-                  {cart.map((item, index) => {
-                    return (
-                      <div key={index}>
-                        <div className="grid grid-cols-2 py-4">
-                          <div>
-                            <img
-                              className="h-[125px] rounded-md"
-                              src={item.img}
-                              alt={item.name}
-                            ></img>
-                            <div className="flex flex-col items-start">
-                              <h4 className="text-black text-base font-inter font-bold tracking-normal leading-none pt-2">
-                                {item.name}
-                              </h4>
+                  <div className="max-h-[400px] overflow-y-auto p-4">
+                    {cart.map((item, index) => {
+                      return (
+                        <div key={index}>
+                          <div className="grid grid-cols-2 py-4">
+                            <div>
+                              <img
+                                className="h-[125px] rounded-md"
+                                src={item.img}
+                                alt={item.name}
+                              ></img>
+                              <div className="flex flex-col items-start">
+                                <h4 className="text-black text-base font-inter font-bold tracking-normal leading-none pt-2">
+                                  {item.name}
+                                </h4>
+                              </div>
+                              <div className="max-w-xs">
+                                <p className="text-black text-xs font-inter tracking-normal leading-none pt-2">
+                                  {item.text}
+                                </p>
+                              </div>
                             </div>
-                            <div className="max-w-xs">
-                              <p className="text-black text-xs font-inter tracking-normal leading-none pt-2">
-                                {item.text}
+                            <div>
+                              <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
+                                Selected size:{" "}
+                                <span className="ml-2">{item.size}</span>
                               </p>
-                            </div>
-                          </div>
-                          <div>
-                            <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
-                              Selected size:{" "}
-                              <span className="ml-2">{item.size}</span>
-                            </p>
-                            <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
-                              Selected color:{" "}
-                              <span
-                                className="ml-2 rounded-full px-2"
-                                style={{ backgroundColor: item.color }}
-                              ></span>
-                            </p>
-                            <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
-                              Amount:{" "}
-                              <span className="ml-2">{item.amount}</span>
-                            </p>
-                            <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
-                              Single Item Price:{" Ksh."}
-                              <span className="ml-2">{item.price}</span>
-                            </p>
-                            <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
-                              Total Item Prices:{" Ksh."}
-                              <span className="ml-2">{item.totalPrice}</span>
-                            </p>
-                            <div className="pt-4">
-                              <Tooltip
-                                content="Remove from the Cart"
-                                placement="bottom"
-                              >
-                                <Button
-                                  onClick={() => dispatch(removeFromCart(item))}
-                                  size="sm"
-                                  color="red"
-                                  ripple={true}
-                                  variant="filled"
+                              <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
+                                Selected color:{" "}
+                                <span
+                                  className="ml-2 rounded-full px-2"
+                                  style={{ backgroundColor: item.color }}
+                                ></span>
+                              </p>
+                              <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
+                                Amount:{" "}
+                                <span className="ml-2">{item.amount}</span>
+                              </p>
+                              <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
+                                Single Item Price:{" Ksh."}
+                                <span className="ml-2">{item.price}</span>
+                              </p>
+                              <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
+                                Total Item Prices:{" Ksh."}
+                                <span className="ml-2">{item.totalPrice}</span>
+                              </p>
+                              <div className="pt-4">
+                                <Tooltip
+                                  content="Remove from the Cart"
+                                  placement="bottom"
                                 >
-                                  Remove
-                                </Button>
-                              </Tooltip>
+                                  <Button
+                                    onClick={() =>
+                                      dispatch(removeFromCart(item))
+                                    }
+                                    size="sm"
+                                    color="red"
+                                    ripple={true}
+                                    variant="filled"
+                                  >
+                                    Remove
+                                  </Button>
+                                </Tooltip>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </DialogBody>
                 <DialogFooter className="flex justify-between items-center">
                   <p className="text-black text-base font-inter tracking-normal leading-none pt-2">

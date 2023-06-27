@@ -10,8 +10,10 @@ import { Link } from "react-router-dom";
 
 const Navbar = ({ handleAuth, setOpenAuth }) => {
   const totalAmount = useSelector((state) => state.cart.totalAmount);
+  console.log(totalAmount);
   const user = useSelector((state) => state.user.user);
-  const authUser = useSelector((state) => state.user.user.authUser);
+  const authUser = useSelector((state) => state.user.authUser);
+
   const { name } = user;
   const businessName = "Welcome Back";
   const logo = "";
@@ -182,19 +184,18 @@ const Navbar = ({ handleAuth, setOpenAuth }) => {
                     id="authModalBtn"
                     style={{ display: "none" }}
                   ></button>
-
-                  <MyModal id="authModal" setOpen={setOpenAuth}>
-                    <Auth closeModal={closeAuthModal} />
-                  </MyModal>
                 </div>
               </div>
             )}
+            <MyModal id="authModal" setOpen={setOpenAuth}>
+              <Auth closeModal={closeAuthModal} />
+            </MyModal>
           </div>
         </div>
       </div>
       <div className="bg-black p-4 w-full flex items-center justify-between mx-auto">
         <p className="text-white font-inter text-base font-medium ">
-          <Link to="/">
+          <Link to="/" className="display: flex">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -209,6 +210,7 @@ const Navbar = ({ handleAuth, setOpenAuth }) => {
                 d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
               />
             </svg>
+            <span className="hidden md:block">&nbsp;&nbsp; Home</span>
           </Link>
         </p>
         <p className="text-white font-inter text-base font-medium flex">

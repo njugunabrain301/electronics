@@ -13,13 +13,12 @@ import { login } from "../../features/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 function Login({ closeModal, toggleLogin }) {
-  let error = useSelector((state) => state.user.error);
+  let error = useSelector((state) => state.user.loginError);
 
   const intitalState = {
     email: "",
     password: "",
     image: "",
-    closeModal: closeModal,
   };
 
   const [values, setValues] = useState(intitalState);
@@ -30,6 +29,14 @@ function Login({ closeModal, toggleLogin }) {
   };
 
   const dispatch = useDispatch();
+
+  const handleAction = async () => {
+    let res = await dispatch(login(values));
+    console.log(res);
+    if (res.payload.success) {
+      closeModal();
+    }
+  };
 
   return (
     <Card className="w-80">
@@ -73,11 +80,7 @@ function Login({ closeModal, toggleLogin }) {
         </div>
       </CardBody>
       <CardFooter className="pt-0">
-        <Button
-          variant="gradient"
-          fullWidth
-          onClick={() => dispatch(login(values))}
-        >
+        <Button variant="gradient" fullWidth onClick={handleAction}>
           Sign In
         </Button>
         {/* <Typography

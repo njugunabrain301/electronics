@@ -1,118 +1,150 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "../axios.config";
 
-const users = [
-  {
-    email: "jb@mail.com",
-    password: "1234",
-    name: "John Brian",
+let initialState = {
+  user: JSON.parse(window.localStorage.getItem("user")) || {
+    name: "",
+    email: "",
+    phone: "",
+    county: "",
+    subcounty: "",
+    courier: "",
   },
-];
+  authUser: window.localStorage.getItem("user") != null,
+  loginError: "",
+  registerError: "",
+  profileError: "",
+};
+
+export const login = createAsyncThunk(
+  "auth/login",
+  async (payload, { rejectWithValue }) => {
+    try {
+      let { email, password } = payload;
+      let res = await axios.post("/login", { email, password });
+
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const register = createAsyncThunk(
+  "auth/register",
+  async (payload, { rejectWithValue }) => {
+    try {
+      let res = await axios.post("/register", payload);
+
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
 
 export const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    user: JSON.parse(sessionStorage.getItem("authUser")) || {
-      name: "",
-      password: "",
-      image: "",
-      authUser: false,
-    },
-    error: "",
-  },
+  initialState,
   reducers: {
-    login(state, action) {
-      const userId = action.payload;
-
-      if (userId.email.length > 0 && userId.password.length > 0) {
-        const user = users.filter(
-          (u) => u.email === userId.email && u.password === userId.password
-        );
-        state.error = "";
-        if (user.length === 1) {
-          state.user = user[0];
-          state.user.authUser = true;
-          const saveState = JSON.stringify(state.user);
-          sessionStorage.setItem("authUser", saveState);
-          userId.closeModal();
-        } else {
-          state.error = "Invalid Credentials";
-          state.user.authUser = false;
-        }
-      } else {
-        state.error = "Fill in all fields";
-        state.user.authUser = false;
-      }
-    },
-    register(state, action) {
-      const userId = action.payload;
-
-      if (
-        userId.email.length > 0 &&
-        userId.password.length > 0 &&
-        userId.name.length > 0
-      ) {
-        if (userId.agreed) {
-          state.error = "";
-          const user = {
-            email: userId.email,
-            password: userId.password,
-            name: userId.name,
-          };
-          users.push(user);
-
-          state.user = user;
-          state.user.authUser = true;
-          const saveState = JSON.stringify(state.user);
-          sessionStorage.setItem("authUser", saveState);
-          userId.closeModal();
-        } else {
-          state.error = "You need to agree to the Terms";
-          state.user.authUser = false;
-        }
-      } else {
-        state.error = "Fill in all fields";
-        state.user.authUser = false;
-      }
-    },
-    updateProfile(state, action) {
-      const userId = action.payload;
-
-      if (
-        userId.email.length > 0 &&
-        userId.password.length > 0 &&
-        userId.name.length > 0
-      ) {
-        state.error = "";
-        const user = {
-          email: userId.email,
-          password: userId.password,
-          name: userId.name,
-        };
-        users.push(user);
-
-        state.user = user;
-        state.user.authUser = true;
-        const saveState = JSON.stringify(state.user);
-        sessionStorage.setItem("authUser", saveState);
-        userId.closeModal();
-      } else {
-        state.error = "Fill in all fields";
-        state.user.authUser = false;
-      }
-    },
+    updateProfile(state, action) {},
     logout(state) {
       state.user = {
         name: "",
         password: "",
         image: "",
-        authUser: false,
       };
+      localStorage.clear();
       sessionStorage.clear();
     },
     updatePassword() {},
   },
+  extraReducers: (builder) => {
+    builder.addCase(login.pending, (state) => {
+      state.isLoggingIn = true;
+      state.loginError = "";
+      state.registerError = "";
+    });
+    builder.addCase(login.fulfilled, (state, action) => {
+      const res = action.payload;
+      if (res.success) {
+        state.error = "";
+        state.user = res.data;
+        window.localStorage.setItem("token", res.accessToken);
+        state.authUser = true;
+        window.localStorage.setItem("user", JSON.stringify(state.user));
+      } else {
+        state.loginError = "Invalid Credentials";
+        state.authUser = false;
+      }
+      state.isLoggingIn = false;
+    });
+    builder.addCase(login.rejected, (state) => {
+      state.isLoggingIn = false;
+      state.loginError = "Invalid Credentials";
+    });
+    builder.addCase(register.pending, (state) => {
+      state.isRegistering = true;
+      state.loginError = "";
+      state.registerError = "";
+    });
+    builder.addCase(register.fulfilled, (state, action) => {
+      const res = action.payload;
+
+      if (res.success) {
+        state.error = "";
+        state.user = res.data;
+        window.localStorage.setItem("token", res.accessToken);
+        state.user.authUser = true;
+        window.localStorage.setItem("user", JSON.stringify(state.user));
+      } else {
+        state.registerError = res.message || "Email already in use";
+        state.user.authUser = false;
+      }
+      state.isRegistering = false;
+    });
+    builder.addCase(register.rejected, (state) => {
+      state.isRegistering = false;
+      state.registerError = "Email has already been used";
+    });
+    builder.addCase("cart/addToCart/rejected", (state, action) => {
+      if (action.payload.response.status === 403) {
+        state.authUser = false;
+        state.user = {
+          name: "",
+          password: "",
+          image: "",
+        };
+        localStorage.clear();
+        sessionStorage.clear();
+      }
+    });
+    builder.addCase("cart/checkout/rejected", (state, action) => {
+      if (action.payload.response.status === 403) {
+        state.authUser = false;
+        state.user = {
+          name: "",
+          password: "",
+          image: "",
+        };
+        localStorage.clear();
+        sessionStorage.clear();
+      }
+    });
+    builder.addCase("cart/getCheckoutInfo/rejected", (state, action) => {
+      if (action.payload.response.status === 403) {
+        state.authUser = false;
+        state.user = {
+          name: "",
+          password: "",
+          image: "",
+        };
+        localStorage.clear();
+        sessionStorage.clear();
+      }
+    });
+  },
 });
 
-export const { login, logout, register, updateProfile, updatePassword } =
-  authSlice.actions;
+export const { logout, updateProfile, updatePassword } = authSlice.actions;
 export default authSlice.reducer;

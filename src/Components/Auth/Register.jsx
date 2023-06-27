@@ -12,12 +12,14 @@ import { register } from "../../features/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 function Register({ closeModal, toggleLogin }) {
-  let error = useSelector((state) => state.user.error);
+  let error = useSelector((state) => state.user.registerError);
+  let [mError, setMerror] = useState("");
 
   const intitalState = {
     email: "",
     password: "",
     name: "",
+    phone: "",
     agreed: false,
     closeModal: closeModal,
   };
@@ -30,6 +32,26 @@ function Register({ closeModal, toggleLogin }) {
   };
 
   const dispatch = useDispatch();
+  const handleAction = async () => {
+    setMerror("");
+    if (
+      values.name === "" ||
+      values.email === "" ||
+      values.phone === "" ||
+      values.password === ""
+    ) {
+      setMerror("Fill in all required fields");
+      return;
+    }
+    if (!values.agreed) {
+      setMerror("You have to agree to the terms");
+      return;
+    }
+    let res = await dispatch(register(values));
+    if (res.payload.success) {
+      closeModal();
+    }
+  };
   const toggleTerms = () => {
     if (values.agreed) setValues({ ...values, agreed: false });
     else setValues({ ...values, agreed: true });
@@ -46,9 +68,7 @@ function Register({ closeModal, toggleLogin }) {
           Sign Up
         </Typography>
       </CardHeader>
-      <Typography color="gray" className="mt-1 font-normal">
-        Enter your details to register.
-      </Typography>
+
       <form className="mt-8 mb-2 w-120 sm:w-80">
         <div className="mb-4 flex flex-col gap-6">
           <Input
@@ -56,6 +76,13 @@ function Register({ closeModal, toggleLogin }) {
             label="Name"
             name="name"
             value={values.name}
+            onChange={onChange}
+          />
+          <Input
+            size="lg"
+            label="Phone"
+            name="phone"
+            value={values.phone}
             onChange={onChange}
           />
           <Input
@@ -95,21 +122,22 @@ function Register({ closeModal, toggleLogin }) {
           onChange={toggleTerms}
         />
         <div className="">
-          {error && (
+          {!mError && error && (
             <Alert className="flex align-items-center justify-center bg-red-300">
               <p className="font-medium flex items-center text-center tracking-normal leading-none">
                 {error}
               </p>
             </Alert>
           )}
+          {mError && (
+            <Alert className="flex align-items-center justify-center bg-red-300">
+              <p className="font-medium flex items-center text-center tracking-normal leading-none">
+                {mError}
+              </p>
+            </Alert>
+          )}
         </div>
-        <Button
-          className="mt-6"
-          fullWidth
-          onClick={() => {
-            dispatch(register(values));
-          }}
-        >
+        <Button className="mt-6" fullWidth onClick={handleAction}>
           Register
         </Button>
         <div className="flex justify-between">

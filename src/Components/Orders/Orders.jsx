@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { DialogBody, Typography, Tooltip } from "@material-tailwind/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchOrders } from "../../features/slices/ordersSlice";
 
 function Orders() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchOrders());
+  }, []);
   const orders = useSelector((state) => state.orders.orders);
 
   return (
@@ -25,7 +30,7 @@ function Orders() {
                   </div>
                   <div className="max-w-xs">
                     <p className="text-black text-xs font-inter tracking-normal leading-none pt-2">
-                      {item.text}
+                      {item.description}
                     </p>
                   </div>
                 </div>

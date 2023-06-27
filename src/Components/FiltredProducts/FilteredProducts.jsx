@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ProductCard from "./ProductCard";
@@ -16,6 +16,7 @@ import {
   sortByPrice,
   filterByColor,
   filterBySize,
+  fetchProducts,
 } from "../../features/slices/productsSlice";
 
 const FilteredProducts = () => {
@@ -24,6 +25,14 @@ const FilteredProducts = () => {
   const filters = useSelector((state) => state.products.filters);
   const { type } = useParams();
   const genderButtons = ["male", "female"];
+  const handleFetch = async () => {
+    let res = await dispatch(fetchProducts);
+  };
+  useEffect(() => {
+    if (products.length === 0 && filters.length === 0) {
+      handleFetch();
+    }
+  }, [products]);
   const colorButtons = [
     "red",
     "green",
@@ -211,9 +220,9 @@ const FilteredProducts = () => {
                 return (
                   <div key={index} className="m-3">
                     <ProductCard
-                      id={product.id}
+                      id={product._id}
                       name={product.name}
-                      text={product.text}
+                      text={product.description}
                       img={product.img}
                       price={product.price}
                       colors={product.color}

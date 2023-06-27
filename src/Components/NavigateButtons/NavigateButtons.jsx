@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "@material-tailwind/react";
 import clothes from "../../assets/images/clothes.jpg";
-import { filterProducts } from "../../features/slices/productsSlice";
-import { useDispatch } from "react-redux";
+import {
+  fetchCategories,
+  filterProducts,
+} from "../../features/slices/productsSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const NavigateButtons = () => {
@@ -17,12 +20,15 @@ const NavigateButtons = () => {
   //   "Bags",
   // ];
 
-  const categories = ["Cookware", "Bedding", "Kitchenware"];
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+  const categories = useSelector((state) => state.products.categories);
 
   let promotions = ["UP TO 20% OFF", "Steel Cooking Set 30%"];
   let promotionPhoto = "";
-
-  const dispatch = useDispatch();
 
   return (
     <div>

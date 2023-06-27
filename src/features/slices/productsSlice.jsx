@@ -1,39 +1,89 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { storeData } from "../../assets/data/kitchenWareData";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+// import { storeData } from "../../assets/data/kitchenWareData";
+import axios from "../axios.config";
 
+let initialState = {
+  products: JSON.parse(sessionStorage.getItem("products")) || [],
+  filteredProducts: JSON.parse(sessionStorage.getItem("filteredData")) || [],
+  singleProduct: JSON.parse(sessionStorage.getItem("singleProduct")) || [],
+  error: false,
+  filters: [],
+  batchNo: 0,
+  sliderData: [],
+  isSliderLoaded: false,
+  promoted: [],
+  categories: [],
+  filterType: sessionStorage.getItem("filterType") || "",
+  isProductsLoading: false,
+  selectedProduct: sessionStorage.getItem("selectedProduct") || "",
+};
+
+export const fetchProducts = createAsyncThunk(
+  "products/fetchProducts",
+  async (payload, { rejectWithValue }) => {
+    try {
+      let res = await axios.get("/products");
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const fetchHomePage = createAsyncThunk(
+  "products/fetchHomePage",
+  async (payload, { rejectWithValue }) => {
+    try {
+      let res = await axios.get("/homepage");
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const fetchCategories = createAsyncThunk(
+  "products/fetchCategories",
+  async (payload, { rejectWithValue }) => {
+    try {
+      let res = await axios.get("/categories");
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
 export const productSlice = createSlice({
   name: "products",
-  initialState: {
-    filteredProducts:
-      JSON.parse(sessionStorage.getItem("filteredData")) || storeData,
-    singleProduct:
-      JSON.parse(sessionStorage.getItem("singleProduct")) || storeData,
-    error: false,
-    filters: [],
-  },
+  initialState,
   reducers: {
     filterProducts(state, action) {
       try {
-        const filter = storeData.filter(
+        const filter = state.products.filter(
           (product) => product.type === action.payload
         );
+        state.filterType = action.payload;
         state.filteredProducts = filter;
         state.error = false;
         const savedState = JSON.stringify(filter);
         sessionStorage.setItem("filteredData", savedState);
+        sessionStorage.setItem("filterType", action.payload);
         state.filters.length = 0;
       } catch (err) {
         return err;
       }
     },
     singleProduct(state, action) {
+      state.selectedProduct = action.payload;
+      sessionStorage.setItem("selectedProduct", state.selectedProduct);
+    },
+    loadSingleProduct(state, action) {
       try {
-        const oneProduct = state.filteredProducts.filter(
-          (product) => product.id === action.payload
-        );
-        state.singleProduct = oneProduct;
-        const savedState = JSON.stringify(oneProduct);
-        sessionStorage.setItem("singleProduct", savedState);
+        let id = state.selectedProduct || action.payload;
+        const oneProduct = state.products.filter((product) => {
+          return product._id === id;
+        });
+        state.singleProduct = oneProduct[0];
       } catch (err) {
         return err;
       }
@@ -128,6 +178,47 @@ export const productSlice = createSlice({
       }
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(fetchHomePage.pending, (state) => {
+      state.isSliderLoaded = false;
+    });
+    builder.addCase(fetchHomePage.fulfilled, (state, action) => {
+      state.isSliderLoaded = true;
+      state.sliderData = action.payload.data.slider;
+      state.promoted = action.payload.data.promoted;
+      let notLoaded = [];
+      state.promoted.map((prod) => {
+        let exists = state.products.find((pr) => prod._id === pr._id);
+        if (!exists) {
+          notLoaded.push(prod);
+        }
+      });
+
+      state.sliderData.map((prod) => {
+        let exists = state.products.find((pr) => prod._id === pr._id);
+        if (!exists) {
+          notLoaded.push(prod);
+        }
+      });
+
+      state.products = [...state.products, ...notLoaded];
+    });
+    builder.addCase(fetchHomePage.rejected, (state) => {
+      state.isSliderLoaded = false;
+    });
+    builder.addCase(fetchCategories.fulfilled, (state, action) => {
+      state.categories = action.payload.data;
+    });
+    builder.addCase(fetchProducts.fulfilled, (state, action) => {
+      state.products = action.payload.data;
+      sessionStorage.setItem("products", JSON.stringify(state.products));
+      const filter = state.products.filter((product) => {
+        if (state.filterType) return product.type === state.filterType;
+        return true;
+      });
+      state.filteredProducts = filter;
+    });
+  },
 });
 
 export const {
@@ -137,5 +228,6 @@ export const {
   sortByPrice,
   filterByColor,
   filterBySize,
+  loadSingleProduct,
 } = productSlice.actions;
 export default productSlice.reducer;
