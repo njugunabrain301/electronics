@@ -20,21 +20,22 @@ function UserProfile({ closeModal }) {
   let user = { ...use, closeModal: closeModal };
   let error = useSelector((state) => state.user.error);
   const [currState, setCurrState] = useState("Update");
-  const action = () => {
-    if (currState === "Update") {
-      setCurrState("Save");
-    } else if (currState === "Save") {
-      dispatch(updateProfile(user));
-
-      setCurrState("Update");
-    }
-  };
 
   const [values, setValues] = useState(user);
 
   const onChange = (e) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
+  };
+
+  const action = () => {
+    if (currState === "Update") {
+      setCurrState("Save");
+    } else if (currState === "Save") {
+      dispatch(updateProfile(values));
+
+      setCurrState("Update");
+    }
   };
 
   const dispatch = useDispatch();
@@ -70,7 +71,7 @@ function UserProfile({ closeModal }) {
               label="Name"
               name="name"
               disabled={currState === "Update"}
-              value={user.name}
+              value={values.name}
               onChange={onChange}
             />
             <Input
@@ -78,7 +79,15 @@ function UserProfile({ closeModal }) {
               label="Email"
               name="email"
               disabled={currState === "Update"}
-              value={user.email}
+              value={values.email}
+              onChange={onChange}
+            />
+            <Input
+              size="lg"
+              label="Phone"
+              name="phone"
+              disabled={currState === "Update"}
+              value={values.phone}
               onChange={onChange}
             />
           </div>

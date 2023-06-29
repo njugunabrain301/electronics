@@ -13,7 +13,6 @@ import Checkout from "./CheckOut";
 
 const Cart = ({ closeModal }) => {
   const cart = useSelector((state) => state.cart.cart);
-  console.log(cart);
   const totalPrice = useSelector((state) => state.cart.totalPrice);
 
   const [openCheckout, setOpenCheckout] = useState(false);
@@ -22,7 +21,7 @@ const Cart = ({ closeModal }) => {
   return (
     <div>
       {!openCheckout ? (
-        <div>
+        <div className="min-w-[330px]">
           {cart.length > 0 ? (
             <div className="w-full h-screen flex justify-center items-center py-[20px]">
               <div className="bg-white rounded-md border-0 outline-0">
@@ -70,19 +69,14 @@ const Cart = ({ closeModal }) => {
                                   {item.name}
                                 </h4>
                               </div>
-                              <div className="max-w-xs">
-                                <p className="text-black text-xs font-inter tracking-normal leading-none pt-2">
-                                  {item.text}
-                                </p>
-                              </div>
                             </div>
-                            <div>
+                            <div className="ml-[8px]">
                               <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
                                 Selected size:{" "}
                                 <span className="ml-2">{item.size}</span>
                               </p>
                               <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
-                                Selected color:{" "}
+                                Selected color:{item.color === "-" ? " -" : " "}
                                 <span
                                   className="ml-2 rounded-full px-2"
                                   style={{ backgroundColor: item.color }}
@@ -93,12 +87,15 @@ const Cart = ({ closeModal }) => {
                                 <span className="ml-2">{item.amount}</span>
                               </p>
                               <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
-                                Single Item Price:{" Ksh."}
-                                <span className="ml-2">{item.price}</span>
+                                Price:{" "}
+                                <span className="">Ksh.&nbsp;{item.price}</span>
                               </p>
                               <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
-                                Total Item Prices:{" Ksh."}
-                                <span className="ml-2">{item.totalPrice}</span>
+                                Total{" "}
+                                <span className="hidden md-block">Price</span>:{" "}
+                                <span className="">
+                                  Ksh.&nbsp;{item.totalPrice}
+                                </span>
                               </p>
                               <div className="pt-4">
                                 <Tooltip
@@ -119,6 +116,11 @@ const Cart = ({ closeModal }) => {
                                 </Tooltip>
                               </div>
                             </div>
+                          </div>
+                          <div className="max-w-xs">
+                            <p className="text-black text-xs font-inter tracking-normal leading-none pt-2">
+                              {item.description}
+                            </p>
                           </div>
                         </div>
                       );

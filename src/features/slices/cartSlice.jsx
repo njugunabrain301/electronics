@@ -105,6 +105,11 @@ export const cartSlice = createSlice({
     });
     builder.addCase(addToCart.rejected, (state, action) => {
       state.isAddingToCart = false;
+      if (action.payload.response.status === 403) {
+        state.cart = [];
+        state.totalAmount = 0;
+        state.totalPrice = 0;
+      }
     });
 
     builder.addCase(removeFromCart.pending, (state, action) => {});
@@ -130,7 +135,6 @@ export const cartSlice = createSlice({
     });
     builder.addCase(checkout.fulfilled, (state, action) => {
       state.isCheckingOut = true;
-      console.log("checkout", action.payload);
       if (action.payload.success) {
         state.cart = [];
         state.totalAmount = 0;
@@ -156,13 +160,23 @@ export const cartSlice = createSlice({
     });
 
     builder.addCase(getCheckoutInfo.fulfilled, (state, action) => {
-      if (action.success) {
+      if (action.payload.success) {
         state.paymentOptions = action.payload.data.paymentOptions;
         state.deliveryLocations = action.payload.data.deliveryLocations;
+
         state.counties = [];
         state.deliveryLocations.map((loc) => {
-          state.counties.push(loc.county);
+          if (!state.counties.includes(loc.county))
+            state.counties.push(loc.county);
         });
+      }
+    });
+
+    builder.addCase(getCheckoutInfo.rejected, (state, action) => {
+      if (action.payload.response.status === 403) {
+        state.cart = [];
+        state.totalAmount = 0;
+        state.totalPrice = 0;
       }
     });
 
@@ -170,6 +184,13 @@ export const cartSlice = createSlice({
       state.cart = [];
       state.totalAmount = 0;
       state.totalPrice = 0;
+    });
+    builder.addCase("auth/updateProfile/rejected", (state, action) => {
+      if (action.payload.response.status === 403) {
+        state.cart = [];
+        state.totalAmount = 0;
+        state.totalPrice = 0;
+      }
     });
   },
 });

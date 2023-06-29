@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -11,42 +11,133 @@ import {
 } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
 import { Input } from "@material-tailwind/react";
-import { checkout } from "../../features/slices/cartSlice";
+import { checkout, getCheckoutInfo } from "../../features/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Autocomplete, TextField } from "@mui/material";
 
 function Checkout({ closeModal, setOpenCheckout }) {
   let error = useSelector((state) => state.user.error);
   const [section, setSection] = useState(1);
+  let counties = useSelector((state) => state.cart.counties);
+  let [subCounties, setSubCounties] = useState([]);
+  let [couriers, setCouriers] = useState([]);
+  let [deliveryCost, setDeliveryCost] = useState(0);
+  let user = useSelector((state) => state.user.user);
+  let deliveryLocations = useSelector((state) => state.cart.deliveryLocations);
+  let paymentOptions = useSelector((state) => state.cart.paymentOptions);
+  const [payOptions, setPayOptions] = useState([]);
+  const cartTotal = useSelector((state) => state.cart.totalPrice);
 
-  const intitalState = {
-    code: "",
-    county: "",
-    subcounty: "",
-    courier: "",
+  const [code, setCode] = useState("");
+  const [county, setCounty] = useState(user.county || "");
+  const [subcounty, setSubCounty] = useState(user.subcounty || "");
+  const [courier, setCourier] = useState(user.courier || "");
+  const [mode, setMode] = useState("");
+  const [paymentInfo, setPaymentInfo] = useState({});
+
+  useEffect(() => {
+    if (paymentOptions && paymentOptions.length > 0) {
+      if (mode === "") {
+        setMode(paymentOptions[0].type);
+        setUpMode(paymentOptions[0].type);
+      }
+
+      let opt = [];
+      paymentOptions.map((op) => {
+        opt.push(op.type);
+      });
+      setPayOptions(opt);
+    }
+  }, [paymentOptions]);
+
+  const setUpMode = (mode) => {
+    setMode(mode);
+    paymentOptions.map((opt) => {
+      if (opt.type === mode) {
+        setPaymentInfo(opt);
+      }
+    });
   };
 
-  const [values, setValues] = useState(intitalState);
-
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setValues({ ...values, [name]: value });
+  const setUpSubCounties = (county) => {
+    if (county && county !== "") {
+      let subs = [];
+      deliveryLocations.map((loc) => {
+        if (loc.county === county && !subs.includes(loc.subcounty)) {
+          subs.push(loc.subcounty);
+        }
+      });
+      setSubCounties(subs);
+      setSubCounty("");
+      setCourier("");
+      setDeliveryCost(0);
+    } else {
+      setSubCounty("");
+      setSubCounties([]);
+      setCouriers([]);
+      setCourier("");
+      setDeliveryCost(0);
+    }
   };
+
+  const setUpCouriers = (subcounty) => {
+    if (county !== "" && subcounty != "") {
+      let couriers = [];
+      deliveryLocations.map((loc) => {
+        if (loc.county === county && loc.subcounty === subcounty) {
+          couriers.push({
+            label: loc.courier + " - " + loc.description,
+            id: loc._id,
+          });
+        }
+      });
+      setCourier("");
+      setDeliveryCost(0);
+      setCouriers(couriers);
+    } else {
+      setCouriers([]);
+      setCourier("");
+      setDeliveryCost(0);
+    }
+  };
+
+  const getDeliveryFee = (v) => {
+    if (county !== "" && subcounty != "" && v) {
+      let fee = 0;
+      deliveryLocations.map((loc) => {
+        if (loc._id === v.id) {
+          fee = loc.price;
+        }
+      });
+      setDeliveryCost(fee);
+    } else {
+      setDeliveryCost(0);
+    }
+  };
+
   const [c_error, setCError] = useState("");
   const [success, setSuccess] = useState(false);
   const handleCheckout = async () => {
     if (
-      values.code === "" ||
-      values.county === "" ||
-      values.subcounty === "" ||
-      values.courier === ""
+      code === "" ||
+      county === "" ||
+      subcounty === "" ||
+      courier === "" ||
+      mode === ""
     ) {
       setCError("Fill in all Fields");
       return;
     }
 
-    let res = await dispatch(checkout(values));
-    console.log(res);
+    let res = await dispatch(
+      checkout({
+        code,
+        courier: courier.id,
+        mode,
+        total: Number(cartTotal) + Number(deliveryCost),
+      })
+    );
     if (res.payload.success) {
       setSuccess(true);
     }
@@ -54,13 +145,9 @@ function Checkout({ closeModal, setOpenCheckout }) {
 
   const openSection = (sec) => {
     setCError("");
-    console.log(values);
+
     if (sec === 2) {
-      if (
-        values.county === "" ||
-        values.subcounty === "" ||
-        values.courier === ""
-      ) {
+      if (county === "" || subcounty === "" || courier === "") {
         setCError("Fill in all Fields");
         return;
       } else {
@@ -73,8 +160,12 @@ function Checkout({ closeModal, setOpenCheckout }) {
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getCheckoutInfo());
+  }, [dispatch]);
+
   return (
-    <Card className="w-85 max-w-[90%]">
+    <Card className="w-85 max-w-[90%] min-w-[330px]">
       <CardHeader
         variant="gradient"
         color="blue"
@@ -134,56 +225,152 @@ function Checkout({ closeModal, setOpenCheckout }) {
             {section === 1 && (
               <div>
                 <div className="relative min-w-[200px] my-2">
-                  <Select
-                    label="Select County"
-                    // value={values.county}
-                    onChange={(e) => setValues({ ...values, county: e })}
-                  >
-                    <Option value="Nakuru">Nakuru</Option>
-                    <Option value="Eldoret">Eldoret</Option>
-                  </Select>
-                </div>
-
-                <div className="relative min-w-[200px] my-2">
-                  <Select
-                    label="Select Sub-County"
-                    // value={values.subcounty}
-                    onChange={(e) => setValues({ ...values, subcounty: e })}
-                  >
-                    <Option value="Njoro">Njoro</Option>
-                    <Option value="Gilgil">Gilgil</Option>
-                  </Select>
+                  <Autocomplete
+                    disablePortal={true}
+                    isOptionEqualToValue={(option, value) =>
+                      option.id === value.id
+                    }
+                    options={counties}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Select County" />
+                    )}
+                    value={county}
+                    size="small"
+                    name="type"
+                    onChange={(e, v) => {
+                      setUpSubCounties(v);
+                      setCounty(v);
+                    }}
+                  />
                 </div>
                 <div className="relative min-w-[200px] my-2">
-                  <Select
-                    label="Select Courier"
-                    // value={values.courier}
-                    onChange={(e) => setValues({ ...values, courier: e })}
-                  >
-                    <Option value="G4S">G4S</Option>
-                    <Option value="PSV">PSV</Option>
-                  </Select>
+                  <Autocomplete
+                    disablePortal={true}
+                    isOptionEqualToValue={(option, value) =>
+                      option.id === value.id
+                    }
+                    options={subCounties}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Select Sub-County" />
+                    )}
+                    value={subcounty}
+                    size="small"
+                    name="type"
+                    onChange={(e, v) => {
+                      setUpCouriers(v);
+                      setSubCounty(v);
+                    }}
+                  />
                 </div>
+                <div className="relative min-w-[200px] my-2">
+                  <Autocomplete
+                    disablePortal={true}
+                    isOptionEqualToValue={(option, value) =>
+                      option.id === value.id || option === value
+                    }
+                    options={couriers}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Select Courier"
+                        multiline={true}
+                      />
+                    )}
+                    disableClearable
+                    value={courier}
+                    size="small"
+                    name="type"
+                    onChange={(e, v) => {
+                      getDeliveryFee(v);
+                      setCourier(v);
+                      setCError("");
+                    }}
+                  />
+                </div>
+                <Typography style={{ fontSize: "11pt" }}>
+                  Delivery Cost: Ksh.{" " + deliveryCost}
+                </Typography>
               </div>
             )}
             {section === 2 && (
               <div>
-                <div>
-                  <Typography className="m-0">
-                    MPESA: Buy Goods & Services
-                  </Typography>
-                  <Typography>Till Number: 000000</Typography>
-                  <Typography>Store Number: 000000</Typography>
-                  <Typography>Business Name: My Business Name</Typography>
-                </div>
-                <Input
-                  label="MPESA Code"
-                  size="lg"
-                  type="text"
-                  name="code"
-                  value={values.code}
-                  onChange={onChange}
+                <Autocomplete
+                  disablePortal={true}
+                  isOptionEqualToValue={(option, value) =>
+                    option.id === value.id
+                  }
+                  options={payOptions}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Select Payment Mode" />
+                  )}
+                  value={mode}
+                  size="small"
+                  name="type"
+                  onChange={(e, v) => {
+                    setUpMode(v);
+                  }}
+                  style={{ margin: "10px 0" }}
                 />
+                {mode === "MPesa-Till" && (
+                  <div>
+                    <Typography className="m-0">
+                      MPESA: Buy Goods & Services
+                    </Typography>
+                    <Typography>
+                      Till Number: {paymentInfo.tillNumber}
+                    </Typography>
+                    <Typography>
+                      Store Number: {paymentInfo.storeNumber}
+                    </Typography>
+                    <Typography>Business Name: {paymentInfo.name}</Typography>
+                  </div>
+                )}
+                {mode === "MPesa-Paybill" && (
+                  <div>
+                    <Typography className="m-0">MPESA: Paybill</Typography>
+                    <Typography>
+                      Paybill Number: {paymentInfo.paybillNumber}
+                    </Typography>
+                    <Typography>
+                      Account Number: {paymentInfo.accountNumber}
+                    </Typography>
+                    <Typography>Business Name: {paymentInfo.name}</Typography>
+                  </div>
+                )}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    fontWeight: "bold",
+                  }}
+                >
+                  <p style={{ fontWeight: "bold" }}>
+                    Ksh.&nbsp;{cartTotal}&nbsp;
+                  </p>
+                  <p style={{ fontSize: "8pt" }}>{" (Cart Total) "}</p>
+                  <p style={{ fontWeight: "bold" }}>
+                    &nbsp;+&nbsp;Ksh.&nbsp;{deliveryCost}&nbsp;
+                  </p>
+                  <p style={{ fontSize: "8pt" }}>(Delivery Cost)</p>
+                </div>
+                <div style={{ display: "flex" }}>
+                  <Typography style={{ fontWeight: "bold" }}>
+                    Total&nbsp;
+                  </Typography>
+                  <Typography style={{ fontWeight: "bold" }}>
+                    Ksh.&nbsp;{Number(cartTotal) + Number(deliveryCost)}
+                  </Typography>
+                </div>
+                <div style={{ margin: "10px 0" }}>
+                  <Input
+                    label="MPESA Code"
+                    size="lg"
+                    type="text"
+                    name="code"
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                  />
+                </div>
               </div>
             )}
 
@@ -212,9 +399,15 @@ function Checkout({ closeModal, setOpenCheckout }) {
             Proceed
           </Button>
         ) : (
-          <Button variant="gradient" fullWidth onClick={() => handleCheckout()}>
-            Done
-          </Button>
+          !success && (
+            <Button
+              variant="gradient"
+              fullWidth
+              onClick={() => handleCheckout()}
+            >
+              Done
+            </Button>
+          )
         )}
         {/* <Typography
           variant="small"

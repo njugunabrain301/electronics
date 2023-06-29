@@ -43,17 +43,29 @@ export const register = createAsyncThunk(
   }
 );
 
+export const updateProfile = createAsyncThunk(
+  "auth/updateProfile",
+  async (payload, { rejectWithValue }) => {
+    try {
+      let res = await axios.post("/profile/update", payload);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    updateProfile(state, action) {},
     logout(state) {
       state.user = {
         name: "",
         password: "",
         image: "",
       };
+      state.authUser = false;
       localStorage.clear();
       sessionStorage.clear();
     },
@@ -82,6 +94,34 @@ export const authSlice = createSlice({
     builder.addCase(login.rejected, (state) => {
       state.isLoggingIn = false;
       state.loginError = "Invalid Credentials";
+    });
+
+    builder.addCase(updateProfile.pending, (state, action) => {
+      state.isUpdating = true;
+    });
+    builder.addCase(updateProfile.fulfilled, (state, action) => {
+      const res = action.payload;
+      if (res.success) {
+        state.error = "";
+        state.user.name = res.data.name;
+        state.user.email = res.data.email;
+        state.user.phone = res.data.phone;
+        state.authUser = true;
+        window.localStorage.setItem("user", JSON.stringify(state.user));
+      }
+      state.isUpdating = false;
+    });
+    builder.addCase(updateProfile.rejected, (state, action) => {
+      if (action.payload.response.status === 403) {
+        state.user = {
+          name: "",
+          password: "",
+          image: "",
+        };
+        state.authUser = false;
+        localStorage.clear();
+        sessionStorage.clear();
+      }
     });
     builder.addCase(register.pending, (state) => {
       state.isRegistering = true;
@@ -146,5 +186,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const { logout, updateProfile, updatePassword } = authSlice.actions;
+export const { logout, updatePassword } = authSlice.actions;
 export default authSlice.reducer;

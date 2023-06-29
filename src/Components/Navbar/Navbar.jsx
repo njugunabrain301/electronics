@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = ({ handleAuth, setOpenAuth }) => {
   const totalAmount = useSelector((state) => state.cart.totalAmount);
-  console.log(totalAmount);
+
   const user = useSelector((state) => state.user.user);
   const authUser = useSelector((state) => state.user.authUser);
 
@@ -102,8 +102,24 @@ const Navbar = ({ handleAuth, setOpenAuth }) => {
             onClick={handleOpenCart}
           >
             {totalAmount > 0 ? (
-              <span className="rounded-full bg-gray-300 px-2 font-inter text-sm mr-1">
-                {totalAmount}
+              <span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                  />
+                </svg>
+                <span className="rounded-full bg-blue-300 text-white px-1 font-inter text-xs mr-1 absolute mt-[-30px] ml-[15px]">
+                  {totalAmount}
+                </span>
               </span>
             ) : (
               <svg
@@ -123,7 +139,8 @@ const Navbar = ({ handleAuth, setOpenAuth }) => {
             )}
 
             <p className=" font-inter text-base font-medium tracking-normal leading-none text-center ">
-              <span className="hidden md:inline-block">Shopping</span> Cart
+              <span className="hidden md:inline-block">Shopping Cart</span>
+              <span className=" md:hidden text-sm">&nbsp;Cart</span>
             </p>
 
             <button
@@ -144,6 +161,30 @@ const Navbar = ({ handleAuth, setOpenAuth }) => {
           <div className="flex flex-row items-center cursor-pointer pl-4">
             {authUser ? (
               <>
+                <div className="flex items-center pr-[10px]">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"
+                    />
+                  </svg>
+
+                  <p className=" font-inter text-medium font-medium tracking-normal leading-none text-center ">
+                    <span className="hidden md:inline-block">
+                      &nbsp;My Orders
+                    </span>
+                    <span className=" md:hidden text-sm">&nbsp;My Orders</span>
+                  </p>
+                </div>
+
                 <button
                   type="button"
                   className="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
@@ -159,7 +200,7 @@ const Navbar = ({ handleAuth, setOpenAuth }) => {
                   <UserProfile closeModal={closeProfileModal} />
                 </MyModal>
                 <div onClick={handleProfile}>
-                  <Tooltip content="Sign Out" placement="bottom">
+                  <Tooltip content="My Profile" placement="bottom">
                     <p className="font-inter text-sm font-medium tracking-normal leading-none">
                       Hi{" "}
                       {name.charAt("0").toUpperCase() +

@@ -32,7 +32,7 @@ function Login({ closeModal, toggleLogin }) {
 
   const handleAction = async () => {
     let res = await dispatch(login(values));
-    console.log(res);
+
     if (res.payload.success) {
       closeModal();
     }
@@ -68,10 +68,7 @@ function Login({ closeModal, toggleLogin }) {
         />
         <div className="">
           {error && (
-            <Alert
-              variant="ghost"
-              className="flex align-items-center justify-center bg-red-300"
-            >
+            <Alert className="flex align-items-center justify-center bg-red-300">
               <p className="font-medium flex items-center text-center tracking-normal leading-none">
                 {error}
               </p>
