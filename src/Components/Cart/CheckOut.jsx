@@ -6,8 +6,6 @@ import {
   CardFooter,
   Typography,
   Alert,
-  Select,
-  Option,
 } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
 import { Input } from "@material-tailwind/react";
@@ -36,6 +34,16 @@ function Checkout({ closeModal, setOpenCheckout }) {
   const [mode, setMode] = useState("");
   const [paymentInfo, setPaymentInfo] = useState({});
 
+  const setUpMode = (mode) => {
+    setMode(mode);
+    paymentOptions.map((opt) => {
+      if (opt.type === mode) {
+        setPaymentInfo(opt);
+      }
+      return opt;
+    });
+  };
+
   useEffect(() => {
     if (paymentOptions && paymentOptions.length > 0) {
       if (mode === "") {
@@ -46,19 +54,11 @@ function Checkout({ closeModal, setOpenCheckout }) {
       let opt = [];
       paymentOptions.map((op) => {
         opt.push(op.type);
+        return op;
       });
       setPayOptions(opt);
     }
-  }, [paymentOptions]);
-
-  const setUpMode = (mode) => {
-    setMode(mode);
-    paymentOptions.map((opt) => {
-      if (opt.type === mode) {
-        setPaymentInfo(opt);
-      }
-    });
-  };
+  }, [paymentOptions, mode]);
 
   const setUpSubCounties = (county) => {
     if (county && county !== "") {
@@ -67,6 +67,7 @@ function Checkout({ closeModal, setOpenCheckout }) {
         if (loc.county === county && !subs.includes(loc.subcounty)) {
           subs.push(loc.subcounty);
         }
+        return loc;
       });
       setSubCounties(subs);
       setSubCounty("");
@@ -82,7 +83,7 @@ function Checkout({ closeModal, setOpenCheckout }) {
   };
 
   const setUpCouriers = (subcounty) => {
-    if (county !== "" && subcounty != "") {
+    if (county !== "" && subcounty !== "") {
       let couriers = [];
       deliveryLocations.map((loc) => {
         if (loc.county === county && loc.subcounty === subcounty) {
@@ -91,6 +92,7 @@ function Checkout({ closeModal, setOpenCheckout }) {
             id: loc._id,
           });
         }
+        return loc;
       });
       setCourier("");
       setDeliveryCost(0);
@@ -103,12 +105,13 @@ function Checkout({ closeModal, setOpenCheckout }) {
   };
 
   const getDeliveryFee = (v) => {
-    if (county !== "" && subcounty != "" && v) {
+    if (county !== "" && subcounty !== "" && v) {
       let fee = 0;
       deliveryLocations.map((loc) => {
         if (loc._id === v.id) {
           fee = loc.price;
         }
+        return loc;
       });
       setDeliveryCost(fee);
     } else {

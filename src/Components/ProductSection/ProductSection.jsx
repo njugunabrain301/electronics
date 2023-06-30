@@ -1,5 +1,4 @@
 import React from "react";
-// import { storeData } from "../../assets/data/kitchenWareData";
 import ProductSectionItem from "./ProductSectionItem";
 import { useSelector } from "react-redux";
 

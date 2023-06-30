@@ -11,14 +11,12 @@ import {
 
 const SingleProduct = ({ handleAuth }) => {
   const products = useSelector((state) => state.products.filteredProducts);
-  const handleFetch = async () => {
-    let res = await dispatch(fetchProducts());
-  };
+  const dispatch = useDispatch();
   useEffect(() => {
     if (products.length === 0) {
-      handleFetch();
+      dispatch(fetchProducts());
     }
-  }, [products]);
+  }, [products, dispatch]);
 
   const product = useSelector((state) => state.products.singleProduct);
 
@@ -31,8 +29,7 @@ const SingleProduct = ({ handleAuth }) => {
   const { id } = useParams();
   useEffect(() => {
     dispatch(loadSingleProduct(id));
-  });
-  const dispatch = useDispatch();
+  }, [dispatch, id]);
 
   return (
     <div>

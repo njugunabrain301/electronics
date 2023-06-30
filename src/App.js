@@ -4,14 +4,13 @@ import Main from "./Components/Main/Main";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import FilteredProducts from "./Components/FiltredProducts/FilteredProducts";
 import SingleProduct from "./Components/FiltredProducts/SingleProduct";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/Footer/Footer";
 import Orders from "./Components/Orders/Orders";
 import { fetchHomePage, fetchProducts } from "./features/slices/productsSlice";
 
 function App() {
-  const user = useSelector((state) => state.user.user);
   const [openAuth, setOpenAuth] = useState(false);
   const handleAuth = () => {
     if (!openAuth) setOpenAuth(true);

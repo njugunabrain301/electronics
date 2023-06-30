@@ -1,22 +1,18 @@
-import React, { useState } from "react";
-// import logo from "../../assets/images/logo.png";
+import React, { useEffect, useState } from "react";
 import Cart from "../Cart/Cart";
-import { useSelector } from "react-redux";
-import { Tooltip, Typography } from "@material-tailwind/react";
+import { useDispatch, useSelector } from "react-redux";
+import { Tooltip } from "@material-tailwind/react";
 import Auth from "../Auth/Auth";
 import MyModal from "../MyModal/MyModal";
 import UserProfile from "../UserProfile/UserProfile";
 import { Link } from "react-router-dom";
+import { fetchBusinessProfile } from "../../features/slices/appSlice";
 
 const Navbar = ({ handleAuth, setOpenAuth }) => {
   const totalAmount = useSelector((state) => state.cart.totalAmount);
 
   const user = useSelector((state) => state.user.user);
   const authUser = useSelector((state) => state.user.authUser);
-
-  const { name } = user;
-  const businessName = "Welcome Back";
-  const logo = "";
 
   const closeCartModal = (e) => {
     setOpenCart(false);
@@ -78,20 +74,35 @@ const Navbar = ({ handleAuth, setOpenAuth }) => {
 
     return logo;
   };
+  const dispatch = useDispatch();
+  let profile = useSelector((state) => state.app.profile);
+  useEffect(() => {
+    if (!profile.name) {
+      dispatch(fetchBusinessProfile());
+    }
+  }, [profile, dispatch]);
+
+  const { name } = user;
+  const businessName = profile.name || "Wb";
+  const logo = profile.icon || "";
 
   return (
     <>
       <div className="bg-black p-4 w-full flex justify-center items-center ">
-        <p className="text-white font-inter text-2xl font-bold  ">Welcome</p>
+        <p className="text-white font-inter text-2xl font-bold  ">
+          {profile.name}
+        </p>
       </div>
       <div className="flex justify-around items-center">
         <div>
           {logo ? (
-            <img
-              className="md:h-28 w-full h-20 lg:h-28"
-              src={logo}
-              alt="store"
-            />
+            <div className="flex align-center bg-black m-2 px-[5px] rounded-md">
+              <img
+                className=" xs:max-w-[100px] md-max-w-initial md:max-h-24 w-full max-h-20 lg:h-28"
+                src={logo}
+                alt="store"
+              />
+            </div>
           ) : (
             genLogo()
           )}
@@ -145,7 +156,7 @@ const Navbar = ({ handleAuth, setOpenAuth }) => {
 
             <button
               type="button"
-              className="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+              className=""
               data-te-toggle="modal"
               data-te-target="#cartModal"
               data-te-ripple-init
@@ -158,33 +169,34 @@ const Navbar = ({ handleAuth, setOpenAuth }) => {
               <Cart closeModal={closeCartModal} open={openCart}></Cart>
             </MyModal>
           </div>
-          <div className="flex flex-row items-center cursor-pointer pl-4">
+          <div className="flex flex-row items-center cursor-pointer xs:pl-2 md:pl-4">
             {authUser ? (
               <>
-                <div className="flex items-center pr-[10px]">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"
-                    />
-                  </svg>
+                <Link to="/orders">
+                  <div className="flex items-center pr-[10px]">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"
+                      />
+                    </svg>
 
-                  <p className=" font-inter text-medium font-medium tracking-normal leading-none text-center ">
-                    <span className="hidden md:inline-block">
-                      &nbsp;My Orders
-                    </span>
-                    <span className=" md:hidden text-sm">&nbsp;My Orders</span>
-                  </p>
-                </div>
-
+                    <p className=" font-inter text-medium font-medium tracking-normal leading-none text-center ">
+                      <span className="hidden md:inline-block">
+                        &nbsp;My Orders
+                      </span>
+                      <span className=" md:hidden text-sm">&nbsp;Orders</span>
+                    </p>
+                  </div>
+                </Link>
                 <button
                   type="button"
                   className="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
@@ -201,18 +213,54 @@ const Navbar = ({ handleAuth, setOpenAuth }) => {
                 </MyModal>
                 <div onClick={handleProfile}>
                   <Tooltip content="My Profile" placement="bottom">
-                    <p className="font-inter text-sm font-medium tracking-normal leading-none">
-                      Hi{" "}
-                      {name.charAt("0").toUpperCase() +
-                        name.split(" ")[0].slice(1)}
+                    <p className="font-inter text-md font-medium tracking-normal leading-none flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                        />
+                      </svg>{" "}
+                      <span className="hidden md:inline-block">
+                        &nbsp;
+                        {name.charAt("0").toUpperCase() +
+                          name.split(" ")[0].slice(1)}
+                      </span>
+                      <span className=" md:hidden text-sm">
+                        &nbsp;
+                        {name.charAt("0").toUpperCase() +
+                          name.split(" ")[0].slice(1)}
+                      </span>
                     </p>
                   </Tooltip>
                 </div>
               </>
             ) : (
               <div onClick={handleAuth}>
-                <p className=" font-inter text-base font-medium tracking-normal leading-none text-center ">
-                  Log In
+                <p className="flex items-center font-inter text-base font-medium tracking-normal leading-none text-center ">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+                    />
+                  </svg>
+                  <span className="hidden md:inline-block">&nbsp; Log In</span>
+                  <span className=" md:hidden text-sm">&nbsp; Log In</span>
                 </p>
                 <div>
                   <button
@@ -271,7 +319,9 @@ const Navbar = ({ handleAuth, setOpenAuth }) => {
               />
             </svg>
 
-            <span className="hidden md:block">&nbsp;&nbsp; mail@gmail.com</span>
+            <span className="hidden md:block">
+              &nbsp;&nbsp; {profile.email}
+            </span>
           </a>
 
           <a href="tel: +254717563148" className="flex ml-4">
@@ -289,7 +339,9 @@ const Navbar = ({ handleAuth, setOpenAuth }) => {
                 d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
               />
             </svg>
-            <span className="hidden md:block">&nbsp;&nbsp; +254717563148</span>
+            <span className="hidden md:block">
+              &nbsp;&nbsp; {profile.phone}
+            </span>
           </a>
         </p>
       </div>

@@ -4,6 +4,7 @@ import productsReducer from "../features/slices/productsSlice";
 import cartReducer from "../features/slices/cartSlice";
 import authReducer from "../features/slices/authSlice";
 import ordersReducer from "../features/slices/ordersSlice";
+import appReducer from "../features/slices/appSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,11 +13,19 @@ export const store = configureStore({
     cart: cartReducer,
     user: authReducer,
     orders: ordersReducer,
+    app: appReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ["auth/login", "auth/register", "auth/updateProfile"],
+        ignoredActions: [
+          "auth/login/rejected",
+          "auth/register/rejected",
+          "auth/updateProfile/rejected",
+          "cart/checkout/rejected",
+          "cart/getCheckoutInfo/rejected",
+          "cart/addToCart/rejected",
+        ],
       },
     }),
 });

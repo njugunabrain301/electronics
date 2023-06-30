@@ -89,6 +89,7 @@ function Register({ closeModal, toggleLogin }) {
             size="lg"
             label="Email"
             name="email"
+            autocomplete={false}
             value={values.email}
             onChange={onChange}
           />
@@ -109,12 +110,12 @@ function Register({ closeModal, toggleLogin }) {
               className="flex items-center font-normal"
             >
               I agree to the
-              <a
+              <span
                 href="#"
                 className="font-medium transition-colors hover:text-blue-500"
               >
                 &nbsp;Terms and Conditions
-              </a>
+              </span>
             </Typography>
           }
           containerProps={{ className: "-ml-2.5" }}
@@ -164,13 +165,13 @@ function Register({ closeModal, toggleLogin }) {
           </Typography>
           <Typography color="gray" className="mt-4 text-center font-normal">
             Already have an account?{" "}
-            <a
+            <span
               href="#"
               className="font-medium text-blue-500 transition-colors hover:text-blue-700"
               onClick={toggleLogin}
             >
               Sign In
-            </a>
+            </span>
           </Typography>
         </div>
       </form>

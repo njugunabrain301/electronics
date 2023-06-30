@@ -106,13 +106,13 @@ function Login({ closeModal, toggleLogin }) {
 
           <Typography color="gray" className="mt-4 text-center font-normal">
             Don't have an account?{" "}
-            <a
+            <span
               href="#"
               className="font-medium text-blue-500 transition-colors hover:text-blue-700"
               onClick={toggleLogin}
             >
               Register
-            </a>
+            </span>
           </Typography>
         </div>
       </CardFooter>

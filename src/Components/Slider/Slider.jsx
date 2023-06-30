@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-// import { sliderData } from "../../assets/data/kitchenWareData";
+import React, { useEffect } from "react";
 import { Carousel, initTE } from "tw-elements";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +7,6 @@ import { singleProduct } from "../../features/slices/productsSlice";
 const Slider = () => {
   let sliderData = useSelector((state) => state.products.sliderData);
   let isSliderLoaded = useSelector((state) => state.products.isSliderLoaded);
-  const [sliderSet, setSlider] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {

@@ -14,8 +14,6 @@ import {
   filterProducts,
   filterGender,
   sortByPrice,
-  filterByColor,
-  filterBySize,
   fetchProducts,
 } from "../../features/slices/productsSlice";
 
@@ -25,24 +23,13 @@ const FilteredProducts = () => {
   const filters = useSelector((state) => state.products.filters);
   const { type } = useParams();
   const genderButtons = ["male", "female"];
-  const handleFetch = async () => {
-    let res = await dispatch(fetchProducts);
-  };
+  const dispatch = useDispatch();
   useEffect(() => {
     if (products.length === 0 && filters.length === 0) {
-      handleFetch();
+      dispatch(fetchProducts);
     }
-  }, [products]);
-  const colorButtons = [
-    "red",
-    "green",
-    "purple",
-    "yellow",
-    "orange",
-    "blue",
-    "black",
-    "brown",
-  ];
+  }, [products, dispatch, filters]);
+
   const wearables = [
     "shoes",
     "trousers",
@@ -56,8 +43,6 @@ const FilteredProducts = () => {
     "sweatpants",
     "swim suits",
   ];
-  const sizeButtons = ["S", "M", "L", "XL"];
-  const dispatch = useDispatch();
 
   return (
     <div className="">

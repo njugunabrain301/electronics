@@ -106,13 +106,12 @@ function UserProfile({ closeModal }) {
           </div>
           <div className="flex justify-between">
             <Typography color="gray" className="mt-4 text-center font-normal">
-              <a
-                href="#"
+              <span
                 className="font-normal text-blue-500 transition-colors hover:underline hover:text-blue-700"
                 onClick={updatePass}
               >
                 {updatePassState === "Update Password" ? "Update Password" : ""}
-              </a>
+              </span>
             </Typography>
             <Typography color="gray" className="mt-4 text-center font-normal">
               <Link

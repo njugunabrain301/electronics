@@ -3,13 +3,9 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   Typography,
-  Tooltip,
 } from "@material-tailwind/react";
-import { Button } from "@material-tailwind/react";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../../features/slices/cartSlice";
 import { Link } from "react-router-dom";
 import { singleProduct } from "../../features/slices/productsSlice";
 
@@ -22,13 +18,9 @@ const ProductSectionItem = ({
   price,
   color,
   type,
-  totalPrice,
   onOffer,
 }) => {
   const dispatch = useDispatch();
-
-  const defaultSize = size ? size[0] : "-";
-  const defaultColor = color ? color[0] : "-";
 
   return (
     <Link
@@ -46,6 +38,7 @@ const ProductSectionItem = ({
           SALE%
         </Typography> */}
         <CardHeader floated={false} className="">
+          {onOffer}
           <img src={img} alt={name} style={{ aspectRatio: "3/2" }} />
         </CardHeader>
         <CardBody className="text-center">

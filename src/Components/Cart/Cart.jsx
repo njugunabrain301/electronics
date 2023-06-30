@@ -8,7 +8,6 @@ import {
 } from "@material-tailwind/react";
 import { useSelector, useDispatch } from "react-redux";
 import { removeFromCart } from "../../features/slices/cartSlice";
-import MyModal from "../MyModal/MyModal";
 import Checkout from "./CheckOut";
 
 const Cart = ({ closeModal }) => {

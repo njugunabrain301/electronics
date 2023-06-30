@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Button } from "@material-tailwind/react";
-import clothes from "../../assets/images/clothes.jpg";
 import {
   fetchCategories,
   filterProducts,
@@ -9,17 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const NavigateButtons = () => {
-  // const categories = [
-  //   "Hoodies",
-  //   "Dresses",
-  //   "Suits",
-  //   "Shoes",
-  //   "T-Shirts",
-  //   "Jeans",
-  //   "Jackets",
-  //   "Bags",
-  // ];
-
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCategories());
@@ -27,8 +15,7 @@ const NavigateButtons = () => {
 
   const categories = useSelector((state) => state.products.categories);
 
-  let promotions = ["UP TO 20% OFF", "Steel Cooking Set 30%"];
-  let promotionPhoto = "";
+  let promotions = []; //["UP TO 20% OFF", "Steel Cooking Set 30%"];
 
   return (
     <div>

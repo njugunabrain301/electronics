@@ -1,9 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 const Footer = () => {
   const year = new Date().getFullYear();
-  const businessName = "Welcome Back";
-  const logo = "";
+  const profile = useSelector((state) => state.app.profile);
+  const businessName = profile.name || "Welcome Back";
+  const logo = profile.icon || "";
 
   const genLogo = () => {
     let names = businessName.split(" ");
@@ -49,11 +51,13 @@ const Footer = () => {
       <div className="flex items-center justify-around pt-4">
         <div>
           {logo ? (
-            <img
-              className="md:h-28 w-full h-20 lg:h-28"
-              src={logo}
-              alt="store"
-            />
+            <div className="flex align-center bg-black m-2 px-[5px] rounded-md">
+              <img
+                className=" xs:max-w-[100px] md-max-w-initial md:max-h-24 w-full max-h-20 lg:h-28"
+                src={logo}
+                alt="store"
+              />
+            </div>
           ) : (
             genLogo()
           )}

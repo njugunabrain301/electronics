@@ -7,7 +7,7 @@ function Orders() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchOrders());
-  }, []);
+  }, [dispatch]);
   const orders = useSelector((state) => state.orders.orders);
 
   return (
