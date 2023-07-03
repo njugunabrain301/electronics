@@ -96,6 +96,7 @@ const Navbar = ({ handleAuth, setOpenAuth }) => {
           name="keywords"
           content={categories.length > 0 ? categories.join(" ") : businessName}
         />
+        <link rel="icon" type="image/png" href={logo} sizes="16x16" />
       </Helmet>
       <div className="bg-black p-4 w-full flex justify-center items-center ">
         <p className="text-white font-inter text-2xl font-bold  ">

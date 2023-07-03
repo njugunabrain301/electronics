@@ -36,7 +36,14 @@ const SingleProduct = ({ handleAuth }) => {
     <div>
       <Helmet>
         <title>{product.name}</title>
-        <meta name="description" content={product.description.slice(0, 100)} />
+        <meta
+          name="description"
+          content={
+            product && product.description
+              ? product.description.slice(0, 100)
+              : ""
+          }
+        />
         <meta name="keywords" content={product.name + " " + product.type} />
       </Helmet>
       {product && (
