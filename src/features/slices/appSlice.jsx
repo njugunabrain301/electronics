@@ -17,6 +17,12 @@ export const fetchBusinessProfile = createAsyncThunk(
   }
 );
 
+export const visit = createAsyncThunk("business/visit", async () => {
+  try {
+    await axios.post("/visit");
+  } catch (err) {}
+});
+
 export const appSlice = createSlice({
   name: "business",
   initialState,

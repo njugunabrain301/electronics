@@ -55,6 +55,30 @@ export const updateProfile = createAsyncThunk(
   }
 );
 
+export const resetPassword = createAsyncThunk(
+  "auth/reset",
+  async (payload, { rejectWithValue }) => {
+    try {
+      let res = await axios.post("/reset-password", payload);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const resetPasswordLink = createAsyncThunk(
+  "auth/resetLink",
+  async (payload, { rejectWithValue }) => {
+    try {
+      let res = await axios.post("/request-reset-password", payload);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,

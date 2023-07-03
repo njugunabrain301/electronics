@@ -8,6 +8,7 @@ import {
   fetchProducts,
   loadSingleProduct,
 } from "../../features/slices/productsSlice";
+import { Helmet } from "react-helmet";
 
 const SingleProduct = ({ handleAuth }) => {
   const products = useSelector((state) => state.products.filteredProducts);
@@ -33,6 +34,11 @@ const SingleProduct = ({ handleAuth }) => {
 
   return (
     <div>
+      <Helmet>
+        <title>{product.name}</title>
+        <meta name="description" content={product.description.slice(0, 100)} />
+        <meta name="keywords" content={product.name + " " + product.type} />
+      </Helmet>
       {product && (
         <div className="flex justify-center items-center p-4 pb-8 flex-wrap">
           <div className="flex justify-center  align-center m-4">

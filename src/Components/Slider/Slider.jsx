@@ -28,7 +28,7 @@ const Slider = () => {
     setTimeout(() => {
       document.getElementById("next-carousel").addEventListener("click", view);
       document.getElementById("prev-carousel").addEventListener("click", view);
-    }, 2000);
+    }, 3000);
 
     return () => {
       clearInterval(interval);

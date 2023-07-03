@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { DialogBody, Typography, Tooltip } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOrders } from "../../features/slices/ordersSlice";
+import { Helmet } from "react-helmet";
 
 function Orders() {
   const dispatch = useDispatch();
@@ -9,9 +10,13 @@ function Orders() {
     dispatch(fetchOrders());
   }, [dispatch]);
   const orders = useSelector((state) => state.orders.orders);
+  let profile = useSelector((state) => state.app.profile);
 
   return (
     <div className="flex justify-center items-center">
+      <Helmet>
+        <title>{"Orders | " + profile.name}</title>
+      </Helmet>
       <DialogBody divider className="flex flex-col justify-center items-center">
         {orders
           .filter((o) => o != null)

@@ -7,6 +7,7 @@ import MyModal from "../MyModal/MyModal";
 import UserProfile from "../UserProfile/UserProfile";
 import { Link } from "react-router-dom";
 import { fetchBusinessProfile } from "../../features/slices/appSlice";
+import { Helmet } from "react-helmet";
 
 const Navbar = ({ handleAuth, setOpenAuth }) => {
   const totalAmount = useSelector((state) => state.cart.totalAmount);
@@ -85,9 +86,17 @@ const Navbar = ({ handleAuth, setOpenAuth }) => {
   const { name } = user;
   const businessName = profile.name || "Wb";
   const logo = profile.icon || "";
-
+  const categories = useSelector((state) => state.products.categories);
   return (
     <>
+      <Helmet>
+        <title>{businessName}</title>
+        <meta name="description" content={businessName} />
+        <meta
+          name="keywords"
+          content={categories.length > 0 ? categories.join(" ") : businessName}
+        />
+      </Helmet>
       <div className="bg-black p-4 w-full flex justify-center items-center ">
         <p className="text-white font-inter text-2xl font-bold  ">
           {profile.name}

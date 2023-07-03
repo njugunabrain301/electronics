@@ -9,33 +9,38 @@ import {
 } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
 import { Input } from "@material-tailwind/react";
-import { login } from "../../features/slices/authSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { resetPasswordLink } from "../../features/slices/authSlice";
+import { useDispatch } from "react-redux";
 
-function Login({ closeModal, toggleLogin, toggleForgotPass }) {
-  let error = useSelector((state) => state.user.loginError);
+function ForgotPassword({ closeModal, toggleForgotPass }) {
+  let [error, setError] = useState("");
+  let [resetRequested, setResetRequested] = useState(false);
+  let [isLoading, setIsLoading] = useState(false);
 
-  const intitalState = {
-    email: "",
-    password: "",
-    image: "",
-  };
-
-  const [values, setValues] = useState(intitalState);
-
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setValues({ ...values, [name]: value });
-  };
+  const [email, setEmail] = useState("");
 
   const dispatch = useDispatch();
 
   const handleAction = async () => {
-    let res = await dispatch(login(values));
+    setError("");
+    if (email === "") {
+      setError("Please provide your email");
+      return;
+    }
+    if (isLoading) {
+      return;
+    }
+    setIsLoading(true);
+    let res = await dispatch(resetPasswordLink({ email }));
 
     if (res.payload.success) {
-      closeModal();
+      setResetRequested(true);
+    } else if (res.payload.message) {
+      setError(res.payload.message);
+    } else {
+      setError("An error occured. Please try again later");
     }
+    setIsLoading(false);
   };
 
   return (
@@ -46,7 +51,7 @@ function Login({ closeModal, toggleLogin, toggleForgotPass }) {
         className="mb-4 grid h-28 place-items-center"
       >
         <Typography variant="h3" color="white">
-          Sign In
+          Forgot Password
         </Typography>
       </CardHeader>
       <CardBody className="flex flex-col gap-4">
@@ -55,17 +60,13 @@ function Login({ closeModal, toggleLogin, toggleForgotPass }) {
           size="lg"
           type="email"
           name="email"
-          value={values.email}
-          onChange={onChange}
+          value={email}
+          onChange={(e) => {
+            setError("");
+            setEmail(e.target.value);
+          }}
         />
-        <Input
-          label="Password"
-          size="lg"
-          type="password"
-          name="password"
-          value={values.password}
-          onChange={onChange}
-        />
+
         <div className="">
           {error && (
             <Alert className="flex align-items-center justify-center bg-red-300">
@@ -75,20 +76,21 @@ function Login({ closeModal, toggleLogin, toggleForgotPass }) {
             </Alert>
           )}
         </div>
-        <div>
-          <Typography
-            variant="small"
-            className="flex justify-start"
-            onClick={toggleForgotPass}
-          >
-            Forgot Password?
-          </Typography>
-        </div>
       </CardBody>
       <CardFooter className="pt-0">
-        <Button variant="gradient" fullWidth onClick={handleAction}>
-          Sign In
-        </Button>
+        {resetRequested ? (
+          <Typography varaint="h6" className="mt-6 flex justify-center">
+            We have sent a password reset link to your email
+          </Typography>
+        ) : (
+          <Button variant="gradient" fullWidth onClick={handleAction}>
+            Reset Password
+          </Button>
+        )}
+        {/* <Typography
+          variant="small"
+          className="mt-6 flex justify-center"
+        ></Typography> */}
         <div className="divider flex justify-between">
           <Typography color="gray" className="mt-4 text-center font-normal">
             <span className="cursor-pointer" onClick={closeModal}>
@@ -110,13 +112,13 @@ function Login({ closeModal, toggleLogin, toggleForgotPass }) {
           </Typography>
 
           <Typography color="gray" className="mt-4 text-center font-normal">
-            Don't have an account?{" "}
+            Go back to{" "}
             <span
               href="#"
               className="font-medium text-blue-500 transition-colors hover:text-blue-700"
-              onClick={toggleLogin}
+              onClick={toggleForgotPass}
             >
-              Register
+              Login
             </span>
           </Typography>
         </div>
@@ -125,4 +127,4 @@ function Login({ closeModal, toggleLogin, toggleForgotPass }) {
   );
 }
 
-export default Login;
+export default ForgotPassword;

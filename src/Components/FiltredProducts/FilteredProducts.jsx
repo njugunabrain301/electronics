@@ -16,6 +16,7 @@ import {
   sortByPrice,
   fetchProducts,
 } from "../../features/slices/productsSlice";
+import { Helmet } from "react-helmet";
 
 const FilteredProducts = () => {
   const products = useSelector((state) => state.products.filteredProducts);
@@ -43,9 +44,14 @@ const FilteredProducts = () => {
     "sweatpants",
     "swim suits",
   ];
-
+  let profile = useSelector((state) => state.app.profile);
   return (
     <div className="">
+      <Helmet>
+        <title>{type + " | " + profile.name}</title>
+        <meta name="description" content={type} />
+        <meta name="keywords" content={type} />
+      </Helmet>
       <div className="xs:pt-4 md:pt-16">
         <div className="xs:pl-6 md:pl-14">
           <h1 className="text-gray-600 xs:text-2xl md:text-4xl font-inter font-bold tracking-normal leading-none">
