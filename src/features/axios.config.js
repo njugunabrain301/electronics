@@ -2,8 +2,8 @@ import axios from "axios";
 import { bid } from "../app/store";
 
 let instance = axios.create({
-  // baseURL: "https://red-courageous-sockeye.cyclic.app",
-  baseURL: "http://localhost:3001/user/zidika",
+  baseURL: "https://red-courageous-sockeye.cyclic.app//user/zidika",
+  // baseURL: "http://localhost:3001/user/zidika",
 });
 
 instance.interceptors.request.use(
