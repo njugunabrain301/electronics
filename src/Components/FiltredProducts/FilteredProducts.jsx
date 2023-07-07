@@ -21,6 +21,7 @@ import { Helmet } from "react-helmet";
 const FilteredProducts = () => {
   const products = useSelector((state) => state.products.filteredProducts);
   const error = useSelector((state) => state.products.error);
+  const showPrice = useSelector((state) => state.app.profile.showPrice);
   const filters = useSelector((state) => state.products.filters);
   const { type } = useParams();
   const genderButtons = ["male", "female"];
@@ -216,7 +217,8 @@ const FilteredProducts = () => {
                       text={product.description}
                       img={product.img}
                       price={product.price}
-                      colors={product.color}
+                      colors={product.colors}
+                      showPrice={showPrice}
                     ></ProductCard>
                   </div>
                 );

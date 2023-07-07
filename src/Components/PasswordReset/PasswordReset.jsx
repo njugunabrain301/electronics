@@ -14,7 +14,9 @@ function PasswordReset() {
   const [cpassword, setCPassword] = useState("");
   const [error, setError] = useState("");
   const [done, setDone] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   let handleReset = async () => {
+    if (isLoading) return;
     setError("");
     if (password.length < 6) {
       setError("Password needs to be a minimum of 6 characters");
@@ -24,6 +26,7 @@ function PasswordReset() {
       setError("Passwords do not match!");
       return;
     }
+    setIsLoading(true);
     let res = await dispatch(resetPassword({ password, token }));
     if (res.payload.success) {
       setDone(true);
@@ -32,6 +35,7 @@ function PasswordReset() {
     } else {
       setError("An error occured. Please try again after some time");
     }
+    setIsLoading(false);
   };
 
   let profile = useSelector((state) => state.app.profile);
@@ -113,7 +117,7 @@ function PasswordReset() {
               onClick={handleReset}
               style={{ color: "white", backgroundColor: "dodgerblue" }}
             >
-              Reset
+              {isLoading ? "Resetting..." : "Reset"}
             </Button>
           </div>
         </div>

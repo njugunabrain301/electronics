@@ -13,6 +13,7 @@ import Checkout from "./CheckOut";
 const Cart = ({ closeModal }) => {
   const cart = useSelector((state) => state.cart.cart);
   const totalPrice = useSelector((state) => state.cart.totalPrice);
+  const showPrice = useSelector((state) => state.app.profile.showPrice);
 
   const [openCheckout, setOpenCheckout] = useState(false);
 
@@ -85,17 +86,26 @@ const Cart = ({ closeModal }) => {
                                 Amount:{" "}
                                 <span className="ml-2">{item.amount}</span>
                               </p>
-                              <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
-                                Price:{" "}
-                                <span className="">Ksh.&nbsp;{item.price}</span>
-                              </p>
-                              <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
-                                Total{" "}
-                                <span className="hidden md-block">Price</span>:{" "}
-                                <span className="">
-                                  Ksh.&nbsp;{item.totalPrice}
-                                </span>
-                              </p>
+                              {showPrice && (
+                                <>
+                                  <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
+                                    Price:{" "}
+                                    <span className="">
+                                      Ksh.&nbsp;{item.price}
+                                    </span>
+                                  </p>
+                                  <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
+                                    Total{" "}
+                                    <span className="hidden md-block">
+                                      Price
+                                    </span>
+                                    :{" "}
+                                    <span className="">
+                                      Ksh.&nbsp;{item.totalPrice}
+                                    </span>
+                                  </p>
+                                </>
+                              )}
                               <div className="pt-4">
                                 <Tooltip
                                   content="Remove from the Cart"
@@ -127,16 +137,21 @@ const Cart = ({ closeModal }) => {
                   </div>
                 </DialogBody>
                 <DialogFooter className="flex justify-between items-center">
-                  <p className="text-black text-base font-inter tracking-normal leading-none pt-2">
-                    Total Price: <span className="ml-2">Ksh. {totalPrice}</span>
-                  </p>
+                  {showPrice ? (
+                    <p className="text-black text-base font-inter tracking-normal leading-none pt-2">
+                      Total Price:{" "}
+                      <span className="ml-2">Ksh. {totalPrice}</span>
+                    </p>
+                  ) : (
+                    <div></div>
+                  )}
                   <Button
                     className="bg-green-500 "
                     onClick={() => {
                       setOpenCheckout(true);
                     }}
                   >
-                    Check Out
+                    {showPrice ? "Check Out" : "Get Quote"}
                   </Button>
                 </DialogFooter>
               </div>

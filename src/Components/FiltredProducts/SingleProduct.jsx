@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Tooltip, Button } from "@material-tailwind/react";
+import { Tooltip, Button, Typography } from "@material-tailwind/react";
 import { addToCart } from "../../features/slices/cartSlice";
 import { useDispatch } from "react-redux";
 import {
@@ -12,6 +12,7 @@ import { Helmet } from "react-helmet";
 
 const SingleProduct = ({ handleAuth }) => {
   const products = useSelector((state) => state.products.filteredProducts);
+  const showPrice = useSelector((state) => state.app.profile.showPrice);
   const dispatch = useDispatch();
   useEffect(() => {
     if (products.length === 0) {
@@ -21,8 +22,17 @@ const SingleProduct = ({ handleAuth }) => {
 
   const product = useSelector((state) => state.products.singleProduct);
 
-  const productSize = product ? (product.size ? product.size[0] : "-") : "-";
-  const productColor = product ? (product.color ? product.color[0] : "-") : "-";
+  const productSize = product
+    ? product.sizes && product.sizes.length > 0
+      ? product.sizes[0]
+      : "-"
+    : "-";
+
+  const productColor = product
+    ? product.colors && product.colors.length > 0
+      ? product.colors[0]
+      : "-"
+    : "-";
   const [size, setSize] = useState(productSize);
   const [color, setColor] = useState(productColor);
   const authUser = useSelector((state) => state.user.authUser);
@@ -69,7 +79,7 @@ const SingleProduct = ({ handleAuth }) => {
                 {product.description}
               </p>
               <div className="pb-4">
-                {product.size ? (
+                {product.sizes && product.sizes.length > 0 ? (
                   <div>
                     <label
                       htmlFor="size"
@@ -81,10 +91,11 @@ const SingleProduct = ({ handleAuth }) => {
                       id="size"
                       name="size"
                       value={size}
+                      disabled={productSize === "-"}
                       onChange={(e) => setSize(e.target.value)}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     >
-                      {product.size.map((item, index) => {
+                      {product.sizes.map((item, index) => {
                         return (
                           <option key={index} value={item}>
                             {item}
@@ -99,7 +110,7 @@ const SingleProduct = ({ handleAuth }) => {
               </div>
 
               <div className="pb-4">
-                {product.color && (
+                {product.colors && (
                   <div>
                     <label
                       htmlFor="color"
@@ -111,10 +122,11 @@ const SingleProduct = ({ handleAuth }) => {
                       id="color"
                       name="color"
                       value={color}
+                      disabled={productSize === "-"}
                       onChange={(e) => setColor(e.target.value)}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     >
-                      {product.color.map((color, index) => {
+                      {product.colors.map((color, index) => {
                         return (
                           <option key={index} value={color}>
                             {color}
@@ -125,6 +137,11 @@ const SingleProduct = ({ handleAuth }) => {
                   </div>
                 )}
               </div>
+              {showPrice && (
+                <Typography className="font-bold text-gray-600">
+                  Ksh.&nbsp;{product.price}
+                </Typography>
+              )}
               <Tooltip content="Add to Cart" placement="bottom">
                 <Button
                   color="gray"

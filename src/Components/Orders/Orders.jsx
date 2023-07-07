@@ -17,7 +17,16 @@ function Orders() {
       <Helmet>
         <title>{"Orders | " + profile.name}</title>
       </Helmet>
-      <DialogBody divider className="flex flex-col justify-center items-center">
+      <DialogBody
+        divider
+        className="flex flex-col justify-center items-center"
+        style={{ maxWidth: "800px", width: "90%" }}
+      >
+        <Typography variant="h4">
+          <p className="text-grey-800 font-inter font-bold tracking-normal leading-none pt-2">
+            My Orders
+          </p>
+        </Typography>
         {orders
           .filter((o) => o != null)
           .reverse()
@@ -27,7 +36,10 @@ function Orders() {
                 <div
                   key={index}
                   className="my-[10px] bg-gray-100 p-[7px] rounded-md"
-                  style={{ border: "solid 1px gray" }}
+                  style={{
+                    border: "solid 1px gray",
+                    width: "100%",
+                  }}
                 >
                   <div className="grid grid-cols-2 py-4">
                     <div>

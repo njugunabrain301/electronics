@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 function Register({ closeModal, toggleLogin }) {
   let error = useSelector((state) => state.user.registerError);
   let [mError, setMerror] = useState("");
+  let [isRegistering, setIsRegistering] = useState(false);
 
   const intitalState = {
     email: "",
@@ -33,6 +34,7 @@ function Register({ closeModal, toggleLogin }) {
 
   const dispatch = useDispatch();
   const handleAction = async () => {
+    if (isRegistering) return;
     setMerror("");
     if (
       values.name === "" ||
@@ -47,10 +49,12 @@ function Register({ closeModal, toggleLogin }) {
       setMerror("You have to agree to the terms");
       return;
     }
+    setIsRegistering(true);
     let res = await dispatch(register(values));
     if (res.payload.success) {
       closeModal();
     }
+    setIsRegistering(false);
   };
   const toggleTerms = () => {
     if (values.agreed) setValues({ ...values, agreed: false });
@@ -139,7 +143,7 @@ function Register({ closeModal, toggleLogin }) {
           )}
         </div>
         <Button className="mt-6" fullWidth onClick={handleAction}>
-          Register
+          {isRegistering ? "Registering..." : "Register"}
         </Button>
         <div className="flex justify-between">
           <Typography color="gray" className="mt-4 text-center font-normal">

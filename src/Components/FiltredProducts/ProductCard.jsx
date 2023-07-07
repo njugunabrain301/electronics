@@ -10,7 +10,16 @@ import { useDispatch } from "react-redux";
 import { singleProduct } from "../../features/slices/productsSlice";
 import { Link, useParams } from "react-router-dom";
 
-const ProductCard = ({ id, name, text, img, price, colors, sizes }) => {
+const ProductCard = ({
+  id,
+  name,
+  text,
+  img,
+  price,
+  colors,
+  sizes,
+  showPrice,
+}) => {
   const dispatch = useDispatch();
   const { type } = useParams();
 
@@ -35,18 +44,22 @@ const ProductCard = ({ id, name, text, img, price, colors, sizes }) => {
           </Typography>
         </CardBody>
         <CardFooter divider className="flex items-center justify-between py-3">
-          <Typography variant="small">{"Ksh. " + price}</Typography>
-          {/* <Typography variant="small" color="gray" className="flex gap-1">
-            {colors?.map((color, index) => {
-              return (
-                <i
-                  className="fas fa-map-marker-alt fa-sm mt-[3px] rounded-full p-2 mr-4 "
-                  key={index}
-                  style={{ backgroundColor: color }}
-                ></i>
-              );
-            })}
-          </Typography> */}
+          {showPrice && (
+            <Typography variant="small">{"Ksh. " + price}</Typography>
+          )}
+          {colors && colors.length > 0 && (
+            <Typography variant="small" color="gray" className="flex gap-1">
+              {colors?.map((color, index) => {
+                return (
+                  <i
+                    className="fas fa-map-marker-alt fa-sm mt-[3px] rounded-full p-2 mr-4 "
+                    key={index}
+                    style={{ backgroundColor: color }}
+                  ></i>
+                );
+              })}
+            </Typography>
+          )}
         </CardFooter>
       </Card>
     </Link>

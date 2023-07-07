@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 function Login({ closeModal, toggleLogin, toggleForgotPass }) {
   let error = useSelector((state) => state.user.loginError);
+  let [isLoggingIn, setIsLoggingIn] = useState(false);
 
   const intitalState = {
     email: "",
@@ -31,11 +32,14 @@ function Login({ closeModal, toggleLogin, toggleForgotPass }) {
   const dispatch = useDispatch();
 
   const handleAction = async () => {
+    if (isLoggingIn) return;
+    setIsLoggingIn(true);
     let res = await dispatch(login(values));
 
     if (res.payload.success) {
       closeModal();
     }
+    setIsLoggingIn(false);
   };
 
   return (
@@ -87,7 +91,7 @@ function Login({ closeModal, toggleLogin, toggleForgotPass }) {
       </CardBody>
       <CardFooter className="pt-0">
         <Button variant="gradient" fullWidth onClick={handleAction}>
-          Sign In
+          {isLoggingIn ? "Signing in..." : "Sign In"}
         </Button>
         <div className="divider flex justify-between">
           <Typography color="gray" className="mt-4 text-center font-normal">

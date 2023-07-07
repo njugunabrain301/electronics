@@ -1,9 +1,13 @@
 import axios from "axios";
-import { bid } from "../app/store";
+import { bid } from "../store";
 
+let production = process.env.REACT_APP_PRODUCTION;
+const baseURL =
+  production === "true"
+    ? "https://red-courageous-sockeye.cyclic.app/user/zidika"
+    : "http://localhost:3001/user/zidika";
 let instance = axios.create({
-  baseURL: "https://red-courageous-sockeye.cyclic.app//user/zidika",
-  // baseURL: "http://localhost:3001/user/zidika",
+  baseURL,
 });
 
 instance.interceptors.request.use(

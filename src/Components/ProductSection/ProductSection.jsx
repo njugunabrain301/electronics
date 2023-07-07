@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 const ProductSection = () => {
   let storeData = useSelector((state) => state.products.promoted);
+  let showPrice = useSelector((state) => state.app.profile.showPrice);
   return (
     <div>
       <div className="flex justify-evenly flex-wrap items-center py-8 mx-auto max-w-7xl">
@@ -20,6 +21,7 @@ const ProductSection = () => {
                 color={product.color}
                 size={product.size}
                 type={product.type}
+                showPrice={showPrice}
               ></ProductSectionItem>
             </div>
           );

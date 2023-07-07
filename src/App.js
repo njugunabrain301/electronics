@@ -11,22 +11,28 @@ import Orders from "./Components/Orders/Orders";
 import { fetchHomePage, fetchProducts } from "./features/slices/productsSlice";
 import { visit } from "./features/slices/appSlice";
 import PasswordReset from "./Components/PasswordReset/PasswordReset";
+import Loading from "./Components/Loading/Loading";
 
 function App() {
+  const [isReady, setIsReady] = useState(false);
   const [openAuth, setOpenAuth] = useState(false);
   const handleAuth = () => {
     if (!openAuth) setOpenAuth(true);
     if (!openAuth) document.getElementById("authModalBtn").click();
   };
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchHomePage());
-
-    if (!window.localStorage.getItem("visit")) {
-      console.log("visiting");
-      window.localStorage.setItem("visit", "x");
-      dispatch(visit());
+  const loadPage = async () => {
+    let res = await dispatch(fetchHomePage());
+    if (res.payload.success) {
+      setIsReady(true);
+      if (!window.localStorage.getItem("visit")) {
+        window.localStorage.setItem("visit", "x");
+        dispatch(visit());
+      }
     }
+  };
+  useEffect(() => {
+    loadPage();
   }, [dispatch]);
 
   useEffect(() => {
@@ -35,23 +41,30 @@ function App() {
 
   return (
     <div className="App min-w-[330px]">
-      <BrowserRouter>
-        {<Navbar handleAuth={handleAuth} setOpenAuth={setOpenAuth} />}
-        <Routes>
-          <Route path="/reset-pass/:token" element={<PasswordReset />}></Route>
-          <Route path="/" element={<Main></Main>}></Route>
-          <Route path="/orders" element={<Orders></Orders>}></Route>
-          <Route
-            path="/filteredProducts/:type"
-            element={<FilteredProducts></FilteredProducts>}
-          ></Route>
-          <Route
-            path="/filteredProducts/:type/:id"
-            element={<SingleProduct handleAuth={handleAuth}></SingleProduct>}
-          ></Route>
-        </Routes>
-        {<Footer></Footer>}
-      </BrowserRouter>
+      {isReady ? (
+        <BrowserRouter>
+          {<Navbar handleAuth={handleAuth} setOpenAuth={setOpenAuth} />}
+          <Routes>
+            <Route
+              path="/reset-pass/:token"
+              element={<PasswordReset />}
+            ></Route>
+            <Route path="/" element={<Main></Main>}></Route>
+            <Route path="/orders" element={<Orders></Orders>}></Route>
+            <Route
+              path="/filteredProducts/:type"
+              element={<FilteredProducts></FilteredProducts>}
+            ></Route>
+            <Route
+              path="/filteredProducts/:type/:id"
+              element={<SingleProduct handleAuth={handleAuth}></SingleProduct>}
+            ></Route>
+          </Routes>
+          {<Footer></Footer>}
+        </BrowserRouter>
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 }

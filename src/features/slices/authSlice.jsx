@@ -207,6 +207,18 @@ export const authSlice = createSlice({
         sessionStorage.clear();
       }
     });
+    builder.addCase("orders/fetchOrders/rejected", (state, action) => {
+      if (action.payload.response.status === 403) {
+        state.authUser = false;
+        state.user = {
+          name: "",
+          password: "",
+          image: "",
+        };
+        localStorage.clear();
+        sessionStorage.clear();
+      }
+    });
   },
 });
 

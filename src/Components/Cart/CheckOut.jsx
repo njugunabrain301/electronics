@@ -33,6 +33,8 @@ function Checkout({ closeModal, setOpenCheckout }) {
   const [courier, setCourier] = useState(user.courier || "");
   const [mode, setMode] = useState("");
   const [paymentInfo, setPaymentInfo] = useState({});
+  const showPrice = useSelector((state) => state.app.profile.showPrice);
+  const [isLoading, setIsLoading] = useState(false);
 
   const setUpMode = (mode) => {
     setMode(mode);
@@ -122,17 +124,16 @@ function Checkout({ closeModal, setOpenCheckout }) {
   const [c_error, setCError] = useState("");
   const [success, setSuccess] = useState(false);
   const handleCheckout = async () => {
-    if (
-      code === "" ||
-      county === "" ||
-      subcounty === "" ||
-      courier === "" ||
-      mode === ""
-    ) {
-      setCError("Fill in all Fields");
+    if (isLoading) return;
+    if (county === "" || subcounty === "" || courier === "") {
+      setCError("Fill in all delivery details");
       return;
     }
-
+    if (showPrice && (code === "" || mode === "")) {
+      setCError("Please provide the payment code");
+      return;
+    }
+    setIsLoading(true);
     let res = await dispatch(
       checkout({
         code,
@@ -144,6 +145,7 @@ function Checkout({ closeModal, setOpenCheckout }) {
     if (res.payload.success) {
       setSuccess(true);
     }
+    setIsLoading(false);
   };
 
   const openSection = (sec) => {
@@ -175,7 +177,7 @@ function Checkout({ closeModal, setOpenCheckout }) {
         className="mb-0 grid h-28 place-items-center"
       >
         <Typography variant="h3" color="white">
-          Check Out
+          {showPrice ? "Check Out" : "Get Quote"}
         </Typography>
       </CardHeader>
       <CardBody className="flex flex-col">
@@ -186,6 +188,8 @@ function Checkout({ closeModal, setOpenCheckout }) {
               Thank you for shopping with us. <br />
             </Typography>
             <Typography>
+              {!showPrice &&
+                "We will get back to you as soon as possible with the cost of the goods ordered in order to proceed. "}
               You can track the progress in the{" "}
               <Link
                 to="/orders"
@@ -212,18 +216,20 @@ function Checkout({ closeModal, setOpenCheckout }) {
               >
                 Delivery Details
               </li>
-              <li
-                className="p-2 w-[190px] text-center ml-[3px]"
-                style={{
-                  borderBottom:
-                    section === 2 ? "solid 2px dodgerblue" : "solid 2px grey",
-                  color: section === 2 ? "dodgerblue" : "grey",
-                  transition: ".5s",
-                }}
-                onClick={() => openSection(2)}
-              >
-                Payment Section
-              </li>
+              {showPrice && (
+                <li
+                  className="p-2 w-[190px] text-center ml-[3px]"
+                  style={{
+                    borderBottom:
+                      section === 2 ? "solid 2px dodgerblue" : "solid 2px grey",
+                    color: section === 2 ? "dodgerblue" : "grey",
+                    transition: ".5s",
+                  }}
+                  onClick={() => openSection(2)}
+                >
+                  Payment Section
+                </li>
+              )}
             </ul>
             {section === 1 && (
               <div>
@@ -290,9 +296,11 @@ function Checkout({ closeModal, setOpenCheckout }) {
                     }}
                   />
                 </div>
-                <Typography style={{ fontSize: "11pt" }}>
-                  Delivery Cost: Ksh.{" " + deliveryCost}
-                </Typography>
+                {showPrice && (
+                  <Typography style={{ fontSize: "11pt" }}>
+                    Delivery Cost: Ksh.{" " + deliveryCost}
+                  </Typography>
+                )}
               </div>
             )}
             {section === 2 && (
@@ -397,7 +405,7 @@ function Checkout({ closeModal, setOpenCheckout }) {
         )}
       </CardBody>
       <CardFooter className="pt-0">
-        {section === 1 ? (
+        {section === 1 && showPrice ? (
           <Button variant="gradient" fullWidth onClick={() => openSection(2)}>
             Proceed
           </Button>
@@ -408,7 +416,7 @@ function Checkout({ closeModal, setOpenCheckout }) {
               fullWidth
               onClick={() => handleCheckout()}
             >
-              Done
+              {isLoading ? "Submitting.." : "Done"}
             </Button>
           )
         )}

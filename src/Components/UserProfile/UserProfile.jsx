@@ -11,7 +11,7 @@ import {
 import {
   updateProfile,
   logout,
-  updatePassword,
+  resetPasswordLink,
 } from "../../features/slices/authSlice";
 import { Link } from "react-router-dom";
 
@@ -19,6 +19,7 @@ function UserProfile({ closeModal }) {
   let use = useSelector((state) => state.user.user);
   let user = { ...use, closeModal: closeModal };
   let error = useSelector((state) => state.user.error);
+  const [isLoading, setIsLoading] = useState(false);
   const [currState, setCurrState] = useState("Update");
 
   const [values, setValues] = useState(user);
@@ -28,12 +29,15 @@ function UserProfile({ closeModal }) {
     setValues({ ...values, [name]: value });
   };
 
-  const action = () => {
+  const action = async () => {
+    if (isLoading) return;
     if (currState === "Update") {
       setCurrState("Save");
     } else if (currState === "Save") {
-      dispatch(updateProfile(values));
-
+      setIsLoading(true);
+      setCurrState("Updating...");
+      await dispatch(updateProfile(values));
+      setIsLoading(false);
       setCurrState("Update");
     }
   };
@@ -46,7 +50,7 @@ function UserProfile({ closeModal }) {
 
   const [updatePassState, setUpdatePassState] = useState("Update Password");
   const updatePass = () => {
-    dispatch(updatePassword());
+    dispatch(resetPasswordLink({ email: user.email }));
     setUpdatePassState(
       "A reset password link has been sent to your email address"
     );

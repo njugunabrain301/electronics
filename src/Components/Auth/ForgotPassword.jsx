@@ -22,14 +22,15 @@ function ForgotPassword({ closeModal, toggleForgotPass }) {
   const dispatch = useDispatch();
 
   const handleAction = async () => {
+    if (isLoading) {
+      return;
+    }
     setError("");
     if (email === "") {
       setError("Please provide your email");
       return;
     }
-    if (isLoading) {
-      return;
-    }
+
     setIsLoading(true);
     let res = await dispatch(resetPasswordLink({ email }));
 
@@ -84,7 +85,7 @@ function ForgotPassword({ closeModal, toggleForgotPass }) {
           </Typography>
         ) : (
           <Button variant="gradient" fullWidth onClick={handleAction}>
-            Reset Password
+            {isLoading ? "Sending Request..." : "Reset Password"}
           </Button>
         )}
         {/* <Typography
