@@ -41,9 +41,19 @@ const Navbar = ({ handleAuth, setOpenAuth }) => {
   };
 
   const genLogo = () => {
-    let names = businessName.split(" ");
-    let char1 = businessName.charAt(0).toUpperCase();
-    let char2 = businessName.charAt(1).toLowerCase();
+    let name = "";
+    for (var i = 0; i < businessName.length; i++) {
+      let c = businessName.charAt(i);
+      if (c.search(/[^a-zA-Z]+/) === -1) {
+        name += c;
+      } else if (c === " ") {
+        name += c;
+      }
+    }
+    while (name.includes("  ")) name = name.replace("  ", " ");
+    let names = name.split(" ");
+    let char1 = name.charAt(0).toUpperCase();
+    let char2 = name.charAt(1).toLowerCase();
     let logo;
     if (names.length > 1) {
       char2 = names[1].charAt(0).toUpperCase();
@@ -91,7 +101,7 @@ const Navbar = ({ handleAuth, setOpenAuth }) => {
     <>
       <Helmet>
         <title>{businessName}</title>
-        <meta name="description" content={businessName} />
+        <meta name="description" content={profile.about} />
         <meta
           name="keywords"
           content={categories.length > 0 ? categories.join(" ") : businessName}
