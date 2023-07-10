@@ -75,6 +75,7 @@ export const cartSlice = createSlice({
           state.totalAmount += item.amount;
           item.totalPrice = item.amount * item.price;
           state.totalPrice += item.totalPrice;
+          return item;
         });
         window.localStorage.setItem("cart", JSON.stringify(state.cart));
         window.localStorage.setItem("cart-amount", state.amount);
@@ -92,7 +93,7 @@ export const cartSlice = createSlice({
         state.cart = action.payload.data;
         state.totalAmount = 0;
         state.totalPrice = 0;
-        state.cart.map((item) => {
+        state.cart.foreach((item) => {
           state.totalAmount += item.amount;
           item.totalPrice = item.amount * item.price;
           state.totalPrice += item.totalPrice;
@@ -118,7 +119,7 @@ export const cartSlice = createSlice({
         state.cart = action.payload.data;
         state.totalAmount = 0;
         state.totalPrice = 0;
-        state.cart.map((item) => {
+        state.cart.foreach((item) => {
           state.totalAmount += item.amount;
           item.totalPrice = item.amount * item.price;
           state.totalPrice += item.totalPrice;
@@ -139,7 +140,7 @@ export const cartSlice = createSlice({
         state.cart = [];
         state.totalAmount = 0;
         state.totalPrice = 0;
-        state.cart.map((item) => {
+        state.cart.foreach((item) => {
           state.totalAmount += item.amount;
           item.totalPrice = item.amount * item.price;
           state.totalPrice += item.totalPrice;
@@ -168,6 +169,7 @@ export const cartSlice = createSlice({
         state.deliveryLocations.map((loc) => {
           if (!state.counties.includes(loc.county))
             state.counties.push(loc.county);
+          return loc;
         });
       }
     });
@@ -195,5 +197,4 @@ export const cartSlice = createSlice({
   },
 });
 
-export const {} = cartSlice.actions;
 export default cartSlice.reducer;

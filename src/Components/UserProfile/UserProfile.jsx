@@ -21,6 +21,7 @@ function UserProfile({ closeModal }) {
   let error = useSelector((state) => state.user.error);
   const [isLoading, setIsLoading] = useState(false);
   const [currState, setCurrState] = useState("Update");
+  const [mError, setMerror] = useState("");
 
   const [values, setValues] = useState(user);
 
@@ -30,10 +31,27 @@ function UserProfile({ closeModal }) {
   };
 
   const action = async () => {
+    setMerror("");
     if (isLoading) return;
     if (currState === "Update") {
       setCurrState("Save");
     } else if (currState === "Save") {
+      if (values.name === "" || values.email === "" || values.phone === "") {
+        setMerror("Fill in all required fields");
+        return;
+      }
+      if (!/(^\d{10}$)|(^\+\d{12}$)/.test(values.phone)) {
+        setMerror("Invalid Phone Number. Use 0712345678 or +254712345678");
+        return;
+      }
+      if (
+        !/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(
+          values.email
+        )
+      ) {
+        setMerror("Invalid Email");
+        return;
+      }
       setIsLoading(true);
       setCurrState("Updating...");
       await dispatch(updateProfile(values));
@@ -98,12 +116,16 @@ function UserProfile({ closeModal }) {
 
           <div className="">
             {error && (
-              <Alert
-                variant="ghost"
-                className="flex align-items-center justify-center bg-red-300"
-              >
+              <Alert className="flex align-items-center justify-center bg-red-300">
                 <p className="font-medium flex items-center text-center tracking-normal leading-none">
                   {error}
+                </p>
+              </Alert>
+            )}
+            {mError && (
+              <Alert className="flex align-items-center justify-center bg-red-300">
+                <p className="font-medium flex items-center text-center tracking-normal leading-none">
+                  {mError}
                 </p>
               </Alert>
             )}

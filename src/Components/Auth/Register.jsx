@@ -45,6 +45,20 @@ function Register({ closeModal, toggleLogin }) {
       setMerror("Fill in all required fields");
       return;
     }
+
+    if (!/(^\d{10}$)|(^\+\d{12}$)/.test(values.phone)) {
+      setMerror("Invalid Phone Number. Use 0712345678 or +254712345678");
+      return;
+    }
+    if (
+      !/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(
+        values.email
+      )
+    ) {
+      setMerror("Invalid Email");
+      return;
+    }
+
     if (!values.agreed) {
       setMerror("You have to agree to the terms");
       return;

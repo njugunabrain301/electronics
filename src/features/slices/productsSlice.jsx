@@ -192,6 +192,7 @@ export const productSlice = createSlice({
         if (!exists) {
           notLoaded.push(prod);
         }
+        return prod;
       });
 
       state.sliderData.map((prod) => {
@@ -199,6 +200,7 @@ export const productSlice = createSlice({
         if (!exists) {
           notLoaded.push(prod);
         }
+        return prod;
       });
 
       state.products = [...state.products, ...notLoaded];
