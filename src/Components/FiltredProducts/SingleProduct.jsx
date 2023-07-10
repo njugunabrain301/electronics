@@ -22,6 +22,23 @@ const SingleProduct = ({ handleAuth }) => {
 
   const product = useSelector((state) => state.products.singleProduct);
 
+  useEffect(() => {
+    setColor(
+      product
+        ? product.colors && product.colors.length > 0
+          ? product.colors[0]
+          : "-"
+        : "-"
+    );
+    setSize(
+      product
+        ? product.sizes && product.sizes.length > 0
+          ? product.sizes[0]
+          : "-"
+        : "-"
+    );
+  }, [product]);
+
   const productSize = product
     ? product.sizes && product.sizes.length > 0
       ? product.sizes[0]
