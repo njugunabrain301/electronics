@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Tooltip, Button, Typography } from "@material-tailwind/react";
+import {
+  Tooltip,
+  Button,
+  Typography,
+  Select,
+  Option,
+} from "@material-tailwind/react";
 import { addToCart } from "../../features/slices/cartSlice";
 import { useDispatch } from "react-redux";
 import {
@@ -104,7 +110,7 @@ const SingleProduct = ({ handleAuth }) => {
                     >
                       Pick a size
                     </label>
-                    <select
+                    <Select
                       id="size"
                       name="size"
                       value={size}
@@ -114,12 +120,12 @@ const SingleProduct = ({ handleAuth }) => {
                     >
                       {product.sizes.map((item, index) => {
                         return (
-                          <option key={index} value={item}>
+                          <Option key={index} value={item}>
                             {item}
-                          </option>
+                          </Option>
                         );
                       })}
-                    </select>
+                    </Select>
                   </div>
                 ) : (
                   <div></div>
@@ -135,22 +141,42 @@ const SingleProduct = ({ handleAuth }) => {
                     >
                       Pick a color
                     </label>
-                    <select
+
+                    <Select
                       id="color"
                       name="color"
-                      value={color}
                       disabled={productColor === "-"}
-                      onChange={(e) => setColor(e.target.value)}
+                      onChange={(e) => {
+                        console.log(e);
+                        setColor(e);
+                      }}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     >
                       {product.colors.map((color, index) => {
                         return (
-                          <option key={index} value={color}>
-                            {color}
-                          </option>
+                          <Option
+                            data-selected="true"
+                            key={index}
+                            value={color}
+                            className="flex align-center"
+                          >
+                            <span
+                              style={{
+                                display: "inline-block",
+                                width: "30px",
+                                height: "20px",
+                                backgroundColor: color,
+                                borderRadius: "3px",
+                              }}
+                            ></span>
+                            <span>
+                              &nbsp;
+                              {color}
+                            </span>
+                          </Option>
                         );
                       })}
-                    </select>
+                    </Select>
                   </div>
                 )}
               </div>
