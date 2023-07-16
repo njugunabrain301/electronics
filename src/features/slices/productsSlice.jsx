@@ -3,8 +3,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "../axios.config";
 
 let initialState = {
-  products: JSON.parse(sessionStorage.getItem("products")) || [],
   filteredProducts: JSON.parse(sessionStorage.getItem("filteredData")) || [],
+  products: sessionStorage.getItem("products")
+    ? JSON.parse(sessionStorage.getItem("products")) || []
+    : [],
+
   singleProduct: JSON.parse(sessionStorage.getItem("singleProduct")) || [],
   error: false,
   filters: [],

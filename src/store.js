@@ -1,1 +1,1 @@
-export const bid = "64918220954f3056bf6dcc5e";
+export const bid = process.env.REACT_APP_STORE_ID;

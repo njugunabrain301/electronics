@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@material-tailwind/react";
 import {
   fetchCategories,
@@ -15,7 +15,21 @@ const NavigateButtons = () => {
 
   const categories = useSelector((state) => state.products.categories);
 
-  let promotions = []; //["UP TO 20% OFF", "Steel Cooking Set 30%"];
+  let [video, setVideo] = useState("");
+  let [tags, setTags] = useState([]);
+  let profile = useSelector((state) => state.app.profile);
+  useEffect(() => {
+    if (profile.promotions) {
+      let vids = [];
+      let tags = [];
+      profile.promotions.map((p) => {
+        if (p.type === "tag") tags.push(p.content);
+        else if (p.type === "video") vids.push(p.content);
+      });
+      setTags(tags);
+      if (vids.length > 0) setVideo(vids[0]);
+    }
+  }, [profile]);
 
   return (
     <div>
@@ -39,24 +53,40 @@ const NavigateButtons = () => {
           );
         })}
       </div>
-      {promotions.map((item, index) => (
-        <div
-          className="bg-black p-2 w-[60%] my-3 mx-auto rounded-md"
-          key={index}
-        >
+      {tags.length > 0 ? (
+        <div className="bg-black p-2 w-[60%] my-3 mx-auto rounded-md">
           <h3 className="text-white text-center text-lg font-inter font-bold tracking-normal leading-none">
-            {item}
+            {tags[0]}
           </h3>
         </div>
-      ))}
+      ) : (
+        <></>
+      )}
 
-      {/* <div className="flex justify-center item-center py-4">
-        <img
-          className="w-[70%] rounded-md shadow-lg shadow-gray-600"
-          src={clothes}
-          alt="clothes"
-        ></img>
-      </div> */}
+      <div>
+        {video && (
+          <iframe
+            style={{
+              maxWidth: "800px",
+              margin: "20px auto",
+              width: "90%",
+              aspectRatio: "3/2",
+              borderRadius: "10px",
+            }}
+            src={video}
+          ></iframe>
+        )}
+      </div>
+
+      {tags.length > 1 ? (
+        <div className="bg-black p-2 w-[60%] my-3 mx-auto rounded-md">
+          <h3 className="text-white text-center text-lg font-inter font-bold tracking-normal leading-none">
+            {tags[1]}
+          </h3>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

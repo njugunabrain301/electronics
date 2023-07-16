@@ -20,10 +20,15 @@ function App() {
     if (!openAuth) setOpenAuth(true);
     if (!openAuth) document.getElementById("authModalBtn").click();
   };
+  const [constructed, setConstructed] = useState(true);
   const dispatch = useDispatch();
   const loadPage = async () => {
     let res = await dispatch(fetchHomePage());
     if (res.payload.success) {
+      if (res.payload.data.slider.length < 8) {
+        setConstructed(false);
+        return;
+      }
       setIsReady(true);
       if (!window.localStorage.getItem("visit")) {
         window.localStorage.setItem("visit", "x");
@@ -63,7 +68,7 @@ function App() {
           {<Footer></Footer>}
         </BrowserRouter>
       ) : (
-        <Loading />
+        <Loading constructed={constructed} />
       )}
     </div>
   );
