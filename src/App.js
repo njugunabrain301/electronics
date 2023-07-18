@@ -25,7 +25,7 @@ function App() {
   const loadPage = async () => {
     let res = await dispatch(fetchHomePage());
     if (res.payload.success) {
-      if (res.payload.data.slider.length < 8) {
+      if (!res.payload.data.ready) {
         setConstructed(false);
         return;
       }
