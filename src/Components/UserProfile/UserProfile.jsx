@@ -13,7 +13,6 @@ import {
   logout,
   resetPasswordLink,
 } from "../../features/slices/authSlice";
-import { Link } from "react-router-dom";
 
 function UserProfile({ closeModal }) {
   let use = useSelector((state) => state.user.user);
@@ -45,7 +44,7 @@ function UserProfile({ closeModal }) {
         return;
       }
       if (
-        !/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(
+        !/^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/.test(
           values.email
         )
       ) {
@@ -73,15 +72,15 @@ function UserProfile({ closeModal }) {
       "A reset password link has been sent to your email address"
     );
   };
+  const theme = useSelector((state) => state.app.theme);
   return (
     <div className="w-full h-screen flex justify-center items-center">
-      <Card className="w-[330px] bg-white p-4 rounded-md pt-0">
+      <Card className="w-[330px] bg-skin-primary p-4 rounded-md pt-0">
         <CardHeader
           variant="gradient"
-          color="blue"
-          className="mb-4 grid h-28 place-items-center"
+          className="mb-4 grid h-28 place-items-center bg-skin-card"
         >
-          <Typography variant="h3" color="white">
+          <Typography variant="h3" className="text-skin-inverted">
             My Profile
           </Typography>
         </CardHeader>
@@ -92,7 +91,11 @@ function UserProfile({ closeModal }) {
               size="lg"
               label="Name"
               name="name"
-              disabled={currState === "Update"}
+              className="text-skin-base"
+              style={{
+                pointerEvents: currState === "Update" ? "none" : "initial",
+              }}
+              color={theme["text-highlight"]}
               value={values.name}
               onChange={onChange}
             />
@@ -100,7 +103,11 @@ function UserProfile({ closeModal }) {
               size="lg"
               label="Email"
               name="email"
-              disabled={currState === "Update"}
+              className="text-skin-base"
+              color={theme["text-highlight"]}
+              style={{
+                pointerEvents: currState === "Update" ? "none" : "initial",
+              }}
               value={values.email}
               onChange={onChange}
             />
@@ -108,7 +115,11 @@ function UserProfile({ closeModal }) {
               size="lg"
               label="Phone"
               name="phone"
-              disabled={currState === "Update"}
+              className="text-skin-base input"
+              color={theme["text-highlight"]}
+              style={{
+                pointerEvents: currState === "Update" ? "none" : "initial",
+              }}
               value={values.phone}
               onChange={onChange}
             />
@@ -116,14 +127,14 @@ function UserProfile({ closeModal }) {
 
           <div className="">
             {error && (
-              <Alert className="flex align-items-center justify-center bg-red-300">
+              <Alert className="flex align-items-center justify-center bg-skin-alert-danger">
                 <p className="font-medium flex items-center text-center tracking-normal leading-none">
                   {error}
                 </p>
               </Alert>
             )}
             {mError && (
-              <Alert className="flex align-items-center justify-center bg-red-300">
+              <Alert className="flex align-items-center justify-center bg-skin-alert-danger">
                 <p className="font-medium flex items-center text-center tracking-normal leading-none">
                   {mError}
                 </p>
@@ -131,22 +142,13 @@ function UserProfile({ closeModal }) {
             )}
           </div>
           <div className="flex justify-between">
-            <Typography color="gray" className="mt-4 text-center font-normal">
+            <Typography className="mt-4 text-center font-normal">
               <span
-                className="font-normal text-blue-500 transition-colors hover:underline hover:text-blue-700"
+                className="font-normal text-skin-highlight transition-colors hover:underline hover:text-skin-highlight-hover"
                 onClick={updatePass}
               >
                 {updatePassState === "Update Password" ? "Update Password" : ""}
               </span>
-            </Typography>
-            <Typography color="gray" className="mt-4 text-center font-normal">
-              <Link
-                to="/orders"
-                onClick={closeModal}
-                className="text-blue-400 hover:underline hover:text-blue-700"
-              >
-                My Orders
-              </Link>
             </Typography>
           </div>
           <Typography
@@ -157,11 +159,16 @@ function UserProfile({ closeModal }) {
               {updatePassState !== "Update Password" ? updatePassState : ""}
             </span>
           </Typography>
-          <Button className="mt-6" fullWidth onClick={() => action()}>
+          <Button
+            color={theme["button-base"]}
+            className="mt-6"
+            fullWidth
+            onClick={() => action()}
+          >
             {currState}
           </Button>
           <div className="flex justify-between">
-            <Typography color="gray" className="mt-4 text-center font-normal">
+            <Typography className="text-skin-base mt-4 text-center font-normal">
               <span
                 className="cursor-pointer hover:underline"
                 onClick={closeModal}
@@ -182,7 +189,7 @@ function UserProfile({ closeModal }) {
                 </svg>
               </span>
             </Typography>
-            <Typography color="gray" className="mt-4 text-center font-normal">
+            <Typography className="mt-4 text-center font-normal text-skin-base">
               <span
                 className="cursor-pointer hover:underline"
                 onClick={() => handleLogOut()}

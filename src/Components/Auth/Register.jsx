@@ -51,7 +51,7 @@ function Register({ closeModal, toggleLogin }) {
       return;
     }
     if (
-      !/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(
+      !/^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/.test(
         values.email
       )
     ) {
@@ -75,14 +75,19 @@ function Register({ closeModal, toggleLogin }) {
     else setValues({ ...values, agreed: true });
   };
 
+  const theme = useSelector((state) => state.app.theme);
+
   return (
-    <Card color="white" shadow={false} className="p-[20px] pt-[0]">
+    <Card
+      color="white"
+      shadow={false}
+      className="p-[20px] pt-[0] bg-skin-primary"
+    >
       <CardHeader
         variant="gradient"
-        color="blue"
-        className="mb-4 grid h-28 place-items-center"
+        className="mb-4 grid h-28 place-items-center bg-skin-card"
       >
-        <Typography variant="h3" color="white">
+        <Typography variant="h3" className="text-skin-inverted">
           Sign Up
         </Typography>
       </CardHeader>
@@ -93,6 +98,8 @@ function Register({ closeModal, toggleLogin }) {
             size="lg"
             label="Name"
             name="name"
+            className="text-skin-base input"
+            color={theme["text-highlight"]}
             value={values.name}
             onChange={onChange}
           />
@@ -100,6 +107,8 @@ function Register({ closeModal, toggleLogin }) {
             size="lg"
             label="Phone"
             name="phone"
+            className="text-skin-base input"
+            color={theme["text-highlight"]}
             value={values.phone}
             onChange={onChange}
           />
@@ -107,7 +116,8 @@ function Register({ closeModal, toggleLogin }) {
             size="lg"
             label="Email"
             name="email"
-            autocomplete={false}
+            className="text-skin-base input"
+            color={theme["text-highlight"]}
             value={values.email}
             onChange={onChange}
           />
@@ -116,6 +126,8 @@ function Register({ closeModal, toggleLogin }) {
             size="lg"
             label="Password"
             name="password"
+            className="text-skin-base input"
+            color={theme["text-highlight"]}
             value={values.password}
             onChange={onChange}
           />
@@ -124,13 +136,12 @@ function Register({ closeModal, toggleLogin }) {
           label={
             <Typography
               variant="small"
-              color="gray"
-              className="flex items-center font-normal"
+              className="flex items-center font-normal text-skin-base"
             >
               I agree to the
               <span
                 href="#"
-                className="font-medium transition-colors hover:text-blue-500"
+                className="font-medium text-skin-highlight transition-colors hover:text-skin-highlight-hover"
               >
                 &nbsp;Terms and Conditions
               </span>
@@ -142,25 +153,30 @@ function Register({ closeModal, toggleLogin }) {
         />
         <div className="">
           {!mError && error && (
-            <Alert className="flex align-items-center justify-center bg-red-300">
+            <Alert className="flex align-items-center justify-center bg-skin-alert-danger">
               <p className="font-medium flex items-center text-center tracking-normal leading-none">
                 {error}
               </p>
             </Alert>
           )}
           {mError && (
-            <Alert className="flex align-items-center justify-center bg-red-300">
+            <Alert className="flex align-items-center justify-center bg-skin-alert-danger">
               <p className="font-medium flex items-center text-center tracking-normal leading-none">
                 {mError}
               </p>
             </Alert>
           )}
         </div>
-        <Button className="mt-6" fullWidth onClick={handleAction}>
+        <Button
+          className="mt-6 input"
+          color={theme["button-base"]}
+          fullWidth
+          onClick={handleAction}
+        >
           {isRegistering ? "Registering..." : "Register"}
         </Button>
         <div className="flex justify-between">
-          <Typography color="gray" className="mt-4 text-center font-normal">
+          <Typography className="mt-4 text-center font-normal text-skin-base">
             <span
               className="cursor-pointer hover:underline"
               onClick={closeModal}
@@ -181,11 +197,11 @@ function Register({ closeModal, toggleLogin }) {
               </svg>
             </span>
           </Typography>
-          <Typography color="gray" className="mt-4 text-center font-normal">
+          <Typography className="mt-4 text-center font-normal text-skin-base">
             Already have an account?{" "}
             <span
               href="#"
-              className="font-medium text-blue-500 transition-colors hover:text-blue-700"
+              className="font-medium text-skin-highlight transition-colors hover:text-skin-highlight-hover"
               onClick={toggleLogin}
             >
               Sign In

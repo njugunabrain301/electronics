@@ -97,6 +97,7 @@ const Navbar = ({ handleAuth, setOpenAuth }) => {
   const businessName = profile.name || "Wb";
   const logo = profile.icon || "";
   const categories = useSelector((state) => state.products.categories);
+
   return (
     <>
       <Helmet>
@@ -108,15 +109,15 @@ const Navbar = ({ handleAuth, setOpenAuth }) => {
         />
         <link rel="icon" type="image/png" href={logo} sizes="16x16" />
       </Helmet>
-      <div className="bg-black p-4 w-full flex justify-center items-center ">
-        <p className="text-white font-inter text-2xl font-bold  ">
+      <div className="bg-skin-alt p-4 w-full flex justify-center items-center ">
+        <p className="text-skin-inverted font-inter text-2xl font-bold  ">
           {profile.name}
         </p>
       </div>
-      <div className="flex justify-around items-center">
+      <div className="bg-skin-primary flex justify-around items-center text-skin-base">
         <div>
           {logo ? (
-            <div className="flex align-center bg-black m-2 px-[5px] rounded-md">
+            <div className="flex align-center bg-skin-alt m-2 px-[5px] rounded-md">
               <img
                 className=" xs:max-w-[100px] md-max-w-initial md:max-h-24 w-full max-h-20 lg:h-28"
                 src={logo}
@@ -148,7 +149,7 @@ const Navbar = ({ handleAuth, setOpenAuth }) => {
                     d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
                   />
                 </svg>
-                <span className="rounded-full bg-blue-300 text-white px-1 font-inter text-xs mr-1 absolute mt-[-30px] ml-[15px]">
+                <span className="rounded-full bg-skin-card text-skin-inverted px-1 font-inter text-xs mr-1 absolute mt-[-30px] ml-[15px]">
                   {totalAmount}
                 </span>
               </span>
@@ -302,8 +303,8 @@ const Navbar = ({ handleAuth, setOpenAuth }) => {
           </div>
         </div>
       </div>
-      <div className="bg-black p-4 w-full flex items-center justify-between mx-auto">
-        <p className="text-white font-inter text-base font-medium ">
+      <div className="bg-skin-alt p-4 w-full flex items-center justify-between mx-auto text-skin-inverted">
+        <p className=" font-inter text-base font-medium ">
           <Link to="/" className="display: flex">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -322,7 +323,7 @@ const Navbar = ({ handleAuth, setOpenAuth }) => {
             <span className="hidden md:block">&nbsp;&nbsp; Home</span>
           </Link>
         </p>
-        <p className="text-white font-inter text-base font-medium flex">
+        <p className=" font-inter text-base font-medium flex">
           <a href="tel: +254717563148" className="flex">
             <svg
               xmlns="http://www.w3.org/2000/svg"

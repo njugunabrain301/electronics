@@ -25,25 +25,26 @@ const NavigateButtons = () => {
       profile.promotions.map((p) => {
         if (p.type === "tag") tags.push(p.content);
         else if (p.type === "video") vids.push(p.content);
+        return p;
       });
       setTags(tags);
       if (vids.length > 0) setVideo(vids[0]);
     }
   }, [profile]);
-
+  const theme = useSelector((state) => state.app.theme);
   return (
-    <div>
+    <div className="bg-skin-primary">
       <div className="flex items-center justify-center py-8 flex-wrap">
         {categories.map((button, index) => {
           return (
             <div key={index} className="mx-2 mb-3">
               <Link to={"/filteredProducts/" + button}>
                 <Button
-                  color="gray"
+                  color={theme["button-flat"]}
                   size="lg"
                   variant="outlined"
                   ripple={true}
-                  className="text-black hover:bg-gray-300 duration-300 ease-in-out"
+                  className="text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out"
                   onClick={() => dispatch(filterProducts(button))}
                 >
                   {button}
@@ -54,8 +55,8 @@ const NavigateButtons = () => {
         })}
       </div>
       {tags.length > 0 ? (
-        <div className="bg-black p-2 w-[60%] my-3 mx-auto rounded-md">
-          <h3 className="text-white text-center text-lg font-inter font-bold tracking-normal leading-none">
+        <div className="bg-skin-alt p-2 w-[60%] my-3 mx-auto rounded-md">
+          <h3 className="text-skin-inverted text-center text-lg font-inter font-bold tracking-normal leading-none">
             {tags[0]}
           </h3>
         </div>
@@ -66,6 +67,7 @@ const NavigateButtons = () => {
       <div>
         {video && (
           <iframe
+            title="Youtube video"
             style={{
               maxWidth: "800px",
               margin: "20px auto",
@@ -79,8 +81,8 @@ const NavigateButtons = () => {
       </div>
 
       {tags.length > 1 ? (
-        <div className="bg-black p-2 w-[60%] my-3 mx-auto rounded-md">
-          <h3 className="text-white text-center text-lg font-inter font-bold tracking-normal leading-none">
+        <div className="bg-skin-alt p-2 w-[60%] my-3 mx-auto rounded-md">
+          <h3 className="text-skin-inverted text-center text-lg font-inter font-bold tracking-normal leading-none">
             {tags[1]}
           </h3>
         </div>

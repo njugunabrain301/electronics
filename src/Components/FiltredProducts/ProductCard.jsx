@@ -26,13 +26,13 @@ const ProductCard = ({
   return (
     <Link
       to={`/filteredProducts/${type}/` + id}
-      className="flex justify-center"
+      className="flex justify-center bg-skin-primary"
     >
       <Card
-        className=" min-w-[250px] xs:max-w-[280px] sm:w-[300px] mt-5"
+        className=" min-w-[250px] xs:max-w-[280px] sm:w-[300px] mt-5 bg-skin-pane text-skin-base"
         onClick={() => dispatch(singleProduct(id))}
       >
-        <CardHeader color="blue" className="relative h-60">
+        <CardHeader className="relative h-60">
           <img src={img} alt="img-blur-shadow" className="h-full w-full" />
         </CardHeader>
         <CardBody className="text-center">

@@ -25,10 +25,10 @@ const ProductSectionItem = ({
   return (
     <Link
       to={`/filteredProducts/${type}/` + id}
-      className="flex justify-center"
+      className="flex justify-center bg-skin-primary"
     >
       <Card
-        className="sm:w-[300px] xs:w-[280px] md:w-[320px] relative"
+        className="sm:w-[300px] xs:w-[280px] md:w-[320px] relative bg-skin-pane text-skin-base"
         onClick={() => dispatch(singleProduct(id))}
       >
         {/* <Typography
@@ -42,20 +42,20 @@ const ProductSectionItem = ({
           <img src={img} alt={name} style={{ aspectRatio: "3/2" }} />
         </CardHeader>
         <CardBody className="text-center">
-          <Typography variant="h4" color="blue-gray" className="mb-2">
+          <Typography variant="h4" className="mb-2">
             {name}
           </Typography>
-          <Typography color="gray" className="font-medium" textGradient>
+          <Typography className="text-md">
             {text.length > 110 ? text.slice(0, 110) + "..." : text}
           </Typography>
           <div className="flex justify-between items-center pt-4">
             {showPrice && (
-              <Typography color="gray" className="font-medium" textGradient>
-                Ksh. <span className="text-gray-400 text-base">{price}</span>
+              <Typography className="font-medium">
+                Ksh. <span className="text-skin-alt text-base">{price}</span>
               </Typography>
             )}
             {colors && colors.length > 0 && (
-              <Typography variant="small" color="gray" className="flex gap-1">
+              <Typography variant="small" className="flex gap-1">
                 {colors?.map((color, index) => {
                   return (
                     <i

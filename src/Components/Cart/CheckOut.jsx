@@ -12,8 +12,36 @@ import { Input } from "@material-tailwind/react";
 import { checkout, getCheckoutInfo } from "../../features/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, Paper, TextField } from "@mui/material";
+const colorAutocomplete = () => {
+  let elems = document.getElementsByClassName("autocomplete");
+  for (var i = 0; i < elems.length; i++) {
+    const attributeNodeArray = [...elems[0].attributes];
+    const attrs = attributeNodeArray.reduce((attrs, attribute) => {
+      attrs[attribute.name] = attribute.value;
+      return attrs;
+    }, {});
+    let elem = elems[i];
+    let children = [elem];
+    let queue = [elem];
 
+    while (queue.length > 0) {
+      let curr = queue.pop();
+      if (curr.childNodes.length > 0) {
+        children = [...children, ...curr.childNodes];
+        queue = [...queue, ...curr.childNodes];
+      }
+    }
+    for (var j = 0; j < children.length; j++) {
+      if (attrs.color) {
+        if (children[j].style) {
+          children[j].style.color = attrs.color;
+          children[j].style.borderColor = attrs.color;
+        }
+      }
+    }
+  }
+};
 function Checkout({ closeModal, setOpenCheckout }) {
   let error = useSelector((state) => state.user.error);
   const [section, setSection] = useState(1);
@@ -169,31 +197,38 @@ function Checkout({ closeModal, setOpenCheckout }) {
     dispatch(getCheckoutInfo());
   }, [dispatch]);
 
+  const theme = useSelector((state) => state.app.theme);
+
+  useEffect(() => {
+    colorAutocomplete();
+  });
+
   return (
-    <Card className="w-85 max-w-[90%] min-w-[330px]">
+    <Card className="w-85 max-w-[90%] min-w-[330px] bg-skin-primary text-skin-base">
       <CardHeader
         variant="gradient"
-        color="blue"
-        className="mb-0 grid h-28 place-items-center"
+        className="bg-skin-card mb-0 grid h-28 place-items-center"
       >
-        <Typography variant="h3" color="white">
+        <Typography variant="h3" className="text-skin-inverted">
           {showPrice ? "Check Out" : "Get Quote"}
         </Typography>
       </CardHeader>
       <CardBody className="flex flex-col">
         {success ? (
           <div className="text-center">
-            <Typography variant="h3">Your Order has been received</Typography>
-            <Typography>
+            <Typography variant="h3" className="text-skin-base">
+              Your Order has been received
+            </Typography>
+            <Typography className="text-skin-base">
               Thank you for shopping with us. <br />
             </Typography>
-            <Typography>
+            <Typography className="text-skin-base">
               {!showPrice &&
                 "We will get back to you as soon as possible with the cost of the goods ordered in order to proceed. "}
               You can track the progress in the{" "}
               <Link
                 to="/orders"
-                className="text-blue-400"
+                className="text-skin-highlight hover:text-skin-highlight-hover"
                 onClick={() => closeModal()}
               >
                 orders
@@ -203,13 +238,14 @@ function Checkout({ closeModal, setOpenCheckout }) {
           </div>
         ) : (
           <div>
-            <ul className="flex justify-evenly mb-2">
+            <ul className="flex justify-evenly pb-2">
               <li
-                className="p-2 w-[190px] text-center"
+                className={
+                  section === 1
+                    ? "p-2 w-[190px] text-center text-skin-highlight border-skin-highlight border-b-2"
+                    : "p-2 w-[190px] text-center text-skin-base border-skin-base border-b-2"
+                }
                 style={{
-                  borderBottom:
-                    section === 1 ? "solid 2px dodgerblue" : "solid 2px grey",
-                  color: section === 1 ? "dodgerblue" : "grey",
                   transition: ".5s",
                 }}
                 onClick={() => openSection(1)}
@@ -221,8 +257,13 @@ function Checkout({ closeModal, setOpenCheckout }) {
                   className="p-2 w-[190px] text-center ml-[3px]"
                   style={{
                     borderBottom:
-                      section === 2 ? "solid 2px dodgerblue" : "solid 2px grey",
-                    color: section === 2 ? "dodgerblue" : "grey",
+                      section === 2
+                        ? "solid 2px " + theme["text-highlight"]
+                        : "solid 2px " + theme["text-base"],
+                    color:
+                      section === 2
+                        ? theme["text-highlight"]
+                        : theme["text-base"],
                     transition: ".5s",
                   }}
                   onClick={() => openSection(2)}
@@ -239,7 +280,14 @@ function Checkout({ closeModal, setOpenCheckout }) {
                     isOptionEqualToValue={(option, value) =>
                       option.id === value.id
                     }
+                    className="autocomplete"
+                    color={theme["text-base"]}
                     options={counties}
+                    PaperComponent={({ children }) => (
+                      <Paper className="bg-skin-primary text-skin-base">
+                        {children}
+                      </Paper>
+                    )}
                     renderInput={(params) => (
                       <TextField {...params} label="Select County" />
                     )}
@@ -258,7 +306,14 @@ function Checkout({ closeModal, setOpenCheckout }) {
                     isOptionEqualToValue={(option, value) =>
                       option.id === value.id
                     }
+                    className="autocomplete"
+                    color={theme["text-base"]}
                     options={subCounties}
+                    PaperComponent={({ children }) => (
+                      <Paper className="bg-skin-primary text-skin-base">
+                        {children}
+                      </Paper>
+                    )}
                     renderInput={(params) => (
                       <TextField {...params} label="Select Sub-County" />
                     )}
@@ -277,13 +332,16 @@ function Checkout({ closeModal, setOpenCheckout }) {
                     isOptionEqualToValue={(option, value) =>
                       option.id === value.id || option === value
                     }
+                    className="autocomplete"
+                    color={theme["text-base"]}
+                    PaperComponent={({ children }) => (
+                      <Paper className="bg-skin-primary text-skin-base">
+                        {children}
+                      </Paper>
+                    )}
                     options={couriers}
                     renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Select Courier"
-                        multiline={true}
-                      />
+                      <TextField {...params} label="Select Courier" />
                     )}
                     disableClearable
                     value={courier}
@@ -297,7 +355,10 @@ function Checkout({ closeModal, setOpenCheckout }) {
                   />
                 </div>
                 {showPrice && (
-                  <Typography style={{ fontSize: "11pt" }}>
+                  <Typography
+                    style={{ fontSize: "11pt" }}
+                    className="text-skin-base"
+                  >
                     Delivery Cost: Ksh.{" " + deliveryCost}
                   </Typography>
                 )}
@@ -310,6 +371,13 @@ function Checkout({ closeModal, setOpenCheckout }) {
                   isOptionEqualToValue={(option, value) =>
                     option.id === value.id
                   }
+                  className="autocomplete"
+                  color={theme["text-base"]}
+                  PaperComponent={({ children }) => (
+                    <Paper className="bg-skin-primary text-skin-base">
+                      {children}
+                    </Paper>
+                  )}
                   options={payOptions}
                   renderInput={(params) => (
                     <TextField {...params} label="Select Payment Mode" />
@@ -324,28 +392,34 @@ function Checkout({ closeModal, setOpenCheckout }) {
                 />
                 {mode === "MPesa-Till" && (
                   <div>
-                    <Typography className="m-0">
+                    <Typography className="m-0 text-skin-base">
                       MPESA: Buy Goods & Services
                     </Typography>
-                    <Typography>
+                    <Typography className="text-skin-base">
                       Till Number: {paymentInfo.tillNumber}
                     </Typography>
-                    <Typography>
+                    <Typography className="text-skin-base">
                       Store Number: {paymentInfo.storeNumber}
                     </Typography>
-                    <Typography>Business Name: {paymentInfo.name}</Typography>
+                    <Typography className="text-skin-base">
+                      Business Name: {paymentInfo.name}
+                    </Typography>
                   </div>
                 )}
                 {mode === "MPesa-Paybill" && (
                   <div>
-                    <Typography className="m-0">MPESA: Paybill</Typography>
-                    <Typography>
+                    <Typography className="m-0 text-skin-base">
+                      MPESA: Paybill
+                    </Typography>
+                    <Typography className="text-skin-base">
                       Paybill Number: {paymentInfo.paybillNumber}
                     </Typography>
-                    <Typography>
+                    <Typography className="text-skin-base">
                       Account Number: {paymentInfo.accountNumber}
                     </Typography>
-                    <Typography>Business Name: {paymentInfo.name}</Typography>
+                    <Typography className="text-skin-base">
+                      Business Name: {paymentInfo.name}
+                    </Typography>
                   </div>
                 )}
                 <div
@@ -354,6 +428,7 @@ function Checkout({ closeModal, setOpenCheckout }) {
                     alignItems: "center",
                     fontWeight: "bold",
                   }}
+                  className="text-skin-base"
                 >
                   <p style={{ fontWeight: "bold" }}>
                     Ksh.&nbsp;{cartTotal}&nbsp;
@@ -365,10 +440,16 @@ function Checkout({ closeModal, setOpenCheckout }) {
                   <p style={{ fontSize: "8pt" }}>(Delivery Cost)</p>
                 </div>
                 <div style={{ display: "flex" }}>
-                  <Typography style={{ fontWeight: "bold" }}>
+                  <Typography
+                    style={{ fontWeight: "bold" }}
+                    className="text-skin-base"
+                  >
                     Total&nbsp;
                   </Typography>
-                  <Typography style={{ fontWeight: "bold" }}>
+                  <Typography
+                    style={{ fontWeight: "bold" }}
+                    className="text-skin-base"
+                  >
                     Ksh.&nbsp;{Number(cartTotal) + Number(deliveryCost)}
                   </Typography>
                 </div>
@@ -378,6 +459,8 @@ function Checkout({ closeModal, setOpenCheckout }) {
                     size="lg"
                     type="text"
                     name="code"
+                    className="text-skin-base"
+                    color={theme["text-highlight"]}
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
                   />
@@ -387,14 +470,14 @@ function Checkout({ closeModal, setOpenCheckout }) {
 
             <div className="">
               {error && (
-                <Alert className="flex align-items-center justify-center bg-red-300">
+                <Alert className="flex align-items-center justify-center bg-skin-danger">
                   <p className="font-medium flex items-center text-center tracking-normal leading-none">
                     {error}
                   </p>
                 </Alert>
               )}
               {c_error && (
-                <Alert className="flex align-items-center justify-center bg-red-300">
+                <Alert className="flex align-items-center justify-center bg-skin-danger">
                   <p className="font-medium flex items-center text-center tracking-normal leading-none">
                     {c_error}
                   </p>
@@ -406,7 +489,12 @@ function Checkout({ closeModal, setOpenCheckout }) {
       </CardBody>
       <CardFooter className="pt-0">
         {section === 1 && showPrice ? (
-          <Button variant="gradient" fullWidth onClick={() => openSection(2)}>
+          <Button
+            variant="gradient"
+            fullWidth
+            onClick={() => openSection(2)}
+            color={theme["button-base"]}
+          >
             Proceed
           </Button>
         ) : (
@@ -415,6 +503,7 @@ function Checkout({ closeModal, setOpenCheckout }) {
               variant="gradient"
               fullWidth
               onClick={() => handleCheckout()}
+              color={theme["button-base"]}
             >
               {isLoading ? "Submitting.." : "Done"}
             </Button>
@@ -425,7 +514,7 @@ function Checkout({ closeModal, setOpenCheckout }) {
           className="mt-6 flex justify-center"
         ></Typography> */}
         <div className="divider flex justify-between">
-          <Typography color="gray" className="mt-4 text-center font-normal">
+          <Typography className="mt-4 text-center font-normal text-skin-base">
             <span
               className="cursor-pointer"
               onClick={() => {

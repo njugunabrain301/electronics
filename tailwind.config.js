@@ -8,6 +8,42 @@ module.exports = withMT({
   ],
   theme: {
     extend: {
+      textColor: {
+        skin: {
+          base: "var(--color-text-base)",
+          alt: "var(--color-text-alt)",
+          inverted: "var(--color-text-inverted)",
+          info: "var(--color-text-info)",
+          highlight: "var(--color-text-highlight)",
+          "highlight-hover": "var(--color-text-highlight-hover)",
+          selected: "var(--color-text-selected)",
+        },
+      },
+      backgroundColor: {
+        skin: {
+          primary: "var(--color-background-primary)",
+          alt: "var(--color-background-alt)",
+          card: "var(--color-background-card)",
+          "button-base": "var(--color-button-base)",
+          "button-delete": "var(--color-button-delete)",
+          "button-hover": "var(--color-button-hover)",
+          "button-action": "var(--color-button-action)",
+          "button-success": "var(--color-button-success)",
+          "alert-danger": "var(--color-alert-danger)",
+          "alert-info": "var(--color-alert-info)",
+          "button-flat": "var(--color-button-flat)",
+          "button-flat-hover": "var(--color-button-flat-hover)",
+          panel: "var(--color-background-panel)",
+          pane: "var(--color-background-pane)",
+        },
+      },
+      borderColor: {
+        skin: {
+          highlight: "var(--color-text-highlight)",
+          base: "var(--color-text-base)",
+          panel: "var(--color-button-flat)",
+        },
+      },
       fontFamily: {
         inter: ["Inter", "sans-serif"],
       },

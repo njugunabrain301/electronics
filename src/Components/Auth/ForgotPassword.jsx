@@ -10,7 +10,7 @@ import {
 import { Button } from "@material-tailwind/react";
 import { Input } from "@material-tailwind/react";
 import { resetPasswordLink } from "../../features/slices/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function ForgotPassword({ closeModal, toggleForgotPass }) {
   let [error, setError] = useState("");
@@ -32,7 +32,7 @@ function ForgotPassword({ closeModal, toggleForgotPass }) {
     }
 
     if (
-      !/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(email)
+      !/^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/.test(email)
     ) {
       setError("Invalid Email");
       return;
@@ -50,14 +50,15 @@ function ForgotPassword({ closeModal, toggleForgotPass }) {
     setIsLoading(false);
   };
 
+  const theme = useSelector((state) => state.app.theme);
   return (
-    <Card className="w-80">
+    <Card className="w-80 bg-skin-primary">
       <CardHeader
         variant="gradient"
-        color="blue"
-        className="mb-4 grid h-28 place-items-center"
+        color={theme.backgroundAlt}
+        className="mb-4 grid h-28 place-items-center bg-skin-card"
       >
-        <Typography variant="h3" color="white">
+        <Typography variant="h3" className="text-skin-inverted">
           Forgot Password
         </Typography>
       </CardHeader>
@@ -67,6 +68,8 @@ function ForgotPassword({ closeModal, toggleForgotPass }) {
           size="lg"
           type="email"
           name="email"
+          className="text-skin-base input"
+          color={theme["text-highlight"]}
           value={email}
           onChange={(e) => {
             setError("");
@@ -76,7 +79,7 @@ function ForgotPassword({ closeModal, toggleForgotPass }) {
 
         <div className="">
           {error && (
-            <Alert className="flex align-items-center justify-center bg-red-300">
+            <Alert className="flex align-items-center justify-center bg-alert-danger">
               <p className="font-medium flex items-center text-center tracking-normal leading-none">
                 {error}
               </p>
@@ -86,11 +89,22 @@ function ForgotPassword({ closeModal, toggleForgotPass }) {
       </CardBody>
       <CardFooter className="pt-0">
         {resetRequested ? (
-          <Typography varaint="h6" className="mt-6 flex justify-center">
+          <Typography
+            varaint="h6"
+            className="mt-6 flex justify-center text-skin-base"
+          >
             We have sent a password reset link to your email
           </Typography>
         ) : (
-          <Button variant="gradient" fullWidth onClick={handleAction}>
+          <Button
+            variant="gradient"
+            fullWidth
+            onClick={handleAction}
+            color={theme["button-base"]}
+            style={{
+              color: theme.buttonTextPrimary,
+            }}
+          >
             {isLoading ? "Sending Request..." : "Reset Password"}
           </Button>
         )}
@@ -99,7 +113,7 @@ function ForgotPassword({ closeModal, toggleForgotPass }) {
           className="mt-6 flex justify-center"
         ></Typography> */}
         <div className="divider flex justify-between">
-          <Typography color="gray" className="mt-4 text-center font-normal">
+          <Typography className="mt-4 text-center font-normal text-skin-base">
             <span className="cursor-pointer" onClick={closeModal}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -118,11 +132,11 @@ function ForgotPassword({ closeModal, toggleForgotPass }) {
             </span>
           </Typography>
 
-          <Typography color="gray" className="mt-4 text-center font-normal">
+          <Typography className="mt-4 text-center font-normal text-skin-base">
             Go back to{" "}
             <span
               href="#"
-              className="font-medium text-blue-500 transition-colors hover:text-blue-700"
+              className="font-medium text-skin-highlight transition-colors hover:text-skin-highlight-hover"
               onClick={toggleForgotPass}
             >
               Login

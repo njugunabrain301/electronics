@@ -39,31 +39,31 @@ function PasswordReset() {
   };
 
   let profile = useSelector((state) => state.app.profile);
-
+  const theme = useSelector((state) => state.app.theme);
   return (
-    <div className="pt-[100px] pb-[100px] flex justify-center items-center w-[100%]">
+    <div className="pt-[100px] pb-[100px] flex justify-center items-center w-[100%] bg-skin-primary text-skin-base">
       <Helmet>
         <title>{"Reset Password | " + profile.name}</title>
       </Helmet>
       {done ? (
         <div
-          className="p-[10px]"
+          className="p-[10px] text-skin-base"
           style={{
             boxShadow: "0 0 2px grey",
             borderRadius: "5px",
             textAlign: "center",
           }}
         >
-          <Typography variant="h5">
+          <Typography variant="h5" className="text-skin-base">
             Your password has been reset successfully
           </Typography>
-          <Typography>
+          <Typography className="text-skin-base">
             You can proceed to login using the new password
           </Typography>
         </div>
       ) : (
         <div
-          className="p-[10px]"
+          className="p-[10px] text-skin-base"
           style={{
             boxShadow: "0 0 2px grey",
             borderRadius: "5px",
@@ -75,6 +75,8 @@ function PasswordReset() {
             <Input
               type="password"
               value={password}
+              className="text-skin-base input"
+              color={theme["text-highlight"]}
               onChange={(e) => {
                 setError("");
                 setPassword(e.target.value);
@@ -87,6 +89,8 @@ function PasswordReset() {
             <Input
               type="password"
               value={cpassword}
+              className="text-skin-base input"
+              color={theme["text-highlight"]}
               onChange={(e) => {
                 setError("");
                 setCPassword(e.target.value);
@@ -101,12 +105,12 @@ function PasswordReset() {
                 variant="button"
                 fontWeight="light"
                 style={{
-                  backgroundColor: "indianRed",
                   padding: "7px 10px",
                   width: "100%",
                   color: "white",
                   borderRadius: "4px",
                 }}
+                className="bg-skin-alert-danger"
               >
                 {error}
               </Typography>
@@ -114,8 +118,9 @@ function PasswordReset() {
           </div>
           <div className="m-[10px] w-[300px]">
             <Button
+              color={theme["button-base"]}
+              className="text-skin-inverted"
               onClick={handleReset}
-              style={{ color: "white", backgroundColor: "dodgerblue" }}
             >
               {isLoading ? "Resetting..." : "Reset"}
             </Button>

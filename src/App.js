@@ -4,14 +4,16 @@ import Main from "./Components/Main/Main";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import FilteredProducts from "./Components/FiltredProducts/FilteredProducts";
 import SingleProduct from "./Components/FiltredProducts/SingleProduct";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/Footer/Footer";
 import Orders from "./Components/Orders/Orders";
 import { fetchHomePage, fetchProducts } from "./features/slices/productsSlice";
-import { visit } from "./features/slices/appSlice";
+import { setTheme, visit } from "./features/slices/appSlice";
 import PasswordReset from "./Components/PasswordReset/PasswordReset";
 import Loading from "./Components/Loading/Loading";
+import { Themes } from "./assets/Themes/Themes";
+import "./Components/styles.css";
 
 function App() {
   const [isReady, setIsReady] = useState(false);
@@ -20,10 +22,15 @@ function App() {
     if (!openAuth) setOpenAuth(true);
     if (!openAuth) document.getElementById("authModalBtn").click();
   };
+
+  const selectedTheme = "dawn";
+  const theme = Themes[selectedTheme];
   const [constructed, setConstructed] = useState(true);
   const dispatch = useDispatch();
+
   const loadPage = async () => {
     let res = await dispatch(fetchHomePage());
+    await dispatch(setTheme(theme));
     if (res.payload.success) {
       if (!res.payload.data.ready) {
         setConstructed(false);
@@ -45,7 +52,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div className="App min-w-[330px]">
+    <div className={"App min-w-[330px] bg-skin-primary " + selectedTheme}>
       {isReady ? (
         <BrowserRouter>
           {<Navbar handleAuth={handleAuth} setOpenAuth={setOpenAuth} />}

@@ -6,7 +6,7 @@ const ProductSection = () => {
   let storeData = useSelector((state) => state.products.promoted);
   let showPrice = useSelector((state) => state.app.profile.showPrice);
   return (
-    <div>
+    <div className="bg-skin-primary">
       <div className="flex justify-evenly flex-wrap items-center py-8 mx-auto max-w-7xl">
         {storeData.map((product, index) => {
           return (

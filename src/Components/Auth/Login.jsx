@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -11,6 +11,7 @@ import { Button } from "@material-tailwind/react";
 import { Input } from "@material-tailwind/react";
 import { login } from "../../features/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { colorComponent } from "../Utils/Utils";
 
 function Login({ closeModal, toggleLogin, toggleForgotPass }) {
   let error = useSelector((state) => state.user.loginError);
@@ -42,14 +43,18 @@ function Login({ closeModal, toggleLogin, toggleForgotPass }) {
     setIsLoggingIn(false);
   };
 
+  const theme = useSelector((state) => state.app.theme);
+  useEffect(() => {
+    colorComponent("input");
+  });
+
   return (
-    <Card className="w-80">
+    <Card className="w-80 bg-skin-primary">
       <CardHeader
         variant="gradient"
-        color="blue"
-        className="mb-4 grid h-28 place-items-center"
+        className="mb-4 grid h-28 place-items-center bg-skin-card"
       >
-        <Typography variant="h3" color="white">
+        <Typography variant="h3" className="text-skin-inverted">
           Sign In
         </Typography>
       </CardHeader>
@@ -59,6 +64,8 @@ function Login({ closeModal, toggleLogin, toggleForgotPass }) {
           size="lg"
           type="email"
           name="email"
+          className="text-skin-base input"
+          color={theme["text-highlight"]}
           value={values.email}
           onChange={onChange}
         />
@@ -67,12 +74,14 @@ function Login({ closeModal, toggleLogin, toggleForgotPass }) {
           size="lg"
           type="password"
           name="password"
+          className="text-skin-base input"
+          color={theme["text-highlight"]}
           value={values.password}
           onChange={onChange}
         />
         <div className="">
           {error && (
-            <Alert className="flex align-items-center justify-center bg-red-300">
+            <Alert className="flex align-items-center justify-center bg-skin-alert-danger">
               <p className="font-medium flex items-center text-center tracking-normal leading-none">
                 {error}
               </p>
@@ -82,7 +91,7 @@ function Login({ closeModal, toggleLogin, toggleForgotPass }) {
         <div>
           <Typography
             variant="small"
-            className="flex justify-start"
+            className="flex justify-start text-skin-base cursor-pointer"
             onClick={toggleForgotPass}
           >
             Forgot Password?
@@ -90,11 +99,19 @@ function Login({ closeModal, toggleLogin, toggleForgotPass }) {
         </div>
       </CardBody>
       <CardFooter className="pt-0">
-        <Button variant="gradient" fullWidth onClick={handleAction}>
+        <Button
+          color={theme["button-base"]}
+          variant="gradient"
+          fullWidth
+          onClick={handleAction}
+        >
           {isLoggingIn ? "Signing in..." : "Sign In"}
         </Button>
         <div className="divider flex justify-between">
-          <Typography color="gray" className="mt-4 text-center font-normal">
+          <Typography
+            style={{ color: theme.textPrimary }}
+            className="text-skin-base mt-4 text-center font-normal"
+          >
             <span className="cursor-pointer" onClick={closeModal}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -113,11 +130,11 @@ function Login({ closeModal, toggleLogin, toggleForgotPass }) {
             </span>
           </Typography>
 
-          <Typography color="gray" className="mt-4 text-center font-normal">
+          <Typography className="mt-4 text-center font-normal text-skin-base">
             Don't have an account?{" "}
             <span
               href="#"
-              className="font-medium text-blue-500 transition-colors hover:text-blue-700"
+              className="font-medium text-skin-highlight transition-colors hover:text-skin-highlight-hover"
               onClick={toggleLogin}
             >
               Register

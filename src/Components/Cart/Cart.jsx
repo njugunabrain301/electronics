@@ -18,14 +18,15 @@ const Cart = ({ closeModal }) => {
   const [openCheckout, setOpenCheckout] = useState(false);
 
   const dispatch = useDispatch();
+  const theme = useSelector((state) => state.app.theme);
   return (
     <div>
       {!openCheckout ? (
         <div className="min-w-[330px]">
           {cart.length > 0 ? (
             <div className="w-full h-screen flex justify-center items-center py-[20px]">
-              <div className="bg-white rounded-md border-0 outline-0">
-                <DialogHeader className="flex justify-between">
+              <div className="rounded-md border-0 outline-0 bg-skin-primary text-skin-base">
+                <DialogHeader className="flex justify-between text-skin-primary">
                   Shopping Cart
                   <button
                     type="button"
@@ -64,37 +65,37 @@ const Cart = ({ closeModal }) => {
                                 src={item.img}
                                 alt={item.name}
                               ></img>
-                              <div className="flex flex-col items-start">
-                                <h4 className="text-black text-base font-inter font-bold tracking-normal leading-none pt-2">
+                              <div className="flex flex-col items-start text-skin-base">
+                                <h4 className=" text-base font-inter font-bold tracking-normal leading-none pt-2">
                                   {item.name}
                                 </h4>
                               </div>
                             </div>
-                            <div className="ml-[8px]">
-                              <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
+                            <div className="ml-[8px] text-skin-base">
+                              <p className="text-sm font-inter tracking-normal leading-none pt-2">
                                 Selected size:{" "}
                                 <span className="ml-2">{item.size}</span>
                               </p>
-                              <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
+                              <p className=" text-sm font-inter tracking-normal leading-none pt-2">
                                 Selected color:{item.color === "-" ? " -" : " "}
                                 <span
                                   className="ml-2 rounded-full px-2"
                                   style={{ backgroundColor: item.color }}
                                 ></span>
                               </p>
-                              <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
+                              <p className=" text-sm font-inter tracking-normal leading-none pt-2">
                                 Amount:{" "}
                                 <span className="ml-2">{item.amount}</span>
                               </p>
                               {showPrice && (
                                 <>
-                                  <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
+                                  <p className=" text-sm font-inter tracking-normal leading-none pt-2">
                                     Price:{" "}
                                     <span className="">
                                       Ksh.&nbsp;{item.price}
                                     </span>
                                   </p>
-                                  <p className="text-black text-sm font-inter tracking-normal leading-none pt-2">
+                                  <p className=" text-sm font-inter tracking-normal leading-none pt-2">
                                     Total{" "}
                                     <span className="hidden md-block">
                                       Price
@@ -116,7 +117,7 @@ const Cart = ({ closeModal }) => {
                                       dispatch(removeFromCart(item))
                                     }
                                     size="sm"
-                                    color="red"
+                                    color={theme["button-delete"]}
                                     ripple={true}
                                     variant="filled"
                                   >
@@ -126,8 +127,8 @@ const Cart = ({ closeModal }) => {
                               </div>
                             </div>
                           </div>
-                          <div className="max-w-xs">
-                            <p className="text-black text-xs font-inter tracking-normal leading-none pt-2">
+                          <div className="max-w-xs text-skin-base">
+                            <p className="text-xs font-inter tracking-normal leading-none pt-2">
                               {item.description}
                             </p>
                           </div>
@@ -138,7 +139,7 @@ const Cart = ({ closeModal }) => {
                 </DialogBody>
                 <DialogFooter className="flex justify-between items-center">
                   {showPrice ? (
-                    <p className="text-black text-base font-inter tracking-normal leading-none pt-2">
+                    <p className="text-skin-base text-base font-inter tracking-normal leading-none pt-2">
                       Total Price:{" "}
                       <span className="ml-2">Ksh. {totalPrice}</span>
                     </p>
@@ -146,10 +147,11 @@ const Cart = ({ closeModal }) => {
                     <div></div>
                   )}
                   <Button
-                    className="bg-green-500 "
+                    color={theme["button-success"]}
                     onClick={() => {
                       setOpenCheckout(true);
                     }}
+                    variant="filled"
                   >
                     {showPrice ? "Check Out" : "Get Quote"}
                   </Button>
@@ -158,8 +160,8 @@ const Cart = ({ closeModal }) => {
             </div>
           ) : (
             <div className="w-full h-screen flex justify-center items-center p-[20px]">
-              <div className="bg-white rounded-md border-0 outline-0">
-                <DialogHeader className="flex justify-between">
+              <div className="rounded-md border-0 outline-0 bg-skin-primary text-skin-base">
+                <DialogHeader className="flex justify-between text-skin-base">
                   Shopping Cart
                   <button
                     type="button"
@@ -184,15 +186,18 @@ const Cart = ({ closeModal }) => {
                   </button>
                 </DialogHeader>
                 <DialogBody divider>
-                  <div>
-                    <h1 className="text-black text-3xl font-inter font-bold tracking-normal leading-none py-4">
+                  <div className="text-skin-base">
+                    <h1 className="text-3xl font-inter font-bold tracking-normal leading-none py-4">
                       Your bag is empty
                     </h1>
-                    <p className="text-black text-base font-inter tracking-normal leading-none ">
+                    <p className="text-base font-inter tracking-normal leading-none ">
                       Add some products
                     </p>
                   </div>
                 </DialogBody>
+                <DialogFooter>
+                  <div></div>
+                </DialogFooter>
               </div>
             </div>
           )}

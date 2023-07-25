@@ -46,8 +46,10 @@ const FilteredProducts = () => {
     "swim suits",
   ];
   let profile = useSelector((state) => state.app.profile);
+  const theme = useSelector((state) => state.app.theme);
+
   return (
-    <div className="">
+    <div className="bg-skin-primary text-skin-base">
       <Helmet>
         <title>{type + " | " + profile.name}</title>
         <meta name="description" content={type} />
@@ -55,7 +57,7 @@ const FilteredProducts = () => {
       </Helmet>
       <div className="xs:pt-4 md:pt-16">
         <div className="xs:pl-6 md:pl-14">
-          <h1 className="text-gray-600 xs:text-2xl md:text-4xl font-inter font-bold tracking-normal leading-none">
+          <h1 className="xs:text-2xl md:text-4xl font-inter font-bold tracking-normal leading-none">
             {type}
           </h1>
           <div className="items-center justify-between py-8 hidden md:flex">
@@ -65,13 +67,13 @@ const FilteredProducts = () => {
                   return (
                     <div key={index}>
                       <Button
-                        color="gray"
+                        color={theme["button-flat"]}
                         size="lg"
                         variant="outlined"
                         ripple={true}
                         className={
-                          "text-black hover:bg-gray-300 duration-300 ease-in-out mr-4 " +
-                          (filters.includes(item) ? "text-green-500" : "")
+                          "text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out mr-4 " +
+                          (filters.includes(item) ? "text-skin-selected" : "")
                         }
                         onClick={() => dispatch(filterGender(item))}
                       >
@@ -81,13 +83,13 @@ const FilteredProducts = () => {
                   );
                 })}
               <Button
-                color="gray"
+                color={theme["button-flat"]}
                 size="lg"
                 variant="outlined"
                 ripple={true}
                 className={
-                  "text-black hover:bg-gray-300 duration-300 ease-in-out mr-4 " +
-                  (filters.includes("price") ? "text-green-500" : "")
+                  "text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out mr-4 " +
+                  (filters.includes("price") ? "text-skin-selected" : "")
                 }
                 onClick={() => dispatch(sortByPrice())}
               >
@@ -148,11 +150,11 @@ const FilteredProducts = () => {
             </div>
             <div className="pr-14">
               <Button
-                color="gray"
+                color={theme["button-flat"]}
                 size="lg"
                 variant="outlined"
                 ripple={true}
-                className="text-black hover:bg-gray-300 duration-300 ease-in-out mr-4"
+                className="text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out mr-4"
                 onClick={() => dispatch(filterProducts(type))}
               >
                 Clear Filter
@@ -164,22 +166,26 @@ const FilteredProducts = () => {
               <MenuHandler>
                 <Button
                   disabled={type === "Bags" || type === "Shoes"}
-                  color="gray"
+                  color={theme["button-flat"]}
                   size="lg"
                   variant="outlined"
                   ripple={true}
-                  className="text-black hover:bg-gray-300 duration-300 ease-in-out mr-4 p-2 px-4 "
+                  className="text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out mr-4 p-2 px-4 "
                 >
                   Filter
                 </Button>
               </MenuHandler>
-              <MenuList>
+              <MenuList className="bg-skin-primary">
                 {genderButtons.map((item, index) => {
                   return (
                     <MenuItem
                       key={index}
                       onClick={() => dispatch(filterGender(item))}
-                      className={filters.includes(item) ? "text-green-500" : ""}
+                      className={
+                        filters.includes(item)
+                          ? "text-skin-selected bg-skin-primary"
+                          : "bg-skin-primary text-skin-base"
+                      }
                     >
                       {item.charAt(0).toUpperCase() + "" + item.slice(1)}
                     </MenuItem>
@@ -188,13 +194,18 @@ const FilteredProducts = () => {
                 <MenuItem
                   key={10}
                   onClick={() => dispatch(sortByPrice())}
-                  className={filters.includes("price") ? "text-green-500" : ""}
+                  className={
+                    filters.includes("price")
+                      ? "text-skin-selected bg-skin-primary"
+                      : "bg-skin-primary text-skin-base"
+                  }
                 >
                   Sort By Price
                 </MenuItem>
                 <MenuItem
                   key={11}
                   onClick={() => dispatch(filterProducts(type))}
+                  className={"text-skin-base"}
                 >
                   Clear Filter
                 </MenuItem>

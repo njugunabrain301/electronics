@@ -45,7 +45,7 @@ const Slider = () => {
   const dispatch = useDispatch();
 
   return (
-    <div className="flex justify-center items-center m-2 mt-4 flex-wrap">
+    <div className="flex justify-center items-center m-2 mt-4 flex-wrap ">
       {isSliderLoaded ? (
         <>
           <div
@@ -104,7 +104,7 @@ const Slider = () => {
                         alt="..."
                       />
                     </Link>
-                    <div className="absolute inset-x-[15%] bottom-5 hidden py-5 text-center text-white md:block">
+                    <div className="absolute inset-x-[15%] bg-gray bottom-5 hidden py-5 text-center text-white md:block">
                       <h5 className="text-xl">{item.name}</h5>
                       <p>{item.description.slice(0, 40) + "..."}</p>
                     </div>
@@ -124,7 +124,7 @@ const Slider = () => {
                     >
                       <img src={item.img} className="block w-full" alt="..." />
                     </Link>
-                    <div className="absolute inset-x-[15%] bottom-5 hidden py-5 text-center text-white md:block">
+                    <div className="absolute inset-x-[15%] bg-black opacity-50 bottom-6 rounded-md hidden py-1 text-center text-white md:block">
                       <h5 className="text-xl">{item.name}</h5>
                       <p>{item.description.slice(0, 40) + "..."}</p>
                     </div>

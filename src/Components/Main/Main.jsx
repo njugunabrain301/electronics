@@ -5,7 +5,7 @@ import ProductSection from "../ProductSection/ProductSection";
 
 const Main = () => {
   return (
-    <div>
+    <div className="">
       <Slider></Slider>
       <NavigateButtons></NavigateButtons>
       <ProductSection></ProductSection>

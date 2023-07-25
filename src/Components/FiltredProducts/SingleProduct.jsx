@@ -15,6 +15,7 @@ import {
   loadSingleProduct,
 } from "../../features/slices/productsSlice";
 import { Helmet } from "react-helmet";
+import { colorComponent } from "../Utils/Utils";
 
 const SingleProduct = ({ handleAuth }) => {
   const products = useSelector((state) => state.products.filteredProducts);
@@ -65,8 +66,12 @@ const SingleProduct = ({ handleAuth }) => {
     dispatch(loadSingleProduct(id));
   }, [dispatch, id]);
 
+  const theme = useSelector((state) => state.app.theme);
+  useEffect(() => {
+    colorComponent("my-select");
+  });
   return (
-    <div>
+    <div className="bg-skin-primary text-skin-base">
       <Helmet>
         <title>{product.name}</title>
         <meta
@@ -98,25 +103,21 @@ const SingleProduct = ({ handleAuth }) => {
                   {product.offer}% OFF
                 </p>
               )}
-              <p className="text-gray-600 text-l font-inter tracking-normal leading-none pb-4">
+              <p className="text-l font-inter tracking-normal leading-none pb-4">
                 {product.description}
               </p>
               <div className="pb-4">
                 {product.sizes && product.sizes.length > 0 ? (
                   <div>
-                    <label
-                      htmlFor="size"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Pick a size
-                    </label>
                     <Select
                       id="size"
                       name="size"
+                      label="Pick a size"
                       value={size}
                       disabled={productSize === "-"}
                       onChange={(e) => setSize(e.target.value)}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      color={theme["button-base"]}
+                      className="my-select bg-skin-primary text-skin-base text-sm rounded-lg block w-full p-2.5"
                     >
                       {product.sizes.map((item, index) => {
                         return (
@@ -135,22 +136,17 @@ const SingleProduct = ({ handleAuth }) => {
               <div className="pb-4">
                 {product.colors && (
                   <div>
-                    <label
-                      htmlFor="color"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Pick a color
-                    </label>
-
                     <Select
                       id="color"
                       name="color"
+                      label="Pick a color"
                       disabled={productColor === "-"}
                       onChange={(e) => {
                         console.log(e);
                         setColor(e);
                       }}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      color={theme["button-base"]}
+                      className="my-select bg-skin-primary text-skin-base text-sm rounded-lg block w-full p-2.5"
                     >
                       {product.colors.map((color, index) => {
                         return (
@@ -181,15 +177,15 @@ const SingleProduct = ({ handleAuth }) => {
                 )}
               </div>
               {showPrice && (
-                <Typography className="font-bold text-gray-600">
+                <Typography className="font-bold text-skin-base">
                   Ksh.&nbsp;{product.price}
                 </Typography>
               )}
               <Tooltip content="Add to Cart" placement="bottom">
                 <Button
-                  color="gray"
+                  className="bg-skin-alt text-skin-inverted"
                   size="lg"
-                  variant="outlined"
+                  color={theme["text-highlight"]}
                   ripple={true}
                   onClick={() =>
                     authUser

@@ -3,6 +3,18 @@ import axios from "../axios.config";
 
 let initialState = {
   profile: JSON.parse(localStorage.getItem("business")) || {},
+  theme: {
+    textPrimary: "black",
+    textSecondary: "white",
+    textAlt: "gray",
+    backgroundPrimary: "white",
+    backgroundSecondary: "black",
+    backgroundAlt: "blue",
+    accent1: "",
+    accent2: "",
+    accent3: "",
+    accent4: "",
+  },
 };
 
 export const fetchBusinessProfile = createAsyncThunk(
@@ -26,7 +38,11 @@ export const visit = createAsyncThunk("business/visit", async () => {
 export const appSlice = createSlice({
   name: "business",
   initialState,
-  reducers: {},
+  reducers: {
+    setTheme(state, action) {
+      state.theme = action.payload;
+    },
+  },
 
   extraReducers: (builder) => {
     builder.addCase(fetchBusinessProfile.pending, (state) => {
@@ -44,4 +60,5 @@ export const appSlice = createSlice({
   },
 });
 
+export const { setTheme } = appSlice.actions;
 export default appSlice.reducer;

@@ -54,7 +54,7 @@ const Footer = () => {
   };
 
   return (
-    <div>
+    <div className="bg-skin-primary text-skin-base">
       <div className="flex items-center justify-center">
         <hr className="h-px w-4/5 bg-gray-400 opacity-50 outline-none border-none" />
       </div>
@@ -73,7 +73,7 @@ const Footer = () => {
           )}
         </div>
         <div>
-          <p className="text-black text-sm font-inter no-underline normal-case xs:pl-1">
+          <p className=" text-sm font-inter no-underline normal-case xs:pl-1">
             Copyright {year} by Bunika
           </p>
         </div>
