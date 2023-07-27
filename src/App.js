@@ -30,9 +30,10 @@ function App() {
 
   const loadPage = async () => {
     let res = await dispatch(fetchHomePage());
+
     await dispatch(setTheme(theme));
     if (res.payload.success) {
-      if (!res.payload.data.ready) {
+      if (!res.payload.data.ready || !res.payload.data.active) {
         setConstructed(false);
         return;
       }

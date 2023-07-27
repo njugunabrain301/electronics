@@ -470,14 +470,14 @@ function Checkout({ closeModal, setOpenCheckout }) {
 
             <div className="">
               {error && (
-                <Alert className="flex align-items-center justify-center bg-skin-danger">
+                <Alert className="flex align-items-center justify-center bg-skin-alert-danger">
                   <p className="font-medium flex items-center text-center tracking-normal leading-none">
                     {error}
                   </p>
                 </Alert>
               )}
               {c_error && (
-                <Alert className="flex align-items-center justify-center bg-skin-danger">
+                <Alert className="flex align-items-center justify-center bg-skin-alert-danger">
                   <p className="font-medium flex items-center text-center tracking-normal leading-none">
                     {c_error}
                   </p>
