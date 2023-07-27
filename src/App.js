@@ -23,15 +23,24 @@ function App() {
     if (!openAuth) document.getElementById("authModalBtn").click();
   };
 
-  const selectedTheme = "dawn";
-  const theme = Themes[selectedTheme];
+  const selectedTheme = useSelector((state) => state.app.selectedTheme);
+
   const [constructed, setConstructed] = useState(true);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    let theme = {};
+    if (selectedTheme != "") {
+      theme = Themes[selectedTheme.toLowerCase()];
+    } else {
+      theme = Themes["classic"];
+    }
+    dispatch(setTheme(theme));
+  }, [selectedTheme]);
 
   const loadPage = async () => {
     let res = await dispatch(fetchHomePage());
 
-    await dispatch(setTheme(theme));
     if (res.payload.success) {
       if (!res.payload.data.ready || !res.payload.data.active) {
         setConstructed(false);

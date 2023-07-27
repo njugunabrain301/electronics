@@ -15,6 +15,7 @@ let initialState = {
     accent3: "",
     accent4: "",
   },
+  selectedTheme: "classic",
 };
 
 export const fetchBusinessProfile = createAsyncThunk(
@@ -52,6 +53,7 @@ export const appSlice = createSlice({
       state.isLoading = false;
       if (action.payload.success) {
         state.profile = action.payload.data;
+        state.selectedTheme = action.payload.data.theme;
       }
     });
     builder.addCase(fetchBusinessProfile.rejected, (state) => {
