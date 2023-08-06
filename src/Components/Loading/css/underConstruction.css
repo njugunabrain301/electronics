@@ -1,0 +1,121 @@
+.underconstruction {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; /* Align the content at the bottom */
+  height: 100vh;
+  background-color: #f0f0f0;
+  margin: 0;
+}
+.underconstruction {
+  background-color: #f0f0f0;
+}
+.underconstruction .table-container {
+  position: relative; /* Add relative positioning to the table container */
+  background-color: #f0f0f0;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.underconstruction .table {
+  width: 100%; /* Set the width of the table to 250px */
+  height: 100px; /* Set the height of the table to 100px */
+  background-color: #404040; /* Use a different shade of gray for the table color */
+  padding: 10px; /* Add some padding to the table */
+  border-radius: 10px; /* Add border radius to make the table look rounded */
+  margin-top: 100px; /* Move the table upwards by 100px */
+  margin-bottom: 100px; /* Add some space at the bottom for the blocks and hammer */
+}
+
+.underconstruction .extended-table {
+  width: 110%; /* Set the width to be 10% wider than the current table */
+  height: 25px; /* Set the height of the extended table to 20px */
+  background-color: #404040; /* Use the same color as the table for the extended table */
+  border-radius: 3px; /* Apply a border radius of 3px to the extended table */
+  position: absolute; /* Add absolute positioning to the extended table */
+  top: -20px; /* Move the extended table down by 100px */
+  left: 50%; /* Center the extended table horizontally within the original table */
+  transform: translateX(-50%); /* Center the extended table perfectly */
+  z-index: 1; /* Place the extended table behind the original table */
+}
+
+.underconstruction .block-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute; /* Add absolute positioning to the block container */
+  top: 50%; /* Center the block container vertically */
+  left: 50%; /* Center the block container horizontally */
+  transform: translate(-50%, -50%); /* Center the block container perfectly */
+  margin-right: 20px; /* Add some spacing between the stack and the table */
+}
+
+.underconstruction .block {
+  width: 100px;
+  height: 50px; /* Set the height to 50px for the blocks */
+  background-color: #606060;
+  margin: 2px; /* Set the margin to 4px between blocks (2px on top and 2px on bottom) */
+  border-radius: 7px;
+}
+
+.underconstruction .hammer-container {
+  position: absolute; /* Add absolute positioning to the hammer container */
+  top: 230px; /* Move the hammer container 30px down */
+  left: calc(
+    50% + 80px
+  ); /* Position the hammer container 50px to the left of the block container */
+  transform: translateY(-50%) rotate(-45deg); /* Center the hammer container vertically and rotate it -45 degrees */
+  animation: hammerRotate 2s ease-in-out infinite; /* Apply the hammerRotate animation to the hammer container */
+}
+
+@keyframes hammerRotate {
+  0% {
+    transform: translateY(-50%) rotate(-45deg); /* Starting position at -45 degrees rotation */
+  }
+  50% {
+    transform: translateY(-50%) rotate(0deg); /* Middle position at 0 degrees rotation */
+  }
+  100% {
+    transform: translateY(-50%) rotate(-45deg); /* Ending position back to -45 degrees rotation */
+  }
+}
+
+.underconstruction .hammer {
+  width: 20px;
+  height: 100px;
+  background-color: #333;
+}
+
+.underconstruction .hammer-head {
+  position: absolute;
+  top: 0; /* Place the head at the top of the hammer */
+  left: 50%;
+  width: 50px; /* Make the head 2.5 times wider than the hammer */
+  height: 20px; /* Reduce the height of the head to 20px */
+  background-color: #777;
+  border-radius: 4px; /* Apply a border radius of 4px to the hammer head */
+  transform: translateX(-50%); /* Center the head horizontally */
+}
+
+.underconstruction .diagonal-block {
+  position: absolute; /* Set the position to absolute */
+  top: 75px; /* Move the diagonal block down by 75px */
+  left: -75px; /* Move the diagonal block to the left by 75px */
+  width: 100px; /* Set the width to match the regular blocks */
+  height: 50px; /* Set the height to match the regular blocks */
+  background-color: #606060;
+  border-radius: 7px;
+  transform-origin: bottom; /* Set the transform origin to the bottom */
+  transform: rotate(-45deg); /* Rotate the diagonal block */
+}
+
+.underconstruction .title {
+  position: absolute;
+  top: 40px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #222;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 150%;
+}

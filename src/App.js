@@ -14,6 +14,7 @@ import PasswordReset from "./Components/PasswordReset/PasswordReset";
 import Loading from "./Components/Loading/Loading";
 import { Themes } from "./assets/Themes/Themes";
 import "./Components/styles.css";
+import UnderConstruction from "./Components/Loading/UnderConstruction";
 
 function App() {
   const [isReady, setIsReady] = useState(false);
@@ -84,8 +85,10 @@ function App() {
           </Routes>
           {<Footer></Footer>}
         </BrowserRouter>
+      ) : constructed ? (
+        <Loading />
       ) : (
-        <Loading constructed={constructed} />
+        <UnderConstruction />
       )}
     </div>
   );

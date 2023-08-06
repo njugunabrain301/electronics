@@ -1,7 +1,7 @@
 import React from "react";
 import "./css/style.css";
 
-function Loading({ constructed }) {
+function Loading() {
   let categories = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
   return (
     <div style={{ backgroundColor: "#ddd", width: "100%" }} id="loading-screen">
@@ -44,9 +44,7 @@ function Loading({ constructed }) {
           justifyContent: "center",
           alignItems: "center",
         }}
-      >
-        {!constructed && "The Website Is Still Under Construction"}
-      </div>
+      ></div>
       <div
         style={{
           width: "80%",
