@@ -1,18 +1,18 @@
-body {
+.underconstruction {
   font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
   display: flex;
   justify-content: center;
-  align-items: flex-end; /* Align the content at the bottom */
   height: 100vh;
-  background-color: #f0f0f0;
+  align-items: flex-end; /* Align the content at the bottom */
   margin: 0;
-}
-.underconstruction {
-  background-color: #f0f0f0;
+  width: 100%;
+  position: absolute;
 }
 .underconstruction .table-container {
   position: relative; /* Add relative positioning to the table container */
   background-color: #f0f0f0;
+  width: 300px;
   max-width: 90%;
   margin: 0 auto;
 }
@@ -44,7 +44,7 @@ body {
   flex-direction: column;
   align-items: center;
   position: absolute; /* Add absolute positioning to the block container */
-  top: -98px; /* Center the block container vertically */
+  top: 0px; /* Center the block container vertically */
   left: 50%; /* Center the block container horizontally */
   transform: translate(-50%, -50%); /* Center the block container perfectly */
   margin-right: 20px; /* Add some spacing between the stack and the table */
@@ -60,7 +60,7 @@ body {
 
 .underconstruction .hammer-container {
   position: absolute; /* Add absolute positioning to the hammer container */
-  top: -150px; /* Move the hammer container 30px down */
+  top: -50px; /* Move the hammer container 30px down */
   left: calc(
     50% + 90px
   ); /* Position the hammer container 50px to the left of the block container */
@@ -122,4 +122,5 @@ body {
 
 .my-container {
   position: relative;
+  margin-top: 100px;
 }
