@@ -1,4 +1,4 @@
-.underconstruction {
+body {
   font-family: Arial, sans-serif;
   display: flex;
   justify-content: center;
@@ -44,7 +44,7 @@
   flex-direction: column;
   align-items: center;
   position: absolute; /* Add absolute positioning to the block container */
-  top: 50%; /* Center the block container vertically */
+  top: -98px; /* Center the block container vertically */
   left: 50%; /* Center the block container horizontally */
   transform: translate(-50%, -50%); /* Center the block container perfectly */
   margin-right: 20px; /* Add some spacing between the stack and the table */
@@ -60,9 +60,9 @@
 
 .underconstruction .hammer-container {
   position: absolute; /* Add absolute positioning to the hammer container */
-  top: 230px; /* Move the hammer container 30px down */
+  top: -150px; /* Move the hammer container 30px down */
   left: calc(
-    50% + 80px
+    50% + 90px
   ); /* Position the hammer container 50px to the left of the block container */
   transform: translateY(-50%) rotate(-45deg); /* Center the hammer container vertically and rotate it -45 degrees */
   animation: hammerRotate 2s ease-in-out infinite; /* Apply the hammerRotate animation to the hammer container */
@@ -118,4 +118,8 @@
   width: 100%;
   text-align: center;
   font-size: 150%;
+}
+
+.my-container {
+  position: relative;
 }
