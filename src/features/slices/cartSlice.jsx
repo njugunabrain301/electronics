@@ -98,6 +98,7 @@ export const cartSlice = createSlice({
           state.totalAmount += item.amount;
           item.totalPrice = item.amount * item.price;
           state.totalPrice += item.totalPrice;
+          return item;
         });
         window.localStorage.setItem("cart", JSON.stringify(state.cart));
         window.localStorage.setItem("cart-amount", state.amount);
@@ -124,6 +125,7 @@ export const cartSlice = createSlice({
           state.totalAmount += item.amount;
           item.totalPrice = item.amount * item.price;
           state.totalPrice += item.totalPrice;
+          return item;
         });
         window.localStorage.setItem("cart", JSON.stringify(state.cart));
         window.localStorage.setItem("cart-amount", state.amount);
@@ -145,6 +147,7 @@ export const cartSlice = createSlice({
           state.totalAmount += item.amount;
           item.totalPrice = item.amount * item.price;
           state.totalPrice += item.totalPrice;
+          return item;
         });
         window.localStorage.setItem("cart", JSON.stringify(state.cart));
         window.localStorage.setItem("cart-amount", state.amount);

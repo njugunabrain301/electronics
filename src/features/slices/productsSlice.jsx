@@ -16,9 +16,11 @@ let initialState = {
   isSliderLoaded: false,
   promoted: [],
   categories: [],
+  wearables: [],
   filterType: sessionStorage.getItem("filterType") || "",
   isProductsLoading: false,
   selectedProduct: sessionStorage.getItem("selectedProduct") || "",
+  search: sessionStorage.getItem("searchFilter") || "",
 };
 
 export const fetchProducts = createAsyncThunk(
@@ -56,6 +58,61 @@ export const fetchCategories = createAsyncThunk(
     }
   }
 );
+
+export const fetchGenderizable = createAsyncThunk(
+  "products/getGenderizable",
+  async (_, { rejectWithValue }) => {
+    try {
+      let res = await axios.get("/genderizable");
+      return res;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const fetchWearables = createAsyncThunk(
+  "products/getWearables",
+  async (_, { rejectWithValue }) => {
+    try {
+      let res = await axios.get("/wearables");
+      return res;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+let matchFilters = (product, state) => {
+  if (
+    state.filterType.toLowerCase() !== "search" &&
+    product.type.toLowerCase() !== state.filterType.toLowerCase()
+  ) {
+    return false;
+  }
+  if (
+    state.filters.includes("male") &&
+    product.gender.toLowerCase() !== "male" &&
+    product.gender.toLowerCase() !== "unisex"
+  )
+    return false;
+
+  if (
+    state.filters.includes("female") &&
+    product.gender.toLowerCase() !== "female" &&
+    product.gender.toLowerCase() !== "unisex"
+  )
+    return false;
+
+  if (
+    state.filters.includes("unisex") &&
+    product.gender.toLowerCase() !== "unisex"
+  )
+    return false;
+
+  return true;
+};
+
 export const productSlice = createSlice({
   name: "products",
   initialState,
@@ -63,7 +120,9 @@ export const productSlice = createSlice({
     filterProducts(state, action) {
       try {
         const filter = state.products.filter(
-          (product) => product.type === action.payload
+          (product) =>
+            action.payload.toLowerCase() === "search" ||
+            product.type.toLowerCase() === action.payload.toLowerCase()
         );
         state.filterType = action.payload;
         state.filteredProducts = filter;
@@ -93,9 +152,13 @@ export const productSlice = createSlice({
     },
     filterGender(state, action) {
       try {
-        const gender = state.filteredProducts.filter(
-          (product) => product.gender === action.payload
+        if (!state.filters.includes(action.payload)) {
+          state.filters.push(action.payload);
+        }
+        const gender = state.products.filter((product) =>
+          matchFilters(product, state)
         );
+
         state.error = false;
         state.filteredProducts = gender;
         const oneGenderType = gender.length > 0;
@@ -106,9 +169,6 @@ export const productSlice = createSlice({
         } else {
           state.error = true;
           state.filteredProducts = [];
-        }
-        if (!state.filters.includes(action.payload)) {
-          state.filters.push(action.payload);
         }
       } catch (err) {
         return err;
@@ -180,6 +240,41 @@ export const productSlice = createSlice({
         return err;
       }
     },
+    setSearchFilter(state, action) {
+      state.search = action.payload;
+      sessionStorage.setItem("searchFilter", action.payload);
+    },
+    filterSearch(state, action) {
+      try {
+        let searchTerm = action.payload;
+        if (!searchTerm || searchTerm === "") {
+          searchTerm = state.search;
+        }
+        const search = state.products.filter((product) => {
+          if (!searchTerm || searchTerm === "") {
+            return matchFilters(product, state);
+          }
+          return (
+            matchFilters(product, state) &&
+            product.name.toLowerCase().includes(searchTerm.toLowerCase())
+          );
+        });
+
+        state.error = false;
+        state.filteredProducts = search;
+        const exists = search.length > 0;
+        if (exists) {
+          state.error = false;
+          const saveState = JSON.stringify(search);
+          sessionStorage.setItem("filteredData", saveState);
+        } else {
+          state.error = true;
+          state.filteredProducts = [];
+        }
+      } catch (err) {
+        return err;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchHomePage.pending, (state) => {
@@ -218,10 +313,22 @@ export const productSlice = createSlice({
       state.products = action.payload.data;
       sessionStorage.setItem("products", JSON.stringify(state.products));
       const filter = state.products.filter((product) => {
-        if (state.filterType) return product.type === state.filterType;
+        if (state.filterType)
+          return (
+            state.filterType.toLowerCase() === "search" ||
+            product.type === state.filterType
+          );
         return true;
       });
       state.filteredProducts = filter;
+    });
+    builder.addCase(fetchGenderizable.fulfilled, (state, action) => {
+      if (action.payload.data.success)
+        state.genderizable = action.payload.data.data;
+    });
+    builder.addCase(fetchWearables.fulfilled, (state, action) => {
+      if (action.payload.data.success)
+        state.wearables = action.payload.data.data;
     });
   },
 });
@@ -234,5 +341,7 @@ export const {
   filterByColor,
   filterBySize,
   loadSingleProduct,
+  filterSearch,
+  setSearchFilter,
 } = productSlice.actions;
 export default productSlice.reducer;

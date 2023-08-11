@@ -25,6 +25,7 @@ export const store = configureStore({
           "cart/checkout/rejected",
           "cart/getCheckoutInfo/rejected",
           "cart/addToCart/rejected",
+          "products/getWearables/fulfilled",
         ],
       },
     }),

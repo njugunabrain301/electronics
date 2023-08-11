@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ProductCard from "./ProductCard";
-import { Button } from "@material-tailwind/react";
+import { Button, Input } from "@material-tailwind/react";
 import {
   Menu,
   MenuHandler,
@@ -15,6 +15,8 @@ import {
   filterGender,
   sortByPrice,
   fetchProducts,
+  fetchWearables,
+  filterSearch,
 } from "../../features/slices/productsSlice";
 import { Helmet } from "react-helmet";
 
@@ -24,7 +26,7 @@ const FilteredProducts = () => {
   const showPrice = useSelector((state) => state.app.profile.showPrice);
   const filters = useSelector((state) => state.products.filters);
   const { type } = useParams();
-  const genderButtons = ["male", "female"];
+  const genderButtons = ["male", "female", "unisex"];
   const dispatch = useDispatch();
   useEffect(() => {
     if (products.length === 0 && filters.length === 0) {
@@ -32,21 +34,23 @@ const FilteredProducts = () => {
     }
   }, [products, dispatch, filters]);
 
-  const wearables = [
-    "shoes",
-    "trousers",
-    "bags",
-    "hoodies",
-    "shirts",
-    "t-shirts",
-    "socks",
-    "jackets",
-    "sweatshirts",
-    "sweatpants",
-    "swim suits",
-  ];
+  useEffect(() => {
+    dispatch(fetchWearables());
+  }, [dispatch]);
+
+  const wearables = useSelector((state) => state.products.wearables);
+
   let profile = useSelector((state) => state.app.profile);
   const theme = useSelector((state) => state.app.theme);
+  const [searchValue, setSearch] = useState("");
+
+  const search = useSelector((state) => state.products.search);
+  useEffect(() => {
+    dispatch(filterSearch(searchValue));
+  }, [searchValue, dispatch]);
+  useEffect(() => {
+    setSearch(search);
+  }, [search]);
 
   return (
     <div className="bg-skin-primary text-skin-base">
@@ -60,42 +64,46 @@ const FilteredProducts = () => {
           <h1 className="xs:text-2xl md:text-4xl font-inter font-bold tracking-normal leading-none">
             {type}
           </h1>
-          <div className="items-center justify-between py-8 hidden md:flex">
-            <div className="flex items-center">
-              {wearables.includes(type) &&
-                genderButtons.map((item, index) => {
-                  return (
-                    <div key={index}>
-                      <Button
-                        color={theme["button-flat"]}
-                        size="lg"
-                        variant="outlined"
-                        ripple={true}
-                        className={
-                          "text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out mr-4 " +
-                          (filters.includes(item) ? "text-skin-selected" : "")
-                        }
-                        onClick={() => dispatch(filterGender(item))}
-                      >
-                        {item}
-                      </Button>
-                    </div>
-                  );
-                })}
-              <Button
-                color={theme["button-flat"]}
-                size="lg"
-                variant="outlined"
-                ripple={true}
-                className={
-                  "text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out mr-4 " +
-                  (filters.includes("price") ? "text-skin-selected" : "")
-                }
-                onClick={() => dispatch(sortByPrice())}
-              >
-                Sort By Price
-              </Button>
-              {/* <Menu>
+          <div className="flex items-center justify-start py-4 flex-wrap">
+            <div className="items-center justify-between py-8 hidden md:flex w-[100%]">
+              <div className="flex items-center">
+                {wearables.includes(type) &&
+                  genderButtons.map((item, index) => {
+                    return (
+                      <div key={index}>
+                        <Button
+                          color={theme["button-flat"]}
+                          size="md"
+                          variant="outlined"
+                          ripple={true}
+                          className={
+                            "text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out mr-4 " +
+                            (filters.includes(item) ? "text-skin-selected" : "")
+                          }
+                          onClick={() => dispatch(filterGender(item))}
+                        >
+                          {item}
+                        </Button>
+                      </div>
+                    );
+                  })}
+                {showPrice && (
+                  <Button
+                    color={theme["button-flat"]}
+                    size="md"
+                    variant="outlined"
+                    ripple={true}
+                    className={
+                      "w-[140px] text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out mr-4 " +
+                      (filters.includes("price") ? "text-skin-selected" : "")
+                    }
+                    onClick={() => dispatch(sortByPrice())}
+                  >
+                    Sort By Price
+                  </Button>
+                )}
+
+                {/* <Menu>
                 <MenuHandler>
                   <Button
                     color="gray"
@@ -121,7 +129,7 @@ const FilteredProducts = () => {
                   })}
                 </MenuList>
               </Menu> */}
-              {/* <Menu>
+                {/* <Menu>
                 <MenuHandler>
                   <Button
                     disabled={type === "Bags" || type === "Shoes"}
@@ -147,70 +155,121 @@ const FilteredProducts = () => {
                   })}
                 </MenuList>
               </Menu> */}
-            </div>
-            <div className="pr-14">
-              <Button
-                color={theme["button-flat"]}
-                size="lg"
-                variant="outlined"
-                ripple={true}
-                className="text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out mr-4"
-                onClick={() => dispatch(filterProducts(type))}
-              >
-                Clear Filter
-              </Button>
-            </div>
-          </div>
-          <div className="flex items-center justify-between py-4 md:hidden">
-            <Menu>
-              <MenuHandler>
+              </div>
+              <div>
+                {!wearables.includes(type) && (
+                  <Input
+                    label="Search"
+                    name="search"
+                    className="text-skin-base input"
+                    color={theme["text-highlight"]}
+                    value={searchValue}
+                    onChange={(e) => {
+                      setSearch(e.target.value);
+                    }}
+                  />
+                )}
+              </div>
+              <div className="pr-14">
                 <Button
-                  disabled={type === "Bags" || type === "Shoes"}
                   color={theme["button-flat"]}
-                  size="lg"
+                  size="md"
                   variant="outlined"
                   ripple={true}
-                  className="text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out mr-4 p-2 px-4 "
+                  className="text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out mr-4"
+                  onClick={() => {
+                    dispatch(filterProducts(type));
+                    setSearch("");
+                  }}
                 >
-                  Filter
+                  Clear Filter
                 </Button>
-              </MenuHandler>
-              <MenuList className="bg-skin-primary">
-                {genderButtons.map((item, index) => {
-                  return (
+              </div>
+            </div>
+            <div className="flex items-center justify-between py-4 md:hidden">
+              <Menu>
+                <MenuHandler>
+                  <Button
+                    color={theme["button-flat"]}
+                    size="lg"
+                    variant="outlined"
+                    ripple={true}
+                    className="rounded-md text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out mr-4 p-2 px-4 "
+                  >
+                    Filters
+                  </Button>
+                </MenuHandler>
+                <MenuList className="bg-skin-primary">
+                  {wearables.includes(type) &&
+                    genderButtons.map((item, index) => {
+                      return (
+                        <MenuItem
+                          key={index}
+                          onClick={() => dispatch(filterGender(item))}
+                          className={
+                            filters.includes(item)
+                              ? "text-skin-selected bg-skin-primary"
+                              : "bg-skin-primary text-skin-base"
+                          }
+                        >
+                          {item.charAt(0).toUpperCase() + "" + item.slice(1)}
+                        </MenuItem>
+                      );
+                    })}
+                  {showPrice && (
                     <MenuItem
-                      key={index}
-                      onClick={() => dispatch(filterGender(item))}
+                      key={10}
+                      onClick={() => dispatch(sortByPrice())}
                       className={
-                        filters.includes(item)
+                        filters.includes("price")
                           ? "text-skin-selected bg-skin-primary"
                           : "bg-skin-primary text-skin-base"
                       }
                     >
-                      {item.charAt(0).toUpperCase() + "" + item.slice(1)}
+                      Sort By Price
                     </MenuItem>
-                  );
-                })}
-                <MenuItem
-                  key={10}
-                  onClick={() => dispatch(sortByPrice())}
-                  className={
-                    filters.includes("price")
-                      ? "text-skin-selected bg-skin-primary"
-                      : "bg-skin-primary text-skin-base"
-                  }
-                >
-                  Sort By Price
-                </MenuItem>
-                <MenuItem
-                  key={11}
-                  onClick={() => dispatch(filterProducts(type))}
-                  className={"text-skin-base"}
-                >
-                  Clear Filter
-                </MenuItem>
-              </MenuList>
-            </Menu>
+                  )}
+                  <MenuItem
+                    key={11}
+                    onClick={() => {
+                      dispatch(filterProducts(type));
+                      setSearch("");
+                    }}
+                    className={"text-skin-base"}
+                  >
+                    Clear Filter
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </div>
+            {wearables.includes(type) && (
+              <div className="xs:w-[150px] md:w-[300px] flex items-center hidden md:flex">
+                <span className="pr-2 hidden md:block">Search:</span>
+                <Input
+                  label="Search"
+                  name="search"
+                  className="text-skin-base input"
+                  color={theme["text-highlight"]}
+                  value={searchValue}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                  }}
+                />
+              </div>
+            )}
+            <div className="xs:w-[150px] md:w-[300px] flex items-center md:hidden">
+              <span className="pr-2 hidden md:block">Search:</span>
+              <Input
+                label="Search"
+                name="search"
+                className="text-skin-base input"
+                color={theme["text-highlight"]}
+                value={searchValue}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
+              />
+            </div>
           </div>
         </div>
         {error ? (
@@ -218,7 +277,10 @@ const FilteredProducts = () => {
         ) : (
           <div className="flex justify-center py-8 flex-wrap">
             {products
-              .filter((product) => product.type === type)
+              .filter((product, index) => {
+                if (type.toLowerCase() === "search") return true;
+                else return product.type === type;
+              })
               .map((product, index) => {
                 return (
                   <div key={index} className="m-3">

@@ -254,18 +254,11 @@ function Checkout({ closeModal, setOpenCheckout }) {
               </li>
               {showPrice && (
                 <li
-                  className="p-2 w-[190px] text-center ml-[3px]"
-                  style={{
-                    borderBottom:
-                      section === 2
-                        ? "solid 2px " + theme["text-highlight"]
-                        : "solid 2px " + theme["text-base"],
-                    color:
-                      section === 2
-                        ? theme["text-highlight"]
-                        : theme["text-base"],
-                    transition: ".5s",
-                  }}
+                  className={
+                    section === 2
+                      ? "p-2 w-[190px] text-center text-skin-highlight border-skin-highlight border-b-2"
+                      : "p-2 w-[190px] text-center text-skin-base border-skin-base border-b-2"
+                  }
                   onClick={() => openSection(2)}
                 >
                   Payment Section

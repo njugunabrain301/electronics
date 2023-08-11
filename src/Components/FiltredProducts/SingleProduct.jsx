@@ -115,7 +115,7 @@ const SingleProduct = ({ handleAuth }) => {
                       label="Pick a size"
                       value={size}
                       disabled={productSize === "-"}
-                      onChange={(e) => setSize(e.target.value)}
+                      onChange={(e) => setSize(e)}
                       color={theme["button-base"]}
                       className="my-select bg-skin-primary text-skin-base text-sm rounded-lg block w-full p-2.5"
                     >
@@ -142,16 +142,16 @@ const SingleProduct = ({ handleAuth }) => {
                       label="Pick a color"
                       disabled={productColor === "-"}
                       onChange={(e) => {
-                        console.log(e);
                         setColor(e);
                       }}
+                      value={color}
                       color={theme["button-base"]}
                       className="my-select bg-skin-primary text-skin-base text-sm rounded-lg block w-full p-2.5"
                     >
                       {product.colors.map((color, index) => {
                         return (
                           <Option
-                            data-selected="true"
+                            selected={true}
                             key={index}
                             value={color}
                             className="flex align-center"

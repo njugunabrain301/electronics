@@ -15,8 +15,10 @@ import Loading from "./Components/Loading/Loading";
 import { Themes } from "./assets/Themes/Themes";
 import "./Components/styles.css";
 import UnderConstruction from "./Components/Loading/UnderConstruction";
+import Cookies from "universal-cookie";
 
 function App() {
+  let cookies = new Cookies();
   const [isReady, setIsReady] = useState(false);
   const [openAuth, setOpenAuth] = useState(false);
   const handleAuth = () => {
@@ -31,13 +33,13 @@ function App() {
 
   useEffect(() => {
     let theme = {};
-    if (selectedTheme != "") {
+    if (selectedTheme !== "") {
       theme = Themes[selectedTheme.toLowerCase()];
     } else {
       theme = Themes["classic"];
     }
     dispatch(setTheme(theme));
-  }, [selectedTheme]);
+  }, [selectedTheme, dispatch]);
 
   const loadPage = async () => {
     let res = await dispatch(fetchHomePage());
@@ -48,8 +50,11 @@ function App() {
         return;
       }
       setIsReady(true);
-      if (!window.localStorage.getItem("visit")) {
-        window.localStorage.setItem("visit", "x");
+      if (!cookies.get("visit")) {
+        var d = new Date();
+
+        d.setTime(d.getTime() + 12 * 60 * 60 * 1000);
+        cookies.set("visit", "x", { expires: d });
         dispatch(visit());
       }
     }

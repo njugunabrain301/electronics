@@ -52,7 +52,7 @@ const ProductCard = ({
               {colors?.map((color, index) => {
                 return (
                   <i
-                    className="fas fa-map-marker-alt fa-sm mt-[3px] rounded-full p-2 mr-4 "
+                    className="fas fa-map-marker-alt fa-sm mt-[3px] rounded-full p-2 mr-1 "
                     key={index}
                     style={{ backgroundColor: color }}
                   ></i>

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "@material-tailwind/react";
+import { Button, Input } from "@material-tailwind/react";
 import {
   fetchCategories,
   filterProducts,
+  filterSearch,
+  setSearchFilter,
 } from "../../features/slices/productsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const NavigateButtons = () => {
   const dispatch = useDispatch();
@@ -32,8 +34,43 @@ const NavigateButtons = () => {
     }
   }, [profile]);
   const theme = useSelector((state) => state.app.theme);
+  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+  useEffect(() => {
+    dispatch(setSearchFilter(""));
+  }, [dispatch]);
+
   return (
     <div className="bg-skin-primary">
+      <div className="px-2 flex justify-center">
+        <div className="max-w-[90%] w-[300px] flex justify-center items-center">
+          <Input
+            label="Search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <div>
+            {" "}
+            <Button
+              color={theme["button-flat"]}
+              size="md"
+              variant="outlined"
+              ripple={true}
+              className="ml-2 text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out"
+              onClick={() => {
+                dispatch(filterProducts("search"));
+                dispatch(setSearchFilter(search));
+                dispatch(filterSearch(search));
+                if (search !== "") {
+                  navigate("/filteredProducts/search");
+                }
+              }}
+            >
+              Search
+            </Button>
+          </div>{" "}
+        </div>
+      </div>
       <div className="flex items-center justify-center py-8 flex-wrap">
         {categories.map((button, index) => {
           return (
