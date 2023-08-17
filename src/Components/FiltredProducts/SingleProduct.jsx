@@ -28,7 +28,7 @@ const SingleProduct = ({ handleAuth }) => {
   }, [products, dispatch]);
 
   const product = useSelector((state) => state.products.singleProduct);
-
+  const [selectedImage, setSelectedImage] = useState("");
   useEffect(() => {
     setColor(
       product
@@ -44,6 +44,7 @@ const SingleProduct = ({ handleAuth }) => {
           : "-"
         : "-"
     );
+    setSelectedImage(product.img);
   }, [product]);
 
   const productSize = product
@@ -70,6 +71,7 @@ const SingleProduct = ({ handleAuth }) => {
   useEffect(() => {
     colorComponent("my-select");
   });
+
   return (
     <div className="bg-skin-primary text-skin-base">
       <Helmet>
@@ -86,12 +88,43 @@ const SingleProduct = ({ handleAuth }) => {
       </Helmet>
       {product && (
         <div className="flex justify-center items-center p-4 pb-8 flex-wrap">
-          <div className="flex justify-center  align-center m-4">
+          <div className="flex justify-center align-center m-4 flex-col">
             <img
               className="min-h-300px max-h-700px rounded-lg max-w-[400px] w-full"
-              src={product.img}
+              src={selectedImage}
               alt={product.name}
             ></img>
+            <div className="w-full flex items-center p-2">
+              <div
+                className="w-[120px] max-w-[20%] ml-2"
+                style={{ aspectRatio: "3/2" }}
+              >
+                <img
+                  src={product.img}
+                  style={{ width: "100%", aspectRatio: "3/2" }}
+                  className="rounded-md cursor-pointer"
+                  onClick={() => setSelectedImage(product.img)}
+                />
+              </div>
+              {product &&
+                product.images &&
+                product.images.map((im, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="w-[120px] max-w-[20%] ml-2"
+                      style={{ aspectRatio: "3/2" }}
+                    >
+                      <img
+                        src={im.img}
+                        style={{ width: "100%", aspectRatio: "3/2" }}
+                        className="rounded-md cursor-pointer"
+                        onClick={() => setSelectedImage(im.img)}
+                      />
+                    </div>
+                  );
+                })}
+            </div>
           </div>
           <div className="">
             <div className="max-w-lg">
