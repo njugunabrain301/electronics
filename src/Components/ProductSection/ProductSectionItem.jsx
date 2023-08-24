@@ -21,6 +21,13 @@ const ProductSectionItem = ({
   showPrice,
 }) => {
   const dispatch = useDispatch();
+  const resizeCardImage = (img) => {
+    img = img.replace(
+      "https://storage.googleapis.com/test-bucket001/",
+      "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-600,h-400/"
+    );
+    return img;
+  };
 
   return (
     <Link
@@ -39,7 +46,11 @@ const ProductSectionItem = ({
         </Typography> */}
         <CardHeader floated={false} className="">
           {onOffer}
-          <img src={img} alt={name} style={{ aspectRatio: "3/2" }} />
+          <img
+            src={resizeCardImage(img)}
+            alt={name}
+            style={{ aspectRatio: "3/2" }}
+          />
         </CardHeader>
         <CardBody className="text-center">
           <Typography variant="h4" className="mb-2">

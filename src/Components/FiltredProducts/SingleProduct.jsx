@@ -71,7 +71,13 @@ const SingleProduct = ({ handleAuth }) => {
   useEffect(() => {
     colorComponent("my-select");
   });
-
+  const resizeCardImage = (img) => {
+    img = img.replace(
+      "https://storage.googleapis.com/test-bucket001/",
+      "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-1200/"
+    );
+    return img;
+  };
   return (
     <div className="bg-skin-primary text-skin-base">
       <Helmet>
@@ -91,7 +97,7 @@ const SingleProduct = ({ handleAuth }) => {
           <div className="flex justify-center align-center m-4 flex-col">
             <img
               className="min-h-300px max-h-700px rounded-lg max-w-[400px] w-full"
-              src={selectedImage}
+              src={resizeCardImage(selectedImage)}
               alt={product.name}
             ></img>
             <div className="w-full flex items-center p-2">

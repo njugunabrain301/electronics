@@ -4,9 +4,11 @@ import axios from "../axios.config";
 
 let initialState = {
   filteredProducts: JSON.parse(sessionStorage.getItem("filteredData")) || [],
-  products: sessionStorage.getItem("products")
-    ? JSON.parse(sessionStorage.getItem("products")) || []
-    : [],
+  products:
+    sessionStorage.getItem("products") &&
+    sessionStorage.getItem("products") !== "undefined"
+      ? JSON.parse(sessionStorage.getItem("products")) || []
+      : [],
 
   singleProduct: JSON.parse(sessionStorage.getItem("singleProduct")) || [],
   error: false,

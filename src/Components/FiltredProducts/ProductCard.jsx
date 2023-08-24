@@ -22,6 +22,13 @@ const ProductCard = ({
 }) => {
   const dispatch = useDispatch();
   const { type } = useParams();
+  const resizeCardImage = (img) => {
+    img = img.replace(
+      "https://storage.googleapis.com/test-bucket001/",
+      "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-600,h-400/"
+    );
+    return img;
+  };
 
   return (
     <Link
@@ -33,7 +40,11 @@ const ProductCard = ({
         onClick={() => dispatch(singleProduct(id))}
       >
         <CardHeader className="relative h-60">
-          <img src={img} alt="img-blur-shadow" className="h-full w-full" />
+          <img
+            src={resizeCardImage(img)}
+            alt="img-blur-shadow"
+            className="h-full w-full"
+          />
         </CardHeader>
         <CardBody className="text-center">
           <Typography variant="h5" className="mb-2">

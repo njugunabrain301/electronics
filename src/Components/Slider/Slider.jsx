@@ -44,6 +44,22 @@ const Slider = () => {
   }, []);
   const dispatch = useDispatch();
 
+  const resizeSliderImage = (img) => {
+    img = img.replace(
+      "https://storage.googleapis.com/test-bucket001/",
+      "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-900,h-600/"
+    );
+    return img;
+  };
+
+  const resizeCardImage = (img) => {
+    img = img.replace(
+      "https://storage.googleapis.com/test-bucket001/",
+      "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-600,h-400/"
+    );
+    return img;
+  };
+
   return (
     <div className="flex justify-center items-center m-2 mt-4 flex-wrap ">
       {isSliderLoaded ? (
@@ -99,7 +115,7 @@ const Slider = () => {
                       onClick={() => dispatch(singleProduct(item._id))}
                     >
                       <img
-                        src={item.img}
+                        src={resizeSliderImage(item.img)}
                         className="block w-full h-[100%]"
                         alt="..."
                       />
@@ -122,7 +138,11 @@ const Slider = () => {
                       style={{ aspectRatio: "3/2" }}
                       onClick={() => dispatch(singleProduct(item._id))}
                     >
-                      <img src={item.img} className="block w-full" alt="..." />
+                      <img
+                        src={resizeSliderImage(item.img)}
+                        className="block w-full"
+                        alt="..."
+                      />
                     </Link>
                     <div className="absolute inset-x-[15%] bg-black opacity-50 bottom-6 rounded-md hidden py-1 text-center text-white md:block">
                       <h5 className="text-xl">{item.name}</h5>
@@ -209,7 +229,9 @@ const Slider = () => {
                   }
                 >
                   <img
-                    src={sliderData[sliderData.length > 4 ? 4 : 0].img}
+                    src={resizeCardImage(
+                      sliderData[sliderData.length > 4 ? 4 : 0].img
+                    )}
                     alt="..."
                     style={{ aspectRatio: "3/2" }}
                     className="w-full"
@@ -234,7 +256,9 @@ const Slider = () => {
                   }
                 >
                   <img
-                    src={sliderData[sliderData.length > 5 ? 5 : 1].img}
+                    src={resizeCardImage(
+                      sliderData[sliderData.length > 5 ? 5 : 1].img
+                    )}
                     alt="..."
                     style={{ aspectRatio: "3/2" }}
                     className="w-full"
@@ -261,7 +285,9 @@ const Slider = () => {
                   }
                 >
                   <img
-                    src={sliderData[sliderData.length > 6 ? 6 : 2].img}
+                    src={resizeCardImage(
+                      sliderData[sliderData.length > 6 ? 6 : 2].img
+                    )}
                     alt="..."
                     style={{ aspectRatio: "3/2" }}
                     className="w-full"
@@ -286,7 +312,9 @@ const Slider = () => {
                   }
                 >
                   <img
-                    src={sliderData[sliderData.length > 7 ? 7 : 3].img}
+                    src={resizeCardImage(
+                      sliderData[sliderData.length > 7 ? 7 : 3].img
+                    )}
                     alt="..."
                     style={{ aspectRatio: "3/2" }}
                     className="w-full"
