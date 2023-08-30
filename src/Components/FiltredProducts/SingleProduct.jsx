@@ -28,7 +28,7 @@ const SingleProduct = ({ handleAuth }) => {
   }, [products, dispatch]);
 
   const product = useSelector((state) => state.products.singleProduct);
-  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedImage, setSelectedImage] = useState(product.img);
   useEffect(() => {
     setColor(
       product
