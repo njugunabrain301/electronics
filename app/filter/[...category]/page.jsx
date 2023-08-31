@@ -8,7 +8,8 @@ import {
   fetchWearables,
 } from "@/utils/backendAPIs/products";
 import React from "react";
-import Loading from "./loading";
+
+export const runtime = "edge";
 
 export async function generateMetadata({ params }) {
   let profile = await fetchBusinessProfile();
