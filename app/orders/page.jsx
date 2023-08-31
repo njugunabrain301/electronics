@@ -1,6 +1,5 @@
 import Orders from "@/components/Orders";
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
-import Loading from "./loading";
 
 export async function generateMetadata() {
   let profile = await fetchBusinessProfile();

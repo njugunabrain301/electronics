@@ -46,6 +46,8 @@ const Navbar = ({ profile, bid, checkoutInfo, prod }) => {
   };
 
   useEffect(() => {
+    localStorage.setItem("bid", bid);
+    localStorage.setItem("prod", prod);
     updateLogin();
     //update visits
     if (!cookies.get("visit")) {
@@ -59,10 +61,6 @@ const Navbar = ({ profile, bid, checkoutInfo, prod }) => {
       console.log("not visit");
     }
   }, []);
-  if (window) {
-    localStorage.setItem("bid", bid);
-    localStorage.setItem("prod", prod);
-  }
 
   //Auth Modal
   let { openAuth, handleOpenAuth, handleCloseAuth } = useGlobalContext();

@@ -1,7 +1,7 @@
 "use client";
 import axios from "axios";
 
-let production = localStorage.getItem("prod");
+let production = process.env.REACT_APP_PRODUCTION; //localStorage.getItem("prod");
 
 const baseURL =
   production === "true"
