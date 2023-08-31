@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-text-base: black;
+    --color-text-inverted: white;
+    --color-text-alt: gray;
+    --color-text-info: #202020;
+    --color-text-highlight: dodgerblue;
+    --color-text-highlight-hover: rgb(4, 90, 176);
+    --color-text-selected: green;
+    --color-text-important: orange;
+
+    --color-background-primary: white;
+    --color-background-alt: black;
+    --color-background-card: dodgerblue;
+    --color-background-panel: #ddd;
+
+    --color-button-base: dodgerblue;
+    --color-button-delete: indianred;
+    --color-button-hover: #aaa;
+    --color-button-flat: #606060;
+    --color-button-flat-hover: #ddd;
+    --color-button-action: white;
+    --color-button-success: green;
+
+    --color-alert-danger: indianred;
+    --color-alert-info: yellow;
+  }
+
+  .classic {
+    --color-text-base: black;
+    --color-text-inverted: white;
+    --color-text-alt: gray;
+    --color-text-info: #202020;
+    --color-text-highlight: dodgerblue;
+    --color-text-highlight-hover: rgb(4, 90, 176);
+    --color-text-selected: green;
+    --color-text-important: orange;
+
+    --color-background-primary: white;
+    --color-background-alt: black;
+    --color-background-card: dodgerblue;
+    --color-background-panel: #ddd;
+    --color-background-pane: white;
+
+    --color-button-base: dodgerblue;
+    --color-button-delete: indianred;
+    --color-button-hover: #aaa;
+    --color-button-flat: #606060;
+    --color-button-flat-hover: #ddd;
+    --color-button-action: white;
+    --color-button-success: green;
+
+    --color-alert-danger: indianred;
+    --color-alert-info: yellow;
+  }
+
+  .moonlit {
+    --color-text-base: white;
+    --color-text-inverted: lightgray;
+    --color-text-alt: gray;
+    --color-text-info: #202020;
+    --color-text-highlight: rgb(70, 161, 253);
+    --color-text-highlight-hover: rgb(114, 173, 251);
+    --color-text-selected: lightgreen;
+    --color-text-important: orange;
+
+    --color-background-primary: #505050;
+    --color-background-alt: #202020;
+    --color-background-card: dodgerblue;
+    --color-background-panel: #404040;
+    --color-background-pane: #404040;
+
+    --color-button-base: dodgerblue;
+    --color-button-delete: indianred;
+    --color-button-hover: #404040;
+    --color-button-flat: #606060;
+    --color-button-flat-hover: #404040;
+    --color-button-action: white;
+    --color-button-success: green;
+
+    --color-alert-danger: indianred;
+    --color-alert-info: yellow;
+  }
+
+  .dawn {
+    --color-text-base: black;
+    --color-text-inverted: white;
+    --color-text-alt: gray;
+    --color-text-info: #202020;
+    --color-text-highlight: #795548;
+    --color-text-highlight-hover: #97827b;
+    --color-text-selected: green;
+    --color-text-important: orange;
+
+    --color-background-primary: #ccc;
+    --color-background-alt: #808080;
+    --color-background-card: #795548;
+    --color-background-panel: #959595;
+    --color-background-pane: #aaa;
+
+    --color-button-base: orange;
+    --color-button-delete: indianred;
+    --color-button-hover: #404040;
+    --color-button-flat: #606060;
+    --color-button-flat-hover: #aaa;
+    --color-button-action: white;
+    --color-button-success: green;
+
+    --color-alert-danger: indianred;
+    --color-alert-info: yellow;
+  }
+}

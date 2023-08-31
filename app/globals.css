@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media screen and (min-width: 340px) {
+  html {
+    overflow-x: hidden;
+  }
+}
