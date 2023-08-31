@@ -1,6 +1,8 @@
 import Orders from "@/components/Orders";
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
 
+export const runtime = "edge";
+
 export async function generateMetadata() {
   let profile = await fetchBusinessProfile();
   profile = profile.data;
