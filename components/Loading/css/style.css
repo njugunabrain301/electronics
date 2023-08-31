@@ -1,0 +1,29 @@
+#loading-screen .darker {
+  animation: pulse 1s infinite;
+  -webkit-animation: pulse 1s infinite;
+  transition: 400ms;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #bbb;
+  }
+  50% {
+    background-color: #aaa;
+  }
+  100% {
+    background-color: #bbb;
+  }
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    background-color: #bbb;
+  }
+  50% {
+    background-color: #aaa;
+  }
+  100% {
+    background-color: #bbb;
+  }
+}
