@@ -55,8 +55,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default async function RootLayout({ children }) {
   let res = await fetchBusinessProfile();
   let profile = res.data;
-  let bid = process.env.REACT_APP_STORE_ID;
-  let prod = process.env.REACT_APP_PRODUCTION;
+
   res = await getCheckoutInfo();
   let checkoutinfo = {};
 
@@ -77,12 +76,7 @@ export default async function RootLayout({ children }) {
       <body className={inter.className}>
         <Suspense>
           <GlobalContextProvider>
-            <Navbar
-              profile={profile}
-              bid={bid}
-              checkoutInfo={checkoutinfo}
-              prod={prod}
-            />
+            <Navbar profile={profile} checkoutInfo={checkoutinfo} />
             {children}
             <Footer profile={profile} />
           </GlobalContextProvider>

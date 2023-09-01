@@ -1,7 +1,8 @@
 "use client";
 import axios from "axios";
+import { token } from "./token";
 
-let production = process.env.REACT_APP_PRODUCTION; //localStorage.getItem("prod");
+let production = process.env.NEXT_PUBLIC_PRODUCTION;
 
 const baseURL =
   production === "true"
@@ -15,12 +16,12 @@ let instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const mtoken = token();
     console.log("Request Sent");
-    if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
+    if (mtoken) {
+      config.headers["Authorization"] = `Bearer ${mtoken}`;
     }
-    let bid = localStorage.getItem("bid");
+    let bid = process.env.NEXT_PUBLIC_STORE_ID;
     config.headers["business"] = bid;
     return config;
   },

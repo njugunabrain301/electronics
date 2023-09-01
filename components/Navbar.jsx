@@ -12,7 +12,7 @@ import { useGlobalContext } from "@/Context/context";
 import Image from "next/image";
 import { visit } from "@/utils/frontendAPIs/app";
 
-const Navbar = ({ profile, bid, checkoutInfo, prod }) => {
+const Navbar = ({ profile, checkoutInfo }) => {
   const [user, setUser] = useState({});
   const [authUser, setAuth] = useState(false);
   let cookies = new Cookies();
@@ -46,8 +46,6 @@ const Navbar = ({ profile, bid, checkoutInfo, prod }) => {
   };
 
   useEffect(() => {
-    localStorage.setItem("bid", bid);
-    localStorage.setItem("prod", prod);
     updateLogin();
     //update visits
     if (!cookies.get("visit")) {
