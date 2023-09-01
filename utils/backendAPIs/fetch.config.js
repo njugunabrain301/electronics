@@ -9,33 +9,30 @@ const baseURL =
 const backupUrl1 = "https://bunika-api.onrender.com/user/zidika";
 
 export const fetchData = async (url) => {
-  console.log(
-    "Fetching data from server using fetch ---------------------------",
-    bid,
-    url,
-    baseURL,
-    production
-  );
+  //   console.log(
+  //     "Fetching data from server using fetch ---------------------------",
+  //     bid,
+  //     url,
+  //     baseURL,
+  //     production
+  //   );
   try {
-    const response = await fetch(
-      "https://bunika.cyclic.app/user/zidika" + url,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          business: bid,
-        },
-      }
-    );
+    const response = await fetch(baseURL + url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        business: bid,
+      },
+    });
 
     if (!response.ok) {
       throw new Error("Network response was not ok. Trying again...");
     }
 
     const data = await response.json();
-    console.log("-----------------------------------------");
-    console.log(data, baseURL, url, bid);
-    console.log("-----------------------------------------");
+    // console.log("-----------------------------------------");
+    // console.log(data, baseURL, url, bid);
+    // console.log("-----------------------------------------");
     return data;
   } catch (error) {
     try {
