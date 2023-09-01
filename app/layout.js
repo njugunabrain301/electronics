@@ -21,14 +21,10 @@ export async function generateMetadata() {
         "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-150,h-100/"
       )
     : "";
-
-  return {
+  let metadata = {
     title: profile.name,
     description: profile.about,
     keywords: categories,
-    icons: {
-      icon: icon,
-    },
     openGraph: {
       title: profile.name,
       description: profile.about,
@@ -45,6 +41,12 @@ export async function generateMetadata() {
       type: "website",
     },
   };
+  if (icon) {
+    metadata.icons = {
+      icon: icon,
+    };
+  }
+  return metadata;
 }
 
 const inter = Inter({ subsets: ["latin"] });
@@ -52,8 +54,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default async function RootLayout({ children }) {
   let res = await fetchBusinessProfile();
   let profile = res.data;
-  let bid = process.env.REACT_APP_STORE_ID;
-  let prod = process.env.REACT_APP_PRODUCTION;
+
   res = await getCheckoutInfo();
   let checkoutinfo = {};
 
@@ -73,12 +74,7 @@ export default async function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <GlobalContextProvider>
-          <Navbar
-            profile={profile}
-            bid={bid}
-            checkoutInfo={checkoutinfo}
-            prod={prod}
-          />
+          <Navbar profile={profile} checkoutInfo={checkoutinfo} />
           {children}
           <Footer profile={profile} />
         </GlobalContextProvider>

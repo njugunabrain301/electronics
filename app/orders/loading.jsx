@@ -7,7 +7,8 @@ export default function Loading() {
             My Orders
           </p>
         </div>
-        {[...Array(3).keys()].map((i) => {
+        Loading...
+        {/* {[...Array(3).keys()].map((i) => {
           return (
             <div
               key={i}
@@ -109,7 +110,7 @@ export default function Loading() {
               </div>
             </div>
           );
-        })}
+        })} */}
       </div>
     </div>
   );

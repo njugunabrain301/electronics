@@ -10,6 +10,7 @@ import {
 } from "@material-tailwind/react";
 import Error from "@/components/Error";
 import { Themes } from "@/utils/Themes/Themes";
+import NotFound from "@/app/404";
 
 const FilteredProducts = ({
   productList,
@@ -17,6 +18,7 @@ const FilteredProducts = ({
   wearables,
   profile,
   searchParam,
+  params,
 }) => {
   const [error, setError] = useState("");
   const showPrice = profile.showPrice;
@@ -240,8 +242,8 @@ const FilteredProducts = ({
             </div>
           </div>
         </div>
-        {error ? (
-          <Error></Error>
+        {products.length === 0 ? (
+          <NotFound message={"There are no matching products"} />
         ) : (
           <div className="flex justify-center py-8 flex-wrap">
             {products.map((product, index) => {

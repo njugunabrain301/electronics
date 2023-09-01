@@ -24,7 +24,7 @@ function PasswordReset({ token, profile }) {
     }
     setIsLoading(true);
 
-    let res = resetPassword({ password, token });
+    let res = await resetPassword({ password, token });
     if (res.success) {
       setDone(true);
     } else if (res.message) {

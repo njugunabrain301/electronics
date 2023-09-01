@@ -64,7 +64,7 @@ const SingleProduct = ({ product, showPrice, selectedTheme }) => {
       {product && (
         <div className="flex justify-center items-center p-4 pb-8 flex-wrap">
           <div className="flex justify-center items-center m-4 flex-col">
-            <img
+            <Image
               className="max-h-600px rounded-lg max-w-[80%] sm:max-w-[500px]"
               src={selectedImage}
               alt={product.name}
