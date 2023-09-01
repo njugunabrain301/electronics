@@ -13,16 +13,20 @@ export const fetchData = async (url) => {
     "Fetching data from server using fetch ---------------------------",
     bid,
     url,
-    baseURL
+    baseURL,
+    production
   );
   try {
-    const response = await fetch(baseURL + "" + url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        business: bid,
-      },
-    });
+    const response = await fetch(
+      "https://bunika.cyclic.app/user/zidika" + url,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          business: bid,
+        },
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Network response was not ok. Trying again...");
