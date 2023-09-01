@@ -54,9 +54,6 @@ const Navbar = ({ profile, checkoutInfo }) => {
       d.setTime(d.getTime() + 12 * 60 * 60 * 1000);
       cookies.set("visit", "x", { expires: d });
       visit();
-      console.log("visit");
-    } else {
-      console.log("not visit");
     }
   }, []);
 

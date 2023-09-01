@@ -6,8 +6,6 @@ import { fetchProduct } from "@/utils/backendAPIs/products";
 export default async function Page({ params }) {
   let id = decodeURI(params.id);
 
-  console.log(params, id);
-
   let profile = {};
   let product = {};
 
