@@ -10,7 +10,10 @@ const backupUrl1 = "https://bunika-api.onrender.com/user/zidika";
 
 export const fetchData = async (url) => {
   console.log(
-    "Fetching data from server using fetch ---------------------------"
+    "Fetching data from server using fetch ---------------------------",
+    bid,
+    url,
+    baseURL
   );
   try {
     const response = await fetch(baseURL + "" + url, {
@@ -51,3 +54,5 @@ export const fetchData = async (url) => {
     }
   }
 };
+
+export const runtime = "edge";

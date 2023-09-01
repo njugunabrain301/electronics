@@ -8,3 +8,5 @@ export const fetchBusinessProfile = async () => {
     return err;
   }
 };
+
+export const runtime = "edge";
