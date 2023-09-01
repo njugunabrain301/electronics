@@ -8,80 +8,84 @@ import "@/components/styles.css";
 import { fetchCategories } from "@/utils/backendAPIs/products";
 import { GlobalContextProvider } from "@/Context/context";
 import { getCheckoutInfo } from "@/utils/backendAPIs/cart";
+import { Suspense } from "react";
 
 export async function generateMetadata() {
-  let profile = await fetchBusinessProfile();
-  let categories = await fetchCategories();
-  categories = categories.data;
-  profile = profile.data;
-
-  let icon = profile.icon
-    ? profile.icon.replace(
-        "https://storage.googleapis.com/test-bucket001/",
-        "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-150,h-100/"
-      )
-    : "";
-
-  return {
-    title: profile.name,
-    description: profile.about,
-    keywords: categories,
-    icons: {
-      icon: icon,
-    },
-    openGraph: {
-      title: profile.name,
-      description: profile.about,
-      url: profile.url,
-      siteName: profile.name,
-      images: [
-        {
-          url: profile.logo,
-          width: 800,
-          height: 600,
-        },
-      ],
-      locale: "en_US",
-      type: "website",
-    },
-  };
+  // let profile = await fetchBusinessProfile();
+  // let categories = await fetchCategories();
+  // categories = categories.data;
+  // profile = profile.data;
+  // let icon = profile.icon
+  //   ? profile.icon.replace(
+  //       "https://storage.googleapis.com/test-bucket001/",
+  //       "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-150,h-100/"
+  //     )
+  //   : "";
+  // let metadata = {
+  //   title: profile.name,
+  //   description: profile.about,
+  //   keywords: categories,
+  //   openGraph: {
+  //     title: profile.name,
+  //     description: profile.about,
+  //     url: profile.url,
+  //     siteName: profile.name,
+  //     images: [
+  //       {
+  //         url: profile.logo,
+  //         width: 800,
+  //         height: 600,
+  //       },
+  //     ],
+  //     locale: "en_US",
+  //     type: "website",
+  //   },
+  // };
+  // if (icon) {
+  //   metadata.icons = {
+  //     icon: icon,
+  //   };
+  // }
+  // return metadata;
 }
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default async function RootLayout({ children }) {
-  let res = await fetchBusinessProfile();
-  let profile = res.data;
-  let bid = process.env.REACT_APP_STORE_ID;
-  let prod = process.env.REACT_APP_PRODUCTION;
-  res = await getCheckoutInfo();
-  let checkoutinfo = {};
+  // let res = await fetchBusinessProfile();
+  // let profile = res.data;
+  // let bid = process.env.REACT_APP_STORE_ID;
+  // let prod = process.env.REACT_APP_PRODUCTION;
+  // res = await getCheckoutInfo();
+  // let checkoutinfo = {};
 
-  if (res.success) {
-    checkoutinfo.paymentOptions = res.data.paymentOptions;
-    checkoutinfo.deliveryLocations = res.data.deliveryLocations;
+  // if (res.success) {
+  //   checkoutinfo.paymentOptions = res.data.paymentOptions;
+  //   checkoutinfo.deliveryLocations = res.data.deliveryLocations;
 
-    checkoutinfo.counties = [];
-    checkoutinfo.deliveryLocations.map((loc) => {
-      if (!checkoutinfo.counties.includes(loc.county))
-        checkoutinfo.counties.push(loc.county);
-      return loc;
-    });
-  }
+  //   checkoutinfo.counties = [];
+  //   checkoutinfo.deliveryLocations.map((loc) => {
+  //     if (!checkoutinfo.counties.includes(loc.county))
+  //       checkoutinfo.counties.push(loc.county);
+  //     return loc;
+  //   });
+  // }
 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <GlobalContextProvider>
-          <Navbar
-            profile={profile}
-            bid={bid}
-            checkoutInfo={checkoutinfo}
-            prod={prod}
-          />
-          {children}
-          <Footer profile={profile} />
-        </GlobalContextProvider>
+        <Suspense>
+          <GlobalContextProvider>
+            {/* <Navbar
+              profile={profile}
+              bid={bid}
+              checkoutInfo={checkoutinfo}
+              prod={prod}
+            /> */}
+            {children}
+            {/* <Footer profile={profile} /> */}
+          </GlobalContextProvider>
+        </Suspense>
       </body>
     </html>
   );
