@@ -6,7 +6,6 @@ export const runtime = "edge";
 export async function generateMetadata() {
   let profile = await fetchBusinessProfile();
   profile = profile.data;
-
   return {
     title: "Orders | " + profile.name,
     description: profile.about,

@@ -10,6 +10,7 @@ import {
 import Checkout from "./CheckOut";
 import { removeFromCart } from "@/utils/frontendAPIs/cart";
 import { Themes } from "@/utils/Themes/Themes";
+import Image from "next/image";
 
 const Cart = ({
   closeModal,
@@ -75,11 +76,13 @@ const Cart = ({
                       <div key={index}>
                         <div className="grid grid-cols-2 py-4">
                           <div>
-                            <img
+                            <Image
                               className="h-[125px] rounded-md"
                               src={item.img}
                               alt={item.name}
-                            ></img>
+                              width={150}
+                              height={100}
+                            />
                             <div className="flex flex-col items-start text-skin-base">
                               <h4 className=" text-base font-inter font-bold tracking-normal leading-none pt-2">
                                 {item.name}
