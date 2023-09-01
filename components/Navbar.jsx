@@ -6,11 +6,11 @@ import MyModal from "./MyModal";
 import UserProfile from "@/components/UserProfile/UserProfile";
 import Link from "next/link";
 import Cookies from "universal-cookie";
-import { visit } from "@/utils/backendAPIs/app";
 import * as React from "react";
 import Cart from "./cart/Cart";
 import { useGlobalContext } from "@/Context/context";
 import Image from "next/image";
+import { visit } from "@/utils/frontendAPIs/app";
 
 const Navbar = ({ profile, bid, checkoutInfo, prod }) => {
   const [user, setUser] = useState({});

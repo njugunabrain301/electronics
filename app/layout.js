@@ -11,42 +11,43 @@ import { getCheckoutInfo } from "@/utils/backendAPIs/cart";
 import { Suspense } from "react";
 
 export async function generateMetadata() {
-  // let profile = await fetchBusinessProfile();
-  // let categories = await fetchCategories();
-  // categories = categories.data;
-  // profile = profile.data;
-  // let icon = profile.icon
-  //   ? profile.icon.replace(
-  //       "https://storage.googleapis.com/test-bucket001/",
-  //       "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-150,h-100/"
-  //     )
-  //   : "";
-  // let metadata = {
-  //   title: profile.name,
-  //   description: profile.about,
-  //   keywords: categories,
-  //   openGraph: {
-  //     title: profile.name,
-  //     description: profile.about,
-  //     url: profile.url,
-  //     siteName: profile.name,
-  //     images: [
-  //       {
-  //         url: profile.logo,
-  //         width: 800,
-  //         height: 600,
-  //       },
-  //     ],
-  //     locale: "en_US",
-  //     type: "website",
-  //   },
-  // };
-  // if (icon) {
-  //   metadata.icons = {
-  //     icon: icon,
-  //   };
-  // }
-  // return metadata;
+  let profile = await fetchBusinessProfile();
+  let categories = await fetchCategories();
+  categories = categories.data;
+  profile = profile.data;
+
+  let icon = profile.icon
+    ? profile.icon.replace(
+        "https://storage.googleapis.com/test-bucket001/",
+        "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-150,h-100/"
+      )
+    : "";
+  let metadata = {
+    title: profile.name,
+    description: profile.about,
+    keywords: categories,
+    openGraph: {
+      title: profile.name,
+      description: profile.about,
+      url: profile.url,
+      siteName: profile.name,
+      images: [
+        {
+          url: profile.logo,
+          width: 800,
+          height: 600,
+        },
+      ],
+      locale: "en_US",
+      type: "website",
+    },
+  };
+  if (icon) {
+    metadata.icons = {
+      icon: icon,
+    };
+  }
+  return metadata;
 }
 
 const inter = Inter({ subsets: ["latin"] });

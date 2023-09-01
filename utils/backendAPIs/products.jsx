@@ -1,32 +1,10 @@
 import axios from "./axios.config";
-
-let initialState = {
-  filteredProducts: [], // JSON.parse(sessionStorage.getItem("filteredData")) || [],
-  products: [] /*
-    sessionStorage.getItem("products") &&
-    sessionStorage.getItem("products") !== "undefined"
-      ? JSON.parse(sessionStorage.getItem("products")) || []
-      : [],*/,
-
-  singleProduct: [], //JSON.parse(sessionStorage.getItem("singleProduct")) || [],
-  error: false,
-  filters: [],
-  batchNo: 0,
-  sliderData: [],
-  isSliderLoaded: false,
-  promoted: [],
-  categories: [],
-  wearables: [],
-  filterType: "", //sessionStorage.getItem("filterType") || "",
-  isProductsLoading: false,
-  selectedProduct: "", //sessionStorage.getItem("selectedProduct") || "",
-  search: "", //sessionStorage.getItem("searchFilter") || "",
-};
+import { fetchData } from "./fetch.config";
 
 export const fetchProducts = async () => {
   try {
-    let res = await axios.get("/products");
-    return res.data;
+    let res = await fetchData("/products");
+    return res;
   } catch (err) {
     return err;
   }
@@ -34,8 +12,8 @@ export const fetchProducts = async () => {
 
 export const fetchProduct = async (payload) => {
   try {
-    let res = await axios.get("/product/" + payload.pid, payload);
-    return res.data;
+    let res = await fetchData("/product/" + payload.pid);
+    return res;
   } catch (err) {
     return err;
   }
@@ -43,8 +21,8 @@ export const fetchProduct = async (payload) => {
 
 export const fetchHomePage = async () => {
   try {
-    let res = await axios.get("/homepage");
-    return res.data;
+    let res = await fetchData("/homepage");
+    return res;
   } catch (err) {
     return err;
   }
@@ -52,8 +30,8 @@ export const fetchHomePage = async () => {
 
 export const fetchCategories = async () => {
   try {
-    let res = await axios.get("/categories");
-    return res.data;
+    let res = await fetchData("/categories");
+    return res;
   } catch (err) {
     return err;
   }
@@ -61,7 +39,7 @@ export const fetchCategories = async () => {
 
 export const fetchGenderizable = async () => {
   try {
-    let res = await axios.get("/genderizable");
+    let res = await fetchData("/genderizable");
     return res;
   } catch (err) {
     return err;
@@ -70,8 +48,8 @@ export const fetchGenderizable = async () => {
 
 export const fetchWearables = async () => {
   try {
-    let res = await axios.get("/wearables");
-    return res.data;
+    let res = await fetchData("/wearables");
+    return res;
   } catch (err) {
     return err;
   }

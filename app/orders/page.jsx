@@ -1,5 +1,5 @@
-// import Orders from "@/components/Orders";
-// import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
+import Orders from "@/components/Orders";
+import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
 
 export const runtime = "edge";
 
