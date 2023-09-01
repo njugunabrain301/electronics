@@ -23,6 +23,9 @@ export const fetchData = async (url) => {
     }
 
     const data = await response.json();
+    console.log("-----------------------------------------");
+    console.log(data, baseURL, url, bid);
+    console.log("-----------------------------------------");
     return data;
   } catch (error) {
     try {
