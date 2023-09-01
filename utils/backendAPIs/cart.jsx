@@ -8,3 +8,5 @@ export const getCheckoutInfo = async () => {
     return err;
   }
 };
+
+export const runtime = "edge";

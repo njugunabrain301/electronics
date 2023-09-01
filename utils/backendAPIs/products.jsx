@@ -54,3 +54,5 @@ export const fetchWearables = async () => {
     return err;
   }
 };
+
+export const runtime = "edge";
