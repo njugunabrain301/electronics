@@ -1,17 +1,17 @@
-import NotFound from "@/app/404";
-import FilteredProducts from "@/components/FiltredProducts/FilteredProducts";
-import SingleProduct from "@/components/FiltredProducts/SingleProduct";
-import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
-import {
-  fetchProduct,
-  fetchProducts,
-  fetchWearables,
-} from "@/utils/backendAPIs/products";
+// import NotFound from "@/app/404";
+// import FilteredProducts from "@/components/FiltredProducts/FilteredProducts";
+// import SingleProduct from "@/components/FiltredProducts/SingleProduct";
+// import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
+// import {
+//   fetchProduct,
+//   fetchProducts,
+//   fetchWearables,
+// } from "@/utils/backendAPIs/products";
 import React from "react";
 
 export const runtime = "edge";
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata({}) {
   // let profile = await fetchBusinessProfile();
   // profile = profile.data;
   // let category = params.category[0];
@@ -64,6 +64,7 @@ export default async function Page({ params }) {
   // if (singleProduct) {
   //   let res = await fetchProduct({ pid: singleProduct });
   //   product = res.data;
+  //   console.log(res, singleProduct, category);
   // } else {
   //   let res = await fetchProducts();
   //   products = res.data;

@@ -74,13 +74,13 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Suspense>
-          <GlobalContextProvider>
-            <Navbar profile={profile} checkoutInfo={checkoutinfo} />
-            {children}
-            <Footer profile={profile} />
-          </GlobalContextProvider>
-        </Suspense>
+        {/* <Suspense> */}
+        <GlobalContextProvider>
+          <Navbar profile={profile} checkoutInfo={checkoutinfo} />
+          {children}
+          <Footer profile={profile} />
+        </GlobalContextProvider>
+        {/* </Suspense> */}
       </body>
     </html>
   );
