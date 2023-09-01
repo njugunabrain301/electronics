@@ -144,18 +144,18 @@ const Navbar = ({ profile, checkoutInfo }) => {
       <div className="bg-skin-primary flex justify-around items-center text-skin-base">
         <div>
           {logo ? (
-            <div className="flex align-center bg-skin-alt m-2 px-[5px] rounded-md">
-              <Image
-                className=" max-w-[80px] md:max-w-[100px] md:max-h-24 w-full max-h-20 lg:max-h-28"
-                src={logo}
-                style={{ width: "100%", aspectRatio: "3:2" }}
-                width={150}
-                height={100}
-                alt="Business Logo"
-              />
-            </div>
+            <Image
+              className="m-2 max-w-[80px] md:max-w-[100px] md:max-h-16 w-full max-h-[20px] lg:max-h-20"
+              src={logo}
+              style={{ width: "100%", aspectRatio: "3:2" }}
+              width={150}
+              height={100}
+              alt="Business Logo"
+            />
           ) : (
-            genLogo()
+            <div className="flex align-center bg-skin-alt m-2 px-[5px] rounded-md">
+              {genLogo()}
+            </div>
           )}
         </div>
         <div className="flex flex-row items-center">
@@ -336,7 +336,7 @@ const Navbar = ({ profile, checkoutInfo }) => {
           </Link>
         </p>
         <p className=" font-inter text-base font-medium flex">
-          <a href="tel: +254717563148" className="flex">
+          <a href={"mailto: " + profile.email} className="flex">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -357,7 +357,7 @@ const Navbar = ({ profile, checkoutInfo }) => {
             </span>
           </a>
 
-          <a href="tel: +254717563148" className="flex ml-4">
+          <a href={"tel: " + profile.phone} className="flex ml-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

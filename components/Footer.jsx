@@ -61,18 +61,18 @@ const Footer = ({ profile }) => {
       <div className="flex items-center justify-around pt-4">
         <div>
           {logo ? (
-            <div className="flex align-center bg-black m-2 px-[5px] rounded-md">
-              <Image
-                className="max-w-[80px] md:max-w-[100px] md:max-h-24 w-full max-h-20 lg:max-h-28"
-                src={logo}
-                width={200}
-                height={150}
-                sizes="(max-width: 400px) 100%"
-                alt="Business Logo"
-              />
-            </div>
+            <Image
+              className="m-2 max-w-[80px] md:max-w-[100px] md:max-h-16 w-full max-h-[20px] lg:max-h-20"
+              src={logo}
+              style={{ width: "100%", aspectRatio: "3:2" }}
+              width={150}
+              height={100}
+              alt="Business Logo"
+            />
           ) : (
-            genLogo()
+            <div className="flex align-center bg-skin-alt m-2 px-[5px] rounded-md">
+              {genLogo()}
+            </div>
           )}
         </div>
         <div>

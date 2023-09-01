@@ -1,7 +1,17 @@
-import NotFound from "@/app/404";
 import FilteredProducts from "@/components/FiltredProducts/FilteredProducts";
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
 import { fetchProducts, fetchWearables } from "@/utils/backendAPIs/products";
+
+export async function generateMetadata({ params }) {
+  let profile = await fetchBusinessProfile();
+  profile = profile.data;
+  let search = decodeURI(params.search);
+
+  return {
+    title: "Search: " + search + " | " + profile.name,
+    description: search + ", " + profile.name + ", " + profile.about,
+  };
+}
 
 export default async function Page({ params }) {
   let searchParam = decodeURI(params.search);
