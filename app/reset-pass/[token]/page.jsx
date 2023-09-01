@@ -9,8 +9,7 @@ async function page({ params }) {
   let profile = res.data;
   return (
     <div>
-      Password Reset
-      {/* <PasswordReset token={token} profile={profile} /> */}
+      <PasswordReset token={token} profile={profile} />
     </div>
   );
 }

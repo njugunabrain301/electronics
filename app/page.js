@@ -36,7 +36,6 @@ export default async function Home() {
 
   return (
     <div className={"App min-w-[330px] bg-skin-primary " + selectedTheme}>
-      Yoh
       {isReady ? (
         <>
           <>

@@ -101,8 +101,7 @@ export default async function Page({ params }) {
 
   return (
     <div>
-      Filtered Products
-      {/* {singleProduct ? (
+      {singleProduct ? (
         <>
           <SingleProduct
             product={product}
@@ -120,7 +119,7 @@ export default async function Page({ params }) {
             searchParam={searchParam}
           ></FilteredProducts>
         </>
-      )} */}
+      )}
     </div>
   );
 }
