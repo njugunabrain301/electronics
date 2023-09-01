@@ -7,23 +7,22 @@ import {
   fetchProducts,
   fetchWearables,
 } from "@/utils/backendAPIs/products";
-import React from "react";
 
 export const runtime = "edge";
 
 export async function generateMetadata({ params }) {
   let profile = await fetchBusinessProfile();
   profile = profile.data;
-  let category = params.category[0];
+  let category = decodeURI(params.category[0]);
   let searchParam = "";
   let singleProduct = false;
   if (category === "search") {
-    searchParam = params.category[1];
+    searchParam = decodeURI(params.category[1]);
     if (params.category.length > 2) {
-      singleProduct = params.category[2];
+      singleProduct = decodeURI(params.category[2]);
     }
   } else if (params.category.length > 1) {
-    singleProduct = params.category[1];
+    singleProduct = decodeURI(params.category[1]);
   }
   let product = {};
   if (singleProduct) {
@@ -119,6 +118,7 @@ export default async function Page({ params }) {
             wearables={wearables}
             profile={profile}
             searchParam={searchParam}
+            params={params}
           ></FilteredProducts>
         </>
       )}
