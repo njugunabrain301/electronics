@@ -54,6 +54,7 @@ export default async function Page({ params }) {
   } else if (params.category.length > 1) {
     singleProduct = decodeURI(params.category[1]);
   }
+  console.log(params, singleProduct, category);
 
   let products = [];
   let type = category;
