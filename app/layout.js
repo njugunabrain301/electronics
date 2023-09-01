@@ -12,6 +12,7 @@ import { Suspense } from "react";
 
 export async function generateMetadata() {
   let profile = await fetchBusinessProfile();
+  console.log(profile, "-------------------------------");
   let categories = await fetchCategories();
   categories = categories.data;
   profile = profile.data;
