@@ -6,6 +6,7 @@ import { resetPassword } from "@/utils/frontendAPIs/auth";
 import { Themes } from "@/utils/Themes/Themes";
 
 function PasswordReset({ token, profile }) {
+  console.log("token", token);
   const [password, setPassword] = useState("");
   const [cpassword, setCPassword] = useState("");
   const [error, setError] = useState("");
@@ -30,6 +31,7 @@ function PasswordReset({ token, profile }) {
     } else if (res.message) {
       setError(res.message);
     } else {
+      console.log(res);
       setError("An error occured. Please try again after some time");
     }
     setIsLoading(false);
