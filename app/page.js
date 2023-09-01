@@ -14,16 +14,19 @@ export default async function Home() {
 
   const loadPage = async () => {
     let res = await fetchHomePage();
+
     if (res.success) {
       if (!res.data.ready || !res.data.active) {
         constructed = false;
         return;
       }
+
       isReady = true;
       promoted = res.data.promoted;
       slider = res.data.slider;
     }
   };
+
   await loadPage();
   let res = await fetchCategories();
   let categories = res.data;
@@ -33,6 +36,7 @@ export default async function Home() {
 
   return (
     <div className={"App min-w-[330px] bg-skin-primary " + selectedTheme}>
+      Yoh
       {isReady ? (
         <>
           <>
