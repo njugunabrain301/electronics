@@ -144,18 +144,15 @@ const Navbar = ({ profile, checkoutInfo }) => {
       <div className="bg-skin-primary flex justify-around items-center text-skin-base">
         <div>
           {logo ? (
-            <Image
-              className="m-2 max-w-[80px] md:max-w-[100px] md:max-h-16 w-full max-h-[20px] lg:max-h-20"
-              src={logo}
-              style={{ width: "100%", aspectRatio: "3:2" }}
-              width={150}
-              height={100}
-              alt="Business Logo"
-            />
-          ) : (
-            <div className="flex align-center bg-skin-alt m-2 px-[5px] rounded-md">
-              {genLogo()}
+            <div className="flex align-center m-2 px-[5px] ">
+              <img
+                className="max-w-[100px] md-max-w-initial md:max-h-16 w-full max-h-10 lg:h-20"
+                src={logo}
+                alt="store"
+              />
             </div>
+          ) : (
+            <div className="bg-skin-alt rounded-md">{genLogo()}</div>
           )}
         </div>
         <div className="flex flex-row items-center">
