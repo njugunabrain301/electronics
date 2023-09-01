@@ -18,6 +18,7 @@ const FilteredProducts = ({
   profile,
   searchParam,
 }) => {
+  console.log(productList, type, wearables, profile, searchParam);
   const [error, setError] = useState("");
   const showPrice = profile.showPrice;
   const [filters, setFilters] = useState([]);
