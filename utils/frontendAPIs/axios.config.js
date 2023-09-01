@@ -1,6 +1,5 @@
 "use client";
 import axios from "axios";
-import { token } from "./token";
 
 let production = process.env.NEXT_PUBLIC_PRODUCTION;
 
@@ -16,7 +15,7 @@ let instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    const mtoken = token();
+    const mtoken = localStorage.getItem("token");
     console.log("Request Sent");
     if (mtoken) {
       config.headers["Authorization"] = `Bearer ${mtoken}`;
