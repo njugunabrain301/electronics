@@ -2,7 +2,8 @@ export default function Loading() {
   return (
     <div>
       <div className="flex justify-center bg-skin-primary w-[70%] flex-wrap m-auto">
-        {[...Array(12).keys()].map((i) => {
+        Loading...
+        {/* {[...Array(12).keys()].map((i) => {
           return (
             <div
               key={i}
@@ -45,7 +46,7 @@ export default function Loading() {
               </div>
             </div>
           );
-        })}
+        })} */}
       </div>
     </div>
   );

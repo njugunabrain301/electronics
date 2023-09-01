@@ -1,6 +1,7 @@
 "use client";
 import { fetchOrders } from "@/utils/frontendAPIs/orders";
 import { DialogBody, Typography, Tooltip } from "@material-tailwind/react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 function Orders() {
@@ -48,12 +49,15 @@ function Orders() {
                   >
                     <div className="grid grid-cols-2 py-4">
                       <div className="text-skin-base">
-                        <img
-                          className="h-[125px] rounded-md"
-                          src={item.img}
-                          alt={item.name}
-                          style={{ aspectRatio: "3/2" }}
-                        ></img>
+                        <div>
+                          <Image
+                            className=" rounded-md max-w-full"
+                            src={item.img}
+                            alt={item.name}
+                            width={300}
+                            height={500}
+                          />
+                        </div>
                         <div className="flex flex-col items-start">
                           <h4 className=" text-base font-inter font-bold tracking-normal leading-none pt-2">
                             {item.name}
