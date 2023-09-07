@@ -10,9 +10,8 @@ export default function NotFound({ message }) {
       <div className="max-w-[500px] w-[90%] text-center">
         <p>{message}</p>
         <p>
-          Go back to{" "}
-          <Link href={"/"} className="text-blue-700 cursor-pointer">
-            Home
+          <Link href={"/#more"} className="text-blue-700 cursor-pointer">
+            Browse more categories{" "}
           </Link>
         </p>
       </div>

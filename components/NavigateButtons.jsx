@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const NavigateButtons = ({ categories, profile }) => {
+const NavigateButtons = ({ categories, profile, minified }) => {
   let video = "";
   let tags = [];
 
@@ -28,6 +28,8 @@ const NavigateButtons = ({ categories, profile }) => {
       router.push("/filter/search/" + search);
     }
   };
+
+  let displayNum = 10;
 
   return (
     <div className="bg-skin-primary">
@@ -55,6 +57,7 @@ const NavigateButtons = ({ categories, profile }) => {
       </div>
       <div className="flex items-center justify-center py-8 flex-wrap">
         {categories.map((button, index) => {
+          if (!minified && index > displayNum) return;
           return (
             <div key={index} className="mx-2 mb-3">
               <Link href={"/filter/" + button}>
@@ -71,41 +74,60 @@ const NavigateButtons = ({ categories, profile }) => {
             </div>
           );
         })}
-      </div>
-      {tags.length > 0 ? (
-        <div className="bg-skin-alt p-2 w-[60%] my-3 mx-auto rounded-md">
-          <h3 className="text-skin-inverted text-center text-lg font-inter font-bold tracking-normal leading-none">
-            {tags[0]}
-          </h3>
-        </div>
-      ) : (
-        <></>
-      )}
-
-      <div>
-        {video && (
-          <iframe
-            title="Youtube video"
-            style={{
-              maxWidth: "800px",
-              margin: "20px auto",
-              width: "90%",
-              aspectRatio: "3/2",
-              borderRadius: "10px",
-            }}
-            src={video}
-          ></iframe>
+        {categories.length > displayNum && !minified && (
+          <div className="mx-2 mb-3">
+            <Link href={"#more-categories"}>
+              <Button
+                color={theme["button-flat"]}
+                size="lg"
+                variant="outlined"
+                ripple={true}
+                className="text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out"
+              >
+                More...
+              </Button>
+            </Link>
+          </div>
         )}
       </div>
+      {!minified && (
+        <>
+          {tags.length > 0 ? (
+            <div className="bg-skin-alt p-2 w-[60%] my-3 mx-auto rounded-md">
+              <h3 className="text-skin-inverted text-center text-lg font-inter font-bold tracking-normal leading-none">
+                {tags[0]}
+              </h3>
+            </div>
+          ) : (
+            <></>
+          )}
 
-      {tags.length > 1 ? (
-        <div className="bg-skin-alt p-2 w-[60%] my-3 mx-auto rounded-md">
-          <h3 className="text-skin-inverted text-center text-lg font-inter font-bold tracking-normal leading-none">
-            {tags[1]}
-          </h3>
-        </div>
-      ) : (
-        <></>
+          <div>
+            {video && (
+              <iframe
+                title="Youtube video"
+                style={{
+                  maxWidth: "800px",
+                  margin: "20px auto",
+                  width: "90%",
+                  aspectRatio: "3/2",
+                  borderRadius: "10px",
+                }}
+                src={video}
+              ></iframe>
+            )}
+          </div>
+
+          {tags.length > 1 ? (
+            <div className="bg-skin-alt p-2 w-[60%] my-3 mx-auto rounded-md">
+              <h3 className="text-skin-inverted text-center text-lg font-inter font-bold tracking-normal leading-none">
+                {tags[1]}
+              </h3>
+            </div>
+          ) : (
+            <></>
+          )}
+        </>
       )}
     </div>
   );

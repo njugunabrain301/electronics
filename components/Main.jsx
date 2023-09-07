@@ -6,11 +6,20 @@ const Main = ({ products, slider, promoted, profile, categories }) => {
   return (
     <div className="">
       <Slider products={products} slider={slider}></Slider>
-      <NavigateButtons
-        profile={profile}
-        categories={categories}
-      ></NavigateButtons>
+      <div id="more">
+        <NavigateButtons
+          profile={profile}
+          categories={categories}
+        ></NavigateButtons>
+      </div>
       <ProductSection products={promoted}></ProductSection>
+      <div id="more-categories">
+        <NavigateButtons
+          profile={profile}
+          categories={categories}
+          minified={true}
+        ></NavigateButtons>
+      </div>
     </div>
   );
 };

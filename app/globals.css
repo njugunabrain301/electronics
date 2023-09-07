@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 @media screen and (min-width: 340px) {
   html {
     overflow-x: hidden;
