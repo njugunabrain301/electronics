@@ -2,6 +2,10 @@ import FilteredProducts from "@/components/FiltredProducts/FilteredProducts";
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
 import { fetchProducts, fetchWearables } from "@/utils/backendAPIs/products";
 
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({ params }) {
   let profile = await fetchBusinessProfile();
   profile = profile.data;

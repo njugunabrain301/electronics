@@ -4,6 +4,10 @@ import UnderConstruction from "@/components/Loading/UnderConstruction";
 import { fetchCategories, fetchHomePage } from "@/utils/backendAPIs/products";
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
 
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   let isReady = false;
   let promoted = [];

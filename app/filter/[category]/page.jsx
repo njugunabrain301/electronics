@@ -8,6 +8,10 @@ import {
   fetchWearables,
 } from "@/utils/backendAPIs/products";
 
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
+export const dynamic = "force-dynamic";
+
 export const runtime = "edge";
 
 export async function generateMetadata({ params }) {

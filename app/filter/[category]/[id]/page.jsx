@@ -3,6 +3,10 @@ import SingleProduct from "@/components/FiltredProducts/SingleProduct";
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
 import { fetchProduct } from "@/utils/backendAPIs/products";
 
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({ params }) {
   let id = decodeURI(params.id);
 
