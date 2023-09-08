@@ -16,7 +16,7 @@ export const fetchData = async (url) => {
         "Content-Type": "application/json",
         business: bid,
       },
-      cache: "no-cache",
+      cache: "no-store",
     });
 
     if (!response.ok) {
