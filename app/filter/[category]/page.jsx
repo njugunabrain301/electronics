@@ -32,9 +32,11 @@ export default async function Page({ params }) {
   let res = await fetchProducts();
   products = res.data;
 
-  products = products.filter(
-    (prod) => prod.type.toLowerCase() === category.toLowerCase()
-  );
+  products = products.filter((prod) => {
+    return prod.categories.find(
+      (cat) => cat && cat.toLowerCase() === category.toLowerCase()
+    );
+  });
 
   res = await fetchWearables();
   wearables = res.data;
