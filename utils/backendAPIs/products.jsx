@@ -21,8 +21,8 @@ export const fetchProduct = async (payload) => {
 
 export const fetchHomePage = async () => {
   try {
-    let res = await axios.get("/homepage");
-    return res.data;
+    let res = await fetchData("/homepage");
+    return res;
   } catch (err) {
     return err;
   }
