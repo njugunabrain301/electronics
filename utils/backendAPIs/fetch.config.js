@@ -1,6 +1,6 @@
 import { bid } from "@/utils/store";
 
-let production = process.env.REACT_APP_PRODUCTION;
+let production = process.env.NEXT_PUBLIC_PRODUCTION;
 const baseURL =
   production === "true"
     ? "https://bunika.cyclic.app/user/zidika"
