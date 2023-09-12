@@ -4,8 +4,6 @@ import UnderConstruction from "@/components/Loading/UnderConstruction";
 import { fetchCategories, fetchHomePage } from "@/utils/backendAPIs/products";
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
 
-export const runtime = "edge";
-
 export default async function Home() {
   let isReady = false;
   let promoted = [];
