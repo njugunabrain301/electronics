@@ -37,9 +37,7 @@ export default async function Page({ params }) {
   products = res.data;
 
   products = products.filter((prod) => {
-    return prod.categories.find(
-      (cat) => cat && cat.toLowerCase() === category.toLowerCase()
-    );
+    return prod.category === category || prod.subcategory === category;
   });
 
   res = await fetchWearables();
