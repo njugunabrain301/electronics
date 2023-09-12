@@ -28,7 +28,16 @@ export default async function Page({ params }) {
   products = res.data;
   products = products.filter(
     (prod) =>
-      prod.type.toLowerCase().includes(searchParam.toLowerCase()) ||
+      (prod.category &&
+        prod.category.toLowerCase().includes(searchParam.toLowerCase())) ||
+      (prod.subcategory &&
+        prod.subcategory.toLowerCase().includes(searchParam.toLowerCase())) ||
+      (prod.extras &&
+        prod.extras.make &&
+        prod.extras.make.toLowerCase().includes(searchParam.toLowerCase())) ||
+      (prod.extras &&
+        prod.extras.model &&
+        prod.extras.model.toLowerCase().includes(searchParam.toLowerCase())) ||
       prod.name.toLowerCase().includes(searchParam.toLowerCase())
   );
 

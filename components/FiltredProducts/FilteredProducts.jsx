@@ -8,7 +8,6 @@ import {
   MenuList,
   MenuItem,
 } from "@material-tailwind/react";
-import Error from "@/components/Error";
 import { Themes } from "@/utils/Themes/Themes";
 import NotFound from "@/app/404";
 
@@ -57,7 +56,24 @@ const FilteredProducts = ({
         searchValue &&
         !(
           product.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-          product.type.toLowerCase().includes(searchValue.toLowerCase())
+          (product.category &&
+            product.category
+              .toLowerCase()
+              .includes(searchValue.toLowerCase())) ||
+          (product.subcategory &&
+            product.subcategory
+              .toLowerCase()
+              .includes(searchValue.toLowerCase())) ||
+          (product.extras &&
+            product.extras.make &&
+            product.extras.make
+              .toLowerCase()
+              .includes(searchValue.toLowerCase())) ||
+          (product.extras &&
+            product.extras.model &&
+            product.extras.model
+              .toLowerCase()
+              .includes(searchValue.toLowerCase()))
         )
       )
         res = false;

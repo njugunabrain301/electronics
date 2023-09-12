@@ -10,7 +10,6 @@ const backupUrl1 = "https://bunika-api.onrender.com/user/zidika";
 
 export const fetchData = async (url) => {
   try {
-    console.log(baseURL + url);
     const response = await fetch(baseURL + url, {
       method: "GET",
       headers: {
