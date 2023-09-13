@@ -50,7 +50,11 @@ const ProductCard = ({
         </CardBody>
         <CardFooter divider className="flex items-center justify-between py-3">
           {showPrice && (
-            <Typography variant="small">{"Ksh. " + price}</Typography>
+            <Typography variant="small">
+              {price > 999999
+                ? "Ksh. " + price / 1000000 + "M"
+                : "Ksh. " + price}
+            </Typography>
           )}
           {colors && colors.length > 0 && (
             <Typography variant="small" color="gray" className="flex gap-1">

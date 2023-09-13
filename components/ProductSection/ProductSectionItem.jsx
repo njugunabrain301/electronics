@@ -57,7 +57,11 @@ const ProductSectionItem = ({
           <div className="flex justify-between items-center pt-4">
             {showPrice && (
               <Typography className="font-medium">
-                Ksh. <span className="text-skin-alt text-base">{price}</span>
+                <span className="text-skin-alt text-base">
+                  {price > 999999
+                    ? "Ksh. " + price / 1000000 + "M"
+                    : "Ksh. " + price}
+                </span>
               </Typography>
             )}
             {colors && colors.length > 0 && (
