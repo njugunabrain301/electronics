@@ -273,6 +273,8 @@ const FilteredProducts = ({
                     price={product.price}
                     colors={product.colors}
                     showPrice={showPrice}
+                    extras={product.extras}
+                    subcategory={product.subcategory}
                   ></ProductCard>
                 </div>
               );

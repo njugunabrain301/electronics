@@ -21,6 +21,8 @@ const ProductSection = ({ products }) => {
                 size={product.size}
                 type={product.type}
                 showPrice={showPrice}
+                extras={product.extras}
+                subcategory={product.subcategory}
               ></ProductSectionItem>
             </div>
           );

@@ -18,6 +18,8 @@ const ProductSectionItem = ({
   type,
   onOffer,
   showPrice,
+  extras,
+  subcategory,
 }) => {
   const resizeCardImage = (img) => {
     img = img.replace(
@@ -49,10 +51,12 @@ const ProductSectionItem = ({
         </CardHeader>
         <CardBody className="text-center">
           <Typography variant="h4" className="mb-2">
-            {name}
+            {subcategory === "Vehicles" && extras && extras.make && extras.model
+              ? extras.make + " " + extras.model
+              : name}
           </Typography>
           <Typography className="text-md">
-            {text.length > 110 ? text.slice(0, 70) + "..." : text}
+            <span>{text.length > 110 ? text.slice(0, 70) + "..." : text}</span>
           </Typography>
           <div className="flex justify-between items-center pt-4">
             {showPrice && (

@@ -120,7 +120,16 @@ const SingleProduct = ({ product, showPrice, selectedTheme }) => {
           <div className="">
             <div className="max-w-lg">
               <h5 className="text-2xl font-inter font-bold tracking-normal leading-none pb-4">
-                {product.name}
+                {product.subcategory === "Vehicles" &&
+                product.extras &&
+                product.extras.make &&
+                product.extras.model ? (
+                  <div>
+                    <p>{product.extras.make + " " + product.extras.model}</p>
+                  </div>
+                ) : (
+                  <span>{product.name}</span>
+                )}
               </h5>
               {product.offer && (
                 <p className="text-orange-700 text-xl font-inter font-bold tracking-normal leading-none pb-4">

@@ -18,6 +18,8 @@ const ProductCard = ({
   sizes,
   showPrice,
   type,
+  extras,
+  subcategory,
 }) => {
   const resizeCardImage = (img) => {
     img = img.replace(
@@ -42,7 +44,9 @@ const ProductCard = ({
         </CardHeader>
         <CardBody className="text-center">
           <Typography variant="h5" className="mb-2">
-            {name}
+            {subcategory === "Vehicles" && extras && extras.make && extras.model
+              ? extras.make + " " + extras.model
+              : name}
           </Typography>
           <Typography>
             {text.length > 100 ? text.slice(0, 70) + "..." : text}
