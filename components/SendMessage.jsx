@@ -26,8 +26,8 @@ export default function SendMessage({ message, type }) {
     }
   };
   return (
-    <div className="flex flex-wrap items-center justify-center">
-      {sent ? (
+    <div className="flex flex-wrap items-center justify-center text-center">
+      {!sent ? (
         <>
           {message}
           <Button onClick={() => sendNotice()} className="rounded-full m-2">
