@@ -5,3 +5,9 @@ export const visit = async () => {
     await axios.post("/visit");
   } catch (err) {}
 };
+
+export const inquire = async () => {
+  try {
+    await axios.post("/inquire");
+  } catch (err) {}
+};

@@ -74,9 +74,13 @@ export default async function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <GlobalContextProvider>
-          <Navbar profile={profile} checkoutInfo={checkoutinfo} />
-          {children}
-          <Footer profile={profile} />
+          <div className="flex flex-col justify-between min-h-[100vh] items-stretch">
+            <div>
+              <Navbar profile={profile} checkoutInfo={checkoutinfo} />
+              {children}
+            </div>
+            <Footer profile={profile} />
+          </div>
         </GlobalContextProvider>
       </body>
     </html>
