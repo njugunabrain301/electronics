@@ -5,7 +5,6 @@ import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import { useState } from "react";
 
 export default function SendMessage({ message, type }) {
-  console.log("sendMessage component");
   let [sent, setSent] = useState(false);
   let sendNotice = async () => {
     setSent(true);
@@ -17,12 +16,15 @@ export default function SendMessage({ message, type }) {
       var diff = (now.getTime() - then.getTime()) / 1000;
       diff /= 60 * 60;
       send = diff > 12;
-      console.log("diff", diff);
     } else {
       send = true;
     }
     if (send) {
       let res = await inquire();
+      console.log(res);
+      if (res.success) {
+        localStorage.setItem("lastSent", new Date().toString());
+      }
     }
   };
   return (

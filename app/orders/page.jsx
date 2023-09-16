@@ -2,6 +2,7 @@ import Orders from "@/components/Orders";
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
 
 export const runtime = "edge";
+const dynamic = "force-dynamic";
 
 export async function generateMetadata() {
   let profile = await fetchBusinessProfile();

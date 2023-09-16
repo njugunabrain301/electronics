@@ -48,11 +48,12 @@ const Navbar = ({ profile, checkoutInfo }) => {
   useEffect(() => {
     updateLogin();
     //update visits
-    if (!cookies.get("visit")) {
+    if (!cookies.get("visit-" + process.env.NEXT_PUBLIC_STORE_ID)) {
       var d = new Date();
-
       d.setTime(d.getTime() + 12 * 60 * 60 * 1000);
-      cookies.set("visit", "x", { expires: d });
+      cookies.set("visit" + process.env.NEXT_PUBLIC_STORE_ID, "x", {
+        expires: d,
+      });
       visit();
     }
   }, []);

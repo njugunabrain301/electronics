@@ -8,6 +8,7 @@ export const visit = async () => {
 
 export const inquire = async () => {
   try {
-    await axios.post("/inquire");
+    let res = await axios.post("/inquire");
+    return res.data;
   } catch (err) {}
 };
