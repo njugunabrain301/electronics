@@ -31,7 +31,7 @@ export default function SendMessage({ message, type }) {
         <>
           {message}
           <Button onClick={() => sendNotice()} className="rounded-full m-2">
-            <TipsAndUpdatesIcon className="w-[50px] h-[50px]" />
+            <TipsAndUpdatesIcon className="w-[30px] h-[30px] " />
           </Button>
         </>
       ) : (
