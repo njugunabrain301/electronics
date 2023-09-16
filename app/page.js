@@ -1,7 +1,7 @@
 import Main from "@/components/Main";
 import { fetchCategories, fetchHomePage } from "@/utils/backendAPIs/products";
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
-import Empty from "@/components/empty";
+import Empty from "@/components/Empty";
 import Expired from "@/components/Expired";
 
 export const runtime = "edge";
