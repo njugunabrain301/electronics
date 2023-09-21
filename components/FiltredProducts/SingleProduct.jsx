@@ -13,6 +13,7 @@ import { colorComponent } from "@/utils/Utils";
 import { useGlobalContext } from "@/Context/context";
 import { addToCart } from "@/utils/frontendAPIs/cart";
 import Image from "next/image";
+import ShareIcon from "@mui/icons-material/Share";
 
 const SingleProduct = ({ product, showPrice, selectedTheme }) => {
   const [selectedImage, setSelectedImage] = useState(product.img);
@@ -58,6 +59,31 @@ const SingleProduct = ({ product, showPrice, selectedTheme }) => {
       setCart(res.data);
     }
   };
+  const currentUrl = window.location.href;
+  const [copied, setCopied] = useState(false);
+  useEffect(() => {
+    let btn = document.getElementById("share_btn");
+    btn.addEventListener("click", (event) => {
+      if (navigator.share) {
+        navigator
+          .share({
+            text: product.name,
+            url: currentUrl,
+          })
+          .then(() => {})
+          .catch((err) => {});
+      } else {
+        let urlText = document.getElementById("urlText");
+
+        urlText.select();
+        urlText.setSelectionRange(0, 99999);
+
+        // Copy the text inside the text field
+        navigator.clipboard.writeText(urlText.value);
+        setCopied(true);
+      }
+    });
+  }, []);
 
   return (
     <div className="bg-skin-primary text-skin-base">
@@ -117,20 +143,25 @@ const SingleProduct = ({ product, showPrice, selectedTheme }) => {
                 })}
             </div>
           </div>
-          <div className="">
+          <div className="min-w-[300px]">
             <div className="max-w-lg">
-              <h5 className="text-2xl font-inter font-bold tracking-normal leading-none pb-4">
-                {product.subcategory === "Vehicles" &&
-                product.extras &&
-                product.extras.make &&
-                product.extras.model ? (
-                  <div>
-                    <p>{product.extras.make + " " + product.extras.model}</p>
-                  </div>
-                ) : (
-                  <span>{product.name}</span>
-                )}
-              </h5>
+              <div className="pb-4">
+                <h5 className="text-2xl font-inter font-bold tracking-normal leading-none">
+                  {product.subcategory === "Vehicles" &&
+                  product.extras &&
+                  product.extras.make &&
+                  product.extras.model ? (
+                    <div>
+                      <p>{product.extras.make + " " + product.extras.model}</p>
+                    </div>
+                  ) : (
+                    <span>{product.name}</span>
+                  )}
+                </h5>
+                <p className="text-skin-alt text-sm">
+                  {product.category + ": " + product.subcategory}
+                </p>
+              </div>
               {product.offer && (
                 <p className="text-orange-700 text-xl font-inter font-bold tracking-normal leading-none pb-4">
                   {product.offer}% OFF
@@ -140,7 +171,7 @@ const SingleProduct = ({ product, showPrice, selectedTheme }) => {
                 {product.description}
               </p>
               <div className="pb-4">
-                {product.sizes && product.sizes.length > 0 ? (
+                {product.sizes && product.sizes.length > 0 && (
                   <div>
                     <Select
                       id="size"
@@ -161,13 +192,11 @@ const SingleProduct = ({ product, showPrice, selectedTheme }) => {
                       })}
                     </Select>
                   </div>
-                ) : (
-                  <div></div>
                 )}
               </div>
 
               <div className="pb-4">
-                {product.colors && (
+                {product.colors && product.colors.length > 0 && (
                   <div>
                     <Select
                       id="color"
@@ -214,31 +243,56 @@ const SingleProduct = ({ product, showPrice, selectedTheme }) => {
                   Ksh.&nbsp;{product.price}
                 </Typography>
               )}
-              <Tooltip content="Add to Cart" placement="bottom">
-                <Button
-                  className="bg-skin-alt text-skin-inverted"
-                  size="lg"
-                  color={theme["text-highlight"]}
-                  ripple={true}
-                  onClick={() =>
-                    authUser
-                      ? myAddToCart({
-                          _id: product._id,
-                          name: product.name,
-                          img: product.img,
-                          text: product.description,
-                          size: size,
-                          color: color,
-                          price: product.price,
-                          amount: 1,
-                          totalPrice: product.price,
-                        })
-                      : handleOpenAuth()
-                  }
-                >
-                  Add to Cart
-                </Button>
-              </Tooltip>
+              <div className="flex justify-between items-center">
+                <Tooltip content="Add to Cart" placement="bottom">
+                  <Button
+                    className="bg-skin-alt text-skin-inverted"
+                    size="lg"
+                    color={theme["text-highlight"]}
+                    ripple={true}
+                    onClick={() =>
+                      authUser
+                        ? myAddToCart({
+                            _id: product._id,
+                            name: product.name,
+                            img: product.img,
+                            text: product.description,
+                            size: size,
+                            color: color,
+                            price: product.price,
+                            amount: 1,
+                            totalPrice: product.price,
+                          })
+                        : handleOpenAuth()
+                    }
+                  >
+                    Add to Cart
+                  </Button>
+                </Tooltip>
+                <div>
+                  <input
+                    id="urlText"
+                    value={currentUrl}
+                    style={{ display: "none" }}
+                    onChange={() => {
+                      console.log("");
+                    }}
+                  />
+
+                  <span
+                    id="share_btn"
+                    className="p-2 px-3 rounded-full hover:underline cursor-pointer"
+                  >
+                    <ShareIcon className="pr-2" />
+                    Share
+                  </span>
+                </div>
+              </div>
+              <div className="flex justify-end">
+                {copied && (
+                  <span className="pr-2 text-xs">Link successfully copied</span>
+                )}
+              </div>
             </div>
           </div>
         </div>

@@ -48,9 +48,7 @@ const Slider = ({ slider }) => {
               <div className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300">
                 <Link
                   href={
-                    "/filter/" +
-                    sliderData[sliderData.length > 4 ? 4 : 0].type +
-                    "/" +
+                    "/filter/item/" +
                     sliderData[sliderData.length > 4 ? 4 : 0]._id
                   }
                   className="flex justify-center"
@@ -68,9 +66,7 @@ const Slider = ({ slider }) => {
               <div className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300">
                 <Link
                   href={
-                    "/filter/" +
-                    sliderData[sliderData.length > 5 ? 5 : 1].type +
-                    "/" +
+                    "/filter/item/" +
                     sliderData[sliderData.length > 5 ? 5 : 1]._id
                   }
                   className="flex justify-center"
@@ -90,9 +86,7 @@ const Slider = ({ slider }) => {
               <div className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300">
                 <Link
                   href={
-                    "/filter/" +
-                    sliderData[sliderData.length > 6 ? 6 : 2].type +
-                    "/" +
+                    "/filter/item/" +
                     sliderData[sliderData.length > 6 ? 6 : 2]._id
                   }
                   className="flex justify-center"
@@ -110,9 +104,7 @@ const Slider = ({ slider }) => {
               <div className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300">
                 <Link
                   href={
-                    "/filter/" +
-                    sliderData[sliderData.length > 7 ? 7 : 3].type +
-                    "/" +
+                    "/filter/item/" +
                     sliderData[sliderData.length > 7 ? 7 : 3]._id
                   }
                   className="flex justify-center"

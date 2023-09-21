@@ -9,16 +9,27 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata({ params }) {
   let profile = await fetchBusinessProfile();
   profile = profile.data;
-  let search = decodeURI(params.search);
+  let search = decodeURIComponent(params.search);
 
   return {
     title: "Search: " + search + " | " + profile.name,
     description: search + ", " + profile.name + ", " + profile.about,
+    openGraph: {
+      title: "Search: " + search + " | " + profile.name,
+      description: search + ", " + profile.name + ", " + profile.about,
+      url: profile.url + "/filter/search/" + search,
+      type: "website",
+    },
+    twitter: {
+      title: profile.name,
+      description: profile.about,
+      card: "summary_large_image",
+    },
   };
 }
 
 export default async function Page({ params }) {
-  let searchParam = decodeURI(params.search);
+  let searchParam = decodeURIComponent(params.search);
 
   let products = [];
   let wearables = [];

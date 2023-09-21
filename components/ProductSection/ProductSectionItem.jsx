@@ -31,7 +31,7 @@ const ProductSectionItem = ({
 
   return (
     <Link
-      href={`/filter/${type}/` + id}
+      href={`/filter/item/` + id}
       className="flex justify-center bg-skin-primary"
     >
       <Card className="sm:w-[300px] xs:w-[280px] md:w-[320px] relative bg-skin-pane text-skin-base">

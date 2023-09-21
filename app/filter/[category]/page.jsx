@@ -17,16 +17,27 @@ export const runtime = "edge";
 export async function generateMetadata({ params }) {
   let profile = await fetchBusinessProfile();
   profile = profile.data;
-  let category = decodeURI(params.category);
+  let category = decodeURIComponent(params.category);
 
   return {
     title: category + " | " + profile.name,
     description: category + ", " + profile.name + ", " + profile.about,
+    openGraph: {
+      title: category + " | " + profile.name,
+      description: category + ", " + profile.name + ", " + profile.about,
+      url: profile.url + "/filter/" + category,
+      type: "website",
+    },
+    twitter: {
+      title: category + " | " + profile.name,
+      description: category + ", " + profile.name + ", " + profile.about,
+      card: "summary_large_image",
+    },
   };
 }
 
 export default async function Page({ params }) {
-  let category = decodeURI(params.category);
+  let category = decodeURIComponent(params.category);
 
   let products = [];
   let type = category;

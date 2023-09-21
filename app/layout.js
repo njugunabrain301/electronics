@@ -20,7 +20,7 @@ export async function generateMetadata() {
         "https://storage.googleapis.com/test-bucket001/",
         "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-150,h-100/"
       )
-    : "";
+    : "shop.png";
   let metadata = {
     title: profile.name,
     description: profile.about,
@@ -32,18 +32,30 @@ export async function generateMetadata() {
       siteName: profile.name,
       images: [
         {
-          url: profile.logo,
-          width: 800,
-          height: 600,
+          url: icon,
         },
       ],
       locale: "en_US",
       type: "website",
     },
+    twitter: {
+      title: profile.name,
+      description: profile.about,
+      images: [
+        {
+          url: icon,
+        },
+      ],
+      card: "summary_large_image",
+    },
+    alternates: {
+      canonical: profile.url,
+    },
   };
   if (icon) {
     metadata.icons = {
       icon: icon,
+      apple: icon,
     };
   }
   return metadata;
@@ -73,6 +85,9 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
+        {/* <!-- Meta Pixel Code --> */}
+
+        {/* <!-- End Meta Pixel Code --> */}
         <GlobalContextProvider>
           <div className="flex flex-col justify-between min-h-[100vh] items-stretch">
             <div>

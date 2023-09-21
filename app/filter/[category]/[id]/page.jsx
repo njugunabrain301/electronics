@@ -28,6 +28,28 @@ export async function generateMetadata({ params }) {
     return {
       title: product.name + " | " + profile.name,
       description: product.description,
+      openGraph: {
+        title: profile.name,
+        description: product.description,
+        url: profile.url + "/filter/item/" + product._id,
+        images: [
+          {
+            url: product.img,
+          },
+        ],
+        locale: "en_US",
+        type: "website",
+      },
+      twitter: {
+        title: product.name + " | " + profile.name,
+        description: product.description,
+        images: [
+          {
+            url: product.img,
+          },
+        ],
+        card: "summary_large_image",
+      },
     };
   }
 }

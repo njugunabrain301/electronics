@@ -134,8 +134,44 @@ const Navbar = ({ profile, checkoutInfo }) => {
   const businessName = profile.name || "Wb";
   const logo = profile.icon || "";
 
+  useEffect(() => {
+    !(function (f, b, e, v, n, t, s) {
+      if (f.fbq) return;
+      n = f.fbq = function () {
+        n.callMethod
+          ? n.callMethod.apply(n, arguments)
+          : n.queue.push(arguments);
+      };
+      if (!f._fbq) f._fbq = n;
+      n.push = n;
+      n.loaded = !0;
+      n.version = "2.0";
+      n.queue = [];
+      t = b.createElement(e);
+      t.async = !0;
+      t.src = v;
+      s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s);
+    })(
+      window,
+      document,
+      "script",
+      "https://connect.facebook.net/en_US/fbevents.js"
+    );
+    fbq("init", "306682765391067");
+    fbq("track", "PageView");
+  }, []);
+
   return (
     <>
+      <noscript>
+        <img
+          height="1"
+          width="1"
+          style="display:none"
+          src="https://www.facebook.com/tr?id=306682765391067&ev=PageView&noscript=1"
+        />
+      </noscript>
       <div className="bg-skin-alt p-4 w-full flex justify-center items-center ">
         <p className="text-skin-inverted font-inter text-2xl font-bold  ">
           {profile.name}

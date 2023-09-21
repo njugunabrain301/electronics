@@ -30,7 +30,7 @@ function SliderCarousel({ products }) {
             key={index}
           >
             <Link
-              href={`/filter/${item.type}/` + item._id}
+              href={`/filter/item/` + item._id}
               className="flex justify-center align-center bg-gray-300 rounded-md"
               style={{ aspectRatio: "3/2" }}
               onClick={() => selectItem(item._id)}
