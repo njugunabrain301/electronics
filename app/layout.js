@@ -85,9 +85,6 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        {/* <!-- Meta Pixel Code --> */}
-
-        {/* <!-- End Meta Pixel Code --> */}
         <GlobalContextProvider>
           <div className="flex flex-col justify-between min-h-[100vh] items-stretch">
             <div>
