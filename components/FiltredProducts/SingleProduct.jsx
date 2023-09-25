@@ -14,6 +14,7 @@ import { useGlobalContext } from "@/Context/context";
 import { addToCart } from "@/utils/frontendAPIs/cart";
 import Image from "next/image";
 import ShareIcon from "@mui/icons-material/Share";
+import DOMPurify from "dompurify";
 
 const SingleProduct = ({ product, showPrice, selectedTheme }) => {
   const [selectedImage, setSelectedImage] = useState(product.img);
@@ -84,6 +85,12 @@ const SingleProduct = ({ product, showPrice, selectedTheme }) => {
       }
     });
   }, []);
+
+  const cleanHTML = (text) => {
+    while (text.includes("\n")) text = text.replace("\n", "<br/>");
+
+    return DOMPurify.sanitize(text);
+  };
 
   return (
     <div className="bg-skin-primary text-skin-base">
@@ -167,9 +174,12 @@ const SingleProduct = ({ product, showPrice, selectedTheme }) => {
                   {product.offer}% OFF
                 </p>
               )}
-              <p className="text-l font-inter tracking-normal leading-none pb-4">
-                {product.description}
-              </p>
+              <p
+                className="text-l font-inter tracking-normal leading-none pb-4"
+                dangerouslySetInnerHTML={{
+                  __html: cleanHTML(product.description),
+                }}
+              ></p>
               <div className="pb-4">
                 {product.sizes && product.sizes.length > 0 && (
                   <div>

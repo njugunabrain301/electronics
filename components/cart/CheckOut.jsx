@@ -549,7 +549,11 @@ function Checkout({
               onClick={() => handleCheckout()}
               color={theme["button-base"]}
             >
-              {isLoading ? "Submitting.." : "Done"}
+              {isLoading
+                ? "Submitting.."
+                : showPrice
+                ? "Complete Order"
+                : "Request Quote"}
             </Button>
           )
         )}

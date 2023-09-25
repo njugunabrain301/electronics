@@ -5,10 +5,11 @@ let production = process.env.NEXT_PUBLIC_PRODUCTION;
 
 const baseURL =
   production === "true"
-    ? "https://bunika.cyclic.app/user/zidika"
+    ? "https://bunika-16c78be5ec4c.herokuapp.com/user/zidika"
     : "http://localhost:3001/user/zidika";
 
-const backupUrl1 = "https://bunika-api.onrender.com/user/zidika";
+const backupUrl1 = "https://bunika.cyclic.app/user/zidika";
+const backupUrl2 = "https://bunika-api.onrender.com/user/zidika";
 let instance = axios.create({
   baseURL,
 });
@@ -37,14 +38,15 @@ instance.interceptors.response.use(
 
   async (error) => {
     let config = error.config;
-    if (!config || config.baseURL === backupUrl1) {
+    if (!config || config.baseURL === backupUrl2) {
       return Promise.reject(error);
     }
     if (config.response) {
       return config;
     }
 
-    config.baseURL = backupUrl1;
+    if (config.baseURL === backupUrl1) config.baseURL = backupUrl2;
+    else config.baseURL = backupUrl1;
 
     await new Promise((resolve) => {
       setTimeout(() => {

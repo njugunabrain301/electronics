@@ -10,6 +10,7 @@ import {
 } from "@material-tailwind/react";
 import { Themes } from "@/utils/Themes/Themes";
 import NotFound from "@/app/404";
+import { motion } from "framer-motion";
 
 const FilteredProducts = ({
   productList,
@@ -264,7 +265,13 @@ const FilteredProducts = ({
           <div className="flex justify-center py-8 flex-wrap">
             {products.map((product, index) => {
               return (
-                <div key={index} className="m-3">
+                <motion.div
+                  key={index}
+                  className="m-3"
+                  initial={{ translateY: "50px", opacity: 0 }}
+                  animate={{ translateY: "0", opacity: 1 }}
+                  transition={{ duration: 1, delay: index * 0.2 }}
+                >
                   <ProductCard
                     id={product._id}
                     name={product.name}
@@ -276,7 +283,7 @@ const FilteredProducts = ({
                     extras={product.extras}
                     subcategory={product.subcategory}
                   ></ProductCard>
-                </div>
+                </motion.div>
               );
             })}
           </div>

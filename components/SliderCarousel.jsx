@@ -16,6 +16,13 @@ function SliderCarousel({ products }) {
     return img;
   };
 
+  function removeTags(str) {
+    if (str === null || str === "") return false;
+    else str = str.toString();
+
+    return str.replace(/(<([^>]+)>)/gi, "");
+  }
+
   return (
     <div>
       <Carousel
@@ -43,7 +50,7 @@ function SliderCarousel({ products }) {
             </Link>
             <div className=" absolute inset-x-[15%] bg-gray-600 bg-opacity-50 bottom-5 hidden p-1 rounded-md text-center text-white md:block">
               <h5 className="text-xl">{item.name}</h5>
-              <p>{item.description.slice(0, 40) + "..."}</p>
+              <p>{removeTags(item.description).slice(0, 40) + "..."}</p>
             </div>
           </div>
         ))}

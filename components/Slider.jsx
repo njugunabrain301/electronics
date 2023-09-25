@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import SliderCarousel from "./SliderCarousel";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 const Slider = ({ slider }) => {
   let sliderData = slider;
@@ -26,7 +27,10 @@ const Slider = ({ slider }) => {
     <div className="flex justify-center items-center m-2 mt-4 flex-wrap ">
       {isSliderLoaded ? (
         <>
-          <div
+          <motion.div
+            initial={{ translateY: "50px", opacity: 0 }}
+            animate={{ translateY: "0", opacity: 1 }}
+            transition={{ duration: 1 }}
             className="w-[97%] sm:w-[97%] md:w-[48%] mb-2 minWidth-[200px] rounded-md"
             style={{
               aspectRatio: "3 / 2",
@@ -41,11 +45,16 @@ const Slider = ({ slider }) => {
               />
             )}
             <SliderCarousel products={sliderData} className="rounded-md" />
-          </div>
+          </motion.div>
 
           <div className="flex justify-between flex-col sm:w-[100%] md:w-[48%]">
             <div className="w-[100%] flex justify-evenly">
-              <div className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300">
+              <motion.div
+                className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300"
+                initial={{ translateY: "50px", opacity: 0 }}
+                animate={{ translateY: "0", opacity: 1 }}
+                transition={{ duration: 1, delay: 0.15 }}
+              >
                 <Link
                   href={
                     "/filter/item/" +
@@ -62,8 +71,13 @@ const Slider = ({ slider }) => {
                     className="w-full"
                   />
                 </Link>
-              </div>
-              <div className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300">
+              </motion.div>
+              <motion.div
+                className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300"
+                initial={{ translateY: "50px", opacity: 0 }}
+                animate={{ translateY: "0", opacity: 1 }}
+                transition={{ duration: 1, delay: 0.3 }}
+              >
                 <Link
                   href={
                     "/filter/item/" +
@@ -80,10 +94,15 @@ const Slider = ({ slider }) => {
                     className="w-full"
                   />
                 </Link>
-              </div>
+              </motion.div>
             </div>
             <div className="w-[100%] flex justify-evenly">
-              <div className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300">
+              <motion.div
+                className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300"
+                initial={{ translateY: "50px", opacity: 0 }}
+                animate={{ translateY: "0", opacity: 1 }}
+                transition={{ duration: 1, delay: 0.45 }}
+              >
                 <Link
                   href={
                     "/filter/item/" +
@@ -100,8 +119,13 @@ const Slider = ({ slider }) => {
                     className="w-full"
                   />
                 </Link>
-              </div>
-              <div className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300">
+              </motion.div>
+              <motion.div
+                className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300"
+                initial={{ translateY: "50px", opacity: 0 }}
+                animate={{ translateY: "0", opacity: 1 }}
+                transition={{ duration: 1, delay: 0.6 }}
+              >
                 <Link
                   href={
                     "/filter/item/" +
@@ -118,7 +142,7 @@ const Slider = ({ slider }) => {
                     className="w-full"
                   />
                 </Link>
-              </div>
+              </motion.div>
             </div>
           </div>
         </>

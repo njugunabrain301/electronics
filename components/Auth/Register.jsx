@@ -10,6 +10,7 @@ import { Button } from "@material-tailwind/react";
 import { Input } from "@material-tailwind/react";
 import { register } from "@/utils/frontendAPIs/auth";
 import { Themes } from "@/utils/Themes/Themes";
+import Link from "next/link";
 
 function Register({ closeModal, toggleLogin, selectedTheme }) {
   let error = "";
@@ -150,12 +151,21 @@ function Register({ closeModal, toggleLogin, selectedTheme }) {
               className="flex items-center font-normal text-skin-base"
             >
               I agree to the
-              <span
-                href="#"
+              <Link
+                href="/termsofservice.html"
+                target="_blank"
                 className="font-medium text-skin-highlight transition-colors hover:text-skin-highlight-hover"
               >
-                &nbsp;Terms and Conditions
-              </span>
+                &nbsp;Terms&nbsp;
+              </Link>
+              and
+              <Link
+                href="/privacypolicy.html"
+                target="_blank"
+                className="font-medium text-skin-highlight transition-colors hover:text-skin-highlight-hover"
+              >
+                &nbsp;Privacy Policy
+              </Link>
             </Typography>
           }
           containerProps={{ className: "-ml-2.5" }}

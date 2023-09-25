@@ -29,6 +29,13 @@ const ProductSectionItem = ({
     return img;
   };
 
+  function removeTags(str) {
+    if (str === null || str === "") return false;
+    else str = str.toString();
+
+    return str.replace(/(<([^>]+)>)/gi, "");
+  }
+
   return (
     <Link
       href={`/filter/item/` + id}
@@ -56,7 +63,11 @@ const ProductSectionItem = ({
               : name}
           </Typography>
           <Typography className="text-md">
-            <span>{text.length > 110 ? text.slice(0, 70) + "..." : text}</span>
+            <span>
+              {removeTags(text).length > 70
+                ? removeTags(text).slice(0, 70) + "..."
+                : removeTags(text)}
+            </span>
           </Typography>
           <div className="flex justify-between items-center pt-4">
             {showPrice && (

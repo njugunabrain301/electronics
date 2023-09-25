@@ -29,6 +29,12 @@ const ProductCard = ({
     return img;
   };
 
+  function removeTags(str) {
+    if (str === null || str === "") return "";
+    else str = str.toString();
+
+    return str.replace(/(<([^>]+)>)/gi, "");
+  }
   return (
     <Link
       href={`/filter/item/` + id}
@@ -49,7 +55,9 @@ const ProductCard = ({
               : name}
           </Typography>
           <Typography>
-            {text.length > 100 ? text.slice(0, 70) + "..." : text}
+            {removeTags(text).length > 70
+              ? removeTags(text).slice(0, 70).replace("<", "") + "..."
+              : removeTags(text).replace("<", "")}
           </Typography>
         </CardBody>
         <CardFooter divider className="flex items-center justify-between py-3">

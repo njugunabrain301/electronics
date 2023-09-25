@@ -33,7 +33,7 @@ function Orders() {
           <div>
             <p>Loading...</p>
           </div>
-        ) : (
+        ) : orders ? (
           orders
             .filter((o) => o != null)
             .reverse()
@@ -109,6 +109,8 @@ function Orders() {
                 )
               );
             })
+        ) : (
+          <p>Kindly log in in order to get your orders</p>
         )}
       </DialogBody>
     </div>

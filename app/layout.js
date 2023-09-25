@@ -20,7 +20,7 @@ export async function generateMetadata() {
         "https://storage.googleapis.com/test-bucket001/",
         "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-150,h-100/"
       )
-    : "shop.png";
+    : "https://storage.googleapis.com/test-bucket001/shop.png";
   let metadata = {
     title: profile.name,
     description: profile.about,
