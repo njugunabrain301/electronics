@@ -3,7 +3,7 @@ import { bid } from "@/utils/store";
 let production = process.env.NEXT_PUBLIC_PRODUCTION;
 const baseURL =
   production === "true"
-    ? "https://bunika-16c78be5ec4c.herokuapp.com/user/zidika" //"https://bunika.cyclic.app/user/zidika"
+    ? "https://server.bunikasolutions.com/user/zidika" //"https://bunika.cyclic.app/user/zidika"
     : "http://localhost:3001/user/zidika";
 
 const backupUrl1 = "https://bunika.cyclic.app/user/zidika";
