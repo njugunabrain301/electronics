@@ -55,6 +55,12 @@ const SingleProduct = ({ product, showPrice, selectedTheme }) => {
   };
 
   const myAddToCart = async (item) => {
+    let dataLayer = window.dataLayer || [];
+    let event = {
+      event: "add-to-cart",
+      item: { id: item._id, price: item.price, name: item.name },
+    };
+    dataLayer.push(event);
     let res = await addToCart(item);
     if (res.success) {
       setCart(res.data);

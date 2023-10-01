@@ -172,6 +172,12 @@ function Checkout({
       return;
     }
     setIsLoading(true);
+    let dataLayer = window.dataLayer || [];
+    let event = {
+      event: "purchase",
+      totalPrice: Number(cartTotal),
+    };
+    dataLayer.push(event);
     let res = await checkout({
       code,
       courier: courier.id,

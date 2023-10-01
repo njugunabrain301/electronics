@@ -17,7 +17,20 @@ const Slider = ({ slider }) => {
   };
 
   const [carouselLoaded, setCarouselLoaded] = useState(false);
+  // let exists = (name, dataLayer) => {
+  //   let exists = false;
+  //   dataLayer.map((e) => {
+  //     if (e.event === name) {
+  //       exists = true;
+  //     }
+  //     return e;
+  //   });
+  //   return exists;
+  // };
   useEffect(() => {
+    // let dataLayer = window.dataLayer || [];
+    // let event = { event: "my-event" };
+    // if (!exists(event.event, dataLayer)) dataLayer.push(event);
     setTimeout(() => {
       setCarouselLoaded(true);
     }, 1000);

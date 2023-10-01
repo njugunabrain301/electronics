@@ -36,6 +36,16 @@ const Cart = ({
     setRemoving("");
   };
 
+  let initiateCheckout = () => {
+    let dataLayer = window.dataLayer || [];
+    let event = {
+      event: "initiate-checkout",
+      totalPrice,
+    };
+    dataLayer.push(event);
+    setOpenCheckout(true);
+  };
+
   return (
     <div className="flex justify-center items-center">
       {!openCheckout ? (
@@ -162,9 +172,7 @@ const Cart = ({
                 )}
                 <Button
                   color={theme["button-success"]}
-                  onClick={() => {
-                    setOpenCheckout(true);
-                  }}
+                  onClick={initiateCheckout}
                   variant="filled"
                 >
                   {showPrice ? "Check Out" : "Get Quote"}

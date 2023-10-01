@@ -64,6 +64,11 @@ function Register({ closeModal, toggleLogin, selectedTheme }) {
       return;
     }
     setIsRegistering(true);
+    let dataLayer = window.dataLayer || [];
+    let event = {
+      event: "complete-registration",
+    };
+    dataLayer.push(event);
     let res = await register(values);
     if (res.success) {
       let user = {
