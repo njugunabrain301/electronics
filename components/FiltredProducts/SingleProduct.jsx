@@ -182,7 +182,9 @@ const SingleProduct = ({ product, showPrice, selectedTheme }) => {
                   )}
                 </h5>
                 <p className="text-skin-alt text-sm">
-                  {product.category + ": " + product.subcategory}
+                  {product.category === product.subcategory
+                    ? product.category
+                    : product.category + ": " + product.subcategory}
                 </p>
               </div>
               {product.offer && (
