@@ -17,6 +17,13 @@ function Orders() {
     loadOrders();
   }, []);
 
+  function removeTags(str) {
+    if (str === null || str === "") return "";
+    else str = str.toString();
+
+    return str.replace(/(<([^>]+)>)/gi, "");
+  }
+
   return (
     <div className="flex justify-center items-center bg-skin-primary">
       <DialogBody
@@ -102,7 +109,7 @@ function Orders() {
                     </div>
                     <div className="max-w-xs text-skin-base">
                       <p className=" text-xs font-inter tracking-normal leading-none pt-2">
-                        {item.description}
+                        {removeTags(item.description)}
                       </p>
                     </div>
                   </div>

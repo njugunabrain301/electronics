@@ -15,6 +15,8 @@ import { addToCart } from "@/utils/frontendAPIs/cart";
 import Image from "next/image";
 import ShareIcon from "@mui/icons-material/Share";
 import DOMPurify from "dompurify";
+import addedImg from "@/public/added.gif";
+import stars from "@/public/stars.gif";
 
 const SingleProduct = ({ product, showPrice, selectedTheme }) => {
   const [selectedImage, setSelectedImage] = useState(product.img);
@@ -53,18 +55,26 @@ const SingleProduct = ({ product, showPrice, selectedTheme }) => {
     );
     return img;
   };
-
+  const [adding, setAdding] = useState(false);
+  const [added, setAdded] = useState(false);
   const myAddToCart = async (item) => {
+    if (adding) return;
     let dataLayer = window.dataLayer || [];
     let event = {
       event: "add-to-cart",
       item: { id: item._id, price: item.price, name: item.name },
     };
     dataLayer.push(event);
+    setAdding(true);
     let res = await addToCart(item);
     if (res.success) {
       setCart(res.data);
+      setAdded(true);
+      setTimeout(() => {
+        setAdded(false);
+      }, 2500);
     }
+    setAdding(false);
   };
   const currentUrl = window.location.href;
   const [copied, setCopied] = useState(false);
@@ -101,10 +111,10 @@ const SingleProduct = ({ product, showPrice, selectedTheme }) => {
   return (
     <div className="bg-skin-primary text-skin-base">
       {product && (
-        <div className="flex justify-center items-center p-4 pb-8 flex-wrap">
-          <div className="flex justify-center items-center m-4 flex-col">
+        <div className="flex justify-center items-center p-4 pb-8 flex-wrap md:flex-nowrap">
+          <div className="flex justify-center items-center m-0 md:m-0 flex-col max-w-[100%]">
             <Image
-              className="max-h-600px rounded-lg max-w-[80%] sm:max-w-[500px]"
+              className="max-h-600px rounded-lg max-w-[100%] md:max-w-[80%]"
               src={selectedImage}
               alt={product.name}
               width={500}
@@ -112,9 +122,9 @@ const SingleProduct = ({ product, showPrice, selectedTheme }) => {
               placeholder="blur"
               blurDataURL={blurCardImage(selectedImage)}
             />
-            <div className="w-full flex justify-center sm:justify-start items-center p-2">
+            <div className="w-full flex justify-between md:justify-center items-center py-2 md:p-2">
               <div
-                className="w-[120px] max-w-[20%] ml-2"
+                className="w-[120px] max-w-[20%] m-1"
                 style={{ aspectRatio: "3/2" }}
               >
                 <Image
@@ -281,8 +291,28 @@ const SingleProduct = ({ product, showPrice, selectedTheme }) => {
                           })
                         : handleOpenAuth()
                     }
+                    id="add-btn"
                   >
-                    Add to Cart
+                    {adding ? (
+                      "Adding..."
+                    ) : added ? (
+                      <span className="flex items-center">
+                        <Image
+                          className="w-[20px] rounded-full"
+                          src={addedImg}
+                          alt="Added gif"
+                          id="gif_added"
+                        />
+                        &nbsp; Added
+                        {/* <Image
+                          className="w-[50px]"
+                          src={stars}
+                          alt="stars gif"
+                        /> */}
+                      </span>
+                    ) : (
+                      "Add to Cart"
+                    )}
                   </Button>
                 </Tooltip>
                 <div>

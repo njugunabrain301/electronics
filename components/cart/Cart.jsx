@@ -46,6 +46,13 @@ const Cart = ({
     setOpenCheckout(true);
   };
 
+  function removeTags(str) {
+    if (str === null || str === "") return "";
+    else str = str.toString();
+
+    return str.replace(/(<([^>]+)>)/gi, "");
+  }
+
   return (
     <div className="flex justify-center items-center">
       {!openCheckout ? (
@@ -154,7 +161,7 @@ const Cart = ({
                         </div>
                         <div className="max-w-xs text-skin-base">
                           <p className="text-xs font-inter tracking-normal leading-none pt-2">
-                            {item.description}
+                            {removeTags(item.description)}
                           </p>
                         </div>
                       </div>
