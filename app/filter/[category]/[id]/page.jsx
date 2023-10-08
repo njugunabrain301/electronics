@@ -1,5 +1,6 @@
 import NotFound from "@/app/404";
 import SingleProduct from "@/components/FiltredProducts/SingleProduct";
+import WhatsappWidget from "@/components/WhatsappWidget";
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
 import { fetchProduct } from "@/utils/backendAPIs/products";
 
@@ -81,6 +82,7 @@ export default async function Page({ params }) {
         showPrice={profile.showPrice}
         selectedTheme={profile.theme}
       ></SingleProduct>
+      <WhatsappWidget text={product.name} />
     </div>
   );
 }

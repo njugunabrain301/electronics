@@ -1,4 +1,5 @@
 import FilteredProducts from "@/components/FiltredProducts/FilteredProducts";
+import WhatsappWidget from "@/components/WhatsappWidget";
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
 import { fetchProducts, fetchWearables } from "@/utils/backendAPIs/products";
 
@@ -68,6 +69,7 @@ export default async function Page({ params }) {
         searchParam={searchParam}
         params={params}
       ></FilteredProducts>
+      <WhatsappWidget text={"Search for " + searchParam} />
     </div>
   );
 }

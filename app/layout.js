@@ -8,6 +8,7 @@ import "@/components/styles.css";
 import { fetchCategories } from "@/utils/backendAPIs/products";
 import { GlobalContextProvider } from "@/Context/context";
 import { getCheckoutInfo } from "@/utils/backendAPIs/cart";
+import WhatsappWidget from "@/components/WhatsappWidget";
 
 export async function generateMetadata() {
   let profile = await fetchBusinessProfile();
@@ -85,7 +86,7 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <GlobalContextProvider>
+        <GlobalContextProvider profile={profile}>
           <div className="flex flex-col justify-between min-h-[100vh] items-stretch">
             <div>
               <Navbar profile={profile} checkoutInfo={checkoutinfo} />

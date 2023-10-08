@@ -3,6 +3,7 @@ import { fetchCategories, fetchHomePage } from "@/utils/backendAPIs/products";
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
 import Empty from "@/components/Empty";
 import Expired from "@/components/Expired";
+import WhatsappWidget from "@/components/WhatsappWidget";
 
 export const runtime = "edge";
 const dynamic = "force-dynamic";
@@ -53,6 +54,7 @@ export default async function Home() {
               profile={profile}
               categories={categories}
             ></Main>
+            <WhatsappWidget text={profile.name} />
           </>
         </>
       ) : empty ? (

@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 
 const GlobalContext = createContext({});
 
-export const GlobalContextProvider = ({ children }) => {
+export const GlobalContextProvider = ({ children, profile }) => {
   //Cart Operations
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -44,6 +44,7 @@ export const GlobalContextProvider = ({ children }) => {
         setOpenAuth,
         handleOpenAuth,
         handleCloseAuth,
+        profile,
       }}
     >
       {children}
