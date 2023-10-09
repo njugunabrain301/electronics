@@ -8,6 +8,9 @@ export default function WhatsappWidget({ text }) {
   let { profile } = useGlobalContext();
   const sendToWhatsapp = () => {
     let number = profile.phone;
+    if (number[0] === "0") {
+      number = "+254" + number.slice(1);
+    }
     var url =
       "https://wa.me/" + number + "?text=" + "Subject : " + text + "%0a%0a";
     window.open(url, "_blank").focus();

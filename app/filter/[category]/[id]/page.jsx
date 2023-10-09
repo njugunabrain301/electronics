@@ -30,7 +30,7 @@ export async function generateMetadata({ params }) {
       title: product.name + " | " + profile.name,
       description: product.description,
       openGraph: {
-        title: profile.name,
+        title: product.name + " | " + profile.name,
         description: product.description,
         url: profile.url + "/filter/item/" + product._id,
         images: [
