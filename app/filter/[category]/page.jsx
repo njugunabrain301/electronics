@@ -26,7 +26,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: category + " | " + profile.name,
       description: category + ", " + profile.name + ", " + profile.about,
-      url: profile.url + "/filter/" + category,
+      url: "https://" + profile.url + "/filter/" + category,
       type: "website",
     },
     twitter: {
