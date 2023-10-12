@@ -29,7 +29,6 @@ export async function generateMetadata() {
     openGraph: {
       title: profile.name,
       description: profile.about,
-      url: "https://" + profile.url,
       siteName: profile.name,
       images: [
         {
