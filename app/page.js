@@ -43,7 +43,7 @@ export default async function Home() {
   let selectedTheme = profile.theme;
 
   return (
-    <div className={"App min-w-[330px] bg-skin-primary " + selectedTheme}>
+    <div className={"App min-w-[330px] " + selectedTheme.toLowerCase()}>
       {isReady ? (
         <>
           <>

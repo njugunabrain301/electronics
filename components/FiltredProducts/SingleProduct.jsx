@@ -1,14 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import {
-  Tooltip,
-  Button,
-  Typography,
-  Select,
-  Option,
-} from "@material-tailwind/react";
+import { Tooltip, Typography, Option } from "@material-tailwind/react";
 
-import { Themes } from "@/utils/Themes/Themes";
 import { colorComponent } from "@/utils/Utils";
 import { useGlobalContext } from "@/Context/context";
 import { addToCart } from "@/utils/frontendAPIs/cart";
@@ -16,19 +9,20 @@ import Image from "next/image";
 import ShareIcon from "@mui/icons-material/Share";
 import DOMPurify from "dompurify";
 import addedImg from "@/public/added.gif";
-import stars from "@/public/stars.gif";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 
-const SingleProduct = ({ product, showPrice, selectedTheme }) => {
+const SingleProduct = ({ product, showPrice }) => {
   const [selectedImage, setSelectedImage] = useState(product.img);
   const { handleOpenAuth, setCart } = useGlobalContext();
   let authUser = localStorage.getItem("user") ? true : false;
 
-  let theme = {};
-  if (selectedTheme !== "") {
-    theme = Themes[selectedTheme.toLowerCase()];
-  } else {
-    theme = Themes["classic"];
-  }
+  const { theme } = useGlobalContext();
 
   const productSize = product
     ? product.sizes && product.sizes.length > 0
@@ -109,7 +103,13 @@ const SingleProduct = ({ product, showPrice, selectedTheme }) => {
   };
 
   return (
-    <div className="bg-skin-primary text-skin-base">
+    <div
+      className=""
+      style={{
+        backgroundColor: theme.palette.background.primary,
+        color: theme.palette.text.base,
+      }}
+    >
       {product && (
         <div className="flex justify-center items-center p-4 pb-8 flex-wrap md:flex-nowrap">
           <div className="flex justify-center items-center m-0 md:m-0 flex-col max-w-[100%]">
@@ -181,7 +181,10 @@ const SingleProduct = ({ product, showPrice, selectedTheme }) => {
                     <span>{product.name}</span>
                   )}
                 </h5>
-                <p className="text-skin-alt text-sm">
+                <p
+                  className="text-sm"
+                  style={{ color: theme.palette.text.alt }}
+                >
                   {product.category === product.subcategory
                     ? product.category
                     : product.category + ": " + product.subcategory}
@@ -200,51 +203,89 @@ const SingleProduct = ({ product, showPrice, selectedTheme }) => {
               ></p>
               <div className="pb-4">
                 {product.sizes && product.sizes.length > 0 && (
-                  <div>
+                  <FormControl className="w-full">
+                    <InputLabel id="size-label">Pick a size</InputLabel>
                     <Select
+                      labelId="size-label"
                       id="size"
                       name="size"
                       label="Pick a size"
                       value={size}
                       disabled={productSize === "-"}
-                      onChange={(e) => setSize(e)}
-                      color={theme["button-base"]}
-                      className="my-select bg-skin-primary text-skin-base text-sm rounded-lg block w-full p-2.5"
+                      onChange={(e) => setSize(e.target.value)}
+                      color={"input"}
+                      className="my-select text-sm rounded-lg block w-full p-2.5"
+                      sx={{
+                        backgroundColor: theme.palette.pane.main,
+                        color: theme.palette.text.base,
+                      }}
+                      MenuProps={{
+                        sx: {
+                          "& ul": {
+                            backgroundColor: theme.palette.pane.main,
+                          },
+                        },
+                      }}
                     >
                       {product.sizes.map((item, index) => {
                         return (
-                          <Option key={index} value={item}>
+                          <MenuItem
+                            key={index}
+                            value={item}
+                            sx={{
+                              backgroundColor: theme.palette.pane.main,
+                              color: theme.palette.text.base,
+                            }}
+                          >
                             {item}
-                          </Option>
+                          </MenuItem>
                         );
                       })}
                     </Select>
-                  </div>
+                  </FormControl>
                 )}
               </div>
 
               <div className="pb-4">
                 {product.colors && product.colors.length > 0 && (
-                  <div>
+                  <FormControl className="w-full">
+                    <InputLabel id="color-label">Pick a color</InputLabel>
                     <Select
+                      labelId="color-label"
                       id="color"
                       name="color"
+                      size="small"
                       label="Pick a color"
                       disabled={productColor === "-"}
                       onChange={(e) => {
-                        setColor(e);
+                        setColor(e.target.value);
                       }}
                       value={color}
-                      color={theme["button-base"]}
-                      className="my-select bg-skin-primary text-skin-base text-sm rounded-lg block w-full p-2.5"
+                      color={"input"}
+                      className="my-select text-sm rounded-lg block w-full"
+                      sx={{
+                        backgroundColor: theme.palette.pane.main,
+                        color: theme.palette.text.base,
+                      }}
+                      MenuProps={{
+                        sx: {
+                          "& ul": {
+                            backgroundColor: theme.palette.pane.main,
+                          },
+                        },
+                      }}
                     >
                       {product.colors.map((color, index) => {
                         return (
-                          <Option
+                          <MenuItem
                             selected={true}
                             key={index}
                             value={color}
                             className="flex align-center"
+                            sx={{
+                              backgroundColor: theme.palette.pane.main,
+                              color: theme.palette.text.base,
+                            }}
                           >
                             <span
                               style={{
@@ -259,25 +300,22 @@ const SingleProduct = ({ product, showPrice, selectedTheme }) => {
                               &nbsp;
                               {color}
                             </span>
-                          </Option>
+                          </MenuItem>
                         );
                       })}
                     </Select>
-                  </div>
+                  </FormControl>
                 )}
               </div>
               {showPrice && (
-                <Typography className="font-bold text-skin-base">
+                <Typography className="font-bold">
                   Ksh.&nbsp;{product.price}
                 </Typography>
               )}
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center mt-3">
                 <Tooltip content="Add to Cart" placement="bottom">
                   <Button
-                    className="bg-skin-alt text-skin-inverted"
-                    size="lg"
-                    color={theme["text-highlight"]}
-                    ripple={true}
+                    color={"cart-btn"}
                     onClick={() =>
                       authUser
                         ? myAddToCart({
@@ -294,6 +332,7 @@ const SingleProduct = ({ product, showPrice, selectedTheme }) => {
                         : handleOpenAuth()
                     }
                     id="add-btn"
+                    variant="contained"
                   >
                     {adding ? (
                       "Adding..."
@@ -306,11 +345,6 @@ const SingleProduct = ({ product, showPrice, selectedTheme }) => {
                           id="gif_added"
                         />
                         &nbsp; Added
-                        {/* <Image
-                          className="w-[50px]"
-                          src={stars}
-                          alt="stars gif"
-                        /> */}
                       </span>
                     ) : (
                       "Add to Cart"

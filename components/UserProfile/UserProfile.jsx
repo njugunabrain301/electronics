@@ -1,17 +1,10 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  Card,
-  CardHeader,
-  Alert,
-  Button,
-  Input,
-  Typography,
-} from "@material-tailwind/react";
+import { Card, CardHeader, Alert } from "@material-tailwind/react";
 import { resetPasswordLink, updateProfile } from "@/utils/frontendAPIs/auth";
-import { Themes } from "@/utils/Themes/Themes";
+import { useGlobalContext } from "@/Context/context";
+import { Button, TextField, Typography } from "@mui/material";
 
-function UserProfile({ closeModal, selectedTheme }) {
+function UserProfile({ closeModal }) {
   let use = localStorage.getItem("user");
   if (use) {
     use = JSON.parse(use);
@@ -85,51 +78,92 @@ function UserProfile({ closeModal, selectedTheme }) {
       );
     }
   };
-  const theme = Themes[selectedTheme];
+  const { theme } = useGlobalContext();
+
   return (
     <div className="w-full h-screen flex justify-center items-center">
-      <Card className="w-[330px] bg-skin-primary p-4 rounded-md pt-0">
+      <Card
+        className="w-[330px] p-4 rounded-md pt-0"
+        style={{ background: theme.palette.background.primary }}
+      >
         <CardHeader
           variant="gradient"
-          className="mb-4 grid h-28 place-items-center bg-skin-card"
+          className="mb-4 grid h-28 place-items-center"
+          style={{ backgroundColor: theme.palette.card.main }}
         >
-          <Typography variant="h3" className="text-skin-inverted">
+          <Typography
+            variant="h4"
+            style={{ color: theme.palette.text.inverted, fontWeight: "bold" }}
+          >
             My Profile
           </Typography>
         </CardHeader>
         <hr className="h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
         <form className="mt-8 mb-2 w-full">
           <div className="mb-4 flex flex-col gap-6">
-            <Input
-              size="lg"
+            <TextField
               label="Name"
+              size="small"
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: theme.palette.input.border,
+                  },
+                  "&:hover fieldset": {
+                    borderColor: theme.palette.input.light,
+                  },
+                },
+                input: { color: theme.palette.text.base },
+              }}
+              color={"input"}
+              InputLabelProps={{ sx: { color: theme.palette.text.alt } }}
               name="name"
-              className="text-skin-base"
               style={{
                 pointerEvents: currState === "Update" ? "none" : "initial",
               }}
-              color={theme["text-highlight"]}
               value={values.name}
               onChange={onChange}
             />
-            <Input
-              size="lg"
+            <TextField
               label="Email"
               name="email"
-              className="text-skin-base"
-              color={theme["text-highlight"]}
+              size="small"
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: theme.palette.input.border,
+                  },
+                  "&:hover fieldset": {
+                    borderColor: theme.palette.input.light,
+                  },
+                },
+                input: { color: theme.palette.text.base },
+              }}
+              color={"input"}
+              InputLabelProps={{ sx: { color: theme.palette.text.alt } }}
               style={{
                 pointerEvents: currState === "Update" ? "none" : "initial",
               }}
               value={values.email}
               onChange={onChange}
             />
-            <Input
-              size="lg"
+            <TextField
               label="Phone"
               name="phone"
-              className="text-skin-base input"
-              color={theme["text-highlight"]}
+              size="small"
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: theme.palette.input.border,
+                  },
+                  "&:hover fieldset": {
+                    borderColor: theme.palette.input.light,
+                  },
+                },
+                input: { color: theme.palette.text.base },
+              }}
+              color={"input"}
+              InputLabelProps={{ sx: { color: theme.palette.text.alt } }}
               style={{
                 pointerEvents: currState === "Update" ? "none" : "initial",
               }}
@@ -137,17 +171,28 @@ function UserProfile({ closeModal, selectedTheme }) {
               onChange={onChange}
             />
           </div>
-
           <div className="">
             {error && (
-              <Alert className="flex align-items-center justify-center bg-skin-alert-danger">
+              <Alert
+                className="flex align-items-center justify-center"
+                style={{
+                  backgroundColor: theme.palette.error.main,
+                  color: theme.palette.error.contrastText,
+                }}
+              >
                 <p className="font-medium flex items-center text-center tracking-normal leading-none">
                   {error}
                 </p>
               </Alert>
             )}
             {mError && (
-              <Alert className="flex align-items-center justify-center bg-skin-alert-danger">
+              <Alert
+                className="flex align-items-center justify-center"
+                style={{
+                  backgroundColor: theme.palette.error.main,
+                  color: theme.palette.error.contrastText,
+                }}
+              >
                 <p className="font-medium flex items-center text-center tracking-normal leading-none">
                   {mError}
                 </p>
@@ -155,13 +200,17 @@ function UserProfile({ closeModal, selectedTheme }) {
             )}
           </div>
           <div className="flex justify-between">
-            <Typography className="mt-4 text-center font-normal">
-              <span
-                className="font-normal text-skin-highlight transition-colors hover:underline hover:text-skin-highlight-hover"
-                onClick={updatePass}
-              >
-                {updatePassState === "Update Password" ? "Update Password" : ""}
-              </span>
+            <Typography
+              className="mt-4 text-center font-normal transition-colors hover:underline cursor-pointer"
+              onClick={updatePass}
+              sx={{
+                color: theme.palette.highlight.main,
+                "&:hover": {
+                  color: theme.palette.highlight.light,
+                },
+              }}
+            >
+              {updatePassState === "Update Password" ? "Update Password" : ""}
             </Typography>
           </div>
           <Typography
@@ -172,16 +221,21 @@ function UserProfile({ closeModal, selectedTheme }) {
               {updatePassState !== "Update Password" ? updatePassState : ""}
             </span>
           </Typography>
-          <Button
-            color={theme["button-base"]}
-            className="mt-6"
-            fullWidth
-            onClick={() => action()}
+          <div className="mt-3">
+            <Button
+              color={"primary"}
+              variant="contained"
+              fullWidth
+              onClick={() => action()}
+            >
+              {currState}
+            </Button>
+          </div>
+          <div
+            className="flex justify-between mt-2"
+            style={{ color: theme.palette.text.base }}
           >
-            {currState}
-          </Button>
-          <div className="flex justify-between">
-            <Typography className="text-skin-base mt-4 text-center font-normal">
+            <Typography className="mt-4 text-center font-normal">
               <span
                 className="cursor-pointer hover:underline"
                 onClick={closeModal}
@@ -202,7 +256,7 @@ function UserProfile({ closeModal, selectedTheme }) {
                 </svg>
               </span>
             </Typography>
-            <Typography className="mt-4 text-center font-normal text-skin-base">
+            <Typography className="mt-4 text-center font-normal">
               <span
                 className="cursor-pointer hover:underline"
                 onClick={() => handleLogOut()}

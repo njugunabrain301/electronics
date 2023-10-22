@@ -1,4 +1,5 @@
 "use client";
+import { useGlobalContext } from "@/Context/context";
 import { fetchOrders } from "@/utils/frontendAPIs/orders";
 import { DialogBody, Typography, Tooltip } from "@material-tailwind/react";
 import Image from "next/image";
@@ -23,16 +24,24 @@ function Orders() {
 
     return str.replace(/(<([^>]+)>)/gi, "");
   }
-
+  const { theme } = useGlobalContext();
   return (
-    <div className="flex justify-center items-center bg-skin-primary">
+    <div
+      className="flex justify-center items-center"
+      style={{
+        backgroundColor: theme.palette.background.primary,
+        color: theme.palette.text.base,
+      }}
+    >
       <DialogBody
-        divider
         className="flex flex-col justify-center items-center"
         style={{ maxWidth: "800px", width: "90%" }}
       >
         <Typography variant="h4">
-          <p className="text-skin-base font-inter font-bold tracking-normal leading-none pt-2">
+          <p
+            className="font-inter font-bold tracking-normal leading-none pt-2"
+            style={{ color: theme.palette.text.base }}
+          >
             My Orders
           </p>
         </Typography>
@@ -49,13 +58,16 @@ function Orders() {
                 item && (
                   <div
                     key={index}
-                    className="my-[10px] bg-skin-panel border border-skin-panel p-[7px] rounded-md"
+                    className="my-[10px] border p-[7px] rounded-md"
                     style={{
                       width: "100%",
+                      backgroundColor: theme.palette.panel.main,
+                      borderColor: theme.palette.panel.border,
+                      color: theme.palette.text.base,
                     }}
                   >
                     <div className="grid grid-cols-2 py-4">
-                      <div className="text-skin-base">
+                      <div className="">
                         <div>
                           <Image
                             className=" rounded-md max-w-full"
@@ -66,12 +78,12 @@ function Orders() {
                           />
                         </div>
                         <div className="flex flex-col items-start">
-                          <h4 className=" text-base font-inter font-bold tracking-normal leading-none pt-2">
+                          <h4 className="font-inter font-bold tracking-normal leading-none pt-2">
                             {item.name}
                           </h4>
                         </div>
                       </div>
-                      <div className="pl-[20px] text-skin-base">
+                      <div className="pl-[20px]">
                         <p className="text-sm font-inter tracking-normal leading-none pt-2">
                           Size: <span className="ml-2">{item.size}</span>
                         </p>
@@ -97,7 +109,7 @@ function Orders() {
                         </p>
                         <div className="pt-4">
                           <Tooltip content="Status" placement="bottom">
-                            <Typography className=" text-sm font-inter tracking-normal leading-none pt-2">
+                            <Typography className="text-sm font-inter tracking-normal leading-none pt-2 w-fit">
                               Status:&nbsp;
                               {item.status === "RECEIVED"
                                 ? "PROCESSING"
@@ -107,7 +119,7 @@ function Orders() {
                         </div>
                       </div>
                     </div>
-                    <div className="max-w-xs text-skin-base">
+                    <div className="max-w-xs">
                       <p className=" text-xs font-inter tracking-normal leading-none pt-2">
                         {removeTags(item.description)}
                       </p>
@@ -117,7 +129,9 @@ function Orders() {
               );
             })
         ) : (
-          <p>Kindly log in in order to get your orders</p>
+          <p style={{ color: theme.palette.text.base }}>
+            Kindly log in in order to get your orders
+          </p>
         )}
       </DialogBody>
     </div>

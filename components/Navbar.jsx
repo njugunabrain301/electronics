@@ -9,7 +9,6 @@ import Cookies from "universal-cookie";
 import * as React from "react";
 import Cart from "./cart/Cart";
 import { useGlobalContext } from "@/Context/context";
-import Image from "next/image";
 import { visit } from "@/utils/frontendAPIs/app";
 import Script from "next/script";
 
@@ -17,7 +16,7 @@ const Navbar = ({ profile, checkoutInfo }) => {
   const [user, setUser] = useState({});
   const [authUser, setAuth] = useState(false);
   let cookies = new Cookies();
-  let { cart, totalPrice, totalCount, setCart } = useGlobalContext();
+  let { cart, totalPrice, totalCount, setCart, theme } = useGlobalContext();
 
   let updateLogin = () => {
     let userProfile = localStorage.getItem("user");
@@ -163,13 +162,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         ></iframe>
       </noscript>
       {/* <!-- End Google Tag Manager (noscript) --> */}
-      <div className="bg-skin-alt p-4 w-full flex justify-center items-center ">
-        <p className="text-skin-inverted font-inter text-2xl font-bold  ">
-          {profile.name}
-        </p>
+      <div
+        className={"p-4 w-full flex justify-center items-center "}
+        style={{
+          backgroundColor: theme.palette.background.inverted,
+          color: theme.palette.text.inverted,
+        }}
+      >
+        <p className="font-inter text-2xl font-bold  ">{profile.name}</p>
       </div>
 
-      <div className="bg-skin-primary flex justify-around items-center text-skin-base">
+      <div
+        className={"flex justify-around items-center "}
+        style={{
+          backgroundColor: theme.palette.background.primary,
+          color: theme.palette.text.base,
+        }}
+      >
         <div>
           {logo ? (
             <div className="flex align-center m-2 px-[5px] ">
@@ -180,7 +189,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               />
             </div>
           ) : (
-            <div className="bg-skin-alt rounded-md">{genLogo()}</div>
+            <div className="rounded-md">{genLogo()}</div>
           )}
         </div>
         <div className="flex flex-row items-center">
@@ -204,7 +213,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
                   />
                 </svg>
-                <span className="rounded-full bg-skin-card text-skin-inverted px-1 font-inter text-xs mr-1 absolute mt-[-30px] ml-[15px]">
+                <span
+                  className="rounded-full px-1 font-inter text-xs mr-1 absolute mt-[-30px] ml-[15px]"
+                  style={{
+                    backgroundColor: theme.palette.card.main,
+                    color: theme.palette.text.inverted,
+                  }}
+                >
                   {totalCount}
                 </span>
               </span>
@@ -340,7 +355,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           </div>
         </div>
       </div>
-      <div className="bg-skin-alt p-4 w-full flex items-center justify-between mx-auto text-skin-inverted">
+      <div
+        className={"p-4 w-full flex items-center justify-between mx-auto "}
+        style={{
+          backgroundColor: theme.palette.background.inverted,
+          color: theme.palette.text.inverted,
+        }}
+      >
         <p className=" font-inter text-base font-medium ">
           <Link href="/" className="display: flex">
             <svg

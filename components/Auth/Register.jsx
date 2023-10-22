@@ -1,16 +1,9 @@
 import React, { useState } from "react";
-import {
-  Card,
-  CardHeader,
-  Typography,
-  Checkbox,
-  Alert,
-} from "@material-tailwind/react";
-import { Button } from "@material-tailwind/react";
-import { Input } from "@material-tailwind/react";
+import { Card, CardHeader, Checkbox, Alert } from "@material-tailwind/react";
 import { register } from "@/utils/frontendAPIs/auth";
-import { Themes } from "@/utils/Themes/Themes";
 import Link from "next/link";
+import { useGlobalContext } from "@/Context/context";
+import { Button, TextField, Typography } from "@mui/material";
 
 function Register({ closeModal, toggleLogin, selectedTheme }) {
   let error = "";
@@ -92,59 +85,115 @@ function Register({ closeModal, toggleLogin, selectedTheme }) {
     else setValues({ ...values, agreed: true });
   };
 
-  const theme = Themes[selectedTheme];
+  const { theme } = useGlobalContext();
 
   return (
     <Card
       color="white"
       shadow={false}
-      className="p-[20px] pt-[0] bg-skin-primary"
+      className="p-[20px] pt-[0]"
+      style={{
+        backgroundColor: theme.palette.background.primary,
+        color: theme.palette.text.base,
+      }}
     >
       <CardHeader
         variant="gradient"
-        className="mb-4 grid h-28 place-items-center bg-skin-card"
+        className="mb-4 grid h-28 place-items-center"
+        style={{ backgroundColor: theme.palette.card.main }}
       >
-        <Typography variant="h3" className="text-skin-inverted">
+        <Typography
+          variant="h4"
+          style={{ color: theme.palette.text.inverted, fontWeight: "450" }}
+        >
           Sign Up
         </Typography>
       </CardHeader>
 
       <form className="mt-8 mb-2 w-120 sm:w-80">
         <div className="mb-4 flex flex-col gap-6">
-          <Input
-            size="lg"
+          <TextField
             label="Name"
             name="name"
-            className="text-skin-base input"
-            color={theme["text-highlight"]}
+            size="small"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: theme.palette.input.border,
+                },
+                "&:hover fieldset": {
+                  borderColor: theme.palette.input.light,
+                },
+              },
+              input: { color: theme.palette.text.base },
+            }}
+            color={"input"}
+            InputLabelProps={{ sx: { color: theme.palette.text.alt } }}
             value={values.name}
             onChange={onChange}
           />
-          <Input
-            size="lg"
+
+          <TextField
             label="Phone"
             name="phone"
-            className="text-skin-base input"
-            color={theme["text-highlight"]}
+            size="small"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: theme.palette.input.border,
+                },
+                "&:hover fieldset": {
+                  borderColor: theme.palette.input.light,
+                },
+              },
+              input: { color: theme.palette.text.base },
+            }}
+            color={"input"}
+            InputLabelProps={{ sx: { color: theme.palette.text.alt } }}
             value={values.phone}
             onChange={onChange}
           />
-          <Input
-            size="lg"
+
+          <TextField
             label="Email"
             name="email"
-            className="text-skin-base input"
-            color={theme["text-highlight"]}
+            type="email"
+            size="small"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: theme.palette.input.border,
+                },
+                "&:hover fieldset": {
+                  borderColor: theme.palette.input.light,
+                },
+              },
+              input: { color: theme.palette.text.base },
+            }}
+            color={"input"}
+            InputLabelProps={{ sx: { color: theme.palette.text.alt } }}
             value={values.email}
             onChange={onChange}
           />
-          <Input
+
+          <TextField
             type="password"
-            size="lg"
             label="Password"
             name="password"
-            className="text-skin-base input"
-            color={theme["text-highlight"]}
+            size="small"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: theme.palette.input.border,
+                },
+                "&:hover fieldset": {
+                  borderColor: theme.palette.input.light,
+                },
+              },
+              input: { color: theme.palette.text.base },
+            }}
+            color={"input"}
+            InputLabelProps={{ sx: { color: theme.palette.text.alt } }}
             value={values.password}
             onChange={onChange}
           />
@@ -153,13 +202,15 @@ function Register({ closeModal, toggleLogin, selectedTheme }) {
           label={
             <Typography
               variant="small"
-              className="flex items-center font-normal text-skin-base"
+              className="flex items-center font-normal"
+              style={{ color: theme.palette.text.base }}
             >
               I agree to the
               <Link
                 href="/termsofservice.html"
                 target="_blank"
-                className="font-medium text-skin-highlight transition-colors hover:text-skin-highlight-hover"
+                className="font-medium transition-colors hover:underline"
+                style={{ color: theme.palette.highlight.main }}
               >
                 &nbsp;Terms&nbsp;
               </Link>
@@ -167,7 +218,8 @@ function Register({ closeModal, toggleLogin, selectedTheme }) {
               <Link
                 href="/privacypolicy.html"
                 target="_blank"
-                className="font-medium text-skin-highlight transition-colors hover:text-skin-highlight-hover"
+                className="font-medium text-skin-highlight transition-colors hover:underline"
+                style={{ color: theme.palette.highlight.main }}
               >
                 &nbsp;Privacy Policy
               </Link>
@@ -175,18 +227,31 @@ function Register({ closeModal, toggleLogin, selectedTheme }) {
           }
           containerProps={{ className: "-ml-2.5" }}
           name="terms"
+          color={theme["input-color"]}
           onChange={toggleTerms}
         />
-        <div className="">
+        <div className="mb-2">
           {!mError && error && (
-            <Alert className="flex align-items-center justify-center bg-skin-alert-danger">
+            <Alert
+              className="flex align-items-center justify-center"
+              style={{
+                backgroundColor: theme.palette.error.main,
+                color: theme.palette.error.contrastText,
+              }}
+            >
               <p className="font-medium flex items-center text-center tracking-normal leading-none">
                 {error}
               </p>
             </Alert>
           )}
           {mError && (
-            <Alert className="flex align-items-center justify-center bg-skin-alert-danger">
+            <Alert
+              className="flex align-items-center justify-center"
+              style={{
+                backgroundColor: theme.palette.error.main,
+                color: theme.palette.error.contrastText,
+              }}
+            >
               <p className="font-medium flex items-center text-center tracking-normal leading-none">
                 {mError}
               </p>
@@ -195,14 +260,18 @@ function Register({ closeModal, toggleLogin, selectedTheme }) {
         </div>
         <Button
           className="mt-6 input"
-          color={theme["button-base"]}
+          color={"primary"}
           fullWidth
+          variant="contained"
           onClick={handleAction}
         >
           {isRegistering ? "Registering..." : "Register"}
         </Button>
-        <div className="flex justify-between">
-          <Typography className="mt-4 text-center font-normal text-skin-base">
+        <div
+          className="flex justify-between mt-2"
+          style={{ color: theme.palette.text.base }}
+        >
+          <Typography className="mt-4 text-center font-normal">
             <span
               className="cursor-pointer hover:underline"
               onClick={closeModal}
@@ -223,16 +292,22 @@ function Register({ closeModal, toggleLogin, selectedTheme }) {
               </svg>
             </span>
           </Typography>
-          <Typography className="mt-4 text-center font-normal text-skin-base">
-            Already have an account?{" "}
-            <span
+          <span className="text-center font-normal flex">
+            Already have an account?&nbsp;
+            <Typography
               href="#"
-              className="cursor-pointer font-medium text-skin-highlight transition-colors hover:text-skin-highlight-hover"
+              className="cursor-pointer font-medium transition-colors"
               onClick={toggleLogin}
+              sx={{
+                color: theme.palette.highlight.main,
+                "&:hover": {
+                  color: theme.palette.highlight.light,
+                },
+              }}
             >
               Sign In
-            </span>
-          </Typography>
+            </Typography>
+          </span>
         </div>
       </form>
     </Card>

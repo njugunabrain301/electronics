@@ -81,10 +81,9 @@ export default async function RootLayout({ children }) {
       return loc;
     });
   }
-
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={inter.className + " App min-w-[330px] p-0"}>
         <GlobalContextProvider profile={profile}>
           <div className="flex flex-col justify-between min-h-[100vh] items-stretch">
             <div>

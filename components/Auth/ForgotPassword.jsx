@@ -4,13 +4,11 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  Typography,
   Alert,
 } from "@material-tailwind/react";
-import { Button } from "@material-tailwind/react";
-import { Input } from "@material-tailwind/react";
-import { Themes } from "@/utils/Themes/Themes";
 import { resetPasswordLink } from "@/utils/frontendAPIs/auth";
+import { useGlobalContext } from "@/Context/context";
+import { Button, TextField, Typography } from "@mui/material";
 
 function ForgotPassword({ closeModal, toggleForgotPass, selectedTheme }) {
   let [error, setError] = useState("");
@@ -48,26 +46,46 @@ function ForgotPassword({ closeModal, toggleForgotPass, selectedTheme }) {
     setIsLoading(false);
   };
 
-  const theme = Themes[selectedTheme];
+  const { theme } = useGlobalContext();
   return (
-    <Card className="w-80 bg-skin-primary">
+    <Card
+      className="w-80"
+      style={{
+        backgroundColor: theme.palette.background.primary,
+        color: theme.palette.text.base,
+      }}
+    >
       <CardHeader
         variant="gradient"
-        color={theme.backgroundAlt}
-        className="mb-4 grid h-28 place-items-center bg-skin-card"
+        style={{ backgroundColor: theme.palette.card.main }}
+        className="mb-4 grid h-28 place-items-center"
       >
-        <Typography variant="h3" className="text-skin-inverted">
+        <Typography
+          variant="h4"
+          style={{ color: theme.palette.text.inverted, fontWeight: "450" }}
+        >
           Forgot Password
         </Typography>
       </CardHeader>
       <CardBody className="flex flex-col gap-4">
-        <Input
+        <TextField
           label="Email"
-          size="lg"
           type="email"
           name="email"
-          className="text-skin-base input"
-          color={theme["text-highlight"]}
+          size="small"
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: theme.palette.input.border,
+              },
+              "&:hover fieldset": {
+                borderColor: theme.palette.input.light,
+              },
+            },
+            input: { color: theme.palette.text.base },
+          }}
+          color={"input"}
+          InputLabelProps={{ sx: { color: theme.palette.text.alt } }}
           value={email}
           onChange={(e) => {
             setError("");
@@ -77,7 +95,13 @@ function ForgotPassword({ closeModal, toggleForgotPass, selectedTheme }) {
 
         <div className="">
           {error && (
-            <Alert className="flex align-items-center justify-center bg-skin-alert-danger">
+            <Alert
+              className="flex align-items-center justify-center"
+              style={{
+                backgroundColor: theme.palette.error.main,
+                color: theme.palette.error.contrastText,
+              }}
+            >
               <p className="font-medium flex items-center text-center tracking-normal leading-none">
                 {error}
               </p>
@@ -87,28 +111,22 @@ function ForgotPassword({ closeModal, toggleForgotPass, selectedTheme }) {
       </CardBody>
       <CardFooter className="pt-0">
         {resetRequested ? (
-          <Typography
-            varaint="h6"
-            className="mt-6 flex justify-center text-skin-base"
-          >
+          <Typography varaint="h6" className="mt-6 flex justify-center">
             We have sent a password reset link to your email
           </Typography>
         ) : (
           <Button
-            variant="gradient"
+            variant="contained"
             fullWidth
             onClick={handleAction}
-            color={theme["button-base"]}
-            style={{
-              color: theme.buttonTextPrimary,
-            }}
+            color={"primary"}
           >
             {isLoading ? "Sending Request..." : "Reset Password"}
           </Button>
         )}
 
-        <div className="divider flex justify-between">
-          <Typography className="mt-4 text-center font-normal text-skin-base">
+        <div className="divider flex justify-between mt-4">
+          <Typography className="mt-4 text-center font-normal">
             <span className="cursor-pointer" onClick={closeModal}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -127,16 +145,22 @@ function ForgotPassword({ closeModal, toggleForgotPass, selectedTheme }) {
             </span>
           </Typography>
 
-          <Typography className="mt-4 text-center font-normal text-skin-base">
-            Go back to{" "}
-            <span
+          <span className="text-center font-normal flex">
+            Go back to&nbsp;
+            <Typography
               href="#"
-              className="cursor-pointer font-medium text-skin-highlight transition-colors hover:text-skin-highlight-hover"
+              className="cursor-pointer font-medium transition-colors"
               onClick={toggleForgotPass}
+              sx={{
+                color: theme.palette.highlight.main,
+                "&:hover": {
+                  color: theme.palette.highlight.light,
+                },
+              }}
             >
               Login
-            </span>
-          </Typography>
+            </Typography>
+          </span>
         </div>
       </CardFooter>
     </Card>

@@ -16,7 +16,11 @@ function MyModal({ onClose, open, children }) {
       }}
       scroll="body"
     >
-      <div style={{ marginTop: "30px" }}></div>
+      <div
+        style={{
+          marginTop: "30px",
+        }}
+      ></div>
       {children}
     </Dialog>
   );

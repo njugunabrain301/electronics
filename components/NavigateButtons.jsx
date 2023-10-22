@@ -1,9 +1,10 @@
 "use client";
-import { Themes } from "@/utils/Themes/Themes";
-import { Button, Input } from "@material-tailwind/react";
+import { useGlobalContext } from "@/Context/context";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import MySearchField from "./MySearchField";
+import { Button } from "@mui/material";
 
 const NavigateButtons = ({ categories, profile, minified }) => {
   let video = "";
@@ -18,7 +19,7 @@ const NavigateButtons = ({ categories, profile, minified }) => {
     });
     if (vids.length > 0) video = vids[0];
   }
-  const theme = Themes[profile.theme.toLowerCase()];
+  const { theme } = useGlobalContext();
 
   let [search, setSearch] = useState("");
 
@@ -32,27 +33,20 @@ const NavigateButtons = ({ categories, profile, minified }) => {
   let displayNum = 10;
 
   return (
-    <div className="bg-skin-primary">
+    <div
+      style={{
+        overflow: "hidden",
+        backgroundColor: theme.palette.background.primary,
+      }}
+    >
       <div className="px-2 flex justify-center">
         <div className="max-w-[90%] w-[300px] flex justify-center items-center">
-          <Input
+          <MySearchField
             label="Search"
-            value={search}
             onChange={(e) => setSearch(e.target.value)}
+            value={search}
+            onClick={() => applySearch()}
           />
-          <div>
-            {" "}
-            <Button
-              color={theme["button-flat"]}
-              size="md"
-              variant="outlined"
-              ripple={true}
-              className="ml-2 text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out"
-              onClick={() => applySearch()}
-            >
-              Search
-            </Button>
-          </div>{" "}
         </div>
       </div>
       <div className="flex items-center justify-center py-8 flex-wrap">
@@ -61,13 +55,7 @@ const NavigateButtons = ({ categories, profile, minified }) => {
           return (
             <div key={index} className="mx-2 mb-3">
               <Link href={"/filter/" + button}>
-                <Button
-                  color={theme["button-flat"]}
-                  size="lg"
-                  variant="outlined"
-                  ripple={true}
-                  className="text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out"
-                >
+                <Button variant="outlined" color="flat-button">
                   {button}
                 </Button>
               </Link>
@@ -77,13 +65,7 @@ const NavigateButtons = ({ categories, profile, minified }) => {
         {categories.length > displayNum && !minified && (
           <div className="mx-2 mb-3">
             <Link href={"#more-categories"}>
-              <Button
-                color={theme["button-flat"]}
-                size="lg"
-                variant="outlined"
-                ripple={true}
-                className="text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out"
-              >
+              <Button variant="outlined" color="flat-button">
                 More...
               </Button>
             </Link>
@@ -93,8 +75,14 @@ const NavigateButtons = ({ categories, profile, minified }) => {
       {!minified && (
         <>
           {tags.length > 0 ? (
-            <div className="bg-skin-alt p-2 w-[60%] my-3 mx-auto rounded-md">
-              <h3 className="text-skin-inverted text-center text-lg font-inter font-bold tracking-normal leading-none">
+            <div
+              className="p-2 w-[60%] my-3 mx-auto rounded-md"
+              style={{
+                backgroundColor: theme.palette.background.inverted,
+                color: theme.palette.text.inverted,
+              }}
+            >
+              <h3 className="text-center text-lg font-inter font-bold tracking-normal leading-none">
                 {tags[0]}
               </h3>
             </div>
@@ -119,8 +107,14 @@ const NavigateButtons = ({ categories, profile, minified }) => {
           </div>
 
           {tags.length > 1 ? (
-            <div className="bg-skin-alt p-2 w-[60%] my-3 mx-auto rounded-md">
-              <h3 className="text-skin-inverted text-center text-lg font-inter font-bold tracking-normal leading-none">
+            <div
+              className="p-2 w-[60%] my-3 mx-auto rounded-md"
+              style={{
+                backgroundColor: theme.palette.background.inverted,
+                color: theme.palette.text.inverted,
+              }}
+            >
+              <h3 className=" text-center text-lg font-inter font-bold tracking-normal leading-none">
                 {tags[1]}
               </h3>
             </div>

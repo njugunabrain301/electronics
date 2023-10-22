@@ -4,7 +4,7 @@ import ProductSection from "./ProductSection/ProductSection";
 
 const Main = ({ products, slider, promoted, profile, categories }) => {
   return (
-    <div className="">
+    <div>
       <Slider products={products} slider={slider}></Slider>
       <div id="more">
         <NavigateButtons
@@ -12,7 +12,10 @@ const Main = ({ products, slider, promoted, profile, categories }) => {
           categories={categories}
         ></NavigateButtons>
       </div>
-      <ProductSection products={promoted}></ProductSection>
+      <ProductSection
+        products={promoted}
+        showPrice={profile.showPrice}
+      ></ProductSection>
       <div id="more-categories">
         <NavigateButtons
           profile={profile}

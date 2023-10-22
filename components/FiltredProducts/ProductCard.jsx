@@ -20,6 +20,7 @@ const ProductCard = ({
   type,
   extras,
   subcategory,
+  theme,
 }) => {
   const resizeCardImage = (img) => {
     img = img.replace(
@@ -36,11 +37,14 @@ const ProductCard = ({
     return str.replace(/(<([^>]+)>)/gi, "");
   }
   return (
-    <Link
-      href={`/filter/item/` + id}
-      className="flex justify-center bg-skin-primary"
-    >
-      <Card className=" min-w-[250px] xs:max-w-[280px] sm:w-[300px] mt-5 bg-skin-pane text-skin-base">
+    <Link href={`/filter/item/` + id} className="flex justify-center">
+      <Card
+        className=" min-w-[250px] xs:max-w-[280px] sm:w-[300px] mt-5"
+        style={{
+          backgroundColor: theme.palette.pane.main,
+          color: theme.palette.text.base,
+        }}
+      >
         <CardHeader className="relative h-60">
           <img
             src={resizeCardImage(img)}
@@ -60,7 +64,11 @@ const ProductCard = ({
               : removeTags(text).replace("<", "")}
           </Typography>
         </CardBody>
-        <CardFooter divider className="flex items-center justify-between py-3">
+        <CardFooter
+          divider
+          className="flex items-center justify-between py-3"
+          style={{ borderColor: theme.palette["flat-button"].main }}
+        >
           {showPrice && (
             <Typography variant="small">
               {price > 999999

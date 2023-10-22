@@ -51,3 +51,7 @@ html {
   font-family: Arial !important;
   word-break: break-word !important;
 }
+
+.App {
+  padding-right: 0 !important;
+}

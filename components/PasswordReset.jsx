@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Typography } from "@mui/material";
 import { Button, Input } from "@material-tailwind/react";
 import { resetPassword } from "@/utils/frontendAPIs/auth";
-import { Themes } from "@/utils/Themes/Themes";
+import { useGlobalContext } from "@/Context/context";
 
 function PasswordReset({ token, profile }) {
   const [password, setPassword] = useState("");
@@ -35,28 +35,34 @@ function PasswordReset({ token, profile }) {
     setIsLoading(false);
   };
 
-  const theme = Themes[profile.theme.toLowerCase()];
+  const { theme } = useGlobalContext();
   return (
-    <div className="pt-[100px] pb-[100px] flex justify-center items-center w-[100%] bg-skin-primary text-skin-base">
+    <div
+      className="pt-[100px] pb-[100px] flex justify-center items-center w-[100%]"
+      style={{
+        backgroundColor: theme.palette.background.primary,
+        color: theme.palette.text.base,
+      }}
+    >
       {done ? (
         <div
-          className="p-[10px] text-skin-base"
+          className="p-[10px]"
           style={{
             boxShadow: "0 0 2px grey",
             borderRadius: "5px",
             textAlign: "center",
           }}
         >
-          <Typography variant="h5" className="text-skin-base">
+          <Typography variant="h5" className="">
             Your password has been reset successfully
           </Typography>
-          <Typography className="text-skin-base">
+          <Typography className="">
             You can proceed to login using the new password
           </Typography>
         </div>
       ) : (
         <div
-          className="p-[10px] text-skin-base"
+          className="p-[10px]"
           style={{
             boxShadow: "0 0 2px grey",
             borderRadius: "5px",

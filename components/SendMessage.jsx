@@ -1,4 +1,5 @@
 "use client";
+import { useGlobalContext } from "@/Context/context";
 import { inquire } from "@/utils/frontendAPIs/app";
 import { Button } from "@material-tailwind/react";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
@@ -27,8 +28,12 @@ export default function SendMessage({ message, type }) {
       }
     }
   };
+  const { theme } = useGlobalContext();
   return (
-    <div className="flex flex-wrap items-center justify-center text-center">
+    <div
+      className="flex flex-wrap items-center justify-center text-center"
+      style={{ color: theme.palette.text.base }}
+    >
       {!sent ? (
         <>
           {message}

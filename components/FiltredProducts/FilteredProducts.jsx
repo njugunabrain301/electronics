@@ -1,16 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
-import { Button, Input } from "@material-tailwind/react";
 import {
   Menu,
   MenuHandler,
   MenuList,
   MenuItem,
 } from "@material-tailwind/react";
-import { Themes } from "@/utils/Themes/Themes";
 import NotFound from "@/app/404";
 import { motion } from "framer-motion";
+import { useGlobalContext } from "@/Context/context";
+import { Button } from "@mui/material";
+import MySearchField from "../MySearchField";
 
 const FilteredProducts = ({
   productList,
@@ -18,15 +19,13 @@ const FilteredProducts = ({
   wearables,
   profile,
   searchParam,
-  params,
 }) => {
-  const [error, setError] = useState("");
   const showPrice = profile.showPrice;
   const [filters, setFilters] = useState([]);
 
   const genderButtons = ["male", "female", "unisex"];
 
-  let theme = Themes[profile.theme.toLowerCase()];
+  let { theme } = useGlobalContext();
 
   const [searchValue, setSearch] = useState("");
   const [products, setProducts] = useState(productList);
@@ -100,7 +99,13 @@ const FilteredProducts = ({
   };
 
   return (
-    <div className="bg-skin-primary text-skin-base">
+    <div
+      className=""
+      style={{
+        backgroundColor: theme.palette.background.primary,
+        color: theme.palette.text.base,
+      }}
+    >
       <div className="pt-4 md:pt-8">
         <div className="pl-6 md:pl-14">
           <h1 className="text-2xl md:text-4xl font-inter font-bold tracking-normal leading-none">
@@ -112,17 +117,16 @@ const FilteredProducts = ({
                 {wearables.includes(type) &&
                   genderButtons.map((item, index) => {
                     return (
-                      <div key={index}>
+                      <div key={index} className={"mr-2 "}>
                         <Button
-                          color={theme["button-flat"]}
-                          size="md"
+                          color={"flat-button"}
                           variant="outlined"
-                          ripple={true}
-                          className={
-                            "text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out mr-4 " +
-                            (filters.includes(item) ? "text-skin-selected" : "")
-                          }
                           onClick={() => toggleFilter(item)}
+                          sx={{
+                            color: filters.includes(item)
+                              ? theme.palette.highlight.main
+                              : "",
+                          }}
                         >
                           {item}
                         </Button>
@@ -131,14 +135,17 @@ const FilteredProducts = ({
                   })}
                 {showPrice && (
                   <Button
-                    color={theme["button-flat"]}
-                    size="md"
+                    color={"flat-button"}
                     variant="outlined"
-                    ripple={true}
                     className={
-                      "w-[140px] text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out mr-4 " +
+                      " mr-4 " +
                       (filters.includes("sort") ? "text-skin-selected" : "")
                     }
+                    sx={{
+                      color: filters.includes("sort")
+                        ? theme.palette.highlight.main
+                        : "",
+                    }}
                     onClick={() => toggleFilter("sort")}
                   >
                     Sort By Price
@@ -147,11 +154,8 @@ const FilteredProducts = ({
               </div>
               <div>
                 {!wearables.includes(type) && (
-                  <Input
-                    label="Search"
-                    name="search"
-                    className="text-skin-base input"
-                    color={theme["text-highlight"]}
+                  <MySearchField
+                    label={"Search"}
                     value={searchValue}
                     onChange={(e) => {
                       setSearch(e.target.value);
@@ -161,11 +165,9 @@ const FilteredProducts = ({
               </div>
               <div className="pr-14">
                 <Button
-                  color={theme["button-flat"]}
-                  size="md"
+                  color={"flat-button"}
                   variant="outlined"
-                  ripple={true}
-                  className="text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out mr-4"
+                  className="mr-4"
                   onClick={() => {
                     clearFilters();
                   }}
@@ -174,31 +176,25 @@ const FilteredProducts = ({
                 </Button>
               </div>
             </div>
-            <div className="flex items-center justify-between py-4 md:hidden">
+            <div className="flex items-center justify-between py-4 md:hidden mr-4">
               <Menu>
                 <MenuHandler>
-                  <Button
-                    color={theme["button-flat"]}
-                    size="lg"
-                    variant="outlined"
-                    ripple={true}
-                    className="rounded-md text-skin-base hover:bg-skin-button-flat-hover duration-300 ease-in-out mr-4 p-2 px-4 "
-                  >
+                  <Button color={"flat-button"} variant="outlined">
                     Filters
                   </Button>
                 </MenuHandler>
-                <MenuList className="bg-skin-primary">
+                <MenuList style={{ backgroundColor: theme.palette.pane.main }}>
                   {wearables.includes(type) &&
                     genderButtons.map((item, index) => {
                       return (
                         <MenuItem
                           key={index}
                           onClick={() => toggleFilter(item)}
-                          className={
-                            filters.includes(item)
-                              ? "text-skin-selected bg-skin-primary"
-                              : "bg-skin-primary text-skin-base"
-                          }
+                          style={{
+                            color: filters.includes(item)
+                              ? theme.palette.highlight.main
+                              : theme.palette.text.base,
+                          }}
                         >
                           {item.charAt(0).toUpperCase() + "" + item.slice(1)}
                         </MenuItem>
@@ -208,11 +204,11 @@ const FilteredProducts = ({
                     <MenuItem
                       key={10}
                       onClick={() => toggleFilter("sort")}
-                      className={
-                        filters.includes("sort")
-                          ? "text-skin-selected bg-skin-primary"
-                          : "bg-skin-primary text-skin-base"
-                      }
+                      style={{
+                        color: filters.includes("sort")
+                          ? theme.palette.highlight.main
+                          : theme.palette.text.base,
+                      }}
                     >
                       Sort By Price
                     </MenuItem>
@@ -231,12 +227,8 @@ const FilteredProducts = ({
             </div>
             {wearables.includes(type) && (
               <div className="xs:w-[150px] md:w-[300px] flex items-center hidden md:flex">
-                <span className="pr-2 hidden md:block">Search:</span>
-                <Input
-                  label="Search"
-                  name="search"
-                  className="text-skin-base input"
-                  color={theme["text-highlight"]}
+                <MySearchField
+                  label={"Search"}
                   value={searchValue}
                   onChange={(e) => {
                     setSearch(e.target.value);
@@ -245,12 +237,8 @@ const FilteredProducts = ({
               </div>
             )}
             <div className="xs:w-[150px] md:w-[300px] flex items-center md:hidden">
-              <span className="pr-2 hidden md:block">Search:</span>
-              <Input
-                label="Search"
-                name="search"
-                className="text-skin-base input"
-                color={theme["text-highlight"]}
+              <MySearchField
+                label={"Search"}
                 value={searchValue}
                 onChange={(e) => {
                   setSearch(e.target.value);
@@ -282,6 +270,7 @@ const FilteredProducts = ({
                     showPrice={showPrice}
                     extras={product.extras}
                     subcategory={product.subcategory}
+                    theme={theme}
                   ></ProductCard>
                 </motion.div>
               );

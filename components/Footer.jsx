@@ -1,4 +1,5 @@
 "use client";
+import { useGlobalContext } from "@/Context/context";
 import Image from "next/image";
 import React from "react";
 
@@ -53,10 +54,20 @@ const Footer = ({ profile }) => {
     return logo;
   };
 
+  const { theme } = useGlobalContext();
+
   return (
-    <div className="bg-skin-primary text-skin-base">
+    <div
+      style={{
+        backgroundColor: theme.palette.background.primary,
+        color: theme.palette.text.base,
+      }}
+    >
       <div className="flex items-center justify-center">
-        <hr className="h-px w-4/5 bg-gray-400 opacity-50 outline-none border-none" />
+        <hr
+          className="h-px w-4/5 opacity-50 outline-none border-none"
+          style={{ backgroundColor: theme.palette["flat-button"].main }}
+        />
       </div>
       <div className="flex items-center justify-around pt-4">
         <div>
@@ -69,7 +80,7 @@ const Footer = ({ profile }) => {
               />
             </div>
           ) : (
-            <div className="bg-skin-alt rounded-md">{genLogo()}</div>
+            <div className="rounded-md">{genLogo()}</div>
           )}
         </div>
         <div>

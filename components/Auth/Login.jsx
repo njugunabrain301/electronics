@@ -4,14 +4,12 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  Typography,
   Alert,
 } from "@material-tailwind/react";
-import { Button } from "@material-tailwind/react";
-import { Input } from "@material-tailwind/react";
 import { colorComponent } from "@/utils/Utils";
 import { login } from "@/utils/frontendAPIs/auth";
-import { Themes } from "@/utils/Themes/Themes";
+import { useGlobalContext } from "@/Context/context";
+import { Button, TextField, Typography } from "@mui/material";
 
 function Login({ closeModal, toggleLogin, toggleForgotPass, selectedTheme }) {
   let [error, setError] = useState("");
@@ -52,45 +50,85 @@ function Login({ closeModal, toggleLogin, toggleForgotPass, selectedTheme }) {
     setIsLoggingIn(false);
   };
 
-  const theme = Themes[selectedTheme];
+  const { theme } = useGlobalContext();
   useEffect(() => {
     colorComponent("input");
   });
 
   return (
-    <Card className="w-80 bg-skin-primary">
+    <Card
+      className="w-80"
+      style={{
+        backgroundColor: theme.palette.background.primary,
+        color: theme.palette.text.base,
+      }}
+    >
       <CardHeader
         variant="gradient"
-        className="mb-4 grid h-28 place-items-center bg-skin-card"
+        className="mb-4 grid h-28 place-items-center"
+        style={{ backgroundColor: theme.palette.card.main }}
       >
-        <Typography variant="h3" className="text-skin-inverted">
+        <Typography
+          variant="h4"
+          sx={{ color: theme.palette.text.inverted, fontWeight: "450" }}
+        >
           Sign In
         </Typography>
       </CardHeader>
       <CardBody className="flex flex-col gap-4">
-        <Input
+        <TextField
           label="Email"
-          size="lg"
           type="email"
           name="email"
-          className="text-skin-base input"
-          color={theme["text-highlight"]}
+          size="small"
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: theme.palette.input.border,
+              },
+              "&:hover fieldset": {
+                borderColor: theme.palette.input.light,
+              },
+            },
+            input: { color: theme.palette.text.base },
+          }}
+          color={"input"}
+          InputLabelProps={{ sx: { color: theme.palette.text.alt } }}
           value={values.email}
           onChange={onChange}
         />
-        <Input
+
+        <TextField
           label="Password"
-          size="lg"
           type="password"
           name="password"
-          className="text-skin-base input"
-          color={theme["text-highlight"]}
+          size="small"
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: theme.palette.input.border,
+              },
+              "&:hover fieldset": {
+                borderColor: theme.palette.input.light,
+              },
+            },
+            input: { color: theme.palette.text.base },
+          }}
+          color={"input"}
+          InputLabelProps={{ sx: { color: theme.palette.text.alt } }}
           value={values.password}
           onChange={onChange}
         />
+
         <div className="">
           {error && (
-            <Alert className="flex align-items-center justify-center bg-skin-alert-danger">
+            <Alert
+              className="flex align-items-center justify-center"
+              style={{
+                backgroundColor: theme.palette.error.main,
+                color: theme.palette.error.contrastText,
+              }}
+            >
               <p className="font-medium flex items-center text-center tracking-normal leading-none">
                 {error}
               </p>
@@ -100,8 +138,9 @@ function Login({ closeModal, toggleLogin, toggleForgotPass, selectedTheme }) {
         <div>
           <Typography
             variant="small"
-            className="flex justify-start text-skin-base cursor-pointer"
+            className="flex justify-start cursor-pointer w-fit hover:underline"
             onClick={toggleForgotPass}
+            style={{ color: theme.palette.highlight.main }}
           >
             Forgot Password?
           </Typography>
@@ -109,17 +148,20 @@ function Login({ closeModal, toggleLogin, toggleForgotPass, selectedTheme }) {
       </CardBody>
       <CardFooter className="pt-0">
         <Button
-          color={theme["button-base"]}
-          variant="gradient"
+          color={"primary"}
+          variant="contained"
           fullWidth
           onClick={handleAction}
         >
           {isLoggingIn ? "Signing in..." : "Sign In"}
         </Button>
-        <div className="divider flex justify-between">
+        <div
+          className="divider flex justify-between mt-2"
+          style={{ color: theme.palette.text.base }}
+        >
           <Typography
             style={{ color: theme.textPrimary }}
-            className="text-skin-base mt-4 text-center font-normal"
+            className="mt-4 text-center font-normal"
           >
             <span className="cursor-pointer" onClick={closeModal}>
               <svg
@@ -139,16 +181,22 @@ function Login({ closeModal, toggleLogin, toggleForgotPass, selectedTheme }) {
             </span>
           </Typography>
 
-          <Typography className="mt-4 text-center font-normal text-skin-base">
-            Don't have an account?{" "}
-            <span
+          <span className="text-center font-normal flex items-center">
+            Don't have an account?&nbsp;
+            <Typography
               href="#"
-              className="font-medium text-skin-highlight transition-colors hover:text-skin-highlight-hover cursor-pointer"
+              className="cursor-pointer font-medium transition-colors"
               onClick={toggleLogin}
+              sx={{
+                color: theme.palette.highlight.main,
+                "&:hover": {
+                  color: theme.palette.highlight.light,
+                },
+              }}
             >
               Register
-            </span>
-          </Typography>
+            </Typography>
+          </span>
         </div>
       </CardFooter>
     </Card>

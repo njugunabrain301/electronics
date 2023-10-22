@@ -1,7 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
-  Button,
   DialogHeader,
   DialogBody,
   DialogFooter,
@@ -9,8 +8,9 @@ import {
 } from "@material-tailwind/react";
 import Checkout from "./CheckOut";
 import { removeFromCart } from "@/utils/frontendAPIs/cart";
-import { Themes } from "@/utils/Themes/Themes";
 import Image from "next/image";
+import { useGlobalContext } from "@/Context/context";
+import { Button } from "@mui/material";
 
 const Cart = ({
   closeModal,
@@ -23,7 +23,7 @@ const Cart = ({
 }) => {
   const [openCheckout, setOpenCheckout] = useState(false);
 
-  const theme = Themes[selectedTheme];
+  const { theme } = useGlobalContext();
   const [removing, setRemoving] = useState("");
 
   let removeItemFromCart = async (item) => {
@@ -58,8 +58,19 @@ const Cart = ({
       {!openCheckout ? (
         <div className="min-w-[330px]">
           {cart.length > 0 ? (
-            <div className="rounded-md border-0 outline-0 bg-skin-primary text-skin-base">
-              <DialogHeader className="flex justify-between text-skin-primary">
+            <div
+              className="rounded-md border-0 outline-0"
+              style={{
+                backgroundColor: theme.palette.background.primary,
+                color: theme.palette.text.base,
+              }}
+            >
+              <DialogHeader
+                className="flex justify-between"
+                style={{
+                  color: theme.palette.text.base,
+                }}
+              >
                 Shopping Cart
                 <button
                   type="button"
@@ -86,6 +97,10 @@ const Cart = ({
               <DialogBody
                 divider
                 className="flex flex-col justify-center items-start px-[0]"
+                style={{
+                  color: theme.palette.text.base,
+                  borderColor: theme.palette["flat-button"].main,
+                }}
               >
                 <div className="max-h-[400px] overflow-y-auto p-4">
                   {cart.map((item, index) => {
@@ -100,13 +115,18 @@ const Cart = ({
                               width={150}
                               height={100}
                             />
-                            <div className="flex flex-col items-start text-skin-base">
-                              <h4 className=" text-base font-inter font-bold tracking-normal leading-none pt-2">
+                            <div className="flex flex-col items-start">
+                              <h4
+                                className="text-base font-inter font-bold tracking-normal leading-none pt-2"
+                                style={{
+                                  color: theme.palette.text.base,
+                                }}
+                              >
                                 {item.name}
                               </h4>
                             </div>
                           </div>
-                          <div className="ml-[8px] text-skin-base">
+                          <div className="ml-[8px]">
                             <p className="text-sm font-inter tracking-normal leading-none pt-2">
                               Selected size:{" "}
                               <span className="ml-2">{item.size}</span>
@@ -146,12 +166,11 @@ const Cart = ({
                                 placement="bottom"
                               >
                                 <Button
+                                  color={"error"}
+                                  variant="contained"
+                                  size="small"
+                                  className={"mr-4 "}
                                   onClick={() => removeItemFromCart(item)}
-                                  size="sm"
-                                  // color={theme["button-delete"]}
-                                  ripple={true}
-                                  variant="filled"
-                                  className="bg-skin-button-delete"
                                 >
                                   {removing === item._id ? "..." : "Remove"}
                                 </Button>
@@ -159,7 +178,7 @@ const Cart = ({
                             </div>
                           </div>
                         </div>
-                        <div className="max-w-xs text-skin-base">
+                        <div className="max-w-xs">
                           <p className="text-xs font-inter tracking-normal leading-none pt-2">
                             {removeTags(item.description)}
                           </p>
@@ -169,26 +188,40 @@ const Cart = ({
                   })}
                 </div>
               </DialogBody>
-              <DialogFooter className="flex justify-between items-center">
+              <DialogFooter
+                className="flex justify-between items-center"
+                style={{
+                  color: theme.palette.text.base,
+                }}
+              >
                 {showPrice ? (
-                  <p className="text-skin-base text-base font-inter tracking-normal leading-none pt-2">
+                  <p className="text-base font-inter tracking-normal leading-none pt-2">
                     Total Price: <span className="">Ksh. {totalPrice}</span>
                   </p>
                 ) : (
                   <div></div>
                 )}
                 <Button
-                  color={theme["button-success"]}
+                  color={"success"}
                   onClick={initiateCheckout}
-                  variant="filled"
+                  variant="contained"
                 >
                   {showPrice ? "Check Out" : "Get Quote"}
                 </Button>
               </DialogFooter>
             </div>
           ) : (
-            <div className="rounded-md border-0 outline-0 bg-skin-primary text-skin-base">
-              <DialogHeader className="flex justify-between text-skin-base">
+            <div
+              className="rounded-md border-0 outline-0"
+              style={{
+                backgroundColor: theme.palette.background.primary,
+                color: theme.palette.text.base,
+              }}
+            >
+              <DialogHeader
+                className="flex justify-between"
+                style={{ color: theme.palette.text.base }}
+              >
                 Shopping Cart
                 <button
                   type="button"
@@ -212,8 +245,11 @@ const Cart = ({
                   </svg>
                 </button>
               </DialogHeader>
-              <DialogBody divider>
-                <div className="text-skin-base">
+              <DialogBody
+                divider
+                style={{ borderColor: theme.palette["flat-button"].main }}
+              >
+                <div className="" style={{ color: theme.palette.text.base }}>
                   <h1 className="text-3xl font-inter font-bold tracking-normal leading-none py-4">
                     Your bag is empty
                   </h1>

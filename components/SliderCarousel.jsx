@@ -1,13 +1,8 @@
 "use client";
 import Link from "next/link";
 import Carousel from "react-material-ui-carousel";
-// import { Carousel, initTE } from "tw-elements";
 
 function SliderCarousel({ products }) {
-  const selectItem = (item) => {
-    // dispatch(singleProduct(item._id))
-  };
-
   const resizeSliderImage = (img) => {
     img = img.replace(
       "https://storage.googleapis.com/test-bucket001/",
@@ -40,7 +35,6 @@ function SliderCarousel({ products }) {
               href={`/filter/item/` + item._id}
               className="flex justify-center align-center bg-gray-300 rounded-md"
               style={{ aspectRatio: "3/2" }}
-              onClick={() => selectItem(item._id)}
             >
               <img
                 src={resizeSliderImage(item.img)}

@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import Link from "next/link";
+import { useGlobalContext } from "@/Context/context";
 
 const ProductSectionItem = ({
   id,
@@ -36,12 +37,16 @@ const ProductSectionItem = ({
     return str.replace(/(<([^>]+)>)/gi, "");
   }
 
+  const { theme } = useGlobalContext();
   return (
-    <Link
-      href={`/filter/item/` + id}
-      className="flex justify-center bg-skin-primary"
-    >
-      <Card className="sm:w-[300px] xs:w-[280px] md:w-[320px] relative bg-skin-pane text-skin-base">
+    <Link href={`/filter/item/` + id} className="flex justify-center">
+      <Card
+        className="sm:w-[300px] xs:w-[280px] md:w-[320px] relative bg-skin-pane text-skin-base"
+        style={{
+          backgroundColor: theme.palette.pane.main,
+          color: theme.palette.text.base,
+        }}
+      >
         {/* <Typography
           variant="h4"
           className="mb-2 absolute -rotate-45 top-12 right-8 z-10 text-red-700"
@@ -49,7 +54,7 @@ const ProductSectionItem = ({
           SALE%
         </Typography> */}
         <CardHeader floated={false} className="rounded-lg">
-          {onOffer}
+          {/* {onOffer} */}
           <img
             src={resizeCardImage(img)}
             alt={name}
@@ -72,7 +77,10 @@ const ProductSectionItem = ({
           <div className="flex justify-between items-center pt-4">
             {showPrice && (
               <Typography className="font-medium">
-                <span className="text-skin-alt text-base">
+                <span
+                  className="text-base"
+                  style={{ color: theme.palette.text.alt }}
+                >
                   {price > 999999
                     ? "Ksh. " + price / 1000000 + "M"
                     : "Ksh. " + price}

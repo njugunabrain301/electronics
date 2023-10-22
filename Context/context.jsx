@@ -1,5 +1,8 @@
 "use client";
+import { MUIThemes, Themes } from "@/utils/Themes/Themes";
 import { createContext, useContext, useState, useEffect } from "react";
+import { red } from "@mui/material/colors";
+import { ThemeProvider, createTheme } from "@mui/material";
 
 const GlobalContext = createContext({});
 
@@ -32,23 +35,33 @@ export const GlobalContextProvider = ({ children, profile }) => {
   const handleCloseAuth = () => {
     setOpenAuth(false);
   };
-
+  const theme = MUIThemes[profile.theme.toLowerCase()];
   return (
-    <GlobalContext.Provider
-      value={{
-        cart,
-        totalPrice,
-        totalCount,
-        setCart: setCartMod,
-        openAuth,
-        setOpenAuth,
-        handleOpenAuth,
-        handleCloseAuth,
-        profile,
+    <div
+      style={{
+        backgroundColor: theme.palette.background.primary,
+        color: theme.palette.text.base,
       }}
     >
-      {children}
-    </GlobalContext.Provider>
+      <ThemeProvider theme={theme}>
+        <GlobalContext.Provider
+          value={{
+            cart,
+            totalPrice,
+            totalCount,
+            setCart: setCartMod,
+            openAuth,
+            setOpenAuth,
+            handleOpenAuth,
+            handleCloseAuth,
+            profile,
+            theme: theme,
+          }}
+        >
+          {children}
+        </GlobalContext.Provider>
+      </ThemeProvider>
+    </div>
   );
 };
 

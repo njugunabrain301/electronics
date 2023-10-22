@@ -7,13 +7,11 @@ import {
   Typography,
   Alert,
 } from "@material-tailwind/react";
-import { Button } from "@material-tailwind/react";
-import { Input } from "@material-tailwind/react";
-import { Autocomplete, Chip, Paper, TextField } from "@mui/material";
+import { Autocomplete, Button, Paper, TextField } from "@mui/material";
 import { useGlobalContext } from "@/Context/context";
 import { checkout } from "@/utils/frontendAPIs/cart";
 import Link from "next/link";
-import { Themes } from "@/utils/Themes/Themes";
+
 const colorAutocomplete = () => {
   let elems = document.getElementsByClassName("autocomplete");
   for (var i = 0; i < elems.length; i++) {
@@ -49,7 +47,6 @@ function Checkout({
   totalPrice,
   checkoutInfo,
   showPrice,
-  selectedTheme,
 }) {
   let [error, setError] = useState("");
   const [section, setSection] = useState(1);
@@ -206,38 +203,52 @@ function Checkout({
     }
   };
 
-  const theme = Themes[selectedTheme];
+  const { theme } = useGlobalContext();
 
   useEffect(() => {
     colorAutocomplete();
   });
 
   return (
-    <Card className="w-85 max-w-[90%] min-w-[330px] bg-skin-primary text-skin-base">
+    <Card
+      className="w-85 max-w-[90%] min-w-[330px]"
+      style={{
+        backgroundColor: theme.palette.background.primary,
+        color: theme.palette.text.base,
+      }}
+    >
       <CardHeader
         variant="gradient"
-        className="bg-skin-card mb-0 grid h-28 place-items-center"
+        className="mb-0 grid h-28 place-items-center"
+        style={{
+          backgroundColor: theme.palette.card.main,
+          color: theme.palette.text.inverted,
+        }}
       >
-        <Typography variant="h3" className="text-skin-inverted">
+        <Typography variant="h3">
           {showPrice ? "Check Out" : "Get Quote"}
         </Typography>
       </CardHeader>
       <CardBody className="flex flex-col">
         {success ? (
-          <div className="text-center">
-            <Typography variant="h3" className="text-skin-base">
-              Your Order has been received
-            </Typography>
-            <Typography className="text-skin-base">
+          <div
+            className="text-center"
+            style={{
+              color: theme.palette.text.base,
+            }}
+          >
+            <Typography variant="h3">Your Order has been received</Typography>
+            <Typography>
               Thank you for shopping with us. <br />
             </Typography>
-            <Typography className="text-skin-base">
+            <Typography>
               {!showPrice &&
                 "We will get back to you as soon as possible with the cost of the goods ordered in order to proceed. "}
               You can track the progress in the{" "}
               <Link
                 href="/orders"
-                className="text-skin-highlight hover:text-skin-highlight-hover"
+                className="hover:underline"
+                style={{ color: theme.palette.highlight.main }}
                 onClick={() => closeModal()}
               >
                 orders
@@ -249,13 +260,17 @@ function Checkout({
           <div>
             <ul className="flex justify-evenly pb-2">
               <li
-                className={
-                  section === 1
-                    ? "p-2 w-[190px] text-center text-skin-highlight border-skin-highlight border-b-2"
-                    : "p-2 w-[190px] text-center text-skin-base border-skin-base border-b-2"
-                }
+                className="p-2 w-[190px] text-center border-b-2 cursor-pointer"
                 style={{
                   transition: ".5s",
+                  color:
+                    section === 1
+                      ? theme.palette.highlight.main
+                      : theme.palette.text.base,
+                  borderColor:
+                    section === 1
+                      ? theme.palette.highlight.main
+                      : theme.palette.text.base,
                 }}
                 onClick={() => openSection(1)}
               >
@@ -263,12 +278,19 @@ function Checkout({
               </li>
               {showPrice && (
                 <li
-                  className={
-                    section === 2
-                      ? "p-2 w-[190px] text-center text-skin-highlight border-skin-highlight border-b-2"
-                      : "p-2 w-[190px] text-center text-skin-base border-skin-base border-b-2"
-                  }
+                  className="p-2 w-[190px] text-center border-b-2 cursor-pointer"
                   onClick={() => openSection(2)}
+                  style={{
+                    transition: ".5s",
+                    color:
+                      section === 2
+                        ? theme.palette.highlight.main
+                        : theme.palette.text.base,
+                    borderColor:
+                      section === 2
+                        ? theme.palette.highlight.main
+                        : theme.palette.text.base,
+                  }}
                 >
                   Payment Section
                 </li>
@@ -279,14 +301,17 @@ function Checkout({
                 <div className="relative min-w-[200px] my-2">
                   <Autocomplete
                     disablePortal={true}
-                    isOptionEqualToValue={(option, value) =>
-                      option.id === value.id
-                    }
+                    isOptionEqualToValue={(option, value) => option === value}
                     className="autocomplete"
-                    color={theme["text-base"]}
+                    color={"input"}
                     options={counties}
                     PaperComponent={({ children }) => (
-                      <Paper className="bg-skin-primary text-skin-base">
+                      <Paper
+                        sx={{
+                          color: theme.palette.text.base,
+                          backgroundColor: theme.palette.pane.main,
+                        }}
+                      >
                         {children}
                       </Paper>
                     )}
@@ -297,17 +322,25 @@ function Checkout({
                         </li>
                       );
                     }}
-                    renderTags={(tagValue, getTagProps) => {
-                      return tagValue.map((option, index) => (
-                        <Chip
-                          {...getTagProps({ index })}
-                          key={option}
-                          label={option}
-                        />
-                      ));
-                    }}
                     renderInput={(params) => (
-                      <TextField {...params} label="Select County" />
+                      <TextField
+                        {...params}
+                        label="Select County"
+                        sx={{
+                          "& .MuiOutlinedInput-root": {
+                            "& fieldset": {
+                              borderColor: theme.palette.input.border,
+                            },
+                            "&:hover fieldset": {
+                              borderColor: theme.palette.input.light,
+                            },
+                          },
+                          input: { color: theme.palette.text.base },
+                        }}
+                        InputLabelProps={{
+                          sx: { color: theme.palette.text.alt },
+                        }}
+                      />
                     )}
                     value={county}
                     size="small"
@@ -321,14 +354,17 @@ function Checkout({
                 <div className="relative min-w-[200px] my-2">
                   <Autocomplete
                     disablePortal={true}
-                    isOptionEqualToValue={(option, value) =>
-                      option.id === value.id
-                    }
+                    isOptionEqualToValue={(option, value) => option === value}
                     className="autocomplete"
-                    color={theme["text-base"]}
+                    color={"input"}
                     options={subCounties}
                     PaperComponent={({ children }) => (
-                      <Paper className="bg-skin-primary text-skin-base">
+                      <Paper
+                        sx={{
+                          color: theme.palette.text.base,
+                          backgroundColor: theme.palette.pane.main,
+                        }}
+                      >
                         {children}
                       </Paper>
                     )}
@@ -339,17 +375,25 @@ function Checkout({
                         </li>
                       );
                     }}
-                    renderTags={(tagValue, getTagProps) => {
-                      return tagValue.map((option, index) => (
-                        <Chip
-                          {...getTagProps({ index })}
-                          key={option}
-                          label={option}
-                        />
-                      ));
-                    }}
                     renderInput={(params) => (
-                      <TextField {...params} label="Select Sub-County" />
+                      <TextField
+                        {...params}
+                        label="Select Sub-County"
+                        sx={{
+                          "& .MuiOutlinedInput-root": {
+                            "& fieldset": {
+                              borderColor: theme.palette.input.border,
+                            },
+                            "&:hover fieldset": {
+                              borderColor: theme.palette.input.light,
+                            },
+                          },
+                          input: { color: theme.palette.text.base },
+                        }}
+                        InputLabelProps={{
+                          sx: { color: theme.palette.text.alt },
+                        }}
+                      />
                     )}
                     value={subcounty}
                     size="small"
@@ -367,9 +411,14 @@ function Checkout({
                       option.id === value.id || option === value
                     }
                     className="autocomplete"
-                    color={theme["text-base"]}
+                    color={"input"}
                     PaperComponent={({ children }) => (
-                      <Paper className="bg-skin-primary text-skin-base">
+                      <Paper
+                        sx={{
+                          color: theme.palette.text.base,
+                          backgroundColor: theme.palette.pane.main,
+                        }}
+                      >
                         {children}
                       </Paper>
                     )}
@@ -381,17 +430,25 @@ function Checkout({
                         </li>
                       );
                     }}
-                    renderTags={(tagValue, getTagProps) => {
-                      return tagValue.map((option, index) => (
-                        <Chip
-                          {...getTagProps({ index })}
-                          key={option.id}
-                          label={option.label}
-                        />
-                      ));
-                    }}
                     renderInput={(params) => (
-                      <TextField {...params} label="Select Courier" />
+                      <TextField
+                        {...params}
+                        label="Select Courier"
+                        sx={{
+                          "& .MuiOutlinedInput-root": {
+                            "& fieldset": {
+                              borderColor: theme.palette.input.border,
+                            },
+                            "&:hover fieldset": {
+                              borderColor: theme.palette.input.light,
+                            },
+                          },
+                          input: { color: theme.palette.text.base },
+                        }}
+                        InputLabelProps={{
+                          sx: { color: theme.palette.text.alt },
+                        }}
+                      />
                     )}
                     disableClearable
                     value={courier}
@@ -405,10 +462,7 @@ function Checkout({
                   />
                 </div>
                 {showPrice && (
-                  <Typography
-                    style={{ fontSize: "11pt" }}
-                    className="text-skin-base"
-                  >
+                  <Typography style={{ fontSize: "11pt" }}>
                     Delivery Cost: Ksh.{" " + deliveryCost}
                   </Typography>
                 )}
@@ -418,19 +472,39 @@ function Checkout({
               <div>
                 <Autocomplete
                   disablePortal={true}
-                  isOptionEqualToValue={(option, value) =>
-                    option.id === value.id
-                  }
+                  isOptionEqualToValue={(option, value) => option === value}
                   className="autocomplete"
-                  color={theme["text-base"]}
+                  color={"input"}
                   PaperComponent={({ children }) => (
-                    <Paper className="bg-skin-primary text-skin-base">
+                    <Paper
+                      sx={{
+                        color: theme.palette.text.base,
+                        backgroundColor: theme.palette.pane.main,
+                      }}
+                    >
                       {children}
                     </Paper>
                   )}
                   options={payOptions}
                   renderInput={(params) => (
-                    <TextField {...params} label="Select Payment Mode" />
+                    <TextField
+                      {...params}
+                      label="Select Payment Mode"
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          "& fieldset": {
+                            borderColor: theme.palette.input.border,
+                          },
+                          "&:hover fieldset": {
+                            borderColor: theme.palette.input.light,
+                          },
+                        },
+                        input: { color: theme.palette.text.base },
+                      }}
+                      InputLabelProps={{
+                        sx: { color: theme.palette.text.alt },
+                      }}
+                    />
                   )}
                   value={mode}
                   size="small"
@@ -442,34 +516,28 @@ function Checkout({
                 />
                 {mode === "MPesa-Till" && (
                   <div>
-                    <Typography className="m-0 text-skin-base">
+                    <Typography className="m-0">
                       MPESA: Buy Goods & Services
                     </Typography>
-                    <Typography className="text-skin-base">
+                    <Typography>
                       Till Number: {paymentInfo.tillNumber}
                     </Typography>
-                    <Typography className="text-skin-base">
+                    <Typography>
                       Store Number: {paymentInfo.storeNumber}
                     </Typography>
-                    <Typography className="text-skin-base">
-                      Business Name: {paymentInfo.name}
-                    </Typography>
+                    <Typography>Business Name: {paymentInfo.name}</Typography>
                   </div>
                 )}
                 {mode === "MPesa-Paybill" && (
                   <div>
-                    <Typography className="m-0 text-skin-base">
-                      MPESA: Paybill
-                    </Typography>
-                    <Typography className="text-skin-base">
+                    <Typography className="m-0">MPESA: Paybill</Typography>
+                    <Typography>
                       Paybill Number: {paymentInfo.paybillNumber}
                     </Typography>
-                    <Typography className="text-skin-base">
+                    <Typography>
                       Account Number: {paymentInfo.accountNumber}
                     </Typography>
-                    <Typography className="text-skin-base">
-                      Business Name: {paymentInfo.name}
-                    </Typography>
+                    <Typography>Business Name: {paymentInfo.name}</Typography>
                   </div>
                 )}
                 <div
@@ -478,7 +546,6 @@ function Checkout({
                     alignItems: "center",
                     fontWeight: "bold",
                   }}
-                  className="text-skin-base"
                 >
                   <p style={{ fontWeight: "bold" }}>
                     Ksh.&nbsp;{cartTotal}&nbsp;
@@ -490,27 +557,33 @@ function Checkout({
                   <p style={{ fontSize: "8pt" }}>(Delivery Cost)</p>
                 </div>
                 <div style={{ display: "flex" }}>
-                  <Typography
-                    style={{ fontWeight: "bold" }}
-                    className="text-skin-base"
-                  >
+                  <Typography style={{ fontWeight: "bold" }}>
                     Total&nbsp;
                   </Typography>
-                  <Typography
-                    style={{ fontWeight: "bold" }}
-                    className="text-skin-base"
-                  >
+                  <Typography style={{ fontWeight: "bold" }}>
                     Ksh.&nbsp;{Number(cartTotal) + Number(deliveryCost)}
                   </Typography>
                 </div>
                 <div style={{ margin: "10px 0" }}>
-                  <Input
+                  <TextField
                     label="MPESA Code"
-                    size="lg"
                     type="text"
                     name="code"
-                    className="text-skin-base"
-                    color={theme["text-highlight"]}
+                    size="small"
+                    fullWidth
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          borderColor: theme.palette.input.border,
+                        },
+                        "&:hover fieldset": {
+                          borderColor: theme.palette.input.light,
+                        },
+                      },
+                      input: { color: theme.palette.text.base },
+                    }}
+                    InputLabelProps={{ sx: { color: theme.palette.text.alt } }}
+                    color={"input"}
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
                   />
@@ -520,14 +593,26 @@ function Checkout({
 
             <div className="">
               {error && (
-                <Alert className="flex align-items-center justify-center bg-skin-alert-danger">
+                <Alert
+                  className="flex align-items-center justify-center"
+                  style={{
+                    backgroundColor: theme.palette.error.main,
+                    color: theme.palette.error.contrastText,
+                  }}
+                >
                   <p className="font-medium flex items-center text-center tracking-normal leading-none">
                     {error}
                   </p>
                 </Alert>
               )}
               {c_error && (
-                <Alert className="flex align-items-center justify-center bg-skin-alert-danger">
+                <Alert
+                  className="flex align-items-center justify-center"
+                  style={{
+                    backgroundColor: theme.palette.error.main,
+                    color: theme.palette.error.contrastText,
+                  }}
+                >
                   <p className="font-medium flex items-center text-center tracking-normal leading-none">
                     {c_error}
                   </p>
@@ -540,20 +625,20 @@ function Checkout({
       <CardFooter className="pt-0">
         {section === 1 && showPrice ? (
           <Button
-            variant="gradient"
+            variant="contained"
             fullWidth
             onClick={() => openSection(2)}
-            color={theme["button-base"]}
+            color={"primary"}
           >
             Proceed
           </Button>
         ) : (
           !success && (
             <Button
-              variant="gradient"
+              color={"primary"}
+              variant="contained"
               fullWidth
               onClick={() => handleCheckout()}
-              color={theme["button-base"]}
             >
               {isLoading
                 ? "Submitting.."
@@ -563,12 +648,9 @@ function Checkout({
             </Button>
           )
         )}
-        {/* <Typography
-          variant="small"
-          className="mt-6 flex justify-center"
-        ></Typography> */}
+
         <div className="divider flex justify-between">
-          <Typography className="mt-4 text-center font-normal text-skin-base">
+          <Typography className="mt-4 text-center font-normal">
             <span
               className="cursor-pointer"
               onClick={() => {
