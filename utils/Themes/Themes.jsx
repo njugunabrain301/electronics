@@ -279,6 +279,52 @@ export const MUIThemes = {
       },
     },
   }),
+  "red-white": createTheme({
+    ["theme-type"]: "light",
+    palette: {
+      primary: {
+        main: "#F8485E",
+      },
+      text: {
+        base: "#512D6D",
+        inverted: "#fff",
+        alt: "#F8485E",
+      },
+      highlight: {
+        main: "#D77FA1",
+        light: "#E6B2C6",
+      },
+      background: {
+        primary: "#EEEEEE",
+        inverted: "#F8485E", //"#8E8FFA",
+      },
+      pane: {
+        main: "#FEF6FB",
+      },
+      card: {
+        main: "#F8485E", //"#7752FE",
+      },
+      panel: {
+        main: "#FEF6FB",
+        border: "#FAEDF0",
+      },
+      "flat-button": {
+        main: "#512D6D",
+      },
+      "cart-btn": {
+        main: "#512D6D",
+        // light: "#",
+        // dark: "#",
+        contrastText: "#512D6D",
+      },
+      input: {
+        main: "#512D6D",
+        light: "#512D6D",
+        dark: "#512D6D",
+        border: "#512D6D",
+      },
+    },
+  }),
 };
 
 const empty = {
