@@ -296,7 +296,7 @@ export const MUIThemes = {
       },
       background: {
         primary: "#ffffff",
-        inverted: "#FF3F00", //"#8E8FFA",
+        inverted: "#FF0000", //"#8E8FFA",
       },
       pane: {
         main: "#FEF6FB",
