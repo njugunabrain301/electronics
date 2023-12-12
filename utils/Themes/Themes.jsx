@@ -286,7 +286,7 @@ export const MUIThemes = {
         main: "#F8485E",
       },
       text: {
-        base: "#512D6D",
+        base: "#000",
         inverted: "#fff",
         alt: "#F8485E",
       },
@@ -299,23 +299,23 @@ export const MUIThemes = {
         inverted: "#FF0000", //"#8E8FFA",
       },
       pane: {
-        main: "#FEF6FB",
+        main: "#ffffff",
       },
       card: {
         main: "#F8485E", //"#7752FE",
       },
       panel: {
-        main: "#FEF6FB",
+        main: "#ffffff",
         border: "#FAEDF0",
       },
       "flat-button": {
         main: "#512D6D",
       },
       "cart-btn": {
-        main: "#512D6D",
+        main: "#ff0000",
         // light: "#",
         // dark: "#",
-        contrastText: "#512D6D",
+        contrastText: "#ffffff",
       },
       input: {
         main: "#512D6D",

@@ -8,7 +8,7 @@ const Footer = ({ profile }) => {
   const year = new Date().getFullYear();
   const businessName = profile.name || "Welcome Back";
   const logo = profile.icon || "";
-  console.log(profile);
+
   const genLogo = () => {
     let name = "";
     for (var i = 0; i < businessName.length; i++) {
