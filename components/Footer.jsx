@@ -1,5 +1,6 @@
 "use client";
 import { useGlobalContext } from "@/Context/context";
+import { Facebook, Instagram, Twitter } from "@mui/icons-material";
 import Image from "next/image";
 import React from "react";
 
@@ -7,7 +8,7 @@ const Footer = ({ profile }) => {
   const year = new Date().getFullYear();
   const businessName = profile.name || "Welcome Back";
   const logo = profile.icon || "";
-
+  console.log(profile);
   const genLogo = () => {
     let name = "";
     for (var i = 0; i < businessName.length; i++) {
@@ -83,9 +84,40 @@ const Footer = ({ profile }) => {
             <div className="rounded-md">{genLogo()}</div>
           )}
         </div>
-        <div>
+        <div className="flex items-center">
+          {profile.facebook && profile.facebook !== "undefined" ? (
+            <span>
+              <a href={profile.facebook}>
+                <Facebook />
+              </a>
+              &nbsp;
+            </span>
+          ) : (
+            ""
+          )}
+          {profile.twitter && profile.twitter !== "undefined" ? (
+            <span>
+              <a href={profile.twitter}>
+                <Twitter />
+              </a>
+              &nbsp;
+            </span>
+          ) : (
+            ""
+          )}
+          {profile.instagram && profile.instagram !== "undefined" ? (
+            <span>
+              <a href={profile.instagram}>
+                <Instagram />
+              </a>
+              &nbsp;
+            </span>
+          ) : (
+            ""
+          )}
+          &nbsp;&nbsp;
           <p className=" text-sm font-inter no-underline normal-case xs:pl-1">
-            Copyright {year} by Bunika
+            &copy; {year} by <a href="https://www.bunika.co.ke">Bunika</a>
           </p>
         </div>
       </div>
