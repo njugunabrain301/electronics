@@ -1,6 +1,6 @@
 "use client";
 import { useGlobalContext } from "@/Context/context";
-import { Facebook, Instagram, Twitter } from "@mui/icons-material";
+import { Facebook, Google, Instagram, Twitter } from "@mui/icons-material";
 import Image from "next/image";
 import React from "react";
 
@@ -85,6 +85,16 @@ const Footer = ({ profile }) => {
           )}
         </div>
         <div className="flex items-center">
+          {profile.google && profile.google !== "undefined" ? (
+            <span>
+              <a href={profile.google}>
+                <Google />
+              </a>
+              &nbsp;
+            </span>
+          ) : (
+            ""
+          )}
           {profile.facebook && profile.facebook !== "undefined" ? (
             <span>
               <a href={profile.facebook}>

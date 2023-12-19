@@ -9,6 +9,7 @@ import { fetchCategories } from "@/utils/backendAPIs/products";
 import { GlobalContextProvider } from "@/Context/context";
 import { getCheckoutInfo } from "@/utils/backendAPIs/cart";
 import WhatsappWidget from "@/components/WhatsappWidget";
+import { getHoliday } from "@/utils/holidays";
 
 export async function generateMetadata() {
   let profile = await fetchBusinessProfile();
@@ -52,6 +53,7 @@ export async function generateMetadata() {
       canonical: profile.url,
     },
   };
+  const holiday = getHoliday();
   if (icon) {
     metadata.icons = {
       icon: icon,
