@@ -53,7 +53,6 @@ export async function generateMetadata() {
       canonical: profile.url,
     },
   };
-  const holiday = getHoliday();
   if (icon) {
     metadata.icons = {
       icon: icon,
@@ -83,6 +82,8 @@ export default async function RootLayout({ children }) {
       return loc;
     });
   }
+  const holiday = getHoliday();
+  profile.holiday = holiday;
   return (
     <html lang="en">
       <body className={inter.className + " App min-w-[330px] p-0"}>

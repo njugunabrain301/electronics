@@ -11,6 +11,7 @@ import Cart from "./cart/Cart";
 import { useGlobalContext } from "@/Context/context";
 import { visit } from "@/utils/frontendAPIs/app";
 import Script from "next/script";
+import Image from "next/image";
 
 const Navbar = ({ profile, checkoutInfo }) => {
   const [user, setUser] = useState({});
@@ -150,9 +151,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 `,
         }}
       />
-      {/* <!-- End Google Tag Manager --> */}
 
-      {/* <!-- Google Tag Manager (noscript) --> */}
       <noscript>
         <iframe
           src="https://www.googletagmanager.com/ns.html?id=GTM-ML67SF2Z"
@@ -163,13 +162,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </noscript>
       {/* <!-- End Google Tag Manager (noscript) --> */}
       <div
-        className={"p-4 w-full flex justify-center items-center "}
+        className={"p-4 w-full flex justify-center items-center relative"}
         style={{
           backgroundColor: theme.palette.background.inverted,
           color: theme.palette.text.inverted,
         }}
       >
+        {profile.holiday && (
+          <Image
+            src={profile.holiday.sideBanner}
+            alt={profile.holiday.name}
+            className="absolute h-[95%] object-contain left-[2px] md:left-[10px] w-fit"
+          />
+        )}
         <p className="font-inter text-2xl font-bold  ">{profile.name}</p>
+        {profile.holiday && (
+          <Image
+            src={profile.holiday.sideBanner}
+            alt={profile.holiday.name}
+            className="absolute h-[95%] object-contain right-[2px] md:right-[10px] w-fit"
+          />
+        )}
       </div>
 
       <div
@@ -356,7 +369,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
       </div>
       <div
-        className={"p-4 w-full flex items-center justify-between mx-auto "}
+        className={
+          "p-4 w-full flex items-center justify-between mx-auto relative"
+        }
         style={{
           backgroundColor: theme.palette.background.inverted,
           color: theme.palette.text.inverted,
@@ -381,6 +396,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <span className="hidden md:block">&nbsp;&nbsp; Home</span>
           </Link>
         </p>
+
+        {profile.holiday && (
+          <Image
+            src={profile.holiday.centerBanner}
+            alt={profile.holiday.name}
+            className="absolute h-[100%] object-contain left-[50%] translate-x-[-50%] w-fit"
+          />
+        )}
+
         <p className=" font-inter text-base font-medium flex">
           <a href={"mailto: " + profile.email} className="flex">
             <svg
