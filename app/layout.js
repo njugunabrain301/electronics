@@ -83,7 +83,8 @@ export default async function RootLayout({ children }) {
     });
   }
   const holiday = getHoliday();
-  profile.holiday = holiday;
+
+  if (profile.holidayTheme) profile.holiday = holiday;
   return (
     <html lang="en">
       <body className={inter.className + " App min-w-[330px] p-0"}>
