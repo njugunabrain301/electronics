@@ -7,10 +7,39 @@ import {
   Typography,
   Alert,
 } from "@material-tailwind/react";
-import { Autocomplete, Button, Paper, Switch, TextField } from "@mui/material";
+import { Autocomplete, Button, Paper, TextField } from "@mui/material";
 import { useGlobalContext } from "@/Context/context";
 import { checkout } from "@/utils/frontendAPIs/cart";
 import Link from "next/link";
+
+const colorAutocomplete = () => {
+  let elems = document.getElementsByClassName("autocomplete");
+  for (var i = 0; i < elems.length; i++) {
+    const attributeNodeArray = [...elems[0].attributes];
+    const attrs = attributeNodeArray.reduce((attrs, attribute) => {
+      attrs[attribute.name] = attribute.value;
+      return attrs;
+    }, {});
+    let elem = elems[i];
+    let children = [elem];
+    let queue = [elem];
+    while (queue.length > 0) {
+      let curr = queue.pop();
+      if (curr.childNodes.length > 0) {
+        children = [...children, ...curr.childNodes];
+        queue = [...queue, ...curr.childNodes];
+      }
+    }
+    for (var j = 0; j < children.length; j++) {
+      if (attrs.color) {
+        if (children[j].style) {
+          children[j].style.color = attrs.color;
+          children[j].style.borderColor = attrs.color;
+        }
+      }
+    }
+  }
+};
 
 function Checkout({
   closeModal,
@@ -20,7 +49,7 @@ function Checkout({
   showPrice,
 }) {
   let [error, setError] = useState("");
-
+  const [section, setSection] = useState(1);
   let counties = checkoutInfo.counties;
   let [subCounties, setSubCounties] = useState([]);
   let [couriers, setCouriers] = useState([]);
@@ -28,7 +57,6 @@ function Checkout({
   let user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : {};
-  const [section, setSection] = useState(user.name ? 1 : 0);
   let deliveryLocations = checkoutInfo.deliveryLocations;
   let paymentOptions = checkoutInfo.paymentOptions;
   const [payOptions, setPayOptions] = useState([]);
@@ -41,10 +69,6 @@ function Checkout({
   const [mode, setMode] = useState("");
   const [paymentInfo, setPaymentInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [name, setName] = useState(user.name ? user.name : "");
-  const [email, setEmail] = useState(user.email ? user.email : "");
-  const [phone, setPhone] = useState(user.phone ? user.phone : "");
-  const [createAcct, setCreate] = useState(false);
 
   const setUpMode = (mode) => {
     setMode(mode);
@@ -133,7 +157,6 @@ function Checkout({
   let { setCart } = useGlobalContext();
   const [c_error, setCError] = useState("");
   const [success, setSuccess] = useState(false);
-  let authUser = localStorage.getItem("user") ? true : false;
 
   const handleCheckout = async () => {
     if (isLoading) return;
@@ -183,17 +206,8 @@ function Checkout({
   const { theme } = useGlobalContext();
 
   useEffect(() => {
-    if (authUser) {
-      setName(user.name);
-      setEmail(user.email);
-      setPhone(user.phone);
-      setSection(1);
-    } else {
-      setName("");
-      setEmail("");
-      setPhone("");
-    }
-  }, [authUser]);
+    colorAutocomplete();
+  });
 
   return (
     <Card
@@ -250,23 +264,6 @@ function Checkout({
                 style={{
                   transition: ".5s",
                   color:
-                    section === 0
-                      ? theme.palette.highlight.main
-                      : theme.palette.text.base,
-                  borderColor:
-                    section === 0
-                      ? theme.palette.highlight.main
-                      : theme.palette.text.base,
-                }}
-                onClick={() => openSection(0)}
-              >
-                Profile
-              </li>
-              <li
-                className="p-2 w-[190px] text-center border-b-2 cursor-pointer"
-                style={{
-                  transition: ".5s",
-                  color:
                     section === 1
                       ? theme.palette.highlight.main
                       : theme.palette.text.base,
@@ -277,7 +274,7 @@ function Checkout({
                 }}
                 onClick={() => openSection(1)}
               >
-                Delivery
+                Delivery Details
               </li>
               {showPrice && (
                 <li
@@ -295,90 +292,10 @@ function Checkout({
                         : theme.palette.text.base,
                   }}
                 >
-                  Payment
+                  Payment Section
                 </li>
               )}
             </ul>
-            {section === 0 && (
-              <div>
-                <div className="relative min-w-[200px] my-2">
-                  <TextField
-                    size="small"
-                    className="w-full"
-                    label="Full name"
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        "& fieldset": {
-                          borderColor: theme.palette.input.border,
-                        },
-                        "&:hover fieldset": {
-                          borderColor: theme.palette.input.light,
-                        },
-                      },
-                      input: { color: theme.palette.text.base },
-                    }}
-                    InputLabelProps={{
-                      sx: { color: theme.palette.text.alt },
-                    }}
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </div>
-                <div className="relative min-w-[200px] my-2">
-                  <TextField
-                    size="small"
-                    className="w-full"
-                    label="Email"
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        "& fieldset": {
-                          borderColor: theme.palette.input.border,
-                        },
-                        "&:hover fieldset": {
-                          borderColor: theme.palette.input.light,
-                        },
-                      },
-                      input: { color: theme.palette.text.base },
-                    }}
-                    InputLabelProps={{
-                      sx: { color: theme.palette.text.alt },
-                    }}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className="relative min-w-[200px] my-2">
-                  <TextField
-                    size="small"
-                    className="w-full"
-                    label="Phone"
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        "& fieldset": {
-                          borderColor: theme.palette.input.border,
-                        },
-                        "&:hover fieldset": {
-                          borderColor: theme.palette.input.light,
-                        },
-                      },
-                      input: { color: theme.palette.text.base },
-                    }}
-                    InputLabelProps={{
-                      sx: { color: theme.palette.text.alt },
-                    }}
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                  />
-                </div>
-                <Typography style={{ fontSize: "11pt" }}>
-                  Create Account{" "}
-                  <Switch
-                    checked={createAcct}
-                    onChange={(e, v) => setCreate(e.target.checked)}
-                  />
-                </Typography>
-              </div>
-            )}
             {section === 1 && (
               <div>
                 <div className="relative min-w-[200px] my-2">
@@ -706,7 +623,7 @@ function Checkout({
         )}
       </CardBody>
       <CardFooter className="pt-0">
-        {section <= 1 && showPrice ? (
+        {section === 1 && showPrice ? (
           <Button
             variant="contained"
             fullWidth
