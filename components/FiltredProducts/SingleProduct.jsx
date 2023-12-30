@@ -22,7 +22,7 @@ const SingleProduct = ({ product, showPrice }) => {
   const { handleOpenAuth, setCart } = useGlobalContext();
   let authUser = localStorage.getItem("user") ? true : false;
 
-  const { theme } = useGlobalContext();
+  const { theme, addToLocalCart } = useGlobalContext();
 
   const productSize = product
     ? product.sizes && product.sizes.length > 0
@@ -60,14 +60,24 @@ const SingleProduct = ({ product, showPrice }) => {
     };
     dataLayer.push(event);
     setAdding(true);
-    let res = await addToCart(item);
-    if (res.success) {
-      setCart(res.data);
+
+    if (authUser) {
+      let res = await addToCart(item);
+      if (res.success) {
+        setCart(res.data);
+        setAdded(true);
+        setTimeout(() => {
+          setAdded(false);
+        }, 2500);
+      }
+    } else {
+      addToLocalCart(item);
       setAdded(true);
       setTimeout(() => {
         setAdded(false);
       }, 2500);
     }
+
     setAdding(false);
   };
   const currentUrl = window.location.href;
@@ -317,19 +327,17 @@ const SingleProduct = ({ product, showPrice }) => {
                   <Button
                     color={"cart-btn"}
                     onClick={() =>
-                      authUser
-                        ? myAddToCart({
-                            _id: product._id,
-                            name: product.name,
-                            img: product.img,
-                            text: product.description,
-                            size: size,
-                            color: color,
-                            price: product.price,
-                            amount: 1,
-                            totalPrice: product.price,
-                          })
-                        : handleOpenAuth()
+                      myAddToCart({
+                        _id: product._id,
+                        name: product.name,
+                        img: product.img,
+                        text: product.description,
+                        size: size,
+                        color: color,
+                        price: product.price,
+                        amount: 1,
+                        totalPrice: product.price,
+                      })
                     }
                     id="add-btn"
                     variant="contained"
