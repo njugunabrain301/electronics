@@ -36,6 +36,26 @@ export const GlobalContextProvider = ({ children, profile }) => {
     setOpenAuth(false);
   };
   const theme = MUIThemes[profile.theme.toLowerCase()];
+
+  const addToLocalCart = (item) => {
+    let found = false;
+    let nCart = cart.map((it) => {
+      if (
+        it._id === item._id &&
+        it.color === item.color &&
+        it.size === item.size
+      ) {
+        found = true;
+        it.amount++;
+      }
+      return it;
+    });
+    if (!found) {
+      nCart.push(item);
+    }
+    setCart(nCart);
+  };
+
   return (
     <div
       style={{
@@ -55,6 +75,7 @@ export const GlobalContextProvider = ({ children, profile }) => {
             handleOpenAuth,
             handleCloseAuth,
             profile,
+            addToLocalCart,
             theme: theme,
           }}
         >

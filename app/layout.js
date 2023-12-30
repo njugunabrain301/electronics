@@ -49,9 +49,6 @@ export async function generateMetadata() {
       ],
       card: "summary_large_image",
     },
-    alternates: {
-      canonical: profile.url,
-    },
   };
   if (icon) {
     metadata.icons = {
