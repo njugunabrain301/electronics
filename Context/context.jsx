@@ -8,9 +8,7 @@ const GlobalContext = createContext({});
 
 export const GlobalContextProvider = ({ children, profile }) => {
   //Cart Operations
-  const [cart, setCart] = useState(
-    localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : []
-  );
+  const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const setCartMod = (cart) => {
@@ -75,6 +73,11 @@ export const GlobalContextProvider = ({ children, profile }) => {
     localStorage.setItem("cart", JSON.stringify(nCart));
     setCart(nCart);
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("cart"))
+      setCart(JSON.parse(localStorage.getItem("cart")));
+  }, []);
 
   return (
     <div

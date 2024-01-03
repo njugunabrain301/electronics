@@ -26,6 +26,7 @@ export async function generateMetadata() {
   let metadata = {
     title: profile.name,
     description: profile.about,
+    manifest: "/manifest.json",
     keywords: categories,
     openGraph: {
       title: profile.name,
