@@ -10,6 +10,7 @@ import { colorComponent } from "@/utils/Utils";
 import { login } from "@/utils/frontendAPIs/auth";
 import { useGlobalContext } from "@/Context/context";
 import { Button, TextField, Typography } from "@mui/material";
+import { addToCart } from "@/utils/frontendAPIs/cart";
 
 function Login({ closeModal, toggleLogin, toggleForgotPass, selectedTheme }) {
   let [error, setError] = useState("");
@@ -26,7 +27,14 @@ function Login({ closeModal, toggleLogin, toggleForgotPass, selectedTheme }) {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
   };
-
+  const { theme, setCart } = useGlobalContext();
+  const mergeCarts = async (oldCart) => {
+    let res = null;
+    oldCart.map(async (it) => {
+      for (let i = 0; i < it.amount; i++) res = await addToCart(it);
+      if (res.success) setCart(res.data);
+    });
+  };
   const handleAction = async () => {
     setError("");
     if (isLoggingIn) return;
@@ -39,18 +47,26 @@ function Login({ closeModal, toggleLogin, toggleForgotPass, selectedTheme }) {
         email: res.data.email,
         phone: res.data.phone,
       };
+      let oldCart = localStorage.getItem("cart")
+        ? JSON.parse(localStorage.getItem("cart"))
+        : [];
       let cart = res.data.cart;
+      //merge carts on login
       localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("cart", JSON.stringify(cart));
       localStorage.setItem("token", res.accessToken);
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+      mergeCarts(oldCart);
+
       closeModal();
+    } else if (res.anonymous) {
+      setError("Kindly use the 'Forgot Password' link to set your password");
     } else {
       setError("Invalid Credentials");
     }
     setIsLoggingIn(false);
   };
 
-  const { theme } = useGlobalContext();
   useEffect(() => {
     colorComponent("input");
   });

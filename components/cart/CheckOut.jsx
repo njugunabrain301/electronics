@@ -7,39 +7,11 @@ import {
   Typography,
   Alert,
 } from "@material-tailwind/react";
-import { Autocomplete, Button, Paper, TextField } from "@mui/material";
+import { Autocomplete, Button, Paper, Switch, TextField } from "@mui/material";
 import { useGlobalContext } from "@/Context/context";
-import { checkout } from "@/utils/frontendAPIs/cart";
+import { anonymousCheckout, checkout } from "@/utils/frontendAPIs/cart";
 import Link from "next/link";
-
-const colorAutocomplete = () => {
-  let elems = document.getElementsByClassName("autocomplete");
-  for (var i = 0; i < elems.length; i++) {
-    const attributeNodeArray = [...elems[0].attributes];
-    const attrs = attributeNodeArray.reduce((attrs, attribute) => {
-      attrs[attribute.name] = attribute.value;
-      return attrs;
-    }, {});
-    let elem = elems[i];
-    let children = [elem];
-    let queue = [elem];
-    while (queue.length > 0) {
-      let curr = queue.pop();
-      if (curr.childNodes.length > 0) {
-        children = [...children, ...curr.childNodes];
-        queue = [...queue, ...curr.childNodes];
-      }
-    }
-    for (var j = 0; j < children.length; j++) {
-      if (attrs.color) {
-        if (children[j].style) {
-          children[j].style.color = attrs.color;
-          children[j].style.borderColor = attrs.color;
-        }
-      }
-    }
-  }
-};
+import { AttachMoney, LocalShipping, Person } from "@mui/icons-material";
 
 function Checkout({
   closeModal,
@@ -49,7 +21,7 @@ function Checkout({
   showPrice,
 }) {
   let [error, setError] = useState("");
-  const [section, setSection] = useState(1);
+
   let counties = checkoutInfo.counties;
   let [subCounties, setSubCounties] = useState([]);
   let [couriers, setCouriers] = useState([]);
@@ -57,6 +29,7 @@ function Checkout({
   let user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : {};
+  const [section, setSection] = useState(user.name ? 1 : 0);
   let deliveryLocations = checkoutInfo.deliveryLocations;
   let paymentOptions = checkoutInfo.paymentOptions;
   const [payOptions, setPayOptions] = useState([]);
@@ -69,6 +42,10 @@ function Checkout({
   const [mode, setMode] = useState("");
   const [paymentInfo, setPaymentInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [name, setName] = useState(user.name ? user.name : "");
+  const [email, setEmail] = useState(user.email ? user.email : "");
+  const [phone, setPhone] = useState(user.phone ? user.phone : "");
+  const [createAcct, setCreate] = useState(false);
 
   const setUpMode = (mode) => {
     setMode(mode);
@@ -154,9 +131,10 @@ function Checkout({
       setDeliveryCost(0);
     }
   };
-  let { setCart } = useGlobalContext();
+  let { setCart, cart } = useGlobalContext();
   const [c_error, setCError] = useState("");
   const [success, setSuccess] = useState(false);
+  let authUser = localStorage.getItem("user") ? true : false;
 
   const handleCheckout = async () => {
     if (isLoading) return;
@@ -175,23 +153,53 @@ function Checkout({
       totalPrice: Number(cartTotal),
     };
     dataLayer.push(event);
-    let res = await checkout({
-      code,
-      courier: courier.id,
-      mode,
-      total: Number(cartTotal) + Number(deliveryCost),
-    });
+    let res = {};
+    if (authUser) {
+      res = await checkout({
+        code,
+        courier: courier.id,
+        mode,
+        total: Number(cartTotal) + Number(deliveryCost),
+      });
+    } else {
+      res = await anonymousCheckout({
+        name,
+        phone,
+        email,
+        cart,
+        code,
+        courier: courier.id,
+        mode,
+        total: Number(cartTotal) + Number(deliveryCost),
+      });
+    }
     if (res.success) {
       setSuccess(true);
       setCart(res.data);
     }
+
     setIsLoading(false);
   };
 
   const openSection = (sec) => {
     setCError("");
-
-    if (sec === 2) {
+    if (sec === 1) {
+      if (name === "" || email === "" || phone === "") {
+        setCError("Fill in all profile information");
+        return;
+      }
+      if (!/(^\d{10}$)|(^\+\d{12}$)/.test(phone)) {
+        setCError("Invalid Phone Number. Use 0712345678 or +254712345678");
+        return;
+      }
+      if (
+        !/^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/.test(email)
+      ) {
+        setCError("Invalid Email");
+        return;
+      }
+      setSection(1);
+    } else if (sec === 2) {
       if (county === "" || subcounty === "" || courier === "") {
         setCError("Fill in all Fields");
         return;
@@ -206,8 +214,17 @@ function Checkout({
   const { theme } = useGlobalContext();
 
   useEffect(() => {
-    colorAutocomplete();
-  });
+    if (authUser) {
+      setName(user.name);
+      setEmail(user.email);
+      setPhone(user.phone);
+      setSection(1);
+    } else {
+      setName("");
+      setEmail("");
+      setPhone("");
+    }
+  }, [authUser]);
 
   return (
     <Card
@@ -253,14 +270,34 @@ function Checkout({
               >
                 orders
               </Link>{" "}
-              section
+              section{" "}
+              {!authUser &&
+                " after you log in. You can use the same phone number and email to log in and track your order"}
             </Typography>
           </div>
         ) : (
           <div>
             <ul className="flex justify-evenly pb-2">
               <li
-                className="p-2 w-[190px] text-center border-b-2 cursor-pointer"
+                className="p-2 w-[190px] text-center border-b-2 cursor-pointer flex items-center justify-center"
+                style={{
+                  transition: ".5s",
+                  color:
+                    section === 0
+                      ? theme.palette.highlight.main
+                      : theme.palette.text.base,
+                  borderColor:
+                    section === 0
+                      ? theme.palette.highlight.main
+                      : theme.palette.text.base,
+                }}
+                onClick={() => openSection(0)}
+              >
+                <Person />
+                &nbsp;Profile
+              </li>
+              <li
+                className="p-2 w-[190px] text-center border-b-2 cursor-pointer flex items-center justify-center"
                 style={{
                   transition: ".5s",
                   color:
@@ -274,11 +311,12 @@ function Checkout({
                 }}
                 onClick={() => openSection(1)}
               >
-                Delivery Details
+                <LocalShipping />
+                &nbsp;Delivery
               </li>
               {showPrice && (
                 <li
-                  className="p-2 w-[190px] text-center border-b-2 cursor-pointer"
+                  className="p-2 w-[190px] text-center border-b-2 cursor-pointer flex items-center justify-center"
                   onClick={() => openSection(2)}
                   style={{
                     transition: ".5s",
@@ -292,10 +330,92 @@ function Checkout({
                         : theme.palette.text.base,
                   }}
                 >
-                  Payment Section
+                  <AttachMoney />
+                  &nbsp;Payment
                 </li>
               )}
             </ul>
+            {section === 0 && (
+              <div>
+                <div className="relative min-w-[200px] my-2">
+                  <TextField
+                    size="small"
+                    className="w-full"
+                    label="Full name"
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          borderColor: theme.palette.input.border,
+                        },
+                        "&:hover fieldset": {
+                          borderColor: theme.palette.input.light,
+                        },
+                      },
+                      input: { color: theme.palette.text.base },
+                    }}
+                    InputLabelProps={{
+                      sx: { color: theme.palette.text.alt },
+                    }}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+                <div className="relative min-w-[200px] my-2">
+                  <TextField
+                    size="small"
+                    className="w-full"
+                    label="Phone"
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          borderColor: theme.palette.input.border,
+                        },
+                        "&:hover fieldset": {
+                          borderColor: theme.palette.input.light,
+                        },
+                      },
+                      input: { color: theme.palette.text.base },
+                    }}
+                    InputLabelProps={{
+                      sx: { color: theme.palette.text.alt },
+                    }}
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
+                </div>
+                <div className="relative min-w-[200px] my-2">
+                  <TextField
+                    size="small"
+                    className="w-full"
+                    label="Email"
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          borderColor: theme.palette.input.border,
+                        },
+                        "&:hover fieldset": {
+                          borderColor: theme.palette.input.light,
+                        },
+                      },
+                      input: { color: theme.palette.text.base },
+                    }}
+                    InputLabelProps={{
+                      sx: { color: theme.palette.text.alt },
+                    }}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+
+                <Typography style={{ fontSize: "11pt" }}>
+                  Create Account{" "}
+                  <Switch
+                    checked={createAcct}
+                    onChange={(e, v) => setCreate(e.target.checked)}
+                  />
+                </Typography>
+              </div>
+            )}
             {section === 1 && (
               <div>
                 <div className="relative min-w-[200px] my-2">
@@ -623,11 +743,11 @@ function Checkout({
         )}
       </CardBody>
       <CardFooter className="pt-0">
-        {section === 1 && showPrice ? (
+        {section <= 1 && showPrice ? (
           <Button
             variant="contained"
             fullWidth
-            onClick={() => openSection(2)}
+            onClick={() => openSection(section + 1)}
             color={"primary"}
           >
             Proceed

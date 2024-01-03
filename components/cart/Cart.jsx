@@ -23,16 +23,21 @@ const Cart = ({
 }) => {
   const [openCheckout, setOpenCheckout] = useState(false);
 
-  const { theme } = useGlobalContext();
+  const { theme, removeFromLocalCart } = useGlobalContext();
   const [removing, setRemoving] = useState("");
 
   let removeItemFromCart = async (item) => {
     setRemoving(item._id);
-    let res = await removeFromCart(item);
-    if (res.success) {
-      setCart(res.data);
-      localStorage.setItem("cart", JSON.stringify(res.data));
+    if (localStorage.getItem("user")) {
+      let res = await removeFromCart(item);
+      if (res.success) {
+        setCart(res.data);
+        localStorage.setItem("cart", JSON.stringify(res.data));
+      }
+    } else {
+      removeFromLocalCart(item);
     }
+
     setRemoving("");
   };
 

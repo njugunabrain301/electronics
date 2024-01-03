@@ -27,3 +27,12 @@ export const checkout = async (payload) => {
     return err;
   }
 };
+
+export const anonymousCheckout = async (payload) => {
+  try {
+    let res = await axios.post("/checkout/anonymous", payload);
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+};

@@ -51,6 +51,10 @@ function Register({ closeModal, toggleLogin, selectedTheme }) {
       setMerror("Invalid Email");
       return;
     }
+    if (values.password.toLowerCase() === "anonymous") {
+      setMerror("Your password is too weak 😅");
+      return;
+    }
 
     if (!values.agreed) {
       setMerror("You have to agree to the terms");
@@ -63,6 +67,7 @@ function Register({ closeModal, toggleLogin, selectedTheme }) {
     };
     dataLayer.push(event);
     let res = await register(values);
+
     if (res.success) {
       let user = {
         name: res.data.name,
@@ -74,8 +79,11 @@ function Register({ closeModal, toggleLogin, selectedTheme }) {
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("token", res.accessToken);
       closeModal();
+    } else if (res.anonymous) {
+      setMerror(
+        "Kindly use the 'Forgot Password' link in the 'Sign in' page to set your password"
+      );
     } else {
-      console.log(res);
       setMerror(res.message);
     }
     setIsRegistering(false);
@@ -202,26 +210,26 @@ function Register({ closeModal, toggleLogin, selectedTheme }) {
           label={
             <Typography
               variant="small"
-              className="flex items-center font-normal"
+              className="flex items-center font-normal flex-wrap"
               style={{ color: theme.palette.text.base }}
             >
-              I agree to the
+              I agree to the&nbsp;
               <Link
                 href="/termsofservice.html"
                 target="_blank"
                 className="font-medium transition-colors hover:underline"
                 style={{ color: theme.palette.highlight.main }}
               >
-                &nbsp;Terms&nbsp;
+                {" Terms "}
               </Link>
-              and
+              &nbsp;and&nbsp;
               <Link
                 href="/privacypolicy.html"
                 target="_blank"
                 className="font-medium text-skin-highlight transition-colors hover:underline"
                 style={{ color: theme.palette.highlight.main }}
               >
-                &nbsp;Privacy Policy
+                {" Privacy Policy "}
               </Link>
             </Typography>
           }

@@ -3,6 +3,9 @@ import { useGlobalContext } from "@/Context/context";
 import { Facebook, Google, Instagram, Twitter } from "@mui/icons-material";
 import Image from "next/image";
 import React from "react";
+import xlogo from "@/public/x.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
 
 const Footer = ({ profile }) => {
   const year = new Date().getFullYear();
@@ -106,9 +109,9 @@ const Footer = ({ profile }) => {
             ""
           )}
           {profile.twitter && profile.twitter !== "undefined" ? (
-            <span>
+            <span className="flex items-center">
               <a href={profile.twitter}>
-                <Twitter />
+                <FontAwesomeIcon icon={faXTwitter} />
               </a>
               &nbsp;
             </span>

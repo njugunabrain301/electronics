@@ -8,7 +8,9 @@ const GlobalContext = createContext({});
 
 export const GlobalContextProvider = ({ children, profile }) => {
   //Cart Operations
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(
+    localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : []
+  );
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const setCartMod = (cart) => {
@@ -53,6 +55,24 @@ export const GlobalContextProvider = ({ children, profile }) => {
     if (!found) {
       nCart.push(item);
     }
+    localStorage.setItem("cart", JSON.stringify(nCart));
+    setCart(nCart);
+  };
+
+  const removeFromLocalCart = (item) => {
+    let nCart = cart.map((it) => {
+      if (
+        it._id === item._id &&
+        it.color === item.color &&
+        it.size === item.size
+      ) {
+        it.amount--;
+      }
+      return it;
+    });
+    nCart = nCart.filter((it) => it.amount > 0);
+
+    localStorage.setItem("cart", JSON.stringify(nCart));
     setCart(nCart);
   };
 
@@ -76,6 +96,7 @@ export const GlobalContextProvider = ({ children, profile }) => {
             handleCloseAuth,
             profile,
             addToLocalCart,
+            removeFromLocalCart,
             theme: theme,
           }}
         >
