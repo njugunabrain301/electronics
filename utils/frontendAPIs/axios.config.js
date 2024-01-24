@@ -17,7 +17,7 @@ let instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     const mtoken = localStorage.getItem("token");
-    console.log("Request Sent");
+
     if (mtoken) {
       config.headers["Authorization"] = `Bearer ${mtoken}`;
     }
@@ -64,3 +64,4 @@ instance.interceptors.response.use(
 );
 
 export default instance;
+export const URL = baseURL;

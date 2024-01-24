@@ -1,13 +1,19 @@
 "use client";
 import { useGlobalContext } from "@/Context/context";
-import { fetchOrders } from "@/utils/frontendAPIs/orders";
+import {
+  downloadReceipt,
+  downloadURL,
+  fetchOrders,
+} from "@/utils/frontendAPIs/orders";
 import { DialogBody, Typography, Tooltip } from "@material-tailwind/react";
+import { Download } from "@mui/icons-material";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
 function Orders() {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [downloadStatus, setDownloadStatus] = useState("Download Recepit");
   let loadOrders = async () => {
     let res = await fetchOrders();
     setOrders(res.data);
@@ -25,6 +31,40 @@ function Orders() {
     return str.replace(/(<([^>]+)>)/gi, "");
   }
   const { theme } = useGlobalContext();
+
+  const downloadReceiptH = async (oid) => {
+    if (downloadStatus === "Downloading...") return;
+    setDownloadStatus("Downloading...");
+    let url = downloadURL + "/" + oid;
+    let bid = process.env.NEXT_PUBLIC_STORE_ID;
+    const mtoken = localStorage.getItem("token");
+
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        business: bid,
+        Authorization: `Bearer ${mtoken}`,
+      },
+      next: { revalidate: 0 },
+    })
+      .then((response) => response.blob())
+      .then((blob) => {
+        const blobURL = window.URL.createObjectURL(new Blob([blob]));
+        const fileName = "Receipt";
+        const aTag = document.createElement("a");
+        aTag.href = blobURL;
+        aTag.setAttribute("download", fileName);
+        document.body.appendChild(aTag);
+        aTag.click();
+        aTag.remove();
+        setDownloadStatus("Download Recepit");
+      })
+      .catch((err) => {
+        console.log("");
+        setDownloadStatus("Download Recepit");
+      });
+  };
   return (
     <div
       className="flex justify-center items-center"
@@ -114,6 +154,21 @@ function Orders() {
                               {item.status === "RECEIVED"
                                 ? "PROCESSING"
                                 : item.status}
+                            </Typography>
+                          </Tooltip>
+                        </div>
+                        <div className="pt-1">
+                          <Tooltip
+                            content="Download Receipt"
+                            placement="bottom"
+                          >
+                            <Typography
+                              className="text-sm font-inter tracking-normal leading-none pt-2 w-fit cursor-pointer"
+                              onClick={() => downloadReceiptH(item._id)}
+                            >
+                              <>
+                                <Download /> {downloadStatus}
+                              </>
                             </Typography>
                           </Tooltip>
                         </div>
