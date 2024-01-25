@@ -3,6 +3,7 @@ import SingleProduct from "@/components/FiltredProducts/SingleProduct";
 import WhatsappWidget from "@/components/WhatsappWidget";
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
 import { fetchProduct } from "@/utils/backendAPIs/products";
+import Script from "next/script";
 
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
@@ -73,9 +74,35 @@ export default async function Page({ params }) {
       />
     );
   }
-
+  const schemaJsonObj = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    name: "Example Product",
+    image: "https://example.com/product-image.jpg",
+    description: "This is a description of the example product.",
+    brand: {
+      "@type": "Brand",
+      name: "Example Brand",
+    },
+    offers: {
+      "@type": "Offer",
+      url: "https://example.com/product-page",
+      priceCurrency: "USD",
+      price: "19.99",
+      availability: "https://schema.org/InStock",
+    },
+  };
   return (
     <div>
+      <script>
+        <script
+          key="schema-jsonld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(schemaJsonObj, null, "\t"),
+          }}
+        />
+      </script>
       <SingleProduct
         product={product}
         showPrice={profile.showPrice}
