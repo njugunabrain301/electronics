@@ -52,7 +52,7 @@ function Orders() {
       .then((response) => response.blob())
       .then((blob) => {
         const blobURL = window.URL.createObjectURL(new Blob([blob]));
-        const fileName = "Receipt";
+        const fileName = "Receipt.pdf";
         const aTag = document.createElement("a");
         aTag.href = blobURL;
         aTag.setAttribute("download", fileName);
