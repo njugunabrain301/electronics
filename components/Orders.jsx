@@ -46,6 +46,7 @@ function Orders() {
         business: bid,
         Authorization: `Bearer ${mtoken}`,
       },
+      mode: "cors",
       next: { revalidate: 0 },
     })
       .then((response) => response.blob())
