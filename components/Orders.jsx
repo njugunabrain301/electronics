@@ -42,7 +42,7 @@ function Orders() {
     fetch(url, {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/pdf",
         business: bid,
         Authorization: `Bearer ${mtoken}`,
       },
