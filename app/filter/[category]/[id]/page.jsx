@@ -94,15 +94,13 @@ export default async function Page({ params }) {
   };
   return (
     <div>
-      <script>
-        <script
-          key="schema-jsonld"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(schemaJsonObj, null, "\t"),
-          }}
-        />
-      </script>
+      <script
+        key="schema-jsonld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(schemaJsonObj, null, "\t"),
+        }}
+      />
       <SingleProduct
         product={product}
         showPrice={profile.showPrice}
