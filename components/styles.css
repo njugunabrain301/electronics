@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   --color-text-base: black;
   --color-text-inverted: white;
   --color-text-alt: gray;
@@ -111,7 +111,7 @@
 
   --color-alert-danger: indianred;
   --color-alert-info: yellow;
-}
+} */
 
 .my-text-field input {
   padding: 6.5px 10px;

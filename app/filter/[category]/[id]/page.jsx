@@ -74,24 +74,32 @@ export default async function Page({ params }) {
       />
     );
   }
+
   const schemaJsonObj = {
-    "@context": "https://schema.org/",
+    "@context": "http://schema.org",
     "@type": "Product",
-    name: "Example Product",
-    image: "https://example.com/product-image.jpg",
-    description: "This is a description of the example product.",
-    brand: {
-      "@type": "Brand",
-      name: "Example Brand",
-    },
+    name: product.name,
+    image: product.img,
+    description: product.description,
     offers: {
       "@type": "Offer",
-      url: "https://example.com/product-page",
-      priceCurrency: "USD",
-      price: "19.99",
-      availability: "https://schema.org/InStock",
+      priceCurrency: "KSH",
+      price: product.price,
+      availability: "http://schema.org/InStock",
+      seller: {
+        "@type": "Organization",
+        name: profile.name,
+      },
     },
+    // aggregateRating: {
+    //   "@type": "AggregateRating",
+    //   ratingValue: "4.5",
+    //   reviewCount: "20",
+    // },
+    color: product.colors,
+    size: product.sizes,
   };
+
   return (
     <div>
       <script

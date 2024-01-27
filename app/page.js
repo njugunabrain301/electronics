@@ -42,8 +42,32 @@ export default async function Home() {
   let profile = res.data;
   let selectedTheme = profile.theme;
 
+  const itemList = categories.map((category, idx) => {
+    return {
+      "@type": "ListItem",
+      position: idx + 1,
+      item: {
+        "@id": "https://" + profile.url + "/" + category.trim(),
+        name: category.trim(),
+      },
+    };
+  });
+
+  let schemaJsonObj = {
+    "@context": "http://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: itemList,
+  };
+
   return (
     <div className={"App min-w-[330px] " + selectedTheme.toLowerCase()}>
+      <script
+        key="schema-jsonld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(schemaJsonObj, null, "\t"),
+        }}
+      />
       {isReady ? (
         <>
           <>
