@@ -1,15 +1,14 @@
 import Navbar from "@/components/Navbar";
-import "./globals.css";
 import { Inter } from "next/font/google";
 import Footer from "@/components/Footer";
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
-import "./App.css";
-import "@/components/styles.css";
 import { fetchCategories } from "@/utils/backendAPIs/products";
 import { GlobalContextProvider } from "@/Context/context";
 import { getCheckoutInfo } from "@/utils/backendAPIs/cart";
-import WhatsappWidget from "@/components/WhatsappWidget";
 import { getHoliday } from "@/utils/holidays";
+import "./App.scss";
+import "@/components/styles.css";
+import "./globals.css";
 
 export async function generateMetadata() {
   let profile = await fetchBusinessProfile();
