@@ -12,6 +12,7 @@ import { useGlobalContext } from "@/Context/context";
 import { visit } from "@/utils/frontendAPIs/app";
 import Script from "next/script";
 import Image from "next/image";
+import "./styles-fix.css";
 
 const Navbar = ({ profile, checkoutInfo }) => {
   const [user, setUser] = useState({});
