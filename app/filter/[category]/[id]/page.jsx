@@ -83,7 +83,7 @@ export default async function Page({ params }) {
     description: product.description,
     offers: {
       "@type": "Offer",
-      priceCurrency: "KSH",
+      priceCurrency: "KES",
       price: product.price,
       availability: "http://schema.org/InStock",
       seller: {
