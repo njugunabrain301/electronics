@@ -47,7 +47,7 @@ export default async function Home() {
       "@type": "ListItem",
       position: idx + 1,
       item: {
-        "@id": "https://" + profile.url + "/" + category.trim(),
+        "@id": "https://" + profile.url + "/filter/" + category.trim(),
         name: category.trim(),
       },
     };
