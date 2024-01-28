@@ -59,7 +59,7 @@ export const MUIThemes = {
     ["theme-type"]: "light",
     palette: {
       primary: {
-        main: "#1e90ff",
+        main: "#1e90ff !important",
       },
       text: {
         base: "black",
@@ -97,7 +97,7 @@ export const MUIThemes = {
     ["theme-type"]: "dark",
     palette: {
       primary: {
-        main: "#1e90ff",
+        main: "#1e90ff !important",
       },
       text: {
         base: "white",
@@ -143,7 +143,7 @@ export const MUIThemes = {
     ["theme-type"]: "light",
     palette: {
       primary: {
-        main: "#A27B5C",
+        main: "#A27B5C !important",
       },
       text: {
         base: "#2C3639",
@@ -191,7 +191,7 @@ export const MUIThemes = {
     ["theme-type"]: "light",
     palette: {
       primary: {
-        main: "#7A9D54",
+        main: "#7A9D54 !important",
       },
       text: {
         base: "#192f19",
@@ -237,7 +237,7 @@ export const MUIThemes = {
     ["theme-type"]: "dark",
     palette: {
       primary: {
-        main: "#7752FE",
+        main: "#7752FE !important",
       },
       text: {
         base: "#fff",
@@ -283,7 +283,7 @@ export const MUIThemes = {
     ["theme-type"]: "light",
     palette: {
       primary: {
-        main: "#F8485E",
+        main: "#F8485E !important",
       },
       text: {
         base: "#512D6D",
@@ -329,7 +329,7 @@ export const MUIThemes = {
     ["theme-type"]: "light",
     palette: {
       primary: {
-        main: "#F8485E",
+        main: "#F8485E !important",
       },
       text: {
         base: "#000",
