@@ -91,6 +91,22 @@ export default async function Page({ params }) {
         name: profile.name,
       },
     },
+    eligibleRegion: "KEN",
+    priceSpecification: {
+      "@type": "DeliveryChargeSpecification",
+      price: "0.00",
+      priceCurrency: "KES",
+      eligibleRegion: "KEN",
+    },
+    hasMerchantReturnPolicy: {
+      "@type": "MerchantReturnPolicy",
+      returnPolicyCategory: "RepairAndExchangePolicy",
+      returnShippingFees: {
+        "@type": "MonetaryAmount",
+        value: "0.00",
+        currency: "KES",
+      },
+    },
     // aggregateRating: {
     //   "@type": "AggregateRating",
     //   ratingValue: "4.5",
