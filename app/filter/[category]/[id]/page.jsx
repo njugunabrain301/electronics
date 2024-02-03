@@ -74,13 +74,25 @@ export default async function Page({ params }) {
       />
     );
   }
-
+  let condition = product.condition;
+  condition =
+    condition === "New"
+      ? "http://schema.org/NewCondition"
+      : condition === "Used"
+      ? "http://schema.org/UsedCondition"
+      : condition === "Refurbished"
+      ? "http://schema.org/RefurbishedCondition"
+      : condition;
   const schemaJsonObj = {
     "@context": "http://schema.org",
     "@type": "Product",
     name: product.name,
     image: product.img,
     description: product.description,
+    brand: {
+      "@type": "Brand",
+      name: product.brand ? product.brand : profile.name,
+    },
     offers: {
       "@type": "Offer",
       priceCurrency: "KES",
@@ -90,6 +102,7 @@ export default async function Page({ params }) {
         "@type": "Organization",
         name: profile.name,
       },
+      condition: condition,
     },
     eligibleRegion: "KEN",
     priceSpecification: {

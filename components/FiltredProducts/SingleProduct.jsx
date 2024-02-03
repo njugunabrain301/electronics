@@ -179,18 +179,22 @@ const SingleProduct = ({ product, showPrice }) => {
           <div className="min-w-[300px]">
             <div className="max-w-lg">
               <div className="pb-4">
-                <h5 className="text-2xl font-inter font-bold tracking-normal leading-none">
+                <h1 className="text-2xl font-inter font-bold tracking-normal leading-none">
                   {product.subcategory === "Vehicles" &&
                   product.extras &&
                   product.extras.make &&
                   product.extras.model ? (
-                    <div>
-                      <p>{product.extras.make + " " + product.extras.model}</p>
-                    </div>
+                    <>{product.extras.make + " " + product.extras.model}</>
                   ) : (
-                    <span>{product.name}</span>
+                    <>
+                      {product.brand
+                        ? product.name.includes(product.brand)
+                          ? product.name
+                          : product.brand + " | " + product.name
+                        : product.name}
+                    </>
                   )}
-                </h5>
+                </h1>
                 <p
                   className="text-sm"
                   style={{ color: theme.palette.text.alt }}
@@ -199,9 +203,12 @@ const SingleProduct = ({ product, showPrice }) => {
                     ? product.category
                     : product.category + ": " + product.subcategory}
                 </p>
+                {product.condition && (
+                  <p>{"Condition: " + product.condition}</p>
+                )}
               </div>
               {product.offer && (
-                <p className="text-orange-700 text-xl font-inter font-bold tracking-normal leading-none pb-4">
+                <p className="text-orange-700 text-sm font-inter font-bold tracking-normal leading-none pb-4">
                   {product.offer}% OFF
                 </p>
               )}
