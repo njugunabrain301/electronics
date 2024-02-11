@@ -1,6 +1,6 @@
-import Navbar from "@/components/Navbar";
-import { Inter } from "next/font/google";
-import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar/Navbar";
+import { Inter, Cormorant_Garamond, Montserrat } from "next/font/google";
+import Footer from "@/components/Footer/Footer";
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
 import { fetchCategories } from "@/utils/backendAPIs/products";
 import { GlobalContextProvider } from "@/Context/context";
@@ -60,10 +60,20 @@ export async function generateMetadata() {
 }
 
 const inter = Inter({ subsets: ["latin"] });
+const montserrat = Montserrat({ subsets: ["latin"] });
+const garamond = Cormorant_Garamond({ subsets: ["latin"], weight: "400" });
 
 export default async function RootLayout({ children }) {
   let res = await fetchBusinessProfile();
   let profile = res.data;
+  let bodyFont = montserrat;
+  let titleFont = garamond;
+  let subtitleFont = garamond;
+  if (profile.template === "Timeless") {
+    bodyFont = inter;
+    titleFont = inter;
+    subtitleFont = inter;
+  }
 
   res = await getCheckoutInfo();
   let checkoutinfo = {};
@@ -84,8 +94,13 @@ export default async function RootLayout({ children }) {
   if (profile.holidayTheme) profile.holiday = holiday;
   return (
     <html lang="en">
-      <body className={inter.className + " App min-w-[330px] p-0"}>
-        <GlobalContextProvider profile={profile}>
+      <body className={bodyFont.className + " App min-w-[330px] p-0"}>
+        <GlobalContextProvider
+          profile={profile}
+          titleFont={titleFont}
+          bodyFont={bodyFont}
+          subtitleFont={subtitleFont}
+        >
           <div className="flex flex-col justify-between min-h-[100vh] items-stretch">
             <div>
               <Navbar profile={profile} checkoutInfo={checkoutinfo} />

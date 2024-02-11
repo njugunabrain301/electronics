@@ -1,9 +1,9 @@
-import Main from "@/components/Main";
+import Main from "@/components/HomePage/Main";
 import { fetchCategories, fetchHomePage } from "@/utils/backendAPIs/products";
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
-import Empty from "@/components/Empty";
-import Expired from "@/components/Expired";
-import WhatsappWidget from "@/components/WhatsappWidget";
+import Empty from "@/components/Empty/Empty";
+import Expired from "@/components/Expired/Expired";
+import WhatsappWidget from "@/components/WhatsappWidget/WhatsappWidget";
 
 export const runtime = "edge";
 const dynamic = "force-dynamic";
@@ -13,6 +13,7 @@ export default async function Home() {
   let promoted = [];
   let slider = [];
   let user = {};
+  let latest = [];
 
   let empty = false;
   let expired = false;
@@ -32,6 +33,7 @@ export default async function Home() {
       isReady = true;
       promoted = res.data.promoted;
       slider = res.data.slider;
+      latest = res.data.latest;
     }
   };
 
@@ -77,6 +79,7 @@ export default async function Home() {
               promoted={promoted}
               profile={profile}
               categories={categories}
+              products={latest}
             ></Main>
             <WhatsappWidget text={profile.name} />
           </>

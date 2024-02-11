@@ -6,7 +6,13 @@ import { ThemeProvider, createTheme } from "@mui/material";
 
 const GlobalContext = createContext({});
 
-export const GlobalContextProvider = ({ children, profile }) => {
+export const GlobalContextProvider = ({
+  children,
+  profile,
+  titleFont,
+  bodyFont,
+  subtitleFont,
+}) => {
   //Cart Operations
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -101,6 +107,9 @@ export const GlobalContextProvider = ({ children, profile }) => {
             addToLocalCart,
             removeFromLocalCart,
             theme: theme,
+            titleFont,
+            bodyFont,
+            subtitleFont,
           }}
         >
           {children}

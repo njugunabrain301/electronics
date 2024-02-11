@@ -1,4 +1,4 @@
-import Orders from "@/components/Orders";
+import Orders from "@/components/Orders/Orders";
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
 
 export const runtime = "edge";
@@ -20,7 +20,7 @@ export default async function Page() {
 
   return (
     <div>
-      <Orders profile={profile} />
+      <Orders profile={profile} template={profile.template} />
     </div>
   );
 }

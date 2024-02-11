@@ -1,13 +1,8 @@
 import NotFound from "@/app/404";
-import FilteredProducts from "@/components/FiltredProducts/FilteredProducts";
-import SingleProduct from "@/components/FiltredProducts/SingleProduct";
-import WhatsappWidget from "@/components/WhatsappWidget";
+import FilteredProducts from "@/components/ProductsList/FilteredProducts";
+import WhatsappWidget from "@/components/WhatsappWidget/WhatsappWidget";
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
-import {
-  fetchProduct,
-  fetchProducts,
-  fetchWearables,
-} from "@/utils/backendAPIs/products";
+import { fetchProducts, fetchWearables } from "@/utils/backendAPIs/products";
 
 export const revalidate = 0;
 export const fetchCache = "force-no-store";

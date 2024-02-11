@@ -1,4 +1,4 @@
-import PasswordReset from "@/components/PasswordReset";
+import PasswordReset from "@/components/PasswordReset/PasswordReset";
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
 
 export const runtime = "edge";

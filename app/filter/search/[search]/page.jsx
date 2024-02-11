@@ -1,5 +1,5 @@
-import FilteredProducts from "@/components/FiltredProducts/FilteredProducts";
-import WhatsappWidget from "@/components/WhatsappWidget";
+import FilteredProducts from "@/components/ProductsList/FilteredProducts";
+import WhatsappWidget from "@/components/WhatsappWidget/WhatsappWidget";
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
 import { fetchProducts, fetchWearables } from "@/utils/backendAPIs/products";
 

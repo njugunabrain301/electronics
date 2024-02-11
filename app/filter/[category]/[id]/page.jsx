@@ -1,6 +1,6 @@
 import NotFound from "@/app/404";
-import SingleProduct from "@/components/FiltredProducts/SingleProduct";
-import WhatsappWidget from "@/components/WhatsappWidget";
+import SingleProduct from "@/components/SingleProduct/SingleProduct";
+import WhatsappWidget from "@/components/WhatsappWidget/WhatsappWidget";
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
 import { fetchProduct } from "@/utils/backendAPIs/products";
 import Script from "next/script";
@@ -63,6 +63,8 @@ export default async function Page({ params }) {
 
   let res = await fetchProduct({ pid: id });
   product = res.data;
+  let others = res.others;
+  let categories = res.categories;
 
   res = await fetchBusinessProfile();
   profile = res.data;
@@ -140,8 +142,10 @@ export default async function Page({ params }) {
       />
       <SingleProduct
         product={product}
-        showPrice={profile.showPrice}
         selectedTheme={profile.theme}
+        others={others}
+        categories={categories}
+        profile={profile}
       ></SingleProduct>
       <WhatsappWidget text={product.name} />
     </div>
