@@ -13,7 +13,7 @@ const Cart = ({
 }) => {
   return (
     <>
-      {template === "new" && (
+      {template === "Opulence" && (
         <Opulence
           closeModal={closeModal}
           showPrice={showPrice}

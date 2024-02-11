@@ -5,6 +5,9 @@ import xmasTree from "@/assets/images/xmas-tree.gif";
 import fireworks from "@/assets/images/fireworks.gif";
 import newYear from "@/assets/images/new-year.gif";
 
+import vals_banner from "@/assets/images/vals-banner.gif";
+import vals from "@/assets/images/vals.gif";
+
 export const getHoliday = () => {
   let date = new Date();
   let day = date.getDate();
@@ -22,6 +25,11 @@ export const getHoliday = () => {
       sideBanner: fireworks,
       centerBanner: newYear,
     },
+    valentines: {
+      name: "Valentines",
+      sideBanner: vals,
+      centerBanner: vals_banner,
+    },
   };
 
   let holiday = null;
@@ -29,6 +37,8 @@ export const getHoliday = () => {
   if (month === 12 && day >= 23 && day <= 28) holiday = holidays["christmas"];
   else if ((month === 12 && day >= 30) || (month === 1 && day <= 3))
     holiday = holidays["newYear"];
+  else if ((month === 2 && day >= 13) || (month === 2 && day <= 15))
+    holiday = holidays["valentines"];
 
   return holiday;
 };
