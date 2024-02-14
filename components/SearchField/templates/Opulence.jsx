@@ -4,13 +4,7 @@ import { Button, TextField } from "@mui/material";
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 
-export default function Opulence({
-  label,
-  value,
-  onChange,
-  onClick,
-  template,
-}) {
+export default function Opulence({ label, value, onChange, onClick }) {
   const { theme } = useGlobalContext();
   return (
     <div className="my-text-field flex pt-2">

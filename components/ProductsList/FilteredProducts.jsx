@@ -8,7 +8,7 @@ const FilteredProducts = ({
   profile,
   searchParam,
 }) => {
-  const template = profile.showPrice;
+  const template = profile.template;
 
   return (
     <>

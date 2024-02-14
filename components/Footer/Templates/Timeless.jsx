@@ -6,6 +6,7 @@ import React from "react";
 import xlogo from "@/public/x.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
+import Link from "next/link";
 
 const Timeless = ({ profile }) => {
   const year = new Date().getFullYear();
@@ -66,6 +67,7 @@ const Timeless = ({ profile }) => {
         backgroundColor: theme.palette.background.primary,
         color: theme.palette.text.base,
       }}
+      className="pb-[20px]"
     >
       <div className="flex items-center justify-center">
         <hr
@@ -74,64 +76,82 @@ const Timeless = ({ profile }) => {
         />
       </div>
       <div className="flex items-center justify-around pt-4">
-        <div>
-          {logo ? (
-            <div className="flex align-center m-2 px-[5px] ">
-              <img
-                className="max-w-[100px] md-max-w-initial md:max-h-16 w-full max-h-10 lg:h-20"
-                src={logo}
-                alt="store"
-              />
-            </div>
-          ) : (
-            <div className="rounded-md">{genLogo()}</div>
-          )}
+        <div className="flex flex-col ml-[10px] sm:ml-[0]">
+          <h3 className="font-bold">Customer Support</h3>
+          <Link href={"/privacypolicy.html"} className="text-sm">
+            Privacy Policy
+          </Link>
+          <Link href={"/returns"} className="text-sm">
+            Returns & Refund Policy
+          </Link>
+          <Link href={"/shipping"} className="text-sm">
+            Shipping Policy
+          </Link>
+          <Link href={"/termsofservice.html"} className="text-sm">
+            Terms & Conditions
+          </Link>
         </div>
-        <div className="flex items-center">
-          {profile.google && profile.google !== "undefined" ? (
-            <span>
-              <a href={profile.google}>
-                <Google />
-              </a>
-              &nbsp;
-            </span>
-          ) : (
-            ""
-          )}
-          {profile.facebook && profile.facebook !== "undefined" ? (
-            <span>
-              <a href={profile.facebook}>
-                <Facebook />
-              </a>
-              &nbsp;
-            </span>
-          ) : (
-            ""
-          )}
-          {profile.twitter && profile.twitter !== "undefined" ? (
-            <span className="flex items-center">
-              <a href={profile.twitter}>
-                <FontAwesomeIcon icon={faXTwitter} />
-              </a>
-              &nbsp;
-            </span>
-          ) : (
-            ""
-          )}
-          {profile.instagram && profile.instagram !== "undefined" ? (
-            <span>
-              <a href={profile.instagram}>
-                <Instagram />
-              </a>
-              &nbsp;
-            </span>
-          ) : (
-            ""
-          )}
-          &nbsp;&nbsp;
-          <p className=" text-sm font-inter no-underline normal-case xs:pl-1">
-            &copy; {year} by <a href="https://www.bunika.co.ke">Bunika</a>
-          </p>
+        <div className="flex items-start flex-col">
+          <div>
+            {logo ? (
+              <div className="flex align-center m-2 px-[5px] ml-0">
+                <img
+                  className="max-w-[100px] md-max-w-initial md:max-h-16 w-full max-h-10 lg:h-20"
+                  src={logo}
+                  alt="store"
+                />
+              </div>
+            ) : (
+              <div className="rounded-md">{genLogo()}</div>
+            )}
+            <h3 className="font-bold">{profile.name}</h3>
+          </div>
+          <div className="flex items-center flex-wrap sm:flex-no-wrap">
+            {profile.google && profile.google !== "undefined" ? (
+              <span>
+                <a href={profile.google}>
+                  <Google />
+                </a>
+                &nbsp;
+              </span>
+            ) : (
+              ""
+            )}
+            {profile.facebook && profile.facebook !== "undefined" ? (
+              <span>
+                <a href={profile.facebook}>
+                  <Facebook />
+                </a>
+                &nbsp;
+              </span>
+            ) : (
+              ""
+            )}
+            {profile.twitter && profile.twitter !== "undefined" ? (
+              <span className="flex items-center">
+                <a href={profile.twitter}>
+                  <FontAwesomeIcon icon={faXTwitter} />
+                </a>
+                &nbsp;
+              </span>
+            ) : (
+              ""
+            )}
+            {profile.instagram && profile.instagram !== "undefined" ? (
+              <span>
+                <a href={profile.instagram}>
+                  <Instagram />
+                </a>
+                &nbsp;
+              </span>
+            ) : (
+              ""
+            )}
+            &nbsp;&nbsp;
+            <p className=" text-sm font-inter no-underline normal-case xs:pl-1">
+              &copy; {year} by <a href="https://www.bunika.co.ke">Bunika</a>
+            </p>
+          </div>
         </div>
       </div>
     </div>
