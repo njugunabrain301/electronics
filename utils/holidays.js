@@ -37,7 +37,7 @@ export const getHoliday = () => {
   if (month === 12 && day >= 23 && day <= 28) holiday = holidays["christmas"];
   else if ((month === 12 && day >= 30) || (month === 1 && day <= 3))
     holiday = holidays["newYear"];
-  else if (month === 2 && (day >= 13 || day <= 15))
+  else if (month === 2 && day >= 13 && day <= 15)
     holiday = holidays["valentines"];
 
   return holiday;
