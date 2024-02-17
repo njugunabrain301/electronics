@@ -23,6 +23,11 @@ const Navbar = ({ profile, checkoutInfo }) => {
   }, []);
 
   const template = profile.template;
+  const ga4Tag = profile.ga4Tag
+    ? profile.ga4Tag
+    : profile.url.includes("go-duka.com")
+    ? "G-TD28Z490EX"
+    : "";
 
   return (
     <>
@@ -55,17 +60,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <Script
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
-          __html: `
+          __html:
+            `
           window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
   gtag('js', new Date());
-  gtag('config', 'G-C0917S6H5N');
+  gtag('config', '` +
+            ga4Tag +
+            `');
 `,
         }}
       />
       <script
         async
-        src="https://www.googletagmanager.com/gtag/js?id=G-C0917S6H5N"
+        src={"https://www.googletagmanager.com/gtag/js?id=" + ga4Tag}
       ></script>
 
       {template === "Opulence" && (

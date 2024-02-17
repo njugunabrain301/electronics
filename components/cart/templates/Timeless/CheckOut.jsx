@@ -39,6 +39,7 @@ function Checkout({
   const [county, setCounty] = useState(user.county || "");
   const [subcounty, setSubCounty] = useState(user.subcounty || "");
   const [courier, setCourier] = useState(user.courier || "");
+  const [payOnDelivery, setPayOnDelivery] = useState(false);
   const [mode, setMode] = useState("");
   const [paymentInfo, setPaymentInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -49,12 +50,15 @@ function Checkout({
 
   const setUpMode = (mode) => {
     setMode(mode);
-    paymentOptions.map((opt) => {
-      if (opt.type === mode) {
-        setPaymentInfo(opt);
-      }
-      return opt;
-    });
+    if (mode === "Payment on delivery") {
+      setPaymentInfo({ type: mode });
+    } else
+      paymentOptions.map((opt) => {
+        if (opt.type === mode) {
+          setPaymentInfo(opt);
+        }
+        return opt;
+      });
   };
 
   useEffect(() => {
@@ -65,20 +69,25 @@ function Checkout({
       }
 
       let opt = [];
+      if (payOnDelivery) opt.push("Payment on delivery");
       paymentOptions.map((op) => {
         opt.push(op.type);
         return op;
       });
+
       setPayOptions(opt);
     }
+    console.log(paymentInfo);
   }, [paymentOptions, mode]);
 
   const setUpSubCounties = (county) => {
+    setPayOnDelivery(false);
+    county = county.replaceAll("*", "");
     if (county && county !== "") {
       let subs = [];
       deliveryLocations.map((loc) => {
-        if (loc.county === county && !subs.includes(loc.subcounty)) {
-          subs.push(loc.subcounty);
+        if (loc.county.replaceAll("*", "") === county) {
+          subs.push(loc.subcounty + "" + (loc.payOnDelivery ? "*" : ""));
         }
         return loc;
       });
@@ -96,12 +105,23 @@ function Checkout({
   };
 
   const setUpCouriers = (subcounty) => {
-    if (county !== "" && subcounty !== "") {
+    setPayOnDelivery(false);
+    let mcounty = county.replaceAll("*", "");
+    subcounty = subcounty.replaceAll("*", "");
+    if (mcounty !== "" && subcounty !== "") {
       let couriers = [];
       deliveryLocations.map((loc) => {
-        if (loc.county === county && loc.subcounty === subcounty) {
+        if (
+          loc.county.replaceAll("*", "") === mcounty &&
+          loc.subcounty.replaceAll("*", "") === subcounty
+        ) {
           couriers.push({
-            label: loc.courier + " - " + loc.description,
+            label:
+              loc.courier +
+              " - " +
+              loc.description +
+              " " +
+              (loc.payOnDelivery ? "(Pay on delivery)" : ""),
             id: loc._id,
           });
         }
@@ -120,12 +140,22 @@ function Checkout({
   const getDeliveryFee = (v) => {
     if (county !== "" && subcounty !== "" && v) {
       let fee = 0;
+      let payOnDelivery = false;
       deliveryLocations.map((loc) => {
         if (loc._id === v.id) {
           fee = loc.price;
+          payOnDelivery = loc.payOnDelivery;
         }
         return loc;
       });
+      if (payOnDelivery) {
+        setPayOnDelivery(true);
+        setUpMode("Payment on delivery");
+        setPayOptions(["Payment on delivery", ...payOptions]);
+      } else {
+        setPayOnDelivery(false);
+        setPayOptions(payOptions.filter((p) => p !== "Payment on delivery"));
+      }
       setDeliveryCost(fee);
     } else {
       setDeliveryCost(0);
@@ -142,10 +172,15 @@ function Checkout({
       setCError("Fill in all delivery details");
       return;
     }
-    if (showPrice && (code === "" || mode === "")) {
-      setCError("Please provide the payment code");
+    if (showPrice && mode === "") {
+      setCError("Please select a payment mode");
       return;
     }
+    if (showPrice && mode !== "Payment on delivery" && code === "") {
+      setCError("Please provide a payment code");
+      return;
+    }
+
     setIsLoading(true);
     let dataLayer = window.dataLayer || [];
     let event = {
@@ -421,10 +456,17 @@ function Checkout({
                 <div className="relative min-w-[200px] my-2">
                   <Autocomplete
                     disablePortal={true}
-                    isOptionEqualToValue={(option, value) => option === value}
+                    isOptionEqualToValue={(option, value) =>
+                      option.value === value
+                    }
                     className="autocomplete"
                     color={"input"}
-                    options={counties}
+                    options={counties.map((c, idx) => {
+                      return {
+                        label: c.replaceAll("*", " (Pay on delivery)"),
+                        value: c,
+                      };
+                    })}
                     PaperComponent={({ children }) => (
                       <Paper
                         sx={{
@@ -435,10 +477,11 @@ function Checkout({
                         {children}
                       </Paper>
                     )}
+                    getOptionLabel={(option) => option.label}
                     renderOption={(props, option) => {
                       return (
-                        <li {...props} key={option}>
-                          {option}
+                        <li {...props} key={option.label} value={option.value}>
+                          {option.label}
                         </li>
                       );
                     }}
@@ -462,22 +505,32 @@ function Checkout({
                         }}
                       />
                     )}
-                    value={county}
+                    value={{
+                      label: county.replaceAll("*", " (Pay on delivery)"),
+                      value: county,
+                    }}
                     size="small"
                     name="type"
                     onChange={(e, v) => {
-                      setUpSubCounties(v);
-                      setCounty(v);
+                      setUpSubCounties(v.value.replaceAll("*", ""));
+                      setCounty(v.value.replaceAll("*", ""));
                     }}
                   />
                 </div>
                 <div className="relative min-w-[200px] my-2">
                   <Autocomplete
                     disablePortal={true}
-                    isOptionEqualToValue={(option, value) => option === value}
+                    isOptionEqualToValue={(option, value) =>
+                      option.value === value
+                    }
                     className="autocomplete"
                     color={"input"}
-                    options={subCounties}
+                    options={subCounties.map((c) => {
+                      return {
+                        label: c.replaceAll("*", " (Pay on delivery)"),
+                        value: c,
+                      };
+                    })}
                     PaperComponent={({ children }) => (
                       <Paper
                         sx={{
@@ -490,8 +543,8 @@ function Checkout({
                     )}
                     renderOption={(props, option) => {
                       return (
-                        <li {...props} key={option}>
-                          {option}
+                        <li {...props} key={option.label}>
+                          {option.label}
                         </li>
                       );
                     }}
@@ -515,12 +568,15 @@ function Checkout({
                         }}
                       />
                     )}
-                    value={subcounty}
+                    value={{
+                      label: subcounty.replaceAll("*", " (Pay on delivery)"),
+                      value: subcounty,
+                    }}
                     size="small"
                     name="type"
                     onChange={(e, v) => {
-                      setUpCouriers(v);
-                      setSubCounty(v);
+                      setUpCouriers(v.value.replaceAll("*", ""));
+                      setSubCounty(v.value.replaceAll("*", ""));
                     }}
                   />
                 </div>
@@ -583,7 +639,11 @@ function Checkout({
                 </div>
                 {showPrice && (
                   <Typography style={{ fontSize: "11pt" }}>
-                    Delivery Cost: Ksh.{" " + deliveryCost}
+                    Delivery Cost: Ksh.
+                    {" " +
+                      deliveryCost +
+                      " " +
+                      (payOnDelivery ? " (Pay on delivery)" : "")}
                   </Typography>
                 )}
               </div>
@@ -648,6 +708,13 @@ function Checkout({
                     <Typography>Business Name: {paymentInfo.name}</Typography>
                   </div>
                 )}
+                {mode === "Payment on delivery" && (
+                  <div>
+                    <Typography className="m-0">
+                      The payment details will be provided on delivery
+                    </Typography>
+                  </div>
+                )}
                 {mode === "MPesa-Paybill" && (
                   <div>
                     <Typography className="m-0">MPESA: Paybill</Typography>
@@ -684,30 +751,34 @@ function Checkout({
                     Ksh.&nbsp;{Number(cartTotal) + Number(deliveryCost)}
                   </Typography>
                 </div>
-                <div style={{ margin: "10px 0" }}>
-                  <TextField
-                    label="MPESA Code"
-                    type="text"
-                    name="code"
-                    size="small"
-                    fullWidth
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        "& fieldset": {
-                          borderColor: theme.palette.input.border,
+                {mode !== "Payment on delivery" && (
+                  <div style={{ margin: "10px 0" }}>
+                    <TextField
+                      label="MPESA Code"
+                      type="text"
+                      name="code"
+                      size="small"
+                      fullWidth
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          "& fieldset": {
+                            borderColor: theme.palette.input.border,
+                          },
+                          "&:hover fieldset": {
+                            borderColor: theme.palette.input.light,
+                          },
                         },
-                        "&:hover fieldset": {
-                          borderColor: theme.palette.input.light,
-                        },
-                      },
-                      input: { color: theme.palette.text.base },
-                    }}
-                    InputLabelProps={{ sx: { color: theme.palette.text.alt } }}
-                    color={"input"}
-                    value={code}
-                    onChange={(e) => setCode(e.target.value)}
-                  />
-                </div>
+                        input: { color: theme.palette.text.base },
+                      }}
+                      InputLabelProps={{
+                        sx: { color: theme.palette.text.alt },
+                      }}
+                      color={"input"}
+                      value={code}
+                      onChange={(e) => setCode(e.target.value)}
+                    />
+                  </div>
+                )}
               </div>
             )}
 

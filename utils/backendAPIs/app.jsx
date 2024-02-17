@@ -10,4 +10,14 @@ export const fetchBusinessProfile = async () => {
   }
 };
 
+export const fetchAboutUs = async () => {
+  try {
+    let res = await fetchData("/business/about");
+
+    return res;
+  } catch (err) {
+    return err;
+  }
+};
+
 export const runtime = "edge";

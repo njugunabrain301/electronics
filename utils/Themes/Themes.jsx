@@ -197,6 +197,12 @@ export const MUIThemes = {
         dark: "#3F4E4F",
         border: "#6f543e",
       },
+      success: {
+        main: "#2e7d32 !important",
+      },
+      error: {
+        main: "#d32f2f !important",
+      },
     },
   }),
   autumn: createTheme({

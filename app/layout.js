@@ -86,6 +86,11 @@ export default async function RootLayout({ children }) {
     checkoutinfo.deliveryLocations.map((loc) => {
       if (!checkoutinfo.counties.includes(loc.county))
         checkoutinfo.counties.push(loc.county);
+      if (loc.payOnDelivery) {
+        let idx = checkoutinfo.counties.indexOf(loc.county);
+        checkoutinfo.counties[idx] = loc.county + "*";
+      }
+
       return loc;
     });
   }

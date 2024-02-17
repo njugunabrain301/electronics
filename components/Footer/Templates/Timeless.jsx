@@ -7,6 +7,7 @@ import xlogo from "@/public/x.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
 import Link from "next/link";
+import mpesa from "@/assets/images/mpesa.png";
 
 const Timeless = ({ profile }) => {
   const year = new Date().getFullYear();
@@ -75,10 +76,27 @@ const Timeless = ({ profile }) => {
           style={{ backgroundColor: theme.palette["flat-button"].main }}
         />
       </div>
-      <div className="flex items-center justify-around pt-4">
-        <div className="flex flex-col ml-[10px] sm:ml-[0]">
+      <div className="flex items-start justify-around pt-4 px-4 flex-wrap">
+        <div className="flex flex-col ml-[10px] sm:ml-[0] w-[100%] sm:w-[30%]">
+          <h3 className="font-bold">Information</h3>
+          <Link href={"/about"} className="text-sm">
+            About Us
+          </Link>
+          <Link href={"/contact"} className="text-sm">
+            Contact Us
+          </Link>
+          <div>
+            <p className="font-bold">We accept the following payment methods</p>
+            <Image src={mpesa} alt="MPesa Logo" className="w-[50px] h-[50px]" />
+          </div>
+        </div>
+        <div className="flex flex-col ml-[10px] sm:ml-[0]  w-[100%] sm:w-[30%]">
           <h3 className="font-bold">Customer Support</h3>
-          <Link href={"/privacypolicy.html"} className="text-sm">
+          <Link
+            href={"/privacypolicy.html"}
+            className="text-sm"
+            target="_blank"
+          >
             Privacy Policy
           </Link>
           <Link href={"/returns"} className="text-sm">
@@ -87,11 +105,15 @@ const Timeless = ({ profile }) => {
           <Link href={"/shipping"} className="text-sm">
             Shipping Policy
           </Link>
-          <Link href={"/termsofservice.html"} className="text-sm">
+          <Link
+            href={"/termsofservice.html"}
+            className="text-sm"
+            target="_blank"
+          >
             Terms & Conditions
           </Link>
         </div>
-        <div className="flex items-start flex-col">
+        <div className="flex items-start flex-col  w-[100%] sm:w-[30%]">
           <div>
             {logo ? (
               <div className="flex align-center m-2 px-[5px] ml-0">

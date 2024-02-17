@@ -18,8 +18,20 @@ import {
 } from "@mui/material";
 import ProductSection from "@/components/HomePage/Timeless/ProductSection/ProductSection";
 import NavigateButtons from "@/components/NavigateButtons/NavigateButtons";
+import mpesa from "@/assets/images/lipanampesa.png";
+import Link from "next/link";
+import Carousel from "react-material-ui-carousel";
+import { PowerOffOutlined } from "@mui/icons-material";
 
-const Timeless = ({ product, others, categories, profile }) => {
+const Timeless = ({
+  product,
+  others,
+  categories,
+  profile,
+  shipping,
+  returns,
+  offers,
+}) => {
   const [selectedImage, setSelectedImage] = useState(product.img);
   const { handleOpenAuth, setCart } = useGlobalContext();
   let authUser = localStorage.getItem("user") ? true : false;
@@ -208,8 +220,20 @@ const Timeless = ({ product, others, categories, profile }) => {
                     : product.category + ": " + product.subcategory}
                 </p>
                 {product.condition && (
-                  <p>{"Condition: " + product.condition}</p>
+                  <p className="text-sm">{"Condition: " + product.condition}</p>
                 )}
+                <p
+                  className="flex text-sm font-bold"
+                  style={{ color: theme.palette.text.alt }}
+                >
+                  {returns.accept && "* We accept returns "}
+
+                  {shipping.accept
+                    ? shipping.guaranteeCourier
+                      ? "* Our couriers ensure damage-free delivery. Your item will reach Nakuru in 1 day or less"
+                      : "* This product is available for shipping"
+                    : "* This item is available for in-store pickup"}
+                </p>
               </div>
               {product.offer && (
                 <p className="text-orange-700 text-sm font-inter font-bold tracking-normal leading-none pb-4">
@@ -269,7 +293,6 @@ const Timeless = ({ product, others, categories, profile }) => {
                   </>
                 )}
               </div>
-
               <div className="pb-4">
                 {product.colors && product.colors.length > 0 && (
                   <FormControl className="w-full">
@@ -331,11 +354,56 @@ const Timeless = ({ product, others, categories, profile }) => {
                   </FormControl>
                 )}
               </div>
-              {showPrice && (
-                <Typography className="font-bold">
-                  Ksh.&nbsp;{product.price}
-                </Typography>
+              {offers && (
+                <div>
+                  <Carousel
+                    animation="slide"
+                    navButtonsAlwaysVisible={true}
+                    duration={1000}
+                    indicators={false}
+                    navButtonsProps={{
+                      style: {
+                        backgroundColor: "transparent",
+
+                        color: "inherit",
+                      },
+                    }}
+                  >
+                    {offers.map((offer, index) => (
+                      <p
+                        className="text-center px-3 rounded-md"
+                        key={index}
+                        style={{
+                          backgroundColor: theme.palette.panel.main,
+                          borderColor: theme.palette.panel.border,
+                          color: theme.palette.text.base,
+                        }}
+                      >
+                        {offer}
+                      </p>
+                    ))}
+                  </Carousel>
+                </div>
               )}
+              <p className="italic">In Stock</p>
+              <div className="flex justify-between items-center mt-3 flex-wrap">
+                {showPrice && (
+                  <Typography className="font-bold">
+                    Ksh.&nbsp;{product.price}
+                  </Typography>
+                )}
+                <div className="text-sm">
+                  {" "}
+                  <Link href="/returns" className="underline">
+                    Returns
+                  </Link>{" "}
+                  &{" "}
+                  <Link href={"/shipping"} className="underline">
+                    Shipping
+                  </Link>{" "}
+                  Policy
+                </div>
+              </div>
               <div className="flex justify-between items-center mt-3">
                 <Tooltip content="Add to Cart" placement="bottom">
                   <Button
@@ -397,6 +465,14 @@ const Timeless = ({ product, others, categories, profile }) => {
                 {copied && (
                   <span className="pr-2 text-xs">Link successfully copied</span>
                 )}
+              </div>
+              <div className="mt-[15px] flex">
+                We accept payments using
+                <Image
+                  src={mpesa}
+                  alt="MPesa Logo"
+                  className="object-fit h-[25px] w-[150px] pl-[10px]"
+                />
               </div>
             </div>
           </div>

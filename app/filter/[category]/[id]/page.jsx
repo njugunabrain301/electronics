@@ -63,6 +63,10 @@ export default async function Page({ params }) {
 
   let res = await fetchProduct({ pid: id });
   product = res.data;
+  let shipping = res.shipping;
+  let returns = res.returns;
+  let offers = res.offers;
+
   let others = res.others;
   let categories = res.categories;
 
@@ -146,6 +150,9 @@ export default async function Page({ params }) {
         others={others}
         categories={categories}
         profile={profile}
+        shipping={shipping}
+        returns={returns}
+        offers={offers}
       ></SingleProduct>
       <WhatsappWidget text={product.name} />
     </div>

@@ -6,4 +6,21 @@
   padding: 6.5px 10px;
 }
 
+.pure-html ol li {
+  list-style-type: decimal;
+}
+.pure-html ul li {
+  list-style-type: disc;
+}
+.pure-html ul,
+.pure-html ol {
+  margin-left: 40px;
+}
+
+.pure-html h2,
+.pure-html h3,
+.pure-html h4,
+.pure-html h5 {
+  font-weight: bold;
+}
 /* For Webkit browsers */

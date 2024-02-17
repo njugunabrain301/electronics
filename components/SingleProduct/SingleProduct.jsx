@@ -1,7 +1,15 @@
 import Opulence from "./templates/Opulence";
 import Timeless from "./templates/Timeless";
 
-const SingleProduct = ({ product, profile, others, categories }) => {
+const SingleProduct = ({
+  product,
+  profile,
+  others,
+  categories,
+  returns,
+  shipping,
+  offers,
+}) => {
   let template = profile.template;
   return (
     <>
@@ -11,6 +19,8 @@ const SingleProduct = ({ product, profile, others, categories }) => {
           profile={profile}
           others={others}
           categories={categories}
+          returns={returns}
+          shipping={shipping}
         />
       )}
       {template === "Timeless" && (
@@ -19,6 +29,9 @@ const SingleProduct = ({ product, profile, others, categories }) => {
           others={others}
           categories={categories}
           profile={profile}
+          returns={returns}
+          shipping={shipping}
+          offers={offers}
         />
       )}
     </>

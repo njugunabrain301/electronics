@@ -12,3 +12,12 @@ export const inquire = async () => {
     return res.data;
   } catch (err) {}
 };
+
+export const sendMessage = async (payload) => {
+  try {
+    let res = await axios.post("/message", payload);
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+};
