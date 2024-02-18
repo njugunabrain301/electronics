@@ -15,14 +15,18 @@ const Timeless = ({ shipping, deliveryLocations, profile }) => {
       >
         Shipping Policy
       </h1>
-      {shipping.accept
-        ? "We offer shipping services for our orders using a variety of trusted couriers. Shipping costs are calculated and included before you proceed to checkout"
-        : "We're delighted to offer in-store pickup for your convenience! At this time, we don't provide shipping services."}
+      <p>
+        {shipping.accept
+          ? "We offer shipping services for our orders using a variety of trusted couriers. Shipping costs are calculated and included before you proceed to checkout"
+          : "We're delighted to offer in-store pickup for your convenience! At this time, we don't provide shipping services."}
+      </p>
       {shipping.accept && (
         <>
-          {shipping.guarantee
-            ? "We guarantee that goods delivered will be delivered without any damage"
-            : "While we strive to ensure safe delivery, please note that we cannot guarantee goods will arrive without any damage"}
+          <p>
+            {shipping.guarantee
+              ? "We guarantee that goods delivered will be delivered without any damage"
+              : "While we strive to ensure safe delivery, please note that we cannot guarantee goods will arrive without any damage"}
+          </p>
           {shipping.handlingType === "custom" && (
             <p>
               Please allow varying processing times for orders before they are
@@ -33,7 +37,7 @@ const Timeless = ({ shipping, deliveryLocations, profile }) => {
           {shipping.handlingType === "constant" && (
             <p>
               We take a maximum of{" "}
-              {shipping.handlingTime.amount + " " + shipping.handlingTime.days}{" "}
+              {shipping.handlingTime.amount + " " + shipping.handlingTime.unit}{" "}
               to process and package an order before we ship it to the client
             </p>
           )}
