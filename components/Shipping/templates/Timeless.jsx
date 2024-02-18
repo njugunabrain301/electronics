@@ -49,7 +49,7 @@ const Timeless = ({ shipping, deliveryLocations, profile }) => {
             Here are all the places we deliver to with the associated times and
             costs
           </h2>
-          <table className="mb-[20px] ">
+          <table className="hidden md:block mb-[20px] ">
             <thead>
               <tr className="font-bold">
                 <td className="p-1">County</td>
@@ -62,7 +62,7 @@ const Timeless = ({ shipping, deliveryLocations, profile }) => {
             </thead>
             <tbody>
               {deliveryLocations.map((loc, idx) => (
-                <tr>
+                <tr key={idx}>
                   <td className="p-1">{loc.county}</td>
                   <td className="p-1">{loc.subcounty}</td>
                   <td className="p-1">{loc.description}</td>
@@ -77,6 +77,46 @@ const Timeless = ({ shipping, deliveryLocations, profile }) => {
               ))}
             </tbody>
           </table>
+          <div className="md:hidden mb-[20px] ">
+            <div className="p-1 font-bold">Shipping Destinations</div>
+            {deliveryLocations.map((loc, idx) => (
+              <div key={idx}>
+                <div className="p-1">
+                  <span className="font-bold">County</span>
+                  {": " + loc.county}
+                </div>
+                {/* <td className="font-bold">Subcounty</td> */}
+                <div className="p-1">
+                  <span className="font-bold">Subounty</span>
+                  {": " + loc.subcounty}
+                </div>
+                {/* <td className="font-bold">Description</td> */}
+                <div className="p-1">
+                  <span className="font-bold">Description</span>
+                  {": " + loc.description}
+                </div>
+                {/* <td className="font-bold">Courier</td> */}
+                <div className="p-1">
+                  <span className="font-bold">Courier</span>
+                  {": " + loc.courier}
+                </div>
+                {/* <td className="font-bold">Cost</td> */}
+                <div className="p-1">
+                  <span className="font-bold">Cost</span>
+                  {": " + loc.price + " Ksh."}
+                </div>
+                {/* <td className="font-bold">Max Delivery Time</td> */}
+                <div>
+                  <span className="font-bold">Max Delivery Time</span>
+                  {": " +
+                    (loc.time > 24
+                      ? loc.time / 24 + " day(s) " + (loc.time % 24) + " hrs"
+                      : loc.time + " hrs")}
+                </div>
+                <div className="py-[15px]"></div>
+              </div>
+            ))}
+          </div>
           <p>
             If you don't find your location listed, just let us know! We'll be
             happy to arrange delivery through a trusted courier.
