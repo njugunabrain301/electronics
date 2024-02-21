@@ -4,8 +4,6 @@ import SliderCarousel from "./SliderCarousel";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useGlobalContext } from "@/Context/context";
-import { useRouter } from "next/navigation";
-import MySearchField from "@/components/SearchField/MySearchField";
 
 const Slider = ({ slider }) => {
   let sliderData = slider;
@@ -38,13 +36,6 @@ const Slider = ({ slider }) => {
     }, 1000);
   });
 
-  let [search, setSearch] = useState("");
-  let router = useRouter();
-  const applySearch = () => {
-    if (search !== "") {
-      router.push("/filter/search/" + search);
-    }
-  };
   const { theme } = useGlobalContext();
   return (
     <div
@@ -53,15 +44,6 @@ const Slider = ({ slider }) => {
         backgroundColor: theme.palette.background.primary,
       }}
     >
-      <div className="w-[100%] flex justify-center items-center mb-[15px]">
-        <MySearchField
-          label="Search"
-          onChange={(e) => setSearch(e.target.value)}
-          value={search}
-          onClick={() => applySearch()}
-          template={"Timeless"}
-        />
-      </div>
       <>
         <motion.div
           initial={{ translateY: "100px", opacity: 0 }}

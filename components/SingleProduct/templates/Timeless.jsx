@@ -128,6 +128,13 @@ const Timeless = ({
     return DOMPurify.sanitize(text);
   };
 
+  function removeTags(str) {
+    if (str === null || str === "") return false;
+    else str = str.toString();
+
+    return str.replace(/(<([^>]+)>)/gi, "");
+  }
+  const moffers = [...offers, "WhatsApp us for instant assistance!"];
   return (
     <div
       className=""
@@ -136,6 +143,19 @@ const Timeless = ({
         color: theme.palette.text.base,
       }}
     >
+      <p className="text-sm md:text-base ml-2">
+        <Link className="font-bold" href={"/"}>
+          Home
+        </Link>{" "}
+        &gt;&gt;{" "}
+        <Link href={"/filter/" + product.category} className="font-bold">
+          {product.category}
+        </Link>{" "}
+        &gt;&gt;{" "}
+        <Link href={"/filter/" + product.subcategory} className="font-bold">
+          {product.subcategory}
+        </Link>
+      </p>
       {product && (
         <div className="flex justify-center items-center p-4 pb-8 flex-wrap md:flex-nowrap w-[98%] mx-auto max-w-7xl">
           <div className="flex justify-center items-center m-0 md:m-0 flex-col max-w-[100%] min-w-[50%]">
@@ -240,12 +260,19 @@ const Timeless = ({
                   {product.offer}% OFF
                 </p>
               )}
-              <p
-                className="text-l font-inter tracking-normal leading-none pb-4"
-                dangerouslySetInnerHTML={{
-                  __html: cleanHTML(product.description),
-                }}
-              ></p>
+              <p className="text-l font-inter tracking-normal leading-none pb-4">
+                {removeTags(product.description).slice(0, 150)}
+                {product.description.length > 150 && (
+                  <a
+                    href="#more-details"
+                    className=""
+                    style={{ color: theme.palette.text.alt }}
+                  >
+                    {" "}
+                    ...more details
+                  </a>
+                )}
+              </p>
               <div className="pb-4">
                 {product.sizes && product.sizes.length > 0 && (
                   <>
@@ -354,11 +381,11 @@ const Timeless = ({
                   </FormControl>
                 )}
               </div>
-              {offers && (
+              {moffers && (
                 <div>
                   <Carousel
                     animation="slide"
-                    navButtonsAlwaysVisible={true}
+                    navButtonsAlwaysVisible={false}
                     duration={1000}
                     indicators={false}
                     navButtonsProps={{
@@ -369,7 +396,7 @@ const Timeless = ({
                       },
                     }}
                   >
-                    {offers.map((offer, index) => (
+                    {moffers.map((offer, index) => (
                       <p
                         className="text-center px-3 rounded-md"
                         key={index}
@@ -385,7 +412,9 @@ const Timeless = ({
                   </Carousel>
                 </div>
               )}
-              <p className="italic">In Stock</p>
+              <p className="italic">
+                {product.inStock ? "In Stock" : "Out of Stock"}
+              </p>
               <div className="flex justify-between items-center mt-3 flex-wrap">
                 {showPrice && (
                   <Typography className="font-bold">
@@ -408,6 +437,7 @@ const Timeless = ({
                 <Tooltip content="Add to Cart" placement="bottom">
                   <Button
                     color={"cart-btn"}
+                    disabled={!product.inStock}
                     onClick={() =>
                       myAddToCart({
                         _id: product._id,
@@ -478,7 +508,22 @@ const Timeless = ({
           </div>
         </div>
       )}
-
+      <div
+        id="more-details"
+        className="p-4 pb-8 flex-wrap md:flex-nowrap w-[98%] mx-auto max-w-7xl"
+      >
+        <div>
+          <p className="text-lg">DESCRIPTION</p>
+        </div>
+        <div>
+          <p
+            className="text-l font-inter tracking-normal leading-none pb-4"
+            dangerouslySetInnerHTML={{
+              __html: cleanHTML(product.description),
+            }}
+          ></p>
+        </div>
+      </div>
       <div>
         <ProductSection
           products={others}

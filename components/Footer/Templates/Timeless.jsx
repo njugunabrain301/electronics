@@ -113,12 +113,12 @@ const Timeless = ({ profile }) => {
             Terms & Conditions
           </Link>
         </div>
-        <div className="flex items-start flex-col  w-[100%] sm:w-[30%]">
+        <div className="flex items-start flex-col ml-[10px] sm:ml-[0] w-[100%] sm:w-[30%]">
           <div>
             {logo ? (
-              <div className="flex align-center m-2 px-[5px] ml-0">
+              <div className="flex align-center m-2 px-[5px] ml-0 pl-[0]">
                 <img
-                  className="max-w-[100px] md-max-w-initial md:max-h-16 w-full max-h-10 lg:h-20"
+                  className="max-w-[100px] md-max-w-initial md:max-h-16 w-fit max-h-10 lg:h-20"
                   src={logo}
                   alt="store"
                 />

@@ -7,6 +7,7 @@ export default function MySearchField({
   onChange,
   onClick,
   template,
+  inverted,
 }) {
   return (
     <>
@@ -16,6 +17,7 @@ export default function MySearchField({
           value={value}
           onClick={onClick}
           onChange={onChange}
+          inverted={inverted}
         />
       )}
       {template === "Opulence" && (
@@ -24,6 +26,7 @@ export default function MySearchField({
           value={value}
           onClick={onClick}
           onChange={onChange}
+          inverted={inverted}
         />
       )}
     </>

@@ -36,6 +36,16 @@ const Timeless = ({
 
     return str.replace(/(<([^>]+)>)/gi, "");
   }
+  let length = name.length;
+  let descLength = name.length < 150 ? 200 - length : 0;
+  const getTitle = () => {
+    let title =
+      subcategory === "Vehicles" && extras && extras.make && extras.model
+        ? extras.make + " " + extras.model
+        : name;
+    if (title.length > 100) title = title.slice(0, 100) + "...";
+    return title;
+  };
   return (
     <Link href={`/filter/item/` + id} className="flex justify-center">
       <Card
@@ -54,15 +64,17 @@ const Timeless = ({
         </CardHeader>
         <CardBody className="text-center">
           <Typography variant="h5" className="mb-2">
-            {subcategory === "Vehicles" && extras && extras.make && extras.model
-              ? extras.make + " " + extras.model
-              : name}
+            {getTitle()}
           </Typography>
-          <Typography>
-            {removeTags(text).length > 70
-              ? removeTags(text).slice(0, 70).replace("<", "") + "..."
-              : removeTags(text).replace("<", "")}
-          </Typography>
+          {descLength > 0 && (
+            <Typography>
+              <span>
+                {removeTags(text).length > descLength
+                  ? removeTags(text).slice(0, descLength) + "..."
+                  : removeTags(text)}
+              </span>
+            </Typography>
+          )}
         </CardBody>
         <CardFooter
           divider

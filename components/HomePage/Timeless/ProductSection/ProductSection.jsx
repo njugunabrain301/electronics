@@ -28,7 +28,7 @@ const ProductSection = ({ products, showPrice, title }) => {
                 text={product.description}
                 price={product.price}
                 totalPrice={product.totalPrice}
-                color={product.color}
+                colors={product.colors}
                 size={product.size}
                 type={product.type}
                 showPrice={showPrice}

@@ -37,6 +37,17 @@ const ProductSectionItem = ({
     return str.replace(/(<([^>]+)>)/gi, "");
   }
 
+  let length = name.length;
+  let descLength = name.length < 150 ? 200 - length : 0;
+  const getTitle = () => {
+    let title =
+      subcategory === "Vehicles" && extras && extras.make && extras.model
+        ? extras.make + " " + extras.model
+        : name;
+    if (title.length > 100) title = title.slice(0, 100) + "...";
+    return title;
+  };
+
   const { theme } = useGlobalContext();
   return (
     <Link href={`/filter/item/` + id} className="flex justify-center">
@@ -63,17 +74,17 @@ const ProductSectionItem = ({
         </CardHeader>
         <CardBody className="text-center">
           <Typography variant="h4" className="mb-2">
-            {subcategory === "Vehicles" && extras && extras.make && extras.model
-              ? extras.make + " " + extras.model
-              : name}
+            {getTitle()}
           </Typography>
-          <Typography className="text-md">
-            <span>
-              {removeTags(text).length > 70
-                ? removeTags(text).slice(0, 70) + "..."
-                : removeTags(text)}
-            </span>
-          </Typography>
+          {descLength > 0 && (
+            <Typography className="text-md">
+              <span>
+                {removeTags(text).length > descLength
+                  ? removeTags(text).slice(0, descLength) + "..."
+                  : removeTags(text)}
+              </span>
+            </Typography>
+          )}
           <div className="flex justify-between items-center pt-4">
             {showPrice && (
               <Typography className="font-medium">
@@ -92,7 +103,7 @@ const ProductSectionItem = ({
                 {colors?.map((color, index) => {
                   return (
                     <i
-                      className="fas fa-map-marker-alt fa-sm mt-[3px] rounded-full p-2 mr-4 "
+                      className="fas fa-map-marker-alt fa-sm mt-[3px] rounded-full p-2 mr-1 "
                       key={index}
                       style={{ backgroundColor: color }}
                     ></i>

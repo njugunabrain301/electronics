@@ -11,6 +11,8 @@ import Cart from "../../cart/Cart";
 import { useGlobalContext } from "@/Context/context";
 import { visit } from "@/utils/frontendAPIs/app";
 import Image from "next/image";
+import MySearchField from "@/components/SearchField/MySearchField";
+import { useRouter } from "next/navigation";
 
 const Timeless = ({ profile, checkoutInfo }) => {
   const [user, setUser] = useState({});
@@ -134,6 +136,14 @@ const Timeless = ({ profile, checkoutInfo }) => {
   const { name } = user;
   const businessName = profile.name || "Wb";
   const logo = profile.icon || "";
+
+  let [search, setSearch] = useState("");
+  let router = useRouter();
+  const applySearch = () => {
+    if (search !== "") {
+      router.push("/filter/search/" + search);
+    }
+  };
 
   return (
     <>
@@ -358,25 +368,37 @@ const Timeless = ({ profile, checkoutInfo }) => {
           color: theme.palette.text.inverted,
         }}
       >
-        <p className="  text-base font-medium ">
-          <Link href="/" className="display: flex">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+        <div className="  text-base font-medium ">
+          <div className="flex items-center">
+            <Link href="/" className="display: flex mr-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+                />
+              </svg>
+              <span className="hidden md:block">&nbsp;&nbsp; Home</span>
+            </Link>
+            <div className="mt-[-15px]">
+              <MySearchField
+                label="Search"
+                onChange={(e) => setSearch(e.target.value)}
+                value={search}
+                onClick={() => applySearch()}
+                template={"Timeless"}
+                inverted={true}
               />
-            </svg>
-            <span className="hidden md:block">&nbsp;&nbsp; Home</span>
-          </Link>
-        </p>
+            </div>
+          </div>
+        </div>
 
         {profile.holiday && (
           <Image

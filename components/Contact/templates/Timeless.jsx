@@ -52,6 +52,12 @@ const Timeless = ({ contact }) => {
     }
     setSubmitting(false);
   };
+  const responseAmt = contact.responseTime.amount;
+  let responseUnit = contact.responseTime.unit;
+  responseUnit =
+    responseAmt == 1
+      ? responseUnit.slice(0, responseUnit.length - 1)
+      : responseUnit;
 
   return (
     <div className="w-[90%] max-w-[1000px] mx-auto pb-[50px]">
@@ -117,6 +123,8 @@ const Timeless = ({ contact }) => {
             <p>Phone : {contact.phone}</p>
             <p>Email : {contact.email}</p>
             <p>Location : {contact.location}</p>
+            <p className="pt-[10px] font-bold">Business Hours</p>
+            <p>{contact.workingHours}</p>
             <h3 className="pt-[10px] font-bold">Socials</h3>
             <div className="flex items-center flex-wrap sm:flex-no-wrap">
               {contact.google && contact.google !== "undefined" ? (
@@ -163,6 +171,10 @@ const Timeless = ({ contact }) => {
                 ""
               )}
             </div>
+            <p className="pt-2">
+              Feel free to contact us anytime during our business hours, we do
+              our best to respond within {responseAmt + " " + responseUnit}
+            </p>
           </div>
         </div>
       </div>

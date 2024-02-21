@@ -442,12 +442,20 @@ function Checkout({
                   />
                 </div>
 
-                <Typography style={{ fontSize: "11pt" }}>
-                  Create Account{" "}
+                <Typography style={{ fontSize: "11pt", fontStyle: "italic" }}>
+                  We handle your provided information responsibly and securely.{" "}
+                  <Link
+                    href={"/privacypolicy.html"}
+                    target="_blank"
+                    className="underline"
+                  >
+                    Privacy Policy
+                  </Link>
+                  {/* <>Create Account{" "}
                   <Switch
                     checked={createAcct}
                     onChange={(e, v) => setCreate(e.target.checked)}
-                  />
+                  /></> */}
                 </Typography>
               </div>
             )}

@@ -1,59 +1,5 @@
 import { createTheme } from "@mui/material";
 
-export const Themes = {
-  classic: {
-    "text-base": "black",
-    "text-inverted": "white",
-    "text-alt": "gray",
-    "text-info": "#202020",
-    "text-highlight": "blue",
-    "text-selected": "green",
-    "text-important": "orange",
-
-    "background-primary": "white",
-    "background-alt": "black",
-    "background-card": "dodgerblue",
-    "background-panel": "#aaa",
-
-    "button-base": "blue",
-    "button-delete": "indianred",
-    "button-hover": "#aaa",
-    "button-action": "white",
-    "button-success": "green",
-    "button-flat": "gray",
-    "button-flat-hover": "#404040",
-
-    "alert-danger": "indianred",
-    "alert-info": "yellow",
-
-    "input-color": "blue",
-  },
-  moonlit: {
-    "text-base": "white",
-    "text-alt": "gray", //primary
-    "text-highlight": "blue", //primary
-
-    "button-base": "blue", //primary
-    "button-delete": "red", //primary
-    "button-success": "green", //primary
-    "button-flat": "gray", //primary
-
-    "input-color": "white",
-  },
-  dawn: {
-    "text-base": "black",
-    "text-alt": "black", //primary
-    "text-highlight": "brown", //primary
-
-    "button-base": "brown", //primary
-    "button-delete": "red", //primary
-    "button-success": "green", //primary
-    "button-flat": "gray", //primary
-
-    "input-color": "brown",
-  },
-};
-
 export const MUIThemes = {
   classic: createTheme({
     ["theme-type"]: "light",
@@ -90,6 +36,9 @@ export const MUIThemes = {
       },
       input: {
         main: "#1e90ff",
+      },
+      "input-inverted": {
+        main: "white",
       },
       success: {
         main: "#2e7d32 !important",
@@ -142,6 +91,9 @@ export const MUIThemes = {
         light: "#68abee",
         dark: "#68abee",
         border: "#68abee",
+      },
+      "input-inverted": {
+        main: "white",
       },
       success: {
         main: "#2e7d32 !important",
@@ -197,6 +149,9 @@ export const MUIThemes = {
         dark: "#3F4E4F",
         border: "#6f543e",
       },
+      "input-inverted": {
+        main: "#DCD7C9",
+      },
       success: {
         main: "#2e7d32 !important",
       },
@@ -248,6 +203,9 @@ export const MUIThemes = {
         light: "#227722",
         dark: "#124012",
         border: "#1A5D1A",
+      },
+      "input-inverted": {
+        main: "#DCD7C9",
       },
       success: {
         main: "#2e7d32 !important",
@@ -301,6 +259,9 @@ export const MUIThemes = {
         dark: "#7752FE",
         border: "#7752FE",
       },
+      "input-inverted": {
+        main: "#fff",
+      },
       success: {
         main: "#2e7d32 !important",
       },
@@ -352,6 +313,9 @@ export const MUIThemes = {
         light: "#512D6D",
         dark: "#512D6D",
         border: "#512D6D",
+      },
+      "input-inverted": {
+        main: "#fff",
       },
       success: {
         main: "#2e7d32 !important",
@@ -405,6 +369,9 @@ export const MUIThemes = {
         dark: "#512D6D",
         border: "#512D6D",
       },
+      "input-inverted": {
+        main: "#fff",
+      },
       success: {
         main: "#2e7d32 !important",
       },
@@ -413,50 +380,4 @@ export const MUIThemes = {
       },
     },
   }),
-};
-
-const empty = {
-  palette: {
-    primary: {
-      main: "#",
-    },
-    text: {
-      base: "#",
-      inverted: "#",
-      alt: "#",
-    },
-    highlight: {
-      main: "#",
-      light: "#",
-    },
-    background: {
-      primary: "#",
-      inverted: "#",
-    },
-    pane: {
-      main: "#",
-    },
-    card: {
-      main: "#",
-    },
-    panel: {
-      main: "#",
-      border: "#",
-    },
-    "flat-button": {
-      main: "#",
-    },
-    "cart-btn": {
-      main: "#",
-      light: "#",
-      dark: "#",
-      contrastText: "#",
-    },
-    input: {
-      main: "#",
-      light: "#",
-      dark: "#",
-      border: "#",
-    },
-  },
 };
