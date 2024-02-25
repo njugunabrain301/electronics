@@ -9,6 +9,7 @@ import { getHoliday } from "@/utils/holidays";
 import "./App.scss";
 import "@/components/styles.css";
 import "./globals.css";
+import Expired from "@/components/Expired/Expired";
 
 export async function generateMetadata() {
   let profile = await fetchBusinessProfile();
@@ -109,7 +110,7 @@ export default async function RootLayout({ children }) {
           <div className="flex flex-col justify-between min-h-[100vh] items-stretch">
             <div>
               <Navbar profile={profile} checkoutInfo={checkoutinfo} />
-              {children}
+              {profile.active ? children : <Expired />}
             </div>
             <Footer profile={profile} />
           </div>

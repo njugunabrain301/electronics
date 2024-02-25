@@ -38,12 +38,24 @@ export default async function Page({ params }) {
   let type = category;
   let wearables = [];
   let profile = {};
+  let filteredProducts = [];
+  let addedIDs = [];
 
   let res = await fetchProducts();
   products = res.data;
 
-  products = products.filter((prod) => {
-    return prod.category === category || prod.subcategory === category;
+  filteredProducts = products.map((prod) => {
+    if (prod.brand === category) {
+      addedIDs.push(prod._id);
+      return prod;
+    }
+  });
+  products.map((prod) => {
+    if (prod.category === category || prod.subcategory === category) {
+      if (!addedIDs.includes(prod._id)) {
+        filteredProducts.push(prod);
+      }
+    }
   });
 
   res = await fetchWearables();
@@ -55,7 +67,7 @@ export default async function Page({ params }) {
   return (
     <div>
       <FilteredProducts
-        productList={products}
+        productList={filteredProducts}
         type={type}
         wearables={wearables}
         profile={profile}

@@ -387,15 +387,17 @@ const Timeless = ({ profile, checkoutInfo }) => {
               </svg>
               <span className="hidden md:block">&nbsp;&nbsp; Home</span>
             </Link>
-            <div className="mt-[-15px]">
-              <MySearchField
-                label="Search"
-                onChange={(e) => setSearch(e.target.value)}
-                value={search}
-                onClick={() => applySearch()}
-                template={"Timeless"}
-                inverted={true}
-              />
+            <div className="mt-[-7px] md:mt-[-10px]">
+              {profile.active && (
+                <MySearchField
+                  label="Search"
+                  onChange={(e) => setSearch(e.target.value)}
+                  value={search}
+                  onClick={() => applySearch()}
+                  template={"Timeless"}
+                  inverted={true}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -404,7 +406,7 @@ const Timeless = ({ profile, checkoutInfo }) => {
           <Image
             src={profile.holiday.centerBanner}
             alt={profile.holiday.name}
-            className="absolute h-[100%] object-contain left-[50%] translate-x-[-50%] w-fit"
+            className="hidden md:block absolute h-[100%] object-contain left-[50%] translate-x-[-50%] w-fit"
           />
         )}
 
@@ -425,9 +427,15 @@ const Timeless = ({ profile, checkoutInfo }) => {
               />
             </svg>
 
-            <span className="hidden md:block">
-              &nbsp;&nbsp; {profile.email}
-            </span>
+            {profile.holiday ? (
+              <span className="hidden lg:block">
+                &nbsp;&nbsp; {profile.email}
+              </span>
+            ) : (
+              <span className="hidden md:block">
+                &nbsp;&nbsp; {profile.email}
+              </span>
+            )}
           </a>
 
           <a href={"tel: " + profile.phone} className="flex ml-4">
@@ -451,6 +459,36 @@ const Timeless = ({ profile, checkoutInfo }) => {
           </a>
         </p>
       </div>
+
+      {profile.holiday && (
+        <div
+          className={
+            "p-4 w-full flex items-center justify-between mx-auto relative md:hidden h-[50px]"
+          }
+        >
+          {profile.holiday && (
+            <Image
+              src={profile.holiday.sideBanner}
+              alt={profile.holiday.name}
+              className="absolute h-[95%] object-contain left-[2px] md:left-[10px] w-fit"
+            />
+          )}
+          {profile.holiday && (
+            <Image
+              src={profile.holiday.centerBanner}
+              alt={profile.holiday.name}
+              className="md:hidden absolute h-[100%] object-contain left-[50%] translate-x-[-50%] w-fit"
+            />
+          )}
+          {profile.holiday && (
+            <Image
+              src={profile.holiday.sideBanner}
+              alt={profile.holiday.name}
+              className="absolute h-[95%] object-contain right-[2px] md:right-[10px] w-fit"
+            />
+          )}
+        </div>
+      )}
     </>
   );
 };

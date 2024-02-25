@@ -134,7 +134,10 @@ const Timeless = ({
 
     return str.replace(/(<([^>]+)>)/gi, "");
   }
-  const moffers = [...offers, "WhatsApp us for instant assistance!"];
+  const moffers = [...offers];
+  let pkg = profile.package.toLowerCase();
+  const [active, setActive] = useState(1);
+
   return (
     <div
       className=""
@@ -143,7 +146,7 @@ const Timeless = ({
         color: theme.palette.text.base,
       }}
     >
-      <p className="text-sm md:text-base ml-2">
+      <p className="text-sm md:text-base ml-2 mt-2">
         <Link className="font-bold" href={"/"}>
           Home
         </Link>{" "}
@@ -168,7 +171,7 @@ const Timeless = ({
               placeholder="blur"
               blurDataURL={blurCardImage(selectedImage)}
             />
-            <div className="w-full flex justify-between md:justify-center items-center py-2 md:p-2">
+            <div className="w-full flex justify-start items-center py-2 md:p-2">
               <div
                 className="w-[120px] max-w-[20%] m-1"
                 style={{ aspectRatio: "3/2" }}
@@ -213,7 +216,7 @@ const Timeless = ({
             </div>
           </div>
           <div className="min-w-[300px] p-2 w-[100%]">
-            <div className="max-w-lg">
+            <div className="">
               <div className="pb-4">
                 <h1 className="text-2xl font-inter font-bold tracking-normal leading-none">
                   {product.subcategory === "Vehicles" &&
@@ -239,21 +242,23 @@ const Timeless = ({
                     ? product.category
                     : product.category + ": " + product.subcategory}
                 </p>
-                {product.condition && (
-                  <p className="text-sm">{"Condition: " + product.condition}</p>
-                )}
-                <p
-                  className="flex text-sm font-bold"
-                  style={{ color: theme.palette.text.alt }}
-                >
-                  {returns.accept && "* We accept returns "}
-
-                  {shipping.accept
-                    ? shipping.guaranteeCourier
-                      ? "* Our couriers ensure damage-free delivery. Your item will reach Nakuru in 1 day or less"
-                      : "* This product is available for shipping"
-                    : "* This item is available for in-store pickup"}
-                </p>
+                <div className="flex flex-wrap">
+                  {product.condition && (
+                    <p className="text-sm border-r pr-3 mr-3">
+                      {"Condition: " + product.condition}
+                    </p>
+                  )}
+                  <p className="flex text-sm border-r pr-3 mr-3">
+                    {returns.accept && "We accept returns "}
+                  </p>
+                  <p className="text-sm">
+                    {shipping.accept
+                      ? shipping.guaranteeCourier
+                        ? "Guaranteed damage-free delivery."
+                        : "Shipping Available"
+                      : "In-store pickup"}
+                  </p>
+                </div>
               </div>
               {product.offer && (
                 <p className="text-orange-700 text-sm font-inter font-bold tracking-normal leading-none pb-4">
@@ -512,17 +517,141 @@ const Timeless = ({
         id="more-details"
         className="p-4 pb-8 flex-wrap md:flex-nowrap w-[98%] mx-auto max-w-7xl"
       >
-        <div>
-          <p className="text-lg">DESCRIPTION</p>
-        </div>
-        <div>
+        <div className="flex mb-4">
           <p
-            className="text-l font-inter tracking-normal leading-none pb-4"
-            dangerouslySetInnerHTML={{
-              __html: cleanHTML(product.description),
+            className="text-lg px-3 mr-2 text-center cursor-pointer"
+            style={{
+              borderBottom:
+                active === 1
+                  ? "solid 4px " + theme.palette.highlight.main
+                  : "solid 2px",
+              color: active === 1 ? theme.palette.highlight.main : "inherit",
+              fontWeight: active === 1 ? "bold" : "normal",
             }}
-          ></p>
+            onClick={() => setActive(1)}
+          >
+            DESCRIPTION
+          </p>
+          {pkg !== "starter" && product.specs && product.specs.length > 0 && (
+            <p
+              className=" px-3 mr-2 cursor-pointer"
+              style={{
+                borderBottom:
+                  active === 2
+                    ? "solid 4px " + theme.palette.highlight.main
+                    : "solid 2px",
+                color: active === 2 ? theme.palette.highlight.main : "inherit",
+                fontWeight: active === 2 ? "bold" : "normal",
+              }}
+              onClick={() => setActive(2)}
+            >
+              SPECS
+            </p>
+          )}
+          {pkg !== "starter" && product.faqs && product.faqs.length > 0 && (
+            <p
+              className=" px-3 mr-2 cursor-pointer"
+              style={{
+                borderBottom:
+                  active === 3
+                    ? "solid 4px " + theme.palette.highlight.main
+                    : "solid 2px",
+                color: active === 3 ? theme.palette.highlight.main : "inherit",
+                fontWeight: active === 3 ? "bold" : "normal",
+              }}
+              onClick={() => setActive(3)}
+            >
+              FAQs
+            </p>
+          )}
+          {pkg !== "starter" &&
+            product.reviews &&
+            product.reviews.length > 0 && (
+              <p
+                className=" px-3 mr-2 cursor-pointer"
+                style={{
+                  borderBottom:
+                    active === 4
+                      ? "solid 4px " + theme.palette.highlight.main
+                      : "solid 2px",
+                  color:
+                    active === 4 ? theme.palette.highlight.main : "inherit",
+                  fontWeight: active === 4 ? "bold" : "normal",
+                }}
+                onClick={() => setActive(4)}
+              >
+                REVIEWS
+              </p>
+            )}
         </div>
+        {active === 1 && (
+          <div>
+            <p
+              className="text-l font-inter tracking-normal leading-none pb-4"
+              dangerouslySetInnerHTML={{
+                __html: cleanHTML(product.description),
+              }}
+            ></p>
+          </div>
+        )}
+        {active === 2 && (
+          <div>
+            <div className="text-l font-inter tracking-normal leading-none pb-4 rounded-md">
+              {product.specs.map((spec, idx) => {
+                return (
+                  <div
+                    key={idx}
+                    className=" p-2 my-2"
+                    style={{
+                      backgroundColor:
+                        idx % 2 === 0
+                          ? theme["theme-type"] === "light"
+                            ? "#00000010"
+                            : "#ffffff10"
+                          : "transparent",
+                    }}
+                  >
+                    <b>{spec.name + ": "}</b>
+                    <span>{spec.detail}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+        {active === 3 && (
+          <div>
+            <p className="text-l font-inter tracking-normal leading-none pb-4 rounded-md">
+              {product.faqs.map((faq, idx) => {
+                let qsn = faq.question.trim();
+                qsn = qsn.endsWith("?") ? qsn : qsn + "? ";
+                return (
+                  <div
+                    key={idx}
+                    className=" p-2 my-2"
+                    style={{
+                      borderBottom:
+                        "solid 1px " +
+                        (theme["theme-type"] === "light"
+                          ? "#00000010"
+                          : "#ffffff10"),
+                    }}
+                  >
+                    <b>{qsn}</b>
+                    <span>{faq.answer}</span>
+                  </div>
+                );
+              })}
+            </p>
+          </div>
+        )}
+        {active === 4 && (
+          <div>
+            <p className="text-l font-inter tracking-normal leading-none pb-4">
+              REVIEWS
+            </p>
+          </div>
+        )}
       </div>
       <div>
         <ProductSection

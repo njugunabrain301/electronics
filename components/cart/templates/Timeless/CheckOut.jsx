@@ -26,6 +26,7 @@ function Checkout({
   let [subCounties, setSubCounties] = useState([]);
   let [couriers, setCouriers] = useState([]);
   let [deliveryCost, setDeliveryCost] = useState(0);
+  let [deliveryTime, setDeliveryTime] = useState("");
   let user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : {};
@@ -46,7 +47,6 @@ function Checkout({
   const [name, setName] = useState(user.name ? user.name : "");
   const [email, setEmail] = useState(user.email ? user.email : "");
   const [phone, setPhone] = useState(user.phone ? user.phone : "");
-  const [createAcct, setCreate] = useState(false);
 
   const setUpMode = (mode) => {
     setMode(mode);
@@ -161,6 +161,35 @@ function Checkout({
       setDeliveryCost(0);
     }
   };
+
+  const getDeliveryTime = (v) => {
+    if (county !== "" && subcounty !== "" && v) {
+      let time = "";
+      deliveryLocations.map((loc) => {
+        if (loc._id === v.id) {
+          time = loc.time;
+        }
+        return loc;
+      });
+      if (time > 0) {
+        let days = time / 24;
+        let hours = time % 24;
+        if (days > 0) {
+          time = days > 1 ? days + " days " : days + " day ";
+        } else {
+          time = "";
+        }
+        if (hours > 0) {
+          time += hours > 1 ? hours + " hours" : hours + " hour";
+        }
+      } else {
+        time = "";
+      }
+      setDeliveryTime(time);
+    } else {
+      setDeliveryTime("");
+    }
+  };
   let { setCart, cart } = useGlobalContext();
   const [c_error, setCError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -218,7 +247,7 @@ function Checkout({
 
   const openSection = (sec) => {
     setCError("");
-    if (sec === 1) {
+    if (sec === 2) {
       if (name === "" || email === "" || phone === "") {
         setCError("Fill in all profile information");
         return;
@@ -234,9 +263,9 @@ function Checkout({
         return;
       }
       setSection(1);
-    } else if (sec === 2) {
+    } else if (sec === 1) {
       if (county === "" || subcounty === "" || courier === "") {
-        setCError("Fill in all Fields");
+        setCError("Please select a delivery solution");
         return;
       } else {
         setSection(sec);
@@ -328,8 +357,8 @@ function Checkout({
                 }}
                 onClick={() => openSection(0)}
               >
-                <Person />
-                &nbsp;Profile
+                <LocalShipping />
+                &nbsp;Delivery
               </li>
               <li
                 className="p-2 w-[190px] text-center border-b-2 cursor-pointer flex items-center justify-center"
@@ -346,8 +375,8 @@ function Checkout({
                 }}
                 onClick={() => openSection(1)}
               >
-                <LocalShipping />
-                &nbsp;Delivery
+                <Person />
+                &nbsp;Profile
               </li>
               {showPrice && (
                 <li
@@ -370,7 +399,7 @@ function Checkout({
                 </li>
               )}
             </ul>
-            {section === 0 && (
+            {section === 1 && (
               <div>
                 <div className="relative min-w-[200px] my-2">
                   <TextField
@@ -459,7 +488,7 @@ function Checkout({
                 </Typography>
               </div>
             )}
-            {section === 1 && (
+            {section === 0 && (
               <div>
                 <div className="relative min-w-[200px] my-2">
                   <Autocomplete
@@ -640,6 +669,7 @@ function Checkout({
                     name="type"
                     onChange={(e, v) => {
                       getDeliveryFee(v);
+                      getDeliveryTime(v);
                       setCourier(v);
                       setCError("");
                     }}
@@ -652,6 +682,12 @@ function Checkout({
                       deliveryCost +
                       " " +
                       (payOnDelivery ? " (Pay on delivery)" : "")}
+                  </Typography>
+                )}
+                {deliveryTime && (
+                  <Typography style={{ fontSize: "11pt" }}>
+                    Transit Time:
+                    {" " + deliveryTime}
                   </Typography>
                 )}
               </div>
@@ -792,30 +828,30 @@ function Checkout({
 
             <div className="">
               {error && (
-                <Alert
-                  className="flex align-items-center justify-center"
+                <div
+                  className="flex align-items-center justify-center rounded-lg p-[10px]"
                   style={{
-                    backgroundColor: theme.palette.error.main,
+                    backgroundColor: "indianred", //theme.palette.error.main,
                     color: theme.palette.error.contrastText,
                   }}
                 >
                   <p className="font-medium flex items-center text-center tracking-normal leading-none">
                     {error}
                   </p>
-                </Alert>
+                </div>
               )}
               {c_error && (
-                <Alert
-                  className="flex align-items-center justify-center"
+                <div
+                  className="flex align-items-center justify-center rounded-lg p-[10px]"
                   style={{
-                    backgroundColor: theme.palette.error.main,
+                    backgroundColor: "indianred", //theme.palette.error.main,
                     color: theme.palette.error.contrastText,
                   }}
                 >
                   <p className="font-medium flex items-center text-center tracking-normal leading-none">
                     {c_error}
                   </p>
-                </Alert>
+                </div>
               )}
             </div>
           </div>

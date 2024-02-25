@@ -45,7 +45,12 @@ function SliderCarousel({ products }) {
               />
             </Link>
             <div className=" absolute inset-x-[15%] bg-gray-600 bg-opacity-50 bottom-5 hidden p-1 rounded-md text-center text-white md:block">
-              <h5 className="text-xl">{item.name}</h5>
+              <h5 className="text-xl hidden lg:block">{item.name}</h5>
+              <h5 className="text-xl lg:hidden ">
+                {item.name.length > 40
+                  ? item.name.slice(0, 40) + "..."
+                  : item.name}
+              </h5>
               <p>{removeTags(item.description).slice(0, 40) + "..."}</p>
             </div>
           </div>
