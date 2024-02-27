@@ -50,6 +50,9 @@ export async function generateMetadata() {
       ],
       card: "summary_large_image",
     },
+    other: {
+      "google-site-verification": profile.googleMerchantTag,
+    },
   };
   if (icon) {
     metadata.icons = {
