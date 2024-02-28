@@ -80,7 +80,7 @@ export default async function RootLayout({ children }) {
   }
 
   res = await getCheckoutInfo();
-  let checkoutinfo = {};
+  let checkoutinfo = { ...res.data };
 
   if (res.success) {
     checkoutinfo.paymentOptions = res.data.paymentOptions;

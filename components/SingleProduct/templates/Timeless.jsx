@@ -234,23 +234,32 @@ const Timeless = ({
                     </>
                   )}
                 </h1>
-                <p
+                {/* <p
                   className="text-sm"
                   style={{ color: theme.palette.text.alt }}
                 >
                   {product.category === product.subcategory
                     ? product.category
                     : product.category + ": " + product.subcategory}
-                </p>
-                <div className="flex flex-wrap">
+                </p> */}
+                <div
+                  className="flex flex-wrap"
+                  style={{ color: theme.palette.text.alt }}
+                >
                   {product.condition && (
                     <p className="text-sm border-r pr-3 mr-3">
-                      {"Condition: " + product.condition}
+                      {product.condition.toLowerCase() === "new"
+                        ? "Brand New"
+                        : product.condition}
                     </p>
                   )}
-                  <p className="flex text-sm border-r pr-3 mr-3">
-                    {returns.accept && "We accept returns "}
-                  </p>
+
+                  {returns.accept && (
+                    <p className="flex text-sm border-r pr-3 mr-3">
+                      We accept returns
+                    </p>
+                  )}
+
                   <p className="text-sm">
                     {shipping.accept
                       ? shipping.guaranteeCourier
@@ -387,7 +396,14 @@ const Timeless = ({
                 )}
               </div>
               {moffers && (
-                <div>
+                <div
+                  style={{
+                    backgroundColor: theme.palette.panel.main,
+                    borderColor: theme.palette.panel.border,
+                    color: theme.palette.text.base,
+                  }}
+                  className="px-3 rounded-md"
+                >
                   <Carousel
                     animation="slide"
                     navButtonsAlwaysVisible={false}
@@ -402,15 +418,7 @@ const Timeless = ({
                     }}
                   >
                     {moffers.map((offer, index) => (
-                      <p
-                        className="text-center px-3 rounded-md"
-                        key={index}
-                        style={{
-                          backgroundColor: theme.palette.panel.main,
-                          borderColor: theme.palette.panel.border,
-                          color: theme.palette.text.base,
-                        }}
-                      >
+                      <p className="text-center" key={index}>
                         {offer}
                       </p>
                     ))}
@@ -455,6 +463,7 @@ const Timeless = ({
                         price: product.price,
                         amount: 1,
                         totalPrice: product.price,
+                        handlingTime: product.handlingTime,
                       })
                     }
                     id="add-btn"
@@ -519,12 +528,12 @@ const Timeless = ({
       >
         <div className="flex mb-4">
           <p
-            className="text-lg px-3 mr-2 text-center cursor-pointer"
+            className="text-sm md:text-lg px-3 mr-2 text-center cursor-pointer"
             style={{
               borderBottom:
                 active === 1
-                  ? "solid 4px " + theme.palette.highlight.main
-                  : "solid 2px",
+                  ? "solid 2px " + theme.palette.highlight.main
+                  : "solid 1px",
               color: active === 1 ? theme.palette.highlight.main : "inherit",
               fontWeight: active === 1 ? "bold" : "normal",
             }}
@@ -534,12 +543,12 @@ const Timeless = ({
           </p>
           {pkg !== "starter" && product.specs && product.specs.length > 0 && (
             <p
-              className=" px-3 mr-2 cursor-pointer"
+              className="text-sm md:text-lg px-3 mr-2 cursor-pointer"
               style={{
                 borderBottom:
                   active === 2
-                    ? "solid 4px " + theme.palette.highlight.main
-                    : "solid 2px",
+                    ? "solid 2px " + theme.palette.highlight.main
+                    : "solid 1px",
                 color: active === 2 ? theme.palette.highlight.main : "inherit",
                 fontWeight: active === 2 ? "bold" : "normal",
               }}
@@ -550,12 +559,12 @@ const Timeless = ({
           )}
           {pkg !== "starter" && product.faqs && product.faqs.length > 0 && (
             <p
-              className=" px-3 mr-2 cursor-pointer"
+              className="text-sm md:text-lg px-3 mr-2 cursor-pointer"
               style={{
                 borderBottom:
                   active === 3
-                    ? "solid 4px " + theme.palette.highlight.main
-                    : "solid 2px",
+                    ? "solid 2px " + theme.palette.highlight.main
+                    : "solid 1px",
                 color: active === 3 ? theme.palette.highlight.main : "inherit",
                 fontWeight: active === 3 ? "bold" : "normal",
               }}
@@ -568,12 +577,12 @@ const Timeless = ({
             product.reviews &&
             product.reviews.length > 0 && (
               <p
-                className=" px-3 mr-2 cursor-pointer"
+                className="text-sm md:text-lg px-3 mr-2 cursor-pointer"
                 style={{
                   borderBottom:
                     active === 4
-                      ? "solid 4px " + theme.palette.highlight.main
-                      : "solid 2px",
+                      ? "solid 2px " + theme.palette.highlight.main
+                      : "solid 1px",
                   color:
                     active === 4 ? theme.palette.highlight.main : "inherit",
                   fontWeight: active === 4 ? "bold" : "normal",
@@ -587,7 +596,7 @@ const Timeless = ({
         {active === 1 && (
           <div>
             <p
-              className="text-l font-inter tracking-normal leading-none pb-4"
+              className="font-inter tracking-normal leading-none pb-4"
               dangerouslySetInnerHTML={{
                 __html: cleanHTML(product.description),
               }}

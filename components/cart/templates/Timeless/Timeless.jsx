@@ -278,6 +278,7 @@ const Timeless = ({
             showPrice={showPrice}
             totalPrice={totalPrice}
             selectedTheme={selectedTheme}
+            cart={cart}
           />
         </>
       )}

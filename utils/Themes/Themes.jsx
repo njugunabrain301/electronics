@@ -306,7 +306,7 @@ export const MUIThemes = {
         main: "#512D6D !important",
         // light: "#",
         // dark: "#",
-        contrastText: "#512D6D",
+        contrastText: "#ffffff",
       },
       input: {
         main: "#512D6D",

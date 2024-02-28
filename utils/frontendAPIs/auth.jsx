@@ -30,6 +30,15 @@ export const updateProfile = async (payload) => {
   }
 };
 
+export const deleteProfile = async (payload) => {
+  try {
+    let res = await axios.delete("/profile", payload);
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+};
+
 export const resetPassword = async (payload) => {
   try {
     let res = await axios.post("/reset-password", payload);

@@ -11,7 +11,13 @@ import { Autocomplete, Button, Paper, Switch, TextField } from "@mui/material";
 import { useGlobalContext } from "@/Context/context";
 import { anonymousCheckout, checkout } from "@/utils/frontendAPIs/cart";
 import Link from "next/link";
-import { AttachMoney, LocalShipping, Person } from "@mui/icons-material";
+import {
+  AttachMoney,
+  CheckCircleOutline,
+  LocalShipping,
+  Lock,
+  Person,
+} from "@mui/icons-material";
 
 function Checkout({
   closeModal,
@@ -77,7 +83,6 @@ function Checkout({
 
       setPayOptions(opt);
     }
-    console.log(paymentInfo);
   }, [paymentOptions, mode]);
 
   const setUpSubCounties = (county) => {
@@ -162,6 +167,7 @@ function Checkout({
     }
   };
 
+  // console.log(checkoutInfo.shipping);
   const getDeliveryTime = (v) => {
     if (county !== "" && subcounty !== "" && v) {
       let time = "";
@@ -171,21 +177,82 @@ function Checkout({
         }
         return loc;
       });
-      if (time > 0) {
-        let days = time / 24;
-        let hours = time % 24;
-        if (days > 0) {
-          time = days > 1 ? days + " days " : days + " day ";
+
+      let currTime = new Date();
+      let cuttOff = timeToDate(checkoutInfo.shipping.cutoffTime);
+
+      let arrivalTime = new Date();
+      if (isBefore(currTime, cuttOff)) {
+        //add transit time to handling time
+        let handlingTime = 0;
+        let unit = "hours";
+        let amount = 0;
+        //get handling time and
+        if (checkoutInfo.shipping.handlingType === "constant") {
+          unit = checkoutInfo.shipping.handlingTime.unit;
+          amount = checkoutInfo.shipping.handlingTime.amount;
         } else {
-          time = "";
+          unit = "hours";
+          amount = 1;
+          cart.map((itm) => {
+            if (
+              itm.handlingTime &&
+              itm.handlingTime.unit.toLowerCase() === "weeks" &&
+              (unit === "days" || unit === "hours")
+            ) {
+              unit = "weeks";
+              amount = itm.handlingTime.amount;
+            } else if (
+              itm.handlingTime &&
+              itm.handlingTime.unit.toLowerCase() === "days" &&
+              unit === "hours"
+            ) {
+              unit = "days";
+              amount = itm.handlingTime.amount;
+            } else if (
+              itm.handlingTime &&
+              itm.handlingTime.unit.toLowerCase() === unit
+            ) {
+              amount =
+                itm.handlingTime.amount > amount
+                  ? itm.handlingTime.amount
+                  : amount;
+            } else if (itm.handlingTime) {
+              unit = itm.handlingTime.unit.toLowerCase();
+              amount = itm.handlingTime.amount;
+            }
+          });
+          console.log(unit, amount);
         }
-        if (hours > 0) {
-          time += hours > 1 ? hours + " hours" : hours + " hour";
-        }
+
+        if (unit.toLowerCase() === "weeks") handlingTime = amount * 7 * 24;
+        else if (unit.toLowerCase() === "days") handlingTime = amount * 24;
+        else if (unit.toLowerCase() === "hours") handlingTime = amount;
+        time += handlingTime;
+        time = time * 60;
+        arrivalTime.setMinutes(arrivalTime.getMinutes() + time);
       } else {
-        time = "";
+        time += 24;
+        arrivalTime = timeToDate(checkoutInfo.shipping.earliestShipTime);
+
+        time = time * 60;
+        arrivalTime.setMinutes(arrivalTime.getMinutes() + time);
       }
-      setDeliveryTime(time);
+      let days = dateDiffDays(arrivalTime, new Date());
+      arrivalTime.get;
+      setDeliveryTime(
+        arrivalTime.toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "numeric",
+          hour12: true,
+        }) +
+          " " +
+          (days === 0
+            ? "today"
+            : days === 1
+            ? "tomorrow"
+            : "on " + arrivalTime.toDateString())
+      );
     } else {
       setDeliveryTime("");
     }
@@ -470,16 +537,41 @@ function Checkout({
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
-
-                <Typography style={{ fontSize: "11pt", fontStyle: "italic" }}>
-                  We handle your provided information responsibly and securely.{" "}
-                  <Link
-                    href={"/privacypolicy.html"}
-                    target="_blank"
-                    className="underline"
-                  >
-                    Privacy Policy
-                  </Link>
+                <Typography
+                  style={{
+                    fontSize: "11pt",
+                    fontStyle: "italic",
+                    display: "flex",
+                  }}
+                >
+                  <CheckCircleOutline
+                    style={{
+                      fontSize: "13pt",
+                      marginTop: "2px",
+                      marginRight: "2px",
+                    }}
+                  />{" "}
+                  You can delete your account easily at any time
+                </Typography>
+                <Typography
+                  style={{
+                    fontSize: "11pt",
+                    fontStyle: "italic",
+                    display: "flex",
+                  }}
+                >
+                  <Lock style={{ fontSize: "14pt", marginRight: "2px" }} />{" "}
+                  <span>
+                    We handle your provided information responsibly and
+                    securely.{" "}
+                    <Link
+                      href={"/privacypolicy.html"}
+                      target="_blank"
+                      className="underline"
+                    >
+                      Privacy Policy
+                    </Link>
+                  </span>
                   {/* <>Create Account{" "}
                   <Switch
                     checked={createAcct}
@@ -686,7 +778,7 @@ function Checkout({
                 )}
                 {deliveryTime && (
                   <Typography style={{ fontSize: "11pt" }}>
-                    Transit Time:
+                    Arrives before
                     {" " + deliveryTime}
                   </Typography>
                 )}
@@ -918,3 +1010,48 @@ function Checkout({
 }
 
 export default Checkout;
+
+const timeToDate = (time) => {
+  // Get the current date
+  let date = new Date();
+
+  // Parse the time string
+  let [hours, minutes] = time.split(":").map(Number);
+
+  // Set the hours and minutes of the date object
+  date.setHours(hours, minutes, 0, 0);
+
+  return date;
+};
+
+// Returns true if date1 is before date2
+const isBefore = (date1, date2) => {
+  if (date1.getHours() > date2.getHours()) {
+    // console.log("Current time is later than the target time.");
+    return false;
+  } else if (date1.getHours() < date2.getHours()) {
+    // console.log("Current time is earlier than the target time.");
+    return true;
+  } else {
+    if (date1.getMinutes() > date2.getMinutes()) {
+      // console.log("Current time is later than the target time.");
+      return false;
+    } else if (date1.getMinutes() < date2.getMinutes()) {
+      // console.log("Current time is earlier than the target time.");
+      return true;
+    } else {
+      // console.log("Current time is the same as the target time.");
+      return true;
+    }
+  }
+};
+
+const dateDiffDays = (date1, date2) => {
+  // Calculate the difference in milliseconds
+  if (
+    date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth()
+  )
+    return date1.getDate() - date2.getDate();
+  return 10;
+};

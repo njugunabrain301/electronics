@@ -42,6 +42,7 @@ export const GlobalContextProvider = ({
     setOpenAuth(false);
   };
   const theme = MUIThemes[profile.theme.toLowerCase()];
+  // const theme = MUIThemes["dawn"];
 
   const addToLocalCart = (item) => {
     let found = false;
