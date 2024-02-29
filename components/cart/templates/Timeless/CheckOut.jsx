@@ -36,7 +36,7 @@ function Checkout({
   let user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : {};
-  const [section, setSection] = useState(user.name ? 1 : 0);
+  const [section, setSection] = useState(0);
   let deliveryLocations = checkoutInfo.deliveryLocations;
   let paymentOptions = checkoutInfo.paymentOptions;
   const [payOptions, setPayOptions] = useState([]);
@@ -222,7 +222,6 @@ function Checkout({
               amount = itm.handlingTime.amount;
             }
           });
-          console.log(unit, amount);
         }
 
         if (unit.toLowerCase() === "weeks") handlingTime = amount * 7 * 24;
@@ -313,6 +312,7 @@ function Checkout({
   };
 
   const openSection = (sec) => {
+    // console.log(sec, "to be opened");
     setCError("");
     if (sec === 2) {
       if (name === "" || email === "" || phone === "") {
@@ -329,7 +329,7 @@ function Checkout({
         setCError("Invalid Email");
         return;
       }
-      setSection(1);
+      setSection(sec);
     } else if (sec === 1) {
       if (county === "" || subcounty === "" || courier === "") {
         setCError("Please select a delivery solution");
@@ -349,7 +349,6 @@ function Checkout({
       setName(user.name);
       setEmail(user.email);
       setPhone(user.phone);
-      setSection(1);
     } else {
       setName("");
       setEmail("");
@@ -830,6 +829,7 @@ function Checkout({
                   }}
                   style={{ margin: "10px 0" }}
                 />
+
                 {mode === "MPesa-Till" && (
                   <div>
                     <Typography className="m-0">
@@ -887,6 +887,12 @@ function Checkout({
                     Ksh.&nbsp;{Number(cartTotal) + Number(deliveryCost)}
                   </Typography>
                 </div>
+                {deliveryTime && (
+                  <Typography style={{ fontSize: "11pt", marginTop: "10px" }}>
+                    Expect the order to arrive on or before
+                    {" " + deliveryTime}
+                  </Typography>
+                )}
                 {mode !== "Payment on delivery" && (
                   <div style={{ margin: "10px 0" }}>
                     <TextField
@@ -954,7 +960,9 @@ function Checkout({
           <Button
             variant="contained"
             fullWidth
-            onClick={() => openSection(section + 1)}
+            onClick={() =>
+              openSection(section === 0 && authUser ? section + 2 : section + 1)
+            }
             color={"primary"}
           >
             Proceed

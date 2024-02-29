@@ -92,11 +92,7 @@ const Timeless = ({ profile }) => {
         </div>
         <div className="flex flex-col ml-[10px] sm:ml-[0]  w-[100%] sm:w-[30%]">
           <h3 className="font-bold">Customer Support</h3>
-          <Link
-            href={"/privacypolicy.html"}
-            className="text-sm"
-            target="_blank"
-          >
+          <Link href={"/privacypolicy"} className="text-sm" target="_blank">
             Privacy Policy
           </Link>
           <Link href={"/returns"} className="text-sm">
@@ -106,7 +102,7 @@ const Timeless = ({ profile }) => {
             Shipping Policy
           </Link>
           <Link
-            href={"/termsofservice.html"}
+            href={"/termsandconditions"}
             className="text-sm"
             target="_blank"
           >
