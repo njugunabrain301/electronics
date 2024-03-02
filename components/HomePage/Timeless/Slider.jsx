@@ -42,7 +42,7 @@ const Slider = ({ slider }) => {
             aspectRatio: "3 / 2",
             overflow: "hidden",
             position: "relative",
-            boxShadow: "0 0 15px gray",
+            boxShadow: "0 0 10px 5px #aaaaaa30",
           }}
         >
           {!carouselLoaded && (
@@ -61,7 +61,7 @@ const Slider = ({ slider }) => {
               initial={{ translateY: "100px", opacity: 0 }}
               animate={{ translateY: "0", opacity: 1 }}
               transition={{ duration: 1, delay: 0.15 }}
-              style={{ boxShadow: "0 0 15px gray" }}
+              style={{ boxShadow: "0 0 10px 5px #aaaaaa30" }}
             >
               <Link
                 href={
@@ -85,7 +85,7 @@ const Slider = ({ slider }) => {
               initial={{ translateY: "100px", opacity: 0 }}
               animate={{ translateY: "0", opacity: 1 }}
               transition={{ duration: 1, delay: 0.3 }}
-              style={{ boxShadow: "0 0 15px gray" }}
+              style={{ boxShadow: "0 0 10px 5px #aaaaaa30" }}
             >
               <Link
                 href={
@@ -111,7 +111,7 @@ const Slider = ({ slider }) => {
               initial={{ translateY: "100px", opacity: 0 }}
               animate={{ translateY: "0", opacity: 1 }}
               transition={{ duration: 1, delay: 0.45 }}
-              style={{ boxShadow: "0 0 15px gray" }}
+              style={{ boxShadow: "0 0 10px 5px #aaaaaa30" }}
             >
               <Link
                 href={
@@ -135,7 +135,7 @@ const Slider = ({ slider }) => {
               initial={{ translateY: "100px", opacity: 0 }}
               animate={{ translateY: "0", opacity: 1 }}
               transition={{ duration: 1, delay: 0.6 }}
-              style={{ boxShadow: "0 0 15px gray" }}
+              style={{ boxShadow: "0 0 10px 5px #aaaaaa30" }}
             >
               <Link
                 href={
