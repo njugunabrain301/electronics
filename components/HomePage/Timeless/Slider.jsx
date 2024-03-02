@@ -37,7 +37,7 @@ const Slider = ({ slider }) => {
           initial={{ translateY: "100px", opacity: 0 }}
           animate={{ translateY: "0", opacity: 1 }}
           transition={{ duration: 1 }}
-          className="w-[97%] sm:w-[97%] md:w-[48%] mb-2 minWidth-[200px] rounded-md"
+          className="w-[97%] sm:w-[97%] md:w-[48%] mb-2 minWidth-[200px] rounded-md shadow-lg"
           style={{
             aspectRatio: "3 / 2",
             overflow: "hidden",
@@ -50,16 +50,13 @@ const Slider = ({ slider }) => {
               style={{ position: "absolute", width: "100%", height: "100%" }}
             />
           )}
-          <SliderCarousel
-            products={sliderData}
-            className="rounded-md shadow-md"
-          />
+          <SliderCarousel products={sliderData} className="rounded-md" />
         </motion.div>
 
         <div className="flex justify-between flex-col sm:w-[100%] md:w-[48%]">
           <div className="w-[100%] flex justify-evenly">
             <motion.div
-              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300 shadow-md"
+              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300 shadow-lg"
               initial={{ translateY: "100px", opacity: 0 }}
               animate={{ translateY: "0", opacity: 1 }}
               transition={{ duration: 1, delay: 0.15 }}
@@ -82,7 +79,7 @@ const Slider = ({ slider }) => {
               </Link>
             </motion.div>
             <motion.div
-              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300 shadow-md"
+              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300 shadow-lg"
               initial={{ translateY: "100px", opacity: 0 }}
               animate={{ translateY: "0", opacity: 1 }}
               transition={{ duration: 1, delay: 0.3 }}
@@ -107,7 +104,7 @@ const Slider = ({ slider }) => {
           </div>
           <div className="w-[100%] flex justify-evenly">
             <motion.div
-              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300 shadow-md"
+              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300 shadow-lg"
               initial={{ translateY: "100px", opacity: 0 }}
               animate={{ translateY: "0", opacity: 1 }}
               transition={{ duration: 1, delay: 0.45 }}
@@ -130,7 +127,7 @@ const Slider = ({ slider }) => {
               </Link>
             </motion.div>
             <motion.div
-              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300 shadow-md"
+              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300 shadow-lg"
               initial={{ translateY: "100px", opacity: 0 }}
               animate={{ translateY: "0", opacity: 1 }}
               transition={{ duration: 1, delay: 0.6 }}
