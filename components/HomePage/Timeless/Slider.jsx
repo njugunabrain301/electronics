@@ -37,11 +37,12 @@ const Slider = ({ slider }) => {
           initial={{ translateY: "100px", opacity: 0 }}
           animate={{ translateY: "0", opacity: 1 }}
           transition={{ duration: 1 }}
-          className="w-[97%] sm:w-[97%] md:w-[48%] mb-2 minWidth-[200px] rounded-md shadow-lg"
+          className="w-[97%] sm:w-[97%] md:w-[48%] mb-2 minWidth-[200px] rounded-md"
           style={{
             aspectRatio: "3 / 2",
             overflow: "hidden",
             position: "relative",
+            boxShadow: "0 0 15px gray",
           }}
         >
           {!carouselLoaded && (
@@ -56,10 +57,11 @@ const Slider = ({ slider }) => {
         <div className="flex justify-between flex-col sm:w-[100%] md:w-[48%]">
           <div className="w-[100%] flex justify-evenly">
             <motion.div
-              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300 shadow-lg"
+              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300"
               initial={{ translateY: "100px", opacity: 0 }}
               animate={{ translateY: "0", opacity: 1 }}
               transition={{ duration: 1, delay: 0.15 }}
+              style={{ boxShadow: "0 0 15px gray" }}
             >
               <Link
                 href={
@@ -79,10 +81,11 @@ const Slider = ({ slider }) => {
               </Link>
             </motion.div>
             <motion.div
-              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300 shadow-lg"
+              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300"
               initial={{ translateY: "100px", opacity: 0 }}
               animate={{ translateY: "0", opacity: 1 }}
               transition={{ duration: 1, delay: 0.3 }}
+              style={{ boxShadow: "0 0 15px gray" }}
             >
               <Link
                 href={
@@ -104,10 +107,11 @@ const Slider = ({ slider }) => {
           </div>
           <div className="w-[100%] flex justify-evenly">
             <motion.div
-              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300 shadow-lg"
+              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300"
               initial={{ translateY: "100px", opacity: 0 }}
               animate={{ translateY: "0", opacity: 1 }}
               transition={{ duration: 1, delay: 0.45 }}
+              style={{ boxShadow: "0 0 15px gray" }}
             >
               <Link
                 href={
@@ -127,10 +131,11 @@ const Slider = ({ slider }) => {
               </Link>
             </motion.div>
             <motion.div
-              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300 shadow-lg"
+              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300"
               initial={{ translateY: "100px", opacity: 0 }}
               animate={{ translateY: "0", opacity: 1 }}
               transition={{ duration: 1, delay: 0.6 }}
+              style={{ boxShadow: "0 0 15px gray" }}
             >
               <Link
                 href={
