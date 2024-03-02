@@ -52,14 +52,14 @@ const Slider = ({ slider }) => {
           )}
           <SliderCarousel
             products={sliderData}
-            className="rounded-md shadow-sm"
+            className="rounded-md shadow-md"
           />
         </motion.div>
 
         <div className="flex justify-between flex-col sm:w-[100%] md:w-[48%]">
           <div className="w-[100%] flex justify-evenly">
             <motion.div
-              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300 shadow-sm"
+              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300 shadow-md"
               initial={{ translateY: "100px", opacity: 0 }}
               animate={{ translateY: "0", opacity: 1 }}
               transition={{ duration: 1, delay: 0.15 }}
@@ -82,7 +82,7 @@ const Slider = ({ slider }) => {
               </Link>
             </motion.div>
             <motion.div
-              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300 shadow-sm"
+              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300 shadow-md"
               initial={{ translateY: "100px", opacity: 0 }}
               animate={{ translateY: "0", opacity: 1 }}
               transition={{ duration: 1, delay: 0.3 }}
@@ -107,7 +107,7 @@ const Slider = ({ slider }) => {
           </div>
           <div className="w-[100%] flex justify-evenly">
             <motion.div
-              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300 shadow-sm"
+              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300 shadow-md"
               initial={{ translateY: "100px", opacity: 0 }}
               animate={{ translateY: "0", opacity: 1 }}
               transition={{ duration: 1, delay: 0.45 }}
@@ -130,7 +130,7 @@ const Slider = ({ slider }) => {
               </Link>
             </motion.div>
             <motion.div
-              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300 shadow-sm"
+              className="w-[48%] mb-2 rounded-md overflow-hidden bg-gray-300 shadow-md"
               initial={{ translateY: "100px", opacity: 0 }}
               animate={{ translateY: "0", opacity: 1 }}
               transition={{ duration: 1, delay: 0.6 }}

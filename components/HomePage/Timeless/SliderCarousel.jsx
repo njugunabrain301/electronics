@@ -10,6 +10,13 @@ function SliderCarousel({ products }) {
     );
     return img;
   };
+  const resizeSliderImageSmall = (img) => {
+    img = img.replace(
+      "https://storage.googleapis.com/test-bucket001/",
+      "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-600,h-400/"
+    );
+    return img;
+  };
 
   function removeTags(str) {
     if (str === null || str === "") return false;
@@ -40,7 +47,12 @@ function SliderCarousel({ products }) {
             >
               <img
                 src={resizeSliderImage(item.img)}
-                className="block w-full h-[100%] rounded-md"
+                className="hidden w-full h-[100%] rounded-md lg:block"
+                alt="..."
+              />
+              <img
+                src={resizeSliderImageSmall(item.img)}
+                className="block w-full h-[100%] rounded-md lg:hidden"
                 alt="..."
               />
             </Link>

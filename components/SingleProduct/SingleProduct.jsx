@@ -9,6 +9,8 @@ const SingleProduct = ({
   returns,
   shipping,
   offers,
+  unitsSold,
+  unitsRefunded,
 }) => {
   let template = profile.template;
   return (
@@ -21,6 +23,8 @@ const SingleProduct = ({
           categories={categories}
           returns={returns}
           shipping={shipping}
+          unitsSold={unitsSold}
+          unitsRefunded={unitsRefunded}
         />
       )}
       {template === "Timeless" && (
@@ -32,6 +36,8 @@ const SingleProduct = ({
           returns={returns}
           shipping={shipping}
           offers={offers}
+          unitsSold={unitsSold}
+          unitsRefunded={unitsRefunded}
         />
       )}
     </>

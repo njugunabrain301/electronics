@@ -66,6 +66,8 @@ export default async function Page({ params }) {
   let shipping = res.shipping;
   let returns = res.returns;
   let offers = res.offers;
+  let unitsSold = res.unitsSold;
+  let unitsRefunded = res.unitsRefunded;
 
   let others = res.others;
   let categories = res.categories;
@@ -153,6 +155,8 @@ export default async function Page({ params }) {
         shipping={shipping}
         returns={returns}
         offers={offers}
+        unitsRefunded={unitsRefunded}
+        unitsSold={unitsSold}
       ></SingleProduct>
       <WhatsappWidget text={product.name} />
     </div>

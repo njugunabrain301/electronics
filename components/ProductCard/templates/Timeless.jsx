@@ -25,7 +25,7 @@ const Timeless = ({
   const resizeCardImage = (img) => {
     img = img.replace(
       "https://storage.googleapis.com/test-bucket001/",
-      "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-600,h-400/"
+      "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-400,h-267/"
     );
     return img;
   };

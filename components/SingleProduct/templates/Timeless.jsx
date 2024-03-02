@@ -21,7 +21,7 @@ import NavigateButtons from "@/components/NavigateButtons/NavigateButtons";
 import mpesa from "@/assets/images/lipanampesa.png";
 import Link from "next/link";
 import Carousel from "react-material-ui-carousel";
-import { PowerOffOutlined } from "@mui/icons-material";
+import { Check, PowerOffOutlined } from "@mui/icons-material";
 
 const Timeless = ({
   product,
@@ -31,6 +31,8 @@ const Timeless = ({
   shipping,
   returns,
   offers,
+  unitsSold,
+  unitsRefunded,
 }) => {
   const [selectedImage, setSelectedImage] = useState(product.img);
   const { handleOpenAuth, setCart } = useGlobalContext();
@@ -39,6 +41,31 @@ const Timeless = ({
   const showPrice = profile.showPrice;
 
   const { theme, addToLocalCart } = useGlobalContext();
+  const resizeProdImageSmall = (img) => {
+    img = img.replace(
+      "https://storage.googleapis.com/test-bucket001/",
+      "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-600/"
+    );
+    return img;
+  };
+  const resizeProdImageLarge = (img) => {
+    img = img.replace(
+      "https://storage.googleapis.com/test-bucket001/",
+      "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-900/"
+    );
+    return img;
+  };
+  // useEffect(() => {
+  //   if (
+  //     selectedImage.includes("https://storage.googleapis.com/test-bucket001/")
+  //   ) {
+  //     let img = selectedImage.replace(
+  //       "https://storage.googleapis.com/test-bucket001/",
+  //       "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-600/"
+  //     );
+  //     setSelectedImage(img);
+  //   }
+  // }, [selectedImage]);
 
   const productSize = product
     ? product.sizes && product.sizes.length > 0
@@ -163,8 +190,17 @@ const Timeless = ({
         <div className="flex justify-center items-center p-4 pb-8 flex-wrap md:flex-nowrap w-[98%] mx-auto max-w-7xl">
           <div className="flex justify-center items-center m-0 md:m-0 flex-col max-w-[100%] min-w-[50%]">
             <Image
-              className="max-h-600px rounded-lg w-[100%] max-w-[1500px]"
-              src={selectedImage}
+              className="max-h-600px rounded-lg w-[100%] max-w-[1500px] hidden lg:block"
+              src={resizeProdImageLarge(selectedImage)}
+              alt={product.name}
+              width={500}
+              height={500}
+              placeholder="blur"
+              blurDataURL={blurCardImage(selectedImage)}
+            />
+            <Image
+              className="max-h-600px rounded-lg w-[100%] max-w-[1500px] lg:hidden"
+              src={resizeProdImageSmall(selectedImage)}
               alt={product.name}
               width={500}
               height={500}
@@ -274,19 +310,49 @@ const Timeless = ({
                   {product.offer}% OFF
                 </p>
               )}
-              <p className="text-l font-inter tracking-normal leading-none pb-4">
-                {removeTags(product.description).slice(0, 150)}
-                {product.description.length > 150 && (
-                  <a
-                    href="#more-details"
-                    className=""
-                    style={{ color: theme.palette.text.alt }}
-                  >
-                    {" "}
-                    ...more details
-                  </a>
-                )}
-              </p>
+              {unitsSold > 0 && (
+                <p className="text-l font-inter tracking-normal leading-none pb-4">
+                  {unitsSold +
+                    (unitsSold === 1 ? " unit sold " : " units sold ") +
+                    unitsRefunded +
+                    (unitsRefunded === 1 ? " refunded " : " refunded ")}
+                </p>
+              )}
+              {product.USPs.length > 0 ? (
+                <div>
+                  {product.USPs.map((usp, idx) => {
+                    return (
+                      <p key={idx + "-" + usp}>
+                        <Check /> {" " + usp}
+                      </p>
+                    );
+                  })}
+                  <p>
+                    <a
+                      href="#more-details"
+                      className=""
+                      style={{ color: theme.palette.text.alt }}
+                    >
+                      {" "}
+                      See Product Description
+                    </a>
+                  </p>
+                </div>
+              ) : (
+                <p className="text-l font-inter tracking-normal leading-none pb-4">
+                  {removeTags(product.description).slice(0, 150)}
+                  {product.description.length > 150 && (
+                    <a
+                      href="#more-details"
+                      className=""
+                      style={{ color: theme.palette.text.alt }}
+                    >
+                      {" "}
+                      ...more details
+                    </a>
+                  )}
+                </p>
+              )}
               <div className="pb-4">
                 {product.sizes && product.sizes.length > 0 && (
                   <>
