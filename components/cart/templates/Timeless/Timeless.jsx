@@ -58,6 +58,14 @@ const Timeless = ({
     return str.replace(/(<([^>]+)>)/gi, "");
   }
 
+  const resizeProdImage = (img) => {
+    img = img.replace(
+      "https://storage.googleapis.com/test-bucket001/",
+      "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-500/"
+    );
+    return img;
+  };
+
   return (
     <div className="flex justify-center items-center">
       {!openCheckout ? (
@@ -115,7 +123,7 @@ const Timeless = ({
                           <div>
                             <Image
                               className="h-[125px] rounded-md"
-                              src={item.img}
+                              src={resizeProdImage(item.img)}
                               alt={item.name}
                               width={150}
                               height={100}
@@ -183,9 +191,9 @@ const Timeless = ({
                             </div>
                           </div>
                         </div>
-                        <div className="max-w-xs">
+                        <div className="w-full">
                           <p className="text-xs font-inter tracking-normal leading-none pt-2">
-                            {removeTags(item.description)}
+                            {removeTags(item.description).slice(0, 100) + "..."}
                           </p>
                         </div>
                       </div>
