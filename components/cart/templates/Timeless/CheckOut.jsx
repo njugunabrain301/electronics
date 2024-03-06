@@ -25,6 +25,8 @@ function Checkout({
   totalPrice,
   checkoutInfo,
   showPrice,
+  cart,
+  single,
 }) {
   let [error, setError] = useState("");
 
@@ -256,7 +258,7 @@ function Checkout({
       setDeliveryTime("");
     }
   };
-  let { setCart, cart } = useGlobalContext();
+  let { setCart } = useGlobalContext();
   const [c_error, setCError] = useState("");
   const [success, setSuccess] = useState(false);
   let authUser = localStorage.getItem("user") ? true : false;
@@ -290,6 +292,7 @@ function Checkout({
         courier: courier.id,
         mode,
         total: Number(cartTotal) + Number(deliveryCost),
+        single,
       });
     } else {
       res = await anonymousCheckout({
@@ -301,11 +304,12 @@ function Checkout({
         courier: courier.id,
         mode,
         total: Number(cartTotal) + Number(deliveryCost),
+        single,
       });
     }
     if (res.success) {
       setSuccess(true);
-      setCart(res.data);
+      if (!single) setCart(res.data);
     }
 
     setIsLoading(false);

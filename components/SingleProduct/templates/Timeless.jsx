@@ -22,6 +22,8 @@ import mpesa from "@/assets/images/lipanampesa.png";
 import Link from "next/link";
 import Carousel from "react-material-ui-carousel";
 import { Check, PowerOffOutlined } from "@mui/icons-material";
+import MyModal from "@/components/Modal/MyModal";
+import Cart from "@/components/cart/Cart";
 
 const Timeless = ({
   product,
@@ -40,7 +42,7 @@ const Timeless = ({
 
   const showPrice = profile.showPrice;
 
-  const { theme, addToLocalCart } = useGlobalContext();
+  const { theme, addToLocalCart, checkoutInfo } = useGlobalContext();
   const resizeProdImageSmall = (img) => {
     img = img.replace(
       "https://storage.googleapis.com/test-bucket001/",
@@ -164,6 +166,15 @@ const Timeless = ({
   const moffers = [...offers];
   let pkg = profile.package.toLowerCase();
   const [active, setActive] = useState(1);
+
+  //Cart Modal
+  const [openCart, setOpenCart] = useState(false);
+  const handleOpenCart = () => {
+    setOpenCart(true);
+  };
+  const handleCloseCart = () => {
+    setOpenCart(false);
+  };
 
   return (
     <div
@@ -311,18 +322,18 @@ const Timeless = ({
                 </p>
               )}
               {unitsSold > 0 && (
-                <p className="text-l font-inter tracking-normal leading-none pb-4">
+                <p className="text-l font-inter tracking-normal leading-none pb-4 text-sm md:text-base">
                   {unitsSold +
                     (unitsSold === 1 ? " unit sold " : " units sold ") +
                     unitsRefunded +
                     (unitsRefunded === 1 ? " refunded " : " refunded ")}
                 </p>
               )}
-              {product.USPs.length > 0 ? (
+              {product.USPs.length > 0 && pkg !== "starter" ? (
                 <div>
                   {product.USPs.map((usp, idx) => {
                     return (
-                      <p key={idx + "-" + usp}>
+                      <p key={idx + "-" + usp} className="text-sm md:text-base">
                         <Check /> {" " + usp}
                       </p>
                     );
@@ -330,7 +341,7 @@ const Timeless = ({
                   <p>
                     <a
                       href="#more-details"
-                      className=""
+                      className="text-sm md:text-base"
                       style={{ color: theme.palette.text.alt }}
                     >
                       {" "}
@@ -513,45 +524,107 @@ const Timeless = ({
                 </div>
               </div>
               <div className="flex justify-between items-center mt-3">
-                <Tooltip content="Add to Cart" placement="bottom">
-                  <Button
-                    color={"cart-btn"}
-                    disabled={!product.inStock}
-                    onClick={() =>
-                      myAddToCart({
-                        _id: product._id,
-                        name: product.name,
-                        img: product.img,
-                        text: product.description,
-                        description: product.description,
-                        size: size,
-                        color: color,
-                        price: product.price,
-                        amount: 1,
-                        totalPrice: product.price,
-                        handlingTime: product.handlingTime,
-                      })
-                    }
-                    id="add-btn"
-                    variant="contained"
-                  >
-                    {adding ? (
-                      "Adding..."
-                    ) : added ? (
-                      <span className="flex items-center">
-                        <Image
-                          className="w-[20px] rounded-full"
-                          src={addedImg}
-                          alt="Added gif"
-                          id="gif_added"
-                        />
-                        &nbsp; Added
+                <div>
+                  {pkg === "starter" ? (
+                    <>
+                      <Tooltip content="Add to Cart" placement="bottom">
+                        <Button
+                          color={"cart-btn"}
+                          disabled={!product.inStock}
+                          onClick={() =>
+                            myAddToCart({
+                              _id: product._id,
+                              name: product.name,
+                              img: product.img,
+                              text: product.description,
+                              description: product.description,
+                              size: size,
+                              color: color,
+                              price: product.price,
+                              amount: 1,
+                              totalPrice: product.price,
+                              handlingTime: product.handlingTime,
+                            })
+                          }
+                          id="add-btn"
+                          variant="contained"
+                        >
+                          {adding ? (
+                            "Adding..."
+                          ) : added ? (
+                            <span className="flex items-center">
+                              <Image
+                                className="w-[20px] rounded-full"
+                                src={addedImg}
+                                alt="Added gif"
+                                id="gif_added"
+                              />
+                              &nbsp; Added
+                            </span>
+                          ) : (
+                            "Add to Cart"
+                          )}
+                        </Button>
+                      </Tooltip>
+                    </>
+                  ) : (
+                    <>
+                      <span className="mr-[7px]">
+                        <Button
+                          color={"cart-btn"}
+                          disabled={!product.inStock}
+                          onClick={() => handleOpenCart()}
+                          variant="contained"
+                        >
+                          Buy Now
+                        </Button>
                       </span>
-                    ) : (
-                      "Add to Cart"
-                    )}
-                  </Button>
-                </Tooltip>
+                      <Tooltip content="Add to Cart" placement="bottom">
+                        <Button
+                          color={"cart-btn"}
+                          disabled={!product.inStock}
+                          onClick={() =>
+                            myAddToCart({
+                              _id: product._id,
+                              name: product.name,
+                              img: product.img,
+                              text: product.description,
+                              description: product.description,
+                              size: size,
+                              color: color,
+                              price: product.price,
+                              amount: 1,
+                              totalPrice: product.price,
+                              handlingTime: product.handlingTime,
+                            })
+                          }
+                          style={{
+                            border: "solid 1px",
+                            marginRight: "15px !important",
+                          }}
+                          id="add-btn"
+                          variant="outlined"
+                        >
+                          {adding ? (
+                            "Adding..."
+                          ) : added ? (
+                            <span className="flex items-center">
+                              <Image
+                                className="w-[20px] rounded-full"
+                                src={addedImg}
+                                alt="Added gif"
+                                id="gif_added"
+                              />
+                              &nbsp; Added
+                            </span>
+                          ) : (
+                            "Add to Cart"
+                          )}
+                        </Button>
+                      </Tooltip>
+                    </>
+                  )}
+                </div>
                 <div>
                   <input
                     id="urlText"
@@ -661,6 +734,13 @@ const Timeless = ({
         </div>
         {active === 1 && (
           <div>
+            {product.videoLink && (
+              <iframe
+                style={{ aspectRatio: "3/2", marginBottom: "20px" }}
+                width="100%"
+                src={product.videoLink}
+              ></iframe>
+            )}
             <p
               className="font-inter tracking-normal leading-none pb-4"
               dangerouslySetInnerHTML={{
@@ -742,6 +822,34 @@ const Timeless = ({
           minified={true}
         />
       </div>
+      {/* Buy Now Modal */}
+      <MyModal open={openCart} onClose={handleCloseCart}>
+        <Cart
+          closeModal={handleCloseCart}
+          totalPrice={product.price}
+          setCart={setCart}
+          cart={[
+            {
+              _id: product._id,
+              name: product.name,
+              img: product.img,
+              text: product.description,
+              description: product.description,
+              size: size,
+              color: color,
+              price: product.price,
+              amount: 1,
+              totalPrice: product.price,
+              handlingTime: product.handlingTime,
+            },
+          ]}
+          showPrice={profile.showPrice}
+          checkoutInfo={checkoutInfo}
+          selectedTheme={profile.theme.toLowerCase()}
+          template={profile.template}
+          single={true}
+        ></Cart>
+      </MyModal>
     </div>
   );
 };

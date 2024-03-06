@@ -19,7 +19,7 @@ const Timeless = ({
   cart,
   setCart,
   checkoutInfo,
-  selectedTheme,
+  single,
 }) => {
   const [openCheckout, setOpenCheckout] = useState(false);
 
@@ -174,20 +174,22 @@ const Timeless = ({
                               </>
                             )}
                             <div className="pt-4">
-                              <Tooltip
-                                content="Remove from the Cart"
-                                placement="bottom"
-                              >
-                                <Button
-                                  color={"error"}
-                                  variant="contained"
-                                  size="small"
-                                  className={"mr-4 "}
-                                  onClick={() => removeItemFromCart(item)}
+                              {!single && (
+                                <Tooltip
+                                  content="Remove from the Cart"
+                                  placement="bottom"
                                 >
-                                  {removing === item._id ? "..." : "Remove"}
-                                </Button>
-                              </Tooltip>
+                                  <Button
+                                    color={"error"}
+                                    variant="contained"
+                                    size="small"
+                                    className={"mr-4 "}
+                                    onClick={() => removeItemFromCart(item)}
+                                  >
+                                    {removing === item._id ? "..." : "Remove"}
+                                  </Button>
+                                </Tooltip>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -285,8 +287,8 @@ const Timeless = ({
             checkoutInfo={checkoutInfo}
             showPrice={showPrice}
             totalPrice={totalPrice}
-            selectedTheme={selectedTheme}
             cart={cart}
+            single={single}
           />
         </>
       )}

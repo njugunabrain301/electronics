@@ -12,6 +12,7 @@ export const GlobalContextProvider = ({
   titleFont,
   bodyFont,
   subtitleFont,
+  checkoutInfo,
 }) => {
   //Cart Operations
   const [cart, setCart] = useState([]);
@@ -111,6 +112,7 @@ export const GlobalContextProvider = ({
             titleFont,
             bodyFont,
             subtitleFont,
+            checkoutInfo,
           }}
         >
           {children}

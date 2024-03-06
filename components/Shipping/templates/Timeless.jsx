@@ -4,6 +4,36 @@ import { useGlobalContext } from "@/Context/context";
 
 const Timeless = ({ shipping, deliveryLocations, profile }) => {
   const { titleFont } = useGlobalContext();
+  const formatDeliveryTime = (time) => {
+    let days = Math.floor(time / 24);
+    let hours = Math.floor(time % 24);
+    let minutes = ((time % 24) - hours) * 60;
+    let res = days > 0 ? days + " days " : "";
+    res += hours > 0 ? hours + " hours " : "";
+    res += minutes > 0 ? minutes + " minutes" : "";
+    return res;
+  };
+
+  function convertToAMPM(time) {
+    // Split the time string into hours and minutes
+    var splitTime = time.split(":");
+    var hours = parseInt(splitTime[0]);
+    var minutes = parseInt(splitTime[1]);
+
+    // Determine if it's AM or PM
+    var period = hours >= 12 ? "PM" : "AM";
+
+    // Adjust hours to 12-hour format
+    hours = hours > 12 ? hours - 12 : hours;
+
+    // Add leading zero to minutes if necessary
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+
+    // Construct the formatted time string
+    var formattedTime = hours + ":" + minutes + " " + period;
+
+    return formattedTime;
+  }
 
   return (
     <div className="w-[90%] max-w-[1000px] mx-auto pb-[50px]">
@@ -43,7 +73,7 @@ const Timeless = ({ shipping, deliveryLocations, profile }) => {
           )}
           <p>
             To qualify for same-day shipping, be sure to place your order by
-            {" " + shipping.cutoffTime}
+            {" " + convertToAMPM(shipping.cutoffTime)}
           </p>
           <h2 className={"mt-[10px] " + titleFont.className}>
             Here are all the places we deliver to with the associated times and
@@ -56,7 +86,7 @@ const Timeless = ({ shipping, deliveryLocations, profile }) => {
                 <td className="p-1">Subcounty</td>
                 <td className="p-1">Pick-up station</td>
                 <td className="p-1">Courier</td>
-                <td className="p-1">Cost</td>
+                <td className="p-1">Cost (Ksh)</td>
                 <td className="p-1">Time</td>
               </tr>
             </thead>
@@ -67,12 +97,8 @@ const Timeless = ({ shipping, deliveryLocations, profile }) => {
                   <td className="p-1">{loc.subcounty}</td>
                   <td className="p-1">{loc.description}</td>
                   <td className="p-1">{loc.courier}</td>
-                  <td className="p-1">{loc.price + " Ksh."}</td>
-                  <td>
-                    {loc.time > 24
-                      ? loc.time / 24 + " day(s) " + (loc.time % 24) + " hrs"
-                      : loc.time + " hrs"}
-                  </td>
+                  <td className="p-1">{loc.price}</td>
+                  <td>{formatDeliveryTime(loc.time)}</td>
                 </tr>
               ))}
             </tbody>
@@ -108,10 +134,7 @@ const Timeless = ({ shipping, deliveryLocations, profile }) => {
                 {/* <td className="font-bold">Max Delivery Time</td> */}
                 <div>
                   <span className="font-bold">Max Delivery Time</span>
-                  {": " +
-                    (loc.time > 24
-                      ? loc.time / 24 + " day(s) " + (loc.time % 24) + " hrs"
-                      : loc.time + " hrs")}
+                  {": " + formatDeliveryTime(loc.time)}
                 </div>
                 <div className="py-[15px]"></div>
               </div>

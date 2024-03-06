@@ -10,6 +10,7 @@ const Cart = ({
   checkoutInfo,
   selectedTheme,
   template,
+  single,
 }) => {
   return (
     <>
@@ -22,6 +23,7 @@ const Cart = ({
           setCart={setCart}
           checkoutInfo={checkoutInfo}
           selectedTheme={selectedTheme}
+          single={single}
         />
       )}
       {template === "Timeless" && (
@@ -33,6 +35,7 @@ const Cart = ({
           setCart={setCart}
           checkoutInfo={checkoutInfo}
           selectedTheme={selectedTheme}
+          single={single}
         />
       )}
     </>

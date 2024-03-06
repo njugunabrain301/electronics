@@ -109,6 +109,7 @@ export default async function RootLayout({ children }) {
           titleFont={titleFont}
           bodyFont={bodyFont}
           subtitleFont={subtitleFont}
+          checkoutInfo={checkoutinfo}
         >
           <div className="flex flex-col justify-between min-h-[100vh] items-stretch">
             <div>

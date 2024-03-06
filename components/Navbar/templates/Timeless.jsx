@@ -347,6 +347,7 @@ const Timeless = ({ profile, checkoutInfo }) => {
                 checkoutInfo={checkoutInfo}
                 selectedTheme={profile.theme.toLowerCase()}
                 template={profile.template}
+                single={false}
               ></Cart>
             </MyModal>
             <MyModal open={openProfile} onClose={handleCloseProfile}>
