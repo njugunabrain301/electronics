@@ -140,17 +140,28 @@ const Timeless = ({
                             </div>
                           </div>
                           <div className="ml-[8px]">
-                            <p className="text-sm font-inter tracking-normal leading-none pt-2">
-                              Selected size:{" "}
-                              <span className="ml-2">{item.size}</span>
-                            </p>
-                            <p className=" text-sm font-inter tracking-normal leading-none pt-2">
-                              Selected color:{item.color === "-" ? " -" : " "}
-                              <span
-                                className="ml-2 rounded-full px-2"
-                                style={{ backgroundColor: item.color }}
-                              ></span>
-                            </p>
+                            {item.size.trim() !== "-" && (
+                              <p className="text-sm font-inter tracking-normal leading-none pt-2">
+                                Size: <span className="ml-2">{item.size}</span>
+                              </p>
+                            )}
+                            {item.color.trim() !== "-" && (
+                              <p className=" text-sm font-inter tracking-normal leading-none pt-2">
+                                Color:{item.color === "-" ? " -" : " "}
+                                <span
+                                  className="ml-2 rounded-full px-2"
+                                  style={{ backgroundColor: item.color }}
+                                ></span>
+                              </p>
+                            )}
+                            {item.selectedOption && (
+                              <p className="text-sm font-inter tracking-normal leading-none pt-2">
+                                Option:{" "}
+                                <span className="ml-2">
+                                  {item.selectedOption}
+                                </span>
+                              </p>
+                            )}
                             <p className=" text-sm font-inter tracking-normal leading-none pt-2">
                               Amount:{" "}
                               <span className="ml-2">{item.amount}</span>
@@ -168,7 +179,7 @@ const Timeless = ({
                                   <span className="hidden md-block">Price</span>
                                   :{" "}
                                   <span className="">
-                                    Ksh.&nbsp;{item.totalPrice}
+                                    Ksh.&nbsp;{item.price * item.amount}
                                   </span>
                                 </p>
                               </>

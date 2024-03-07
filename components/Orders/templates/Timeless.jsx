@@ -24,12 +24,6 @@ function Timeless() {
     loadOrders();
   }, []);
 
-  function removeTags(str) {
-    if (str === null || str === "") return "";
-    else str = str.toString();
-
-    return str.replace(/(<([^>]+)>)/gi, "");
-  }
   const { theme } = useGlobalContext();
 
   const downloadReceiptH = async (oid) => {
@@ -66,6 +60,8 @@ function Timeless() {
         setDownloadStatus("Download Recepit");
       });
   };
+
+  console.log(orders);
   return (
     <div
       className="flex justify-center items-center"
@@ -126,15 +122,30 @@ function Timeless() {
                       </div>
                       <div className="pl-[20px]">
                         <p className="text-sm font-inter tracking-normal leading-none pt-2">
-                          Size: <span className="ml-2">{item.size}</span>
+                          Order ID:{" "}
+                          <span className="ml-2">{item._id.slice(15)}</span>
                         </p>
-                        <p className=" text-sm font-inter tracking-normal leading-none pt-2">
-                          Color:{item.color === "-" ? " -" : ""}
-                          <span
-                            className="ml-2 rounded-full px-2"
-                            style={{ backgroundColor: item.color }}
-                          ></span>
-                        </p>
+
+                        {item.size.trim() !== "-" && (
+                          <p className="text-sm font-inter tracking-normal leading-none pt-2">
+                            Size: <span className="ml-2">{item.size}</span>
+                          </p>
+                        )}
+                        {item.color.trim() !== "-" && (
+                          <p className=" text-sm font-inter tracking-normal leading-none pt-2">
+                            Color:{item.color === "-" ? " -" : ""}
+                            <span
+                              className="ml-2 rounded-full px-2"
+                              style={{ backgroundColor: item.color }}
+                            ></span>
+                          </p>
+                        )}
+                        {item.selectedOption && (
+                          <p className="text-sm font-inter tracking-normal leading-none pt-2">
+                            Option:{" "}
+                            <span className="ml-2">{item.selectedOption}</span>
+                          </p>
+                        )}
                         <p className=" text-sm font-inter tracking-normal leading-none pt-2">
                           Amount: <span className="ml-2">{item.amount}</span>
                         </p>
@@ -148,6 +159,12 @@ function Timeless() {
                             {"Ksh. " + Number(item.price) * Number(item.amount)}
                           </span>
                         </p>
+                        {item.arrivalDate && (
+                          <p className="text-sm font-inter tracking-normal leading-none pt-2">
+                            Arrival:{" "}
+                            <span className="ml-2">{item.arrivalDate}</span>
+                          </p>
+                        )}
                         <div className="pt-4">
                           <Tooltip content="Status" placement="bottom">
                             <Typography className="text-sm font-inter tracking-normal leading-none pt-2 w-fit">
@@ -175,11 +192,11 @@ function Timeless() {
                         </div>
                       </div>
                     </div>
-                    <div className="max-w-xs">
+                    {/* <div className="w-full">
                       <p className=" text-xs font-inter tracking-normal leading-none pt-2">
-                        {removeTags(item.description)}
+                        {removeTags(item.description).slice(0, 100) + "..."}
                       </p>
-                    </div>
+                    </div> */}
                   </div>
                 )
               );

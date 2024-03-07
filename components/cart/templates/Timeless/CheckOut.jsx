@@ -55,6 +55,9 @@ function Checkout({
   const [name, setName] = useState(user.name ? user.name : "");
   const [email, setEmail] = useState(user.email ? user.email : "");
   const [phone, setPhone] = useState(user.phone ? user.phone : "");
+  const [fullDeliveryTime, setFullDeliveryTime] = useState(
+    user.phone ? user.phone : ""
+  );
 
   const setUpMode = (mode) => {
     setMode(mode);
@@ -169,7 +172,6 @@ function Checkout({
     }
   };
 
-  // console.log(checkoutInfo.shipping);
   const getDeliveryTime = (v) => {
     if (county !== "" && subcounty !== "" && v) {
       let time = "";
@@ -240,7 +242,7 @@ function Checkout({
         arrivalTime.setMinutes(arrivalTime.getMinutes() + time);
       }
       let days = dateDiffDays(arrivalTime, new Date());
-      arrivalTime.get;
+
       setDeliveryTime(
         arrivalTime.toLocaleTimeString("en-US", {
           hour: "numeric",
@@ -254,8 +256,16 @@ function Checkout({
             ? "tomorrow"
             : "on " + arrivalTime.toDateString())
       );
+      setFullDeliveryTime(
+        arrivalTime.toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "numeric",
+          hour12: true,
+        }) + arrivalTime.toDateString()
+      );
     } else {
       setDeliveryTime("");
+      setFullDeliveryTime("");
     }
   };
   let { setCart } = useGlobalContext();
@@ -293,6 +303,8 @@ function Checkout({
         mode,
         total: Number(cartTotal) + Number(deliveryCost),
         single,
+        cart,
+        fullDeliveryTime,
       });
     } else {
       res = await anonymousCheckout({
@@ -305,6 +317,7 @@ function Checkout({
         mode,
         total: Number(cartTotal) + Number(deliveryCost),
         single,
+        fullDeliveryTime,
       });
     }
     if (res.success) {
@@ -893,7 +906,7 @@ function Checkout({
                 </div>
                 {deliveryTime && (
                   <Typography style={{ fontSize: "11pt", marginTop: "10px" }}>
-                    Expect the order to arrive on or before
+                    The order will arrive on or before
                     {" " + deliveryTime}
                   </Typography>
                 )}

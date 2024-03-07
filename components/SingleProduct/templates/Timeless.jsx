@@ -97,6 +97,7 @@ const Timeless = ({
   const [adding, setAdding] = useState(false);
   const [added, setAdded] = useState(false);
   const myAddToCart = async (item) => {
+    console.log(item);
     if (adding) return;
     let dataLayer = window.dataLayer || [];
     let event = {
@@ -149,6 +150,11 @@ const Timeless = ({
         setCopied(true);
       }
     });
+
+    //load first price option if available
+    if (product.priceOptions.length > 0) {
+      setCurrOption(product.priceOptions[0]);
+    }
   }, []);
 
   const cleanHTML = (text) => {
@@ -175,6 +181,28 @@ const Timeless = ({
   const handleCloseCart = () => {
     setOpenCart(false);
   };
+
+  const buyNow = () => {
+    let dataLayer = window.dataLayer || [];
+    let event = {
+      event: "buy-now",
+      item: {
+        id: product._id,
+        price: selectedPrice,
+        name: product.name + currOption.option,
+      },
+    };
+    dataLayer.push(event);
+    handleOpenCart();
+  };
+
+  const [currOption, setCurrOption] = useState({});
+  const [selectedPrice, setSelectedPrice] = useState(product.price);
+  useEffect(() => {
+    if (currOption.option && currOption.price) {
+      setSelectedPrice(currOption.price);
+    }
+  }, [currOption]);
 
   return (
     <div
@@ -472,6 +500,33 @@ const Timeless = ({
                   </FormControl>
                 )}
               </div>
+              {product.priceOptions.length > 0 && (
+                <div className="pb-4 flex flex-wrap">
+                  {product.priceOptions.map((option, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="border p-1 px-2 m-2 rounded-sm cursor-pointer"
+                        style={{
+                          borderWidth:
+                            currOption._id === option._id ? "4px" : "",
+                          borderColor:
+                            currOption._id === option._id
+                              ? theme.palette.text.alt
+                              : "",
+                          color:
+                            currOption._id === option._id
+                              ? theme.palette.text.alt
+                              : "",
+                        }}
+                        onClick={() => setCurrOption(option)}
+                      >
+                        {option.option}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
               {moffers && (
                 <div
                   style={{
@@ -508,7 +563,7 @@ const Timeless = ({
               <div className="flex justify-between items-center mt-3 flex-wrap">
                 {showPrice && (
                   <Typography className="font-bold">
-                    Ksh.&nbsp;{product.price}
+                    Ksh.&nbsp;{selectedPrice}
                   </Typography>
                 )}
                 <div className="text-sm">
@@ -540,9 +595,10 @@ const Timeless = ({
                               description: product.description,
                               size: size,
                               color: color,
-                              price: product.price,
+                              price: selectedPrice,
+                              selectedOption: currOption.option,
                               amount: 1,
-                              totalPrice: product.price,
+                              totalPrice: selectedPrice,
                               handlingTime: product.handlingTime,
                             })
                           }
@@ -573,7 +629,7 @@ const Timeless = ({
                         <Button
                           color={"cart-btn"}
                           disabled={!product.inStock}
-                          onClick={() => handleOpenCart()}
+                          onClick={() => buyNow()}
                           variant="contained"
                         >
                           Buy Now
@@ -592,9 +648,10 @@ const Timeless = ({
                               description: product.description,
                               size: size,
                               color: color,
-                              price: product.price,
+                              price: selectedPrice,
+                              selectedOption: currOption.option,
                               amount: 1,
-                              totalPrice: product.price,
+                              totalPrice: selectedPrice,
                               handlingTime: product.handlingTime,
                             })
                           }
@@ -826,7 +883,7 @@ const Timeless = ({
       <MyModal open={openCart} onClose={handleCloseCart}>
         <Cart
           closeModal={handleCloseCart}
-          totalPrice={product.price}
+          totalPrice={selectedPrice}
           setCart={setCart}
           cart={[
             {
@@ -835,11 +892,12 @@ const Timeless = ({
               img: product.img,
               text: product.description,
               description: product.description,
+              selectedOption: currOption.option,
               size: size,
               color: color,
-              price: product.price,
+              price: selectedPrice,
               amount: 1,
-              totalPrice: product.price,
+              totalPrice: selectedPrice,
               handlingTime: product.handlingTime,
             },
           ]}
