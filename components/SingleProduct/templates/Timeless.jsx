@@ -42,6 +42,27 @@ const Timeless = ({
   const { handleOpenAuth, setCart } = useGlobalContext();
   let authUser = localStorage.getItem("user") ? true : false;
 
+  gtag("event", "view_item", {
+    currency: "KES",
+    value: product.price,
+    items: [
+      {
+        item_id: product._id,
+        item_name: product.name,
+        affiliation: profile.name,
+        coupon: "",
+        discount: 0,
+        index: 0,
+        item_brand: product.brand,
+        item_category: product.category,
+        item_category2: product.subcategory,
+        item_variant: searchParams ? searchParams[0] : "",
+        price: product.price,
+        quantity: 1,
+      },
+    ],
+  });
+
   const showPrice = profile.showPrice;
 
   const { theme, addToLocalCart, checkoutInfo } = useGlobalContext();
@@ -96,6 +117,29 @@ const Timeless = ({
       item: { id: item._id, price: item.price, name: item.name },
     };
     dataLayer.push(event);
+
+    gtag("event", "add_to_cart", {
+      currency: "KES",
+      value: item.price,
+      items: [
+        {
+          item_id: item._id,
+          item_name: item.name,
+          affiliation: profile.name,
+          coupon: "",
+          discount: 0,
+          index: 0,
+          item_brand: product.brand,
+          item_category: product.category,
+          item_category2: product.subcategory,
+          item_variant: item.color + " " + item.size + " " + currOption.option,
+
+          price: item.price,
+          quantity: 1,
+        },
+      ],
+    });
+
     setAdding(true);
 
     if (authUser) {
@@ -143,7 +187,7 @@ const Timeless = ({
     });
 
     //load first price option if available
-    if (product.priceOptions.length > 0) {
+    if (product.priceOptions.length > 0 && searchParams) {
       if (searchParams.length > 0) {
         let optId = searchParams[0];
         product.priceOptions.map((opt) => {
@@ -593,6 +637,7 @@ const Timeless = ({
                               description: product.description,
                               size: size,
                               color: color,
+                              brand: product.brand,
                               price: selectedPrice,
                               selectedOption: currOption.option,
                               amount: 1,
@@ -647,6 +692,7 @@ const Timeless = ({
                               size: size,
                               color: color,
                               price: selectedPrice,
+                              brand: product.brand,
                               selectedOption: currOption.option,
                               amount: 1,
                               totalPrice: selectedPrice,

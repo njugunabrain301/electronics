@@ -22,6 +22,25 @@ const Timeless = ({
   template,
 }) => {
   const showPrice = profile.showPrice;
+  gtag("event", "view_item_list", {
+    item_list_name: type + " " + searchParam,
+    items: productList.map((item, idx) => {
+      return {
+        item_id: item._id,
+        item_name: item.name,
+        affiliation: profile.name,
+        coupon: "",
+        discount: 0,
+        index: idx,
+        item_brand: item.brand,
+        item_category: item.category,
+        item_category2: item.subcategory,
+        item_variant: "",
+        price: item.price,
+        quantity: 1,
+      };
+    }),
+  });
 
   const [filters, setFilters] = useState([]);
 

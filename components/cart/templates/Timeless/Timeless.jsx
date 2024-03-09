@@ -28,6 +28,27 @@ const Timeless = ({
 
   let removeItemFromCart = async (item) => {
     setRemoving(item._id);
+    gtag("event", "remove_from_cart", {
+      currency: "KES",
+      value: item.price,
+      items: [
+        {
+          item_id: item._id,
+          item_name: item.name,
+          affiliation: "",
+          coupon: "",
+          discount: 0,
+          index: 0,
+          item_brand: item.brand,
+          item_category: "",
+          item_category2: "",
+          item_variant:
+            item.color + " " + item.size + " " + item.selectedOption,
+          price: item.price,
+          quantity: 1,
+        },
+      ],
+    });
     if (localStorage.getItem("user")) {
       let res = await removeFromCart(item);
       if (res.success) {
@@ -48,6 +69,28 @@ const Timeless = ({
       totalPrice,
     };
     dataLayer.push(event);
+    gtag("event", "begin_checkout", {
+      currency: "KES",
+      value: totalPrice,
+      coupon: "",
+      items: cart.map((item, idx) => {
+        return {
+          item_id: item._id,
+          item_name: item.name,
+          affiliation: "",
+          coupon: "",
+          discount: 0,
+          index: idx,
+          item_brand: item.brand,
+          item_category: "",
+          item_category2: "",
+          item_variant:
+            item.color + " " + item.size + " " + item.selectedOption,
+          price: item.price,
+          quantity: item.amount,
+        };
+      }),
+    });
     setOpenCheckout(true);
   };
 

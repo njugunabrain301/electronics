@@ -295,6 +295,34 @@ function Checkout({
       totalPrice: Number(cartTotal),
     };
     dataLayer.push(event);
+
+    gtag("event", "purchase", {
+      transaction_id: "",
+      totalPrice: Number(cartTotal),
+      value: cartTotal,
+      tax: 0,
+      shipping: deliveryCost,
+      currency: "KES",
+      coupon: "",
+      items: cart.map((item, idx) => {
+        return {
+          item_id: item._id,
+          item_name: item.name,
+          affiliation: "",
+          coupon: "",
+          discount: 0,
+          index: idx,
+          item_brand: item.brand,
+          item_category: "",
+          item_category2: "",
+          item_variant:
+            item.color + " " + item.size + " " + item.selectedOption,
+          price: item.price,
+          quantity: item.amount,
+        };
+      }),
+    });
+
     let res = {};
     if (authUser) {
       res = await checkout({
@@ -346,12 +374,58 @@ function Checkout({
         setCError("Invalid Email");
         return;
       }
+
+      if (authUser) {
+        if (county === "" || subcounty === "" || courier === "") {
+          setCError("Please select a delivery solution");
+          setSection(0);
+          return;
+        } else {
+          gtag("event", "add_shipping_info", {
+            currency: "KES",
+            value: cartTotal,
+            coupon: "",
+            shipping_tier: "Ground",
+            items: cart.map((itm, idx) => {
+              return {
+                item_id: itm._id,
+                item_name: itm.name,
+                affiliation: "",
+                coupon: "",
+                discount: 0,
+                index: idx,
+                price: itm.price,
+                quantity: itm.amount,
+              };
+            }),
+          });
+        }
+      }
+
       setSection(sec);
     } else if (sec === 1) {
       if (county === "" || subcounty === "" || courier === "") {
         setCError("Please select a delivery solution");
         return;
       } else {
+        gtag("event", "add_shipping_info", {
+          currency: "KES",
+          value: cartTotal,
+          coupon: "",
+          shipping_tier: "Ground",
+          items: cart.map((itm, idx) => {
+            return {
+              item_id: itm._id,
+              item_name: itm.name,
+              affiliation: "",
+              coupon: "",
+              discount: 0,
+              index: idx,
+              price: itm.price,
+              quantity: itm.amount,
+            };
+          }),
+        });
         setSection(sec);
       }
     } else {
