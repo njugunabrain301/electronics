@@ -24,6 +24,7 @@ import Carousel from "react-material-ui-carousel";
 import { Check, PowerOffOutlined } from "@mui/icons-material";
 import MyModal from "@/components/Modal/MyModal";
 import Cart from "@/components/cart/Cart";
+import { useSearchParams } from "next/navigation";
 
 const Timeless = ({
   product,
@@ -36,6 +37,7 @@ const Timeless = ({
   unitsSold,
   unitsRefunded,
 }) => {
+  const [searchParams] = useSearchParams();
   const [selectedImage, setSelectedImage] = useState(product.img);
   const { handleOpenAuth, setCart } = useGlobalContext();
   let authUser = localStorage.getItem("user") ? true : false;
@@ -57,17 +59,6 @@ const Timeless = ({
     );
     return img;
   };
-  // useEffect(() => {
-  //   if (
-  //     selectedImage.includes("https://storage.googleapis.com/test-bucket001/")
-  //   ) {
-  //     let img = selectedImage.replace(
-  //       "https://storage.googleapis.com/test-bucket001/",
-  //       "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-600/"
-  //     );
-  //     setSelectedImage(img);
-  //   }
-  // }, [selectedImage]);
 
   const productSize = product
     ? product.sizes && product.sizes.length > 0
@@ -153,7 +144,14 @@ const Timeless = ({
 
     //load first price option if available
     if (product.priceOptions.length > 0) {
-      setCurrOption(product.priceOptions[0]);
+      if (searchParams.length > 0) {
+        let optId = searchParams[0];
+        product.priceOptions.map((opt) => {
+          if (opt._id === optId) {
+            setCurrOption(opt);
+          }
+        });
+      } else setCurrOption(product.priceOptions[0]);
     }
   }, []);
 
@@ -859,9 +857,37 @@ const Timeless = ({
         )}
         {active === 4 && (
           <div>
-            <p className="text-l font-inter tracking-normal leading-none pb-4">
-              REVIEWS
-            </p>
+            {product.reviews.map((review, idx) => {
+              let stars = [];
+              for (var i = 0; i < review.rating; i++) stars.push(" ⭐ ");
+              return (
+                <div key={idx} className=" p-2 my-2">
+                  <div>
+                    {review.name}
+                    <span>{stars.map((s, idx) => s)}</span>
+                  </div>
+                  <span>{review.comment}</span>
+                  <div>
+                    {review.media.map((media, idx) => {
+                      console.log(media);
+                      if (media.type === "video") {
+                      } else if (media.type === "image") {
+                        return (
+                          <div>
+                            <Image
+                              width={200}
+                              height={200}
+                              alt={product.name + " client review picture"}
+                              src={resizeProdImageSmall(media.link)}
+                            />
+                          </div>
+                        );
+                      }
+                    })}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
       </div>

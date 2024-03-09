@@ -1,12 +1,16 @@
 "use client";
 import { useGlobalContext } from "@/Context/context";
+import MyModal from "@/components/Modal/MyModal";
+import Reviews from "@/components/Reviews/Reviews";
 import {
   downloadReceipt,
   downloadURL,
   fetchOrders,
+  sendReview,
 } from "@/utils/frontendAPIs/orders";
 import { DialogBody, Typography, Tooltip } from "@material-tailwind/react";
 import { Download } from "@mui/icons-material";
+import { Button } from "@mui/material";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -14,6 +18,7 @@ function Timeless() {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [downloadStatus, setDownloadStatus] = useState("Download Recepit");
+  const [sent, setSent] = useState([]);
   let loadOrders = async () => {
     let res = await fetchOrders();
     setOrders(res.data);
@@ -61,7 +66,8 @@ function Timeless() {
       });
   };
 
-  console.log(orders);
+  const [openReview, setOpenReview] = useState("");
+
   return (
     <div
       className="flex justify-center items-center"
@@ -165,6 +171,18 @@ function Timeless() {
                             <span className="ml-2">{item.arrivalDate}</span>
                           </p>
                         )}
+                        {!item.reviewed && !sent.includes(item._id) && (
+                          <span className="my-3 block">
+                            <Button
+                              onClick={() => setOpenReview(item._id)}
+                              color="primary"
+                              variant="contained"
+                              size="small"
+                            >
+                              Send Review
+                            </Button>
+                          </span>
+                        )}
                         <div className="pt-4">
                           <Tooltip content="Status" placement="bottom">
                             <Typography className="text-sm font-inter tracking-normal leading-none pt-2 w-fit">
@@ -197,6 +215,18 @@ function Timeless() {
                         {removeTags(item.description).slice(0, 100) + "..."}
                       </p>
                     </div> */}
+                    <MyModal
+                      open={openReview === item._id}
+                      onClose={() => setOpenReview("")}
+                    >
+                      <Reviews
+                        closeModal={() => setOpenReview("")}
+                        template={"Timeless"}
+                        item={item}
+                        sent={sent}
+                        setSent={setSent}
+                      />
+                    </MyModal>
                   </div>
                 )
               );
