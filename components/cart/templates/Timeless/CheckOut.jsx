@@ -92,12 +92,16 @@ function Checkout({
 
   const setUpSubCounties = (county) => {
     setPayOnDelivery(false);
+    let added = [];
     county = county.replaceAll("*", "");
     if (county && county !== "") {
       let subs = [];
       deliveryLocations.map((loc) => {
         if (loc.county.replaceAll("*", "") === county) {
-          subs.push(loc.subcounty + "" + (loc.payOnDelivery ? "*" : ""));
+          if (!added.includes(loc.subcounty)) {
+            subs.push(loc.subcounty + "" + (loc.payOnDelivery ? "*" : ""));
+            added.push(loc.subcounty);
+          }
         }
         return loc;
       });
