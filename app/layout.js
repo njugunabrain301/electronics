@@ -87,14 +87,14 @@ export default async function RootLayout({ children }) {
     checkoutinfo.deliveryLocations = res.data.deliveryLocations;
 
     checkoutinfo.counties = [];
+    let added = [];
     checkoutinfo.deliveryLocations.map((loc) => {
-      if (!checkoutinfo.counties.includes(loc.county))
-        checkoutinfo.counties.push(loc.county);
+      if (!added.includes(loc.county)) checkoutinfo.counties.push(loc.county);
       if (loc.payOnDelivery) {
         let idx = checkoutinfo.counties.indexOf(loc.county);
         checkoutinfo.counties[idx] = loc.county + "*";
       }
-
+      added.push(loc.county);
       return loc;
     });
   }
