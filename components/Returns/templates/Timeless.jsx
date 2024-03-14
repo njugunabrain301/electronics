@@ -123,6 +123,12 @@ const Timeless = ({ returns, profile }) => {
               </li>
             ))}
           </ol>
+          <h3 className="py-3 font-bold">Warranty</h3>
+          <p className="pb-4">
+            The warranty for any purchased product is as described on the
+            product page at the time of purchase. Conditions are specified in
+            the warranty document accompanying the item post-purchase.
+          </p>
           <p>
             You can contact us on the following number to initiate the process{" "}
             {profile.phone}

@@ -968,11 +968,15 @@ function Checkout({
                   <p style={{ fontWeight: "bold" }}>
                     Ksh.&nbsp;{cartTotal}&nbsp;
                   </p>
-                  <p style={{ fontSize: "8pt" }}>{" (Cart Total) "}</p>
+                  <p style={{ fontSize: "8pt" }}>
+                    (Cart <span className="hidden md:inline">Total</span>)
+                  </p>
                   <p style={{ fontWeight: "bold" }}>
                     &nbsp;+&nbsp;Ksh.&nbsp;{deliveryCost}&nbsp;
                   </p>
-                  <p style={{ fontSize: "8pt" }}>(Delivery Cost)</p>
+                  <p style={{ fontSize: "8pt" }}>
+                    (Delivery <span className="hidden md:inline">Cost</span>)
+                  </p>
                 </div>
                 <div style={{ display: "flex" }}>
                   <Typography style={{ fontWeight: "bold" }}>

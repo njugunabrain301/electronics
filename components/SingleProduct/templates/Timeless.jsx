@@ -109,7 +109,6 @@ const Timeless = ({
   const [adding, setAdding] = useState(false);
   const [added, setAdded] = useState(false);
   const myAddToCart = async (item) => {
-    console.log(item);
     if (adding) return;
     let dataLayer = window.dataLayer || [];
     let event = {
@@ -187,8 +186,8 @@ const Timeless = ({
     });
 
     //load first price option if available
-    if (product.priceOptions.length > 0 && searchParams) {
-      if (searchParams.length > 0) {
+    if (product.priceOptions.length > 0) {
+      if (searchParams && searchParams.length > 0) {
         let optId = searchParams[0];
         product.priceOptions.map((opt) => {
           if (opt._id === optId) {
@@ -234,6 +233,27 @@ const Timeless = ({
         name: product.name + currOption.option,
       },
     };
+    gtag("event", "add_to_cart", {
+      currency: "KES",
+      value: product.price,
+      items: [
+        {
+          item_id: product._id,
+          item_name: product.name,
+          affiliation: profile.name,
+          coupon: "",
+          discount: 0,
+          index: 0,
+          item_brand: product.brand,
+          item_category: product.category,
+          item_category2: product.subcategory,
+          item_variant: color + " " + size + " " + currOption.option,
+
+          price: product.price,
+          quantity: 1,
+        },
+      ],
+    });
     dataLayer.push(event);
     handleOpenCart();
   };
@@ -378,9 +398,11 @@ const Timeless = ({
                   )}
 
                   <p className="text-sm">
-                    {shipping.accept
+                    {profile.goDelivery.enabled
+                      ? "Pay On Delivery"
+                      : shipping.accept
                       ? shipping.guaranteeCourier
-                        ? "Guaranteed damage-free delivery."
+                        ? "Damage-free delivery."
                         : "Shipping Available"
                       : "In-store pickup"}
                   </p>
@@ -554,11 +576,11 @@ const Timeless = ({
                             currOption._id === option._id ? "4px" : "",
                           borderColor:
                             currOption._id === option._id
-                              ? theme.palette.text.alt
+                              ? theme.palette.highlight.main
                               : "",
                           color:
                             currOption._id === option._id
-                              ? theme.palette.text.alt
+                              ? theme.palette.highlight.main
                               : "",
                         }}
                         onClick={() => setCurrOption(option)}
