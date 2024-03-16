@@ -87,6 +87,40 @@ export const GlobalContextProvider = ({
       setCart(JSON.parse(localStorage.getItem("cart")));
   }, []);
 
+  //Cart Modal
+  const [openCart, setOpenCart] = useState(false);
+  const handleOpenCart = () => {
+    let cartTotal = 0;
+    cart.map((itm) => {
+      cartTotal += itm.price * itm.amount;
+    });
+    gtag("event", "view_cart", {
+      currency: "KES",
+      value: cartTotal,
+      items: cart.map((item, idx) => {
+        return {
+          item_id: item._id,
+          item_name: item.name,
+          affiliation: profile.name,
+          coupon: "",
+          discount: 0,
+          index: idx,
+          item_brand: item.brand,
+          item_category: "",
+          item_category2: "",
+          item_variant:
+            item.color + " " + item.size + " " + item.selectedOption,
+          price: item.price,
+          quantity: item.amount,
+        };
+      }),
+    });
+    setOpenCart(true);
+  };
+  const handleCloseCart = () => {
+    setOpenCart(false);
+  };
+
   return (
     <div
       style={{
@@ -98,6 +132,9 @@ export const GlobalContextProvider = ({
         <GlobalContext.Provider
           value={{
             cart,
+            openCart,
+            handleOpenCart,
+            handleCloseCart,
             totalPrice,
             totalCount,
             setCart: setCartMod,

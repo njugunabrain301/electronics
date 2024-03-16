@@ -12,6 +12,7 @@ import { motion } from "framer-motion";
 import { useGlobalContext } from "@/Context/context";
 import { Button } from "@mui/material";
 import MySearchField from "../../SearchField/MySearchField";
+import { gtag } from "@/utils/gtag";
 
 const Timeless = ({
   productList,

@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
 import Link from "next/link";
 import mpesa from "@/assets/images/mpesa.png";
+import { usePathname } from "next/navigation";
 
 const Timeless = ({ profile }) => {
   const year = new Date().getFullYear();
@@ -61,14 +62,15 @@ const Timeless = ({ profile }) => {
   };
 
   const { theme } = useGlobalContext();
-
+  const url = usePathname();
+  const prodPage = url.includes("/item/");
   return (
     <div
       style={{
         backgroundColor: theme.palette.background.primary,
         color: theme.palette.text.base,
       }}
-      className="pb-[20px]"
+      className={prodPage ? "pb-[100px]" : "pb-[20px]"}
     >
       <div className="flex items-center justify-center">
         <hr
@@ -166,7 +168,7 @@ const Timeless = ({ profile }) => {
               ""
             )}
             &nbsp;&nbsp;
-            <p className=" text-sm font-inter no-underline normal-case xs:pl-1">
+            <p className=" text-sm font-inter no-underline normal-case">
               &copy; {year} by <a href="https://www.bunika.co.ke">Bunika</a>
             </p>
           </div>

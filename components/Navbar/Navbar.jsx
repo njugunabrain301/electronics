@@ -6,6 +6,7 @@ import { visit } from "@/utils/frontendAPIs/app";
 import Script from "next/script";
 import Opulence from "./templates/Opulence";
 import Timeless from "./templates/Timeless";
+import { gtag } from "@/utils/gtag";
 
 const Navbar = ({ profile, checkoutInfo }) => {
   let cookies = new Cookies();
@@ -20,14 +21,17 @@ const Navbar = ({ profile, checkoutInfo }) => {
       });
       visit();
     }
+
+    const ga4Tag = profile.ga4Tag
+      ? profile.ga4Tag
+      : profile.url.includes("go-duka.com")
+      ? "G-TD28Z490EX"
+      : "empty";
+    gtag("js", new Date());
+    gtag("config", ga4Tag);
   }, []);
 
   const template = profile.template;
-  const ga4Tag = profile.ga4Tag
-    ? profile.ga4Tag
-    : profile.url.includes("go-duka.com")
-    ? "G-TD28Z490EX"
-    : "";
 
   return (
     <>
@@ -56,25 +60,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         ></iframe>
       </noscript>
       {/* <!-- End Google Tag Manager (noscript) --> */}
-
-      <Script
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html:
-            `
-          window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', '` +
-            ga4Tag +
-            `');
-`,
-        }}
-      />
-      <script
-        async
-        src={"https://www.googletagmanager.com/gtag/js?id=" + ga4Tag}
-      ></script>
 
       {template === "Opulence" && (
         <Opulence profile={profile} checkoutInfo={checkoutInfo} />

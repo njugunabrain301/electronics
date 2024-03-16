@@ -25,6 +25,7 @@ import { Check, PowerOffOutlined } from "@mui/icons-material";
 import MyModal from "@/components/Modal/MyModal";
 import Cart from "@/components/cart/Cart";
 import { useSearchParams } from "next/navigation";
+import { gtag } from "@/utils/gtag";
 
 const Timeless = ({
   product,
@@ -39,7 +40,7 @@ const Timeless = ({
 }) => {
   const [searchParams] = useSearchParams();
   const [selectedImage, setSelectedImage] = useState(product.img);
-  const { handleOpenAuth, setCart } = useGlobalContext();
+  const { handleOpenAuth, setCart, cart } = useGlobalContext();
   let authUser = localStorage.getItem("user") ? true : false;
 
   gtag("event", "view_item", {
@@ -65,7 +66,14 @@ const Timeless = ({
 
   const showPrice = profile.showPrice;
 
-  const { theme, addToLocalCart, checkoutInfo } = useGlobalContext();
+  const {
+    theme,
+    addToLocalCart,
+    checkoutInfo,
+    openCart,
+    handleOpenCart,
+    handleCloseCart,
+  } = useGlobalContext();
   const resizeProdImageSmall = (img) => {
     img = img.replace(
       "https://storage.googleapis.com/test-bucket001/",
@@ -215,12 +223,12 @@ const Timeless = ({
   const [active, setActive] = useState(1);
 
   //Cart Modal
-  const [openCart, setOpenCart] = useState(false);
-  const handleOpenCart = () => {
-    setOpenCart(true);
+  const [openBuyNow, setOpenBuyNow] = useState(false);
+  const handleOpenBuyNow = () => {
+    setOpenBuyNow(true);
   };
-  const handleCloseCart = () => {
-    setOpenCart(false);
+  const handleCloseBuyNow = () => {
+    setOpenBuyNow(false);
   };
 
   const buyNow = () => {
@@ -255,7 +263,7 @@ const Timeless = ({
       ],
     });
     dataLayer.push(event);
-    handleOpenCart();
+    handleOpenBuyNow();
   };
 
   const [currOption, setCurrOption] = useState({});
@@ -314,7 +322,7 @@ const Timeless = ({
                 style={{ aspectRatio: "3/2" }}
               >
                 <Image
-                  src={product.img}
+                  src={resizeProdImageSmall(product.img)}
                   style={{ width: "100%", aspectRatio: "3/2" }}
                   className="rounded-md cursor-pointer"
                   onClick={() => setSelectedImage(product.img)}
@@ -336,7 +344,7 @@ const Timeless = ({
                       style={{ aspectRatio: "3/2" }}
                     >
                       <Image
-                        src={im.img}
+                        src={resizeProdImageSmall(im.img)}
                         style={{ width: "100%", aspectRatio: "3/2" }}
                         className="rounded-md cursor-pointer"
                         onClick={() => setSelectedImage(im.img)}
@@ -624,12 +632,20 @@ const Timeless = ({
               <p className="italic">
                 {product.inStock ? "In Stock" : "Out of Stock"}
               </p>
-              <div className="flex justify-between items-center mt-3 flex-wrap">
+              {/* Price and checkout normal */}
+              <div className="flex justify-between items-center mt-3 flex-wrap ">
                 {showPrice && (
-                  <Typography className="font-bold">
+                  <Typography className="font-bold hidden md:block">
                     Ksh.&nbsp;{selectedPrice}
                   </Typography>
                 )}
+                <span
+                  id="share_btn"
+                  className="py-2 rounded-full hover:underline cursor-pointer md:hidden"
+                >
+                  <ShareIcon className="pr-2" />
+                  Share
+                </span>
                 <div className="text-sm">
                   {" "}
                   <Link href="/returns" className="underline">
@@ -642,7 +658,7 @@ const Timeless = ({
                   Policy
                 </div>
               </div>
-              <div className="flex justify-between items-center mt-3">
+              <div className="flex justify-between items-center mt-3 hidden md:flex">
                 <div>
                   {pkg === "starter" ? (
                     <>
@@ -767,6 +783,7 @@ const Timeless = ({
                   </span>
                 </div>
               </div>
+
               <div className="flex justify-end">
                 {copied && (
                   <span className="pr-2 text-xs">Link successfully copied</span>
@@ -974,9 +991,9 @@ const Timeless = ({
         />
       </div>
       {/* Buy Now Modal */}
-      <MyModal open={openCart} onClose={handleCloseCart}>
+      <MyModal open={openBuyNow} onClose={handleCloseBuyNow}>
         <Cart
-          closeModal={handleCloseCart}
+          closeModal={handleCloseBuyNow}
           totalPrice={selectedPrice}
           setCart={setCart}
           cart={[
@@ -1002,6 +1019,174 @@ const Timeless = ({
           single={true}
         ></Cart>
       </MyModal>
+      {/* Price and checkout fixed */}
+      <div
+        className="fixed bottom-[0] w-[100%] px-2 py-3 border-t-[2px] z-[200]"
+        style={{
+          backgroundColor: theme.palette.background.primary,
+          borderColor: theme.palette.text.alt,
+        }}
+      >
+        <div className="flex justify-between items-center">
+          <div className="flex">
+            {cart.length > 0 ? (
+              <span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                  />
+                </svg>
+                <span
+                  className="rounded-full px-1  text-xs mr-1 absolute mt-[-30px] ml-[15px]"
+                  style={{
+                    backgroundColor: theme.palette.card.main,
+                    color: theme.palette.text.inverted,
+                  }}
+                >
+                  {cart.length}
+                </span>
+              </span>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                />
+              </svg>
+            )}
+            <div className="ml-3">
+              {showPrice && (
+                <Typography className="font-bold">
+                  Ksh.&nbsp;{selectedPrice}
+                </Typography>
+              )}
+            </div>
+          </div>
+          <div>
+            {pkg === "starter" ? (
+              <>
+                <Tooltip content="Add to Cart" placement="bottom">
+                  <Button
+                    color={"cart-btn"}
+                    disabled={!product.inStock}
+                    size="small"
+                    onClick={() =>
+                      myAddToCart({
+                        _id: product._id,
+                        name: product.name,
+                        img: product.img,
+                        text: product.description,
+                        description: product.description,
+                        size: size,
+                        color: color,
+                        brand: product.brand,
+                        price: selectedPrice,
+                        selectedOption: currOption.option,
+                        amount: 1,
+                        totalPrice: selectedPrice,
+                        handlingTime: product.handlingTime,
+                      })
+                    }
+                    id="add-btn"
+                    variant="contained"
+                  >
+                    {adding ? (
+                      "Adding..."
+                    ) : added ? (
+                      <span className="flex items-center">
+                        <Image
+                          className="w-[20px] rounded-full"
+                          src={addedImg}
+                          alt="Added gif"
+                          id="gif_added"
+                        />
+                        &nbsp; Added
+                      </span>
+                    ) : (
+                      "Add to Cart"
+                    )}
+                  </Button>
+                </Tooltip>
+              </>
+            ) : (
+              <>
+                <Tooltip content="Add to Cart" placement="bottom">
+                  <Button
+                    color={"cart-btn"}
+                    disabled={!product.inStock}
+                    onClick={() =>
+                      myAddToCart({
+                        _id: product._id,
+                        name: product.name,
+                        img: product.img,
+                        text: product.description,
+                        description: product.description,
+                        size: size,
+                        color: color,
+                        price: selectedPrice,
+                        brand: product.brand,
+                        selectedOption: currOption.option,
+                        amount: 1,
+                        totalPrice: selectedPrice,
+                        handlingTime: product.handlingTime,
+                      })
+                    }
+                    style={{
+                      border: "solid 1px",
+                      marginRight: "15px !important",
+                    }}
+                    id="add-btn"
+                    variant="outlined"
+                  >
+                    {adding ? (
+                      "Adding..."
+                    ) : added ? (
+                      <span className="flex items-center">
+                        <Image
+                          className="w-[20px] rounded-full"
+                          src={addedImg}
+                          alt="Added gif"
+                          id="gif_added"
+                        />
+                        &nbsp; Added
+                      </span>
+                    ) : (
+                      "Add to Cart"
+                    )}
+                  </Button>
+                </Tooltip>
+                <span className="ml-[7px]">
+                  <Button
+                    color={"cart-btn"}
+                    disabled={!product.inStock}
+                    onClick={() => buyNow()}
+                    variant="contained"
+                  >
+                    Buy Now
+                  </Button>
+                </span>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

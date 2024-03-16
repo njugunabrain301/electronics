@@ -18,8 +18,17 @@ const Timeless = ({ profile, checkoutInfo }) => {
   const [user, setUser] = useState({});
   const [authUser, setAuth] = useState(false);
   let cookies = new Cookies();
-  let { cart, totalPrice, totalCount, setCart, theme, titleFont } =
-    useGlobalContext();
+  let {
+    cart,
+    totalPrice,
+    totalCount,
+    setCart,
+    theme,
+    titleFont,
+    handleOpenCart,
+    handleCloseCart,
+    openCart,
+  } = useGlobalContext();
 
   let updateLogin = () => {
     let userProfile = localStorage.getItem("user");
@@ -66,40 +75,6 @@ const Timeless = ({ profile, checkoutInfo }) => {
   let customHandleCloseAuth = () => {
     updateLogin();
     handleCloseAuth();
-  };
-
-  //Cart Modal
-  const [openCart, setOpenCart] = useState(false);
-  const handleOpenCart = () => {
-    let cartTotal = 0;
-    cart.map((itm) => {
-      cartTotal += itm.price * itm.amount;
-    });
-    gtag("event", "view_cart", {
-      currency: "KES",
-      value: cartTotal,
-      items: cart.map((item, idx) => {
-        return {
-          item_id: item._id,
-          item_name: item.name,
-          affiliation: profile.name,
-          coupon: "",
-          discount: 0,
-          index: idx,
-          item_brand: item.brand,
-          item_category: "",
-          item_category2: "",
-          item_variant:
-            item.color + " " + item.size + " " + item.selectedOption,
-          price: item.price,
-          quantity: item.amount,
-        };
-      }),
-    });
-    setOpenCart(true);
-  };
-  const handleCloseCart = () => {
-    setOpenCart(false);
   };
 
   //Profile Modal
