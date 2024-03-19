@@ -1,5 +1,5 @@
-import Opulence from "./templates/Opulence";
-import Timeless from "./templates/Timeless";
+import Opulence from "./templates/Opulence/Opulence";
+import Timeless from "./templates/Timeless/Timeless";
 
 const SingleProduct = ({
   product,
