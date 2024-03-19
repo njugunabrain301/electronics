@@ -200,18 +200,22 @@ const Timeless = ({
         })}
       </div>
       {/* Product Again */}
-      {product && (
-        <Product
-          product={product}
-          profile={profile}
-          shipping={shipping}
-          returns={returns}
-          offers={offers}
-          unitsSold={unitsSold}
-          unitsRefunded={unitsRefunded}
-        />
+      {product &&
+        product.articles.length >
+          2(
+            <Product
+              product={product}
+              profile={profile}
+              shipping={shipping}
+              returns={returns}
+              offers={offers}
+              unitsSold={unitsSold}
+              unitsRefunded={unitsRefunded}
+            />
+          )}
+      {product.articles.length > 2 && (
+        <MoreDetails product={product} profile={profile} />
       )}
-      <MoreDetails product={product} profile={profile} />
       {/* Related Products */}
       <div>
         <ProductSection
