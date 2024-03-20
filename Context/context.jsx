@@ -120,7 +120,7 @@ export const GlobalContextProvider = ({
   const handleCloseCart = () => {
     setOpenCart(false);
   };
-
+  const [isVisible, setIsVisible] = useState(false);
   return (
     <div
       style={{
@@ -150,6 +150,8 @@ export const GlobalContextProvider = ({
             bodyFont,
             subtitleFont,
             checkoutInfo,
+            isVisible,
+            setIsVisible,
           }}
         >
           {children}

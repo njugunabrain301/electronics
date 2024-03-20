@@ -3,10 +3,14 @@ import { useGlobalContext } from "@/Context/context";
 import whatsapp from "@/public/whatsapp.png";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
+import { motion, useAnimation } from "framer-motion";
 
 export default function WhatsappWidget({ text }) {
-  let { profile } = useGlobalContext();
+  let { profile, isVisible } = useGlobalContext();
+
+  const controls = useAnimation();
+
   const sendToWhatsapp = () => {
     let number = profile.phone;
     if (number[0] === "0") {
@@ -19,19 +23,32 @@ export default function WhatsappWidget({ text }) {
 
   const url = usePathname();
   const prodPage = url.includes("/item/");
+  useEffect(() => {
+    if (isVisible) {
+      controls.start({ bottom: 68 }); // Change bottom value to slide div upwards
+    } else {
+      // controls.start({ bottom: -100 }); // Change bottom value to slide div downwards
+    }
+  }, [isVisible, controls]);
 
   return (
-    <Image
-      height={50}
-      width={50}
-      alt="Whatsapp Icon"
+    <motion.div
       className={
         prodPage
-          ? "w-[50px] h-[50px] fixed right-3 bottom-[68px] cursor-pointer"
-          : "w-[50px] h-[50px] fixed right-5 bottom-5 cursor-pointer"
+          ? "w-[50px] h-[50px] fixed right-3 cursor-pointer"
+          : "w-[50px] h-[50px] fixed right-5 cursor-pointer"
       }
-      src={whatsapp}
-      onClick={sendToWhatsapp}
-    />
+      initial={{ bottom: 10 }}
+      animate={controls}
+      transition={{ duration: 0.5 }}
+    >
+      <Image
+        height={50}
+        width={50}
+        alt="Whatsapp Icon"
+        src={whatsapp}
+        onClick={sendToWhatsapp}
+      />
+    </motion.div>
   );
 }

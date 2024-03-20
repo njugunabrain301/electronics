@@ -24,6 +24,7 @@ import MyModal from "@/components/Modal/MyModal";
 import Cart from "@/components/cart/Cart";
 import { useSearchParams } from "next/navigation";
 import { gtag } from "@/utils/gtag";
+import { motion, useAnimation } from "framer-motion";
 
 export default function Product({
   product,
@@ -40,7 +41,8 @@ export default function Product({
 
   const showPrice = profile.showPrice;
 
-  const { theme, addToLocalCart, checkoutInfo } = useGlobalContext();
+  const { theme, addToLocalCart, checkoutInfo, isVisible, setIsVisible } =
+    useGlobalContext();
   const resizeProdImageSmall = (img) => {
     img = img.replace(
       "https://storage.googleapis.com/test-bucket001/",
@@ -241,9 +243,44 @@ export default function Product({
     }
   }, [currOption]);
 
+  const controls = useAnimation();
+
+  useEffect(() => {
+    setIsVisible(false);
+    const handleScroll = () => {
+      const slideUpDiv = document.getElementById("priceDiv");
+      const slideUpDivOffset = slideUpDiv.getBoundingClientRect().top;
+      const slideUpDivHeight = slideUpDiv.offsetHeight;
+      const windowHeight = window.innerHeight;
+
+      if (slideUpDivOffset < windowHeight - slideUpDivHeight / 2) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isVisible) {
+      controls.start({ bottom: 0 }); // Change bottom value to slide div upwards
+    } else {
+      // controls.start({ bottom: -100 }); // Change bottom value to slide div downwards
+    }
+  }, [isVisible, controls]);
+
   return (
-    <div className="flex justify-center items-center p-4 pb-8 flex-wrap md:flex-nowrap w-[98%] mx-auto max-w-7xl">
-      <div className="flex justify-center items-center m-0 md:m-0 flex-col max-w-[100%] min-w-[50%]">
+    <div
+      className="flex justify-center items-center p-4 pb-8 flex-wrap md:flex-nowrap w-[98%] mx-auto max-w-7xl"
+      id="priceDiv"
+    >
+      <div className="flex justify-center items-center m-0 md:m-0 flex-col w-[100%] min-w-[50%]">
         <Image
           className="max-h-600px rounded-lg w-[100%] max-w-[1500px] hidden lg:block"
           src={resizeProdImageLarge(selectedImage)}
@@ -774,12 +811,15 @@ export default function Product({
         ></Cart>
       </MyModal>
       {/* Price and checkout fixed */}
-      <div
-        className="fixed bottom-[0] w-[100%] px-2 py-3 border-t-[2px] z-[200]"
+      <motion.div
+        className="fixed w-[100%] px-2 py-3 border-t-[2px] z-[200]"
         style={{
           backgroundColor: theme.palette.background.primary,
           borderColor: theme.palette.text.alt,
         }}
+        initial={{ bottom: -100 }}
+        animate={controls}
+        transition={{ duration: 0.5 }}
       >
         <div className="flex justify-between items-center">
           <div className="flex">
@@ -940,7 +980,7 @@ export default function Product({
             )}
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
