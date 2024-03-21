@@ -48,14 +48,7 @@ const Timeless = ({
 
   const showPrice = profile.showPrice;
 
-  const {
-    theme,
-    addToLocalCart,
-    checkoutInfo,
-    openCart,
-    handleOpenCart,
-    handleCloseCart,
-  } = useGlobalContext();
+  const { theme, bodyFont } = useGlobalContext();
   const resizeProdImageSmall = (img) => {
     img = img.replace(
       "https://storage.googleapis.com/test-bucket001/",
@@ -79,36 +72,23 @@ const Timeless = ({
 
   return (
     <div
-      className=""
+      className={"" + bodyFont.className}
       style={{
         backgroundColor: theme.palette.background.primary,
         color: theme.palette.text.base,
       }}
     >
-      {/* {product && (
-        <Product
-          product={product}
-          profile={profile}
-          shipping={shipping}
-          returns={returns}
-          offers={offers}
-          unitsSold={unitsSold}
-          unitsRefunded={unitsRefunded}
-        />
-      )} */}
-      {/* More Details */}
-      {/* <MoreDetails product={product} profile={profile} /> */}
       {/* Articles */}
       {product.articles.length > 0 && (
-        <div className="pb-8 flex flex-wrap w-full mx-auto max-w-7xl justify-between">
+        <div className="pb-8 flex flex-wrap w-full mx-auto max-w-7xl justify-between ">
           {product.articles.map((article, idx) => {
             if (article.type === "article") {
               return (
                 <div
-                  className="w-[98%] md:w-[46%] mx-auto"
+                  className="w-[98%] md:w-[46%] mx-auto my-5"
                   key={idx + "_" + article._id}
                 >
-                  <div className="w-full md:flex flex-wrap my-3">
+                  <div className="w-full md:flex flex-wrap my-4">
                     {article.content.title && (
                       <h3 className="text-2xl md:text-3xl font-bold w-full text-center">
                         {article.content.title}
@@ -121,13 +101,13 @@ const Timeless = ({
                           alt={article.content.title + " image"}
                           width={300}
                           height={200}
-                          className="w-full mx-auto aspect-video object-cover"
+                          className="w-full mx-auto aspect-video object-cover my-[40px]"
                         />
                       </label>
                     )}
                     {article.content.content && (
                       <p
-                        className="my-3 px-3"
+                        className="my-3 px-3 leading-8"
                         dangerouslySetInnerHTML={{
                           __html: cleanHTML(article.content.content),
                         }}
@@ -139,7 +119,7 @@ const Timeless = ({
             } else if (article.type === "list") {
               return (
                 <div
-                  className="w-[96%] md:w-[46%] mx-auto"
+                  className="w-[96%] md:w-[46%] mx-auto my-5"
                   key={idx + "_" + article._id}
                 >
                   <div className="w-full my-3">
@@ -148,8 +128,10 @@ const Timeless = ({
                         {article.content.title}
                       </h2>
                     )}
-                    {article.content.intro && <p>{article.content.intro}</p>}
-                    <ul className="list-disc ml-4">
+                    {article.content.intro && (
+                      <p className="leading-8 mb-3">{article.content.intro}</p>
+                    )}
+                    <ul className="list-disc ml-7 leading-8">
                       {article.content.items.map((item, idx) => {
                         return (
                           <li
@@ -167,10 +149,10 @@ const Timeless = ({
             } else if (article.type === "counter") {
               return (
                 <div
-                  className="w-[98%] md:w-[46%] mx-auto"
+                  className="w-[98%] md:w-[46%] mx-auto my-5 flex justify-center flex-wrap items-center w-full"
                   key={idx + "_" + article._id}
                 >
-                  <div className="flex justify-evenly flex-wrap items-center w-full my-3">
+                  <div className="flex justify-evenly flex-wrap items-center w-full">
                     {article.content.values.map((value, idx) => {
                       return (
                         <Counter

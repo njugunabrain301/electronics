@@ -102,7 +102,7 @@ const MoreDetails = ({ product, profile }) => {
             ></iframe>
           )}
           <p
-            className="font-inter tracking-normal leading-none pb-4"
+            className="font-inter tracking-normal leading-8 pb-4"
             dangerouslySetInnerHTML={{
               __html: cleanHTML(product.description),
             }}
@@ -111,7 +111,7 @@ const MoreDetails = ({ product, profile }) => {
       )}
       {active === 2 && (
         <div>
-          <div className="text-l font-inter tracking-normal leading-none pb-4 rounded-md">
+          <div className="text-l font-inter tracking-normal leading-8 pb-4 rounded-md">
             {product.specs.map((spec, idx) => {
               return (
                 <div
@@ -136,7 +136,7 @@ const MoreDetails = ({ product, profile }) => {
       )}
       {active === 3 && (
         <div>
-          <p className="text-l font-inter tracking-normal leading-none pb-4 rounded-md">
+          <p className="text-l font-inter tracking-normal leading-8 pb-4 rounded-md">
             {product.faqs.map((faq, idx) => {
               let qsn = faq.question.trim();
               qsn = qsn.endsWith("?") ? qsn : qsn + "? ";
@@ -172,7 +172,7 @@ const MoreDetails = ({ product, profile }) => {
                   <span>{stars.map((s, idx) => s)}</span>
                 </div>
                 <span>{review.comment}</span>
-                <div>
+                <div className="leading-8">
                   {review.media.map((media, idx) => {
                     console.log(media);
                     if (media.type === "video") {

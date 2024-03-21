@@ -54,7 +54,7 @@ export default function Counter({ value, title, prefix, suffix }) {
           <span className="text-3xl">{suffix}</span>
         </span>
       </span>
-      <span>{title}</span>
+      <span className="text-center mt-3">{title}</span>
     </span>
   );
 }
