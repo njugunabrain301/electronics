@@ -1,7 +1,7 @@
 import { useGlobalContext } from "@/Context/context";
 import React, { useEffect, useRef, useState } from "react";
 
-export default function Counter({ value, title }) {
+export default function Counter({ value, title, prefix, suffix }) {
   const [count, setCount] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
   const { theme } = useGlobalContext();
@@ -48,7 +48,11 @@ export default function Counter({ value, title }) {
         style={{ borderColor: theme.palette.highlight.main }}
         ref={elementRef}
       >
-        {count}
+        <span className="flex items-end justify-center">
+          <span className="text-3xl">{prefix}</span>
+          {" " + count}
+          <span className="text-3xl">{suffix}</span>
+        </span>
       </span>
       <span>{title}</span>
     </span>

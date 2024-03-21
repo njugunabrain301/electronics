@@ -71,6 +71,12 @@ const Timeless = ({
     return img;
   };
 
+  const cleanHTML = (text) => {
+    while (text.includes("\n")) text = text.replace("\n", "<br/>");
+
+    return DOMPurify.sanitize(text);
+  };
+
   return (
     <div
       className=""
@@ -94,7 +100,7 @@ const Timeless = ({
       {/* <MoreDetails product={product} profile={profile} /> */}
       {/* Articles */}
       {product.articles.length > 0 && (
-        <div className="pt-4 pb-8 flex flex-wrap w-full mx-auto max-w-7xl justify-between">
+        <div className="pb-8 flex flex-wrap w-full mx-auto max-w-7xl justify-between">
           {product.articles.map((article, idx) => {
             if (article.type === "article") {
               return (
@@ -109,18 +115,23 @@ const Timeless = ({
                       </h3>
                     )}
                     {article.content.image && (
-                      <label className="text-center mx-auto">
+                      <label className="text-center mx-auto w-full">
                         <Image
                           src={resizeProdImageSmall(article.content.image)}
                           alt={article.content.title + " image"}
                           width={300}
                           height={200}
-                          className="lg:w-[300px] mx-auto"
+                          className="w-full mx-auto aspect-video object-cover"
                         />
                       </label>
                     )}
                     {article.content.content && (
-                      <p className="m-3">{article.content.content}</p>
+                      <p
+                        className="m-3"
+                        dangerouslySetInnerHTML={{
+                          __html: cleanHTML(article.content.content),
+                        }}
+                      ></p>
                     )}
                   </div>
                 </div>
@@ -140,7 +151,14 @@ const Timeless = ({
                     {article.content.intro && <p>{article.content.intro}</p>}
                     <ul className="list-disc ml-4">
                       {article.content.items.map((item, idx) => {
-                        return <li key={idx + "-" + item}>{item}</li>;
+                        return (
+                          <li
+                            key={idx + "-" + item}
+                            dangerouslySetInnerHTML={{
+                              __html: cleanHTML(item),
+                            }}
+                          ></li>
+                        );
                       })}
                     </ul>
                   </div>
@@ -159,6 +177,8 @@ const Timeless = ({
                           key={idx + "-" + value.title + "-" + value.value}
                           value={value.value}
                           title={value.title}
+                          prefix={value.prefix ? value.prefix : ""}
+                          suffix={value.suffix ? value.suffix : ""}
                         />
                       );
                     })}
@@ -171,7 +191,7 @@ const Timeless = ({
                 : "";
               return (
                 <div
-                  className="w-full relative text-center my-3 py-10 px-5"
+                  className="w-full relative text-center mb-3 py-10 px-5"
                   style={{
                     backgroundImage: article.content.image
                       ? "url('" + imageUrl + "')"
