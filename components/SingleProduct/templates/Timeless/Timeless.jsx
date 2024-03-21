@@ -127,7 +127,7 @@ const Timeless = ({
                     )}
                     {article.content.content && (
                       <p
-                        className="m-3"
+                        className="my-3 px-3"
                         dangerouslySetInnerHTML={{
                           __html: cleanHTML(article.content.content),
                         }}

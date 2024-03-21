@@ -30,7 +30,7 @@ const MoreDetails = ({ product, profile }) => {
     >
       <div className="flex mb-4">
         <p
-          className="text-sm md:text-lg px-3 mr-2 text-center cursor-pointer"
+          className="text-sm md:text-lg px-2 md:px-3 mr-2 text-center cursor-pointer"
           style={{
             borderBottom:
               active === 1
@@ -45,7 +45,7 @@ const MoreDetails = ({ product, profile }) => {
         </p>
         {pkg !== "starter" && product.specs && product.specs.length > 0 && (
           <p
-            className="text-sm md:text-lg px-3 mr-2 cursor-pointer"
+            className="text-sm md:text-lg px-2 md:px-3 mr-2 cursor-pointer"
             style={{
               borderBottom:
                 active === 2
@@ -61,7 +61,7 @@ const MoreDetails = ({ product, profile }) => {
         )}
         {pkg !== "starter" && product.faqs && product.faqs.length > 0 && (
           <p
-            className="text-sm md:text-lg px-3 mr-2 cursor-pointer"
+            className="text-sm md:text-lg px-2 md:px-3 mr-2 cursor-pointer"
             style={{
               borderBottom:
                 active === 3
@@ -77,7 +77,7 @@ const MoreDetails = ({ product, profile }) => {
         )}
         {pkg !== "starter" && product.reviews && product.reviews.length > 0 && (
           <p
-            className="text-sm md:text-lg px-3 mr-2 cursor-pointer"
+            className="text-sm md:text-lg px-2 md:px-3 cursor-pointer"
             style={{
               borderBottom:
                 active === 4
