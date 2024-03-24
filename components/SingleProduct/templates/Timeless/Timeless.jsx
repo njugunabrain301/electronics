@@ -70,6 +70,8 @@ const Timeless = ({
     return DOMPurify.sanitize(text);
   };
 
+  let articleCount = 0;
+
   return (
     <div
       className={"" + bodyFont.className}
@@ -83,31 +85,55 @@ const Timeless = ({
         <div className="pb-8 flex flex-wrap w-full mx-auto max-w-7xl justify-between ">
           {product.articles.map((article, idx) => {
             if (article.type === "article") {
+              let reverse = articleCount % 2 !== 0;
+              articleCount++;
+              let hasImage = article.content.image;
               return (
                 <div
-                  className="w-[98%] md:w-[46%] mx-auto my-5"
+                  className={
+                    hasImage
+                      ? "w-[98%] mx-auto my-5"
+                      : "w-[98%] md:w-[46%] mx-auto my-5"
+                  }
                   key={idx + "_" + article._id}
                 >
-                  <div className="w-full md:flex flex-wrap my-4">
-                    {article.content.title && (
-                      <h3 className="text-2xl md:text-3xl font-bold w-full text-center">
-                        {article.content.title}
-                      </h3>
-                    )}
+                  {article.content.title && (
+                    <h3
+                      className="text-2xl md:text-3xl font-bold w-full text-center"
+                      style={{ textAlign: hasImage ? "left" : "center" }}
+                    >
+                      {article.content.title}
+                    </h3>
+                  )}
+                  <div
+                    className={
+                      "w-full md:flex flex-wrap my-4 md:justify-between md:items-center"
+                    }
+                    style={{
+                      flexDirection:
+                        reverse && article.content.image
+                          ? "row-reverse"
+                          : "row",
+                    }}
+                  >
                     {article.content.image && (
-                      <label className="text-center mx-auto w-full">
+                      <label className="text-center mx-auto w-full md:w-[45%] md:m-0">
                         <Image
                           src={resizeProdImageSmall(article.content.image)}
                           alt={article.content.title + " image"}
                           width={300}
                           height={200}
-                          className="w-full mx-auto aspect-video object-cover my-[40px]"
+                          className="w-full mx-auto aspect-video object-cover my-[40px] md:ml-0"
                         />
                       </label>
                     )}
                     {article.content.content && (
                       <p
-                        className="my-3 px-3 leading-8"
+                        className={
+                          hasImage
+                            ? "my-3 px-3 leading-8 w-full md:w-[50%]"
+                            : "my-3 px-3 leading-8 w-full"
+                        }
                         dangerouslySetInnerHTML={{
                           __html: cleanHTML(article.content.content),
                         }}
