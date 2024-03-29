@@ -18,6 +18,7 @@ import {
   Lock,
   Person,
 } from "@mui/icons-material";
+import { gtag } from "@/utils/gtag";
 
 function Checkout({
   closeModal,
@@ -125,6 +126,7 @@ function Checkout({
     if (mcounty !== "" && subcounty !== "") {
       let couriers = [];
       deliveryLocations.map((loc) => {
+        console.log(loc);
         if (
           loc.county.replaceAll("*", "") === mcounty &&
           loc.subcounty.replaceAll("*", "") === subcounty
@@ -857,6 +859,7 @@ function Checkout({
                       getDeliveryFee(v);
                       getDeliveryTime(v);
                       setCourier(v);
+                      console.log(v);
                       setCError("");
                     }}
                   />

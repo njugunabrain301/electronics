@@ -11,6 +11,7 @@ import { removeFromCart } from "@/utils/frontendAPIs/cart";
 import Image from "next/image";
 import { useGlobalContext } from "@/Context/context";
 import { Button } from "@mui/material";
+import { gtag } from "@/utils/gtag";
 
 const Timeless = ({
   closeModal,
