@@ -34,8 +34,13 @@ export default function Product({
   offers,
   unitsSold,
   unitsRefunded,
+  currOption,
+  setCurrOption,
+  selectedPrice,
+  setSelectedPrice,
+  sticky,
 }) {
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const [selectedImage, setSelectedImage] = useState(product.img);
   const { setCart, cart } = useGlobalContext();
 
@@ -165,8 +170,9 @@ export default function Product({
 
     //load first price option if available
     if (product.priceOptions.length > 0) {
-      if (searchParams && searchParams.length > 0) {
-        let optId = searchParams[0];
+      let variant = searchParams.get("variant");
+      if (variant) {
+        let optId = variant;
         product.priceOptions.map((opt) => {
           if (opt._id === optId) {
             setCurrOption(opt);
@@ -175,12 +181,6 @@ export default function Product({
       } else setCurrOption(product.priceOptions[0]);
     }
   }, []);
-
-  const cleanHTML = (text) => {
-    while (text.includes("\n")) text = text.replace("\n", "<br/>");
-
-    return DOMPurify.sanitize(text);
-  };
 
   function removeTags(str) {
     if (str === null || str === "") return false;
@@ -235,8 +235,6 @@ export default function Product({
     handleOpenBuyNow();
   };
 
-  const [currOption, setCurrOption] = useState({});
-  const [selectedPrice, setSelectedPrice] = useState(product.price);
   useEffect(() => {
     if (currOption.option && currOption.price) {
       setSelectedPrice(currOption.price);
@@ -278,7 +276,7 @@ export default function Product({
   return (
     <div
       className="flex justify-center items-center p-4 pb-8 flex-wrap md:flex-nowrap w-[98%] mx-auto max-w-7xl"
-      id="priceDiv"
+      id={sticky ? "priceDiv" : ""}
     >
       <div className="flex justify-center items-center m-0 md:m-0 flex-col w-[100%] min-w-[50%]">
         <Image
@@ -617,13 +615,19 @@ export default function Product({
           {/* Price and checkout normal */}
           <div className="flex justify-between items-center mt-3 flex-wrap ">
             {showPrice && (
-              <Typography className="font-bold hidden md:block">
+              <Typography
+                className={sticky ? "font-bold hidden md:block" : "font-bold"}
+              >
                 Ksh.&nbsp;{selectedPrice}
               </Typography>
             )}
             <span
               id="share_btn"
-              className="py-2 rounded-full hover:underline cursor-pointer md:hidden"
+              className={
+                sticky
+                  ? "py-2 rounded-full hover:underline cursor-pointer md:hidden"
+                  : "py-2 rounded-full hover:underline cursor-pointer hidden"
+              }
             >
               <ShareIcon className="pr-2" />
               Share
@@ -640,7 +644,13 @@ export default function Product({
               Policy
             </div>
           </div>
-          <div className="flex justify-between items-center mt-3 hidden md:flex">
+          <div
+            className={
+              sticky
+                ? "flex justify-between items-center mt-3 hidden md:flex"
+                : "flex justify-between items-center mt-3 flex"
+            }
+          >
             <div>
               {pkg === "starter" ? (
                 <>

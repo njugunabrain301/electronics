@@ -126,7 +126,6 @@ function Checkout({
     if (mcounty !== "" && subcounty !== "") {
       let couriers = [];
       deliveryLocations.map((loc) => {
-        console.log(loc);
         if (
           loc.county.replaceAll("*", "") === mcounty &&
           loc.subcounty.replaceAll("*", "") === subcounty
