@@ -11,6 +11,8 @@ import { gtag } from "@/utils/gtag";
 import Counter from "./Counter";
 import Product from "./Product";
 import MoreDetails from "./MoreDetails";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 
 const Timeless = ({
   product,
@@ -76,6 +78,25 @@ const Timeless = ({
   };
 
   let articleCount = 0;
+
+  // Carousel Config
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3,
+      slidesToSlide: 3, // optional, default to 1.
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 768 },
+      items: 2,
+      slidesToSlide: 2, // optional, default to 1.
+    },
+    mobile: {
+      breakpoint: { max: 767, min: 464 },
+      items: 1,
+      slidesToSlide: 1, // optional, default to 1.
+    },
+  };
 
   return (
     <div
@@ -224,6 +245,7 @@ const Timeless = ({
                   : "";
                 return (
                   <div
+                    key={idx + "_" + article._id}
                     className="w-full relative text-center mb-3 py-10 px-5"
                     style={{
                       backgroundImage: article.content.image
@@ -267,6 +289,101 @@ const Timeless = ({
                         </h2>
                       )}
                     </div>
+                  </div>
+                );
+              } else if (article.type === "link") {
+                return (
+                  <div
+                    className="w-[96%] md:w-[46%] mx-auto my-5 flex items-center justify-center"
+                    key={idx + "_" + article._id}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: theme.palette.background.inverted,
+                        color: theme.palette.text.inverted,
+                      }}
+                      className="rounded-3xl p-2"
+                    >
+                      <Link
+                        href={article.content.url ? article.content.url : "/"}
+                        className="hover:underline"
+                      >
+                        <h2 className="m-3 text-center text-2xl">
+                          {article.content.text}
+                        </h2>
+                      </Link>
+                    </div>
+                  </div>
+                );
+              } else if (article.type === "carousel") {
+                return (
+                  <div
+                    key={idx + "_" + article._id}
+                    className="w-full relative text-center mb-3 py-10 px-5"
+                  >
+                    {article.content.title && (
+                      <h3 className="text-2xl md:text-3xl font-bold w-full text-center mb-4">
+                        {article.content.title}
+                      </h3>
+                    )}
+                    <Carousel
+                      responsive={responsive}
+                      autoPlay={true}
+                      swipeable={true}
+                      draggable={true}
+                      showDots={true}
+                      infinite={true}
+                      partialVisible={false}
+                      dotListClass="custom-dot-list-style"
+                    >
+                      {article.content.values.map((cai, idx2) => {
+                        return (
+                          <div
+                            className={"w-[97%] mx-auto mb-8"}
+                            key={
+                              idx2 +
+                              "_" +
+                              cai.title +
+                              "-" +
+                              cai.description +
+                              "_" +
+                              cai.image
+                            }
+                          >
+                            <div
+                              className={"w-full flex flex-col items-center"}
+                              style={{ margin: "10px" }}
+                            >
+                              {cai.image && (
+                                <label className="text-center mx-auto w-full">
+                                  <Image
+                                    src={resizeProdImageSmall(cai.image)}
+                                    alt={cai.title + " image"}
+                                    width={300}
+                                    height={200}
+                                    className="w-full mx-auto aspect-video object-cover my-[10px] md:ml-0"
+                                  />
+                                </label>
+                              )}
+                              {cai.title && (
+                                <h2
+                                  className={
+                                    "my-1 px-3 leading-8 w-full font-bold"
+                                  }
+                                >
+                                  {cai.title}
+                                </h2>
+                              )}
+                              {cai.description && (
+                                <h3 className={"px-3 leading-8 w-full"}>
+                                  {cai.description}
+                                </h3>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </Carousel>
                   </div>
                 );
               }
