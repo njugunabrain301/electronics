@@ -13,6 +13,7 @@ import Product from "./Product";
 import MoreDetails from "./MoreDetails";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import SingleCarousel from "react-material-ui-carousel";
 
 const Timeless = ({
   product,
@@ -84,17 +85,16 @@ const Timeless = ({
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
       items: 3,
-      slidesToSlide: 3, // optional, default to 1.
+      slidesToSlide: 1, // optional, default to 1.
     },
     tablet: {
       breakpoint: { max: 1024, min: 768 },
       items: 2,
-      slidesToSlide: 2, // optional, default to 1.
+      slidesToSlide: 1, // optional, default to 1.
     },
     mobile: {
       breakpoint: { max: 767, min: 464 },
-      items: 1,
-      slidesToSlide: 1, // optional, default to 1.
+      items: 2,
     },
   };
 
@@ -326,64 +326,130 @@ const Timeless = ({
                         {article.content.title}
                       </h3>
                     )}
-                    <Carousel
-                      responsive={responsive}
-                      autoPlay={true}
-                      swipeable={true}
-                      draggable={true}
-                      showDots={true}
-                      infinite={true}
-                      partialVisible={false}
-                      dotListClass="custom-dot-list-style"
-                    >
-                      {article.content.values.map((cai, idx2) => {
-                        return (
-                          <div
-                            className={"w-[97%] mx-auto mb-8"}
-                            key={
-                              idx2 +
-                              "_" +
-                              cai.title +
-                              "-" +
-                              cai.description +
-                              "_" +
-                              cai.image
-                            }
-                          >
+                    <div className="hidden sm:block">
+                      <Carousel
+                        responsive={responsive}
+                        autoPlay={true}
+                        swipeable={true}
+                        draggable={true}
+                        showDots={true}
+                        arrows={false}
+                        infinite={true}
+                        partialVisible={false}
+                        dotListClass=""
+                      >
+                        {article.content.values.map((cai, idx2) => {
+                          return (
                             <div
-                              className={"w-full flex flex-col items-center"}
-                              style={{ margin: "10px" }}
+                              className={"w-[97%] mx-auto mb-8"}
+                              key={
+                                idx2 +
+                                "_" +
+                                cai.title +
+                                "-" +
+                                cai.description +
+                                "_" +
+                                cai.image
+                              }
                             >
-                              {cai.image && (
-                                <label className="text-center mx-auto w-full">
-                                  <Image
-                                    src={resizeProdImageSmall(cai.image)}
-                                    alt={cai.title + " image"}
-                                    width={300}
-                                    height={200}
-                                    className="w-full mx-auto aspect-video object-cover my-[10px] md:ml-0"
-                                  />
-                                </label>
-                              )}
-                              {cai.title && (
-                                <h2
-                                  className={
-                                    "my-1 px-3 leading-8 w-full font-bold"
-                                  }
-                                >
-                                  {cai.title}
-                                </h2>
-                              )}
-                              {cai.description && (
-                                <h3 className={"px-3 leading-8 w-full"}>
-                                  {cai.description}
-                                </h3>
-                              )}
+                              <div
+                                className={"w-full flex flex-col items-center"}
+                                style={{ margin: "10px" }}
+                              >
+                                {cai.image && (
+                                  <label className="text-center mx-auto w-full">
+                                    <Image
+                                      src={resizeProdImageSmall(cai.image)}
+                                      alt={cai.title + " image"}
+                                      width={300}
+                                      height={200}
+                                      className="w-full mx-auto aspect-video object-cover my-[10px] md:ml-0"
+                                    />
+                                  </label>
+                                )}
+                                {cai.title && (
+                                  <h2
+                                    className={
+                                      "my-1 px-3 leading-8 w-full font-bold"
+                                    }
+                                  >
+                                    {cai.title}
+                                  </h2>
+                                )}
+                                {cai.description && (
+                                  <h3 className={"px-3 leading-8 w-full"}>
+                                    {cai.description}
+                                  </h3>
+                                )}
+                              </div>
                             </div>
-                          </div>
-                        );
-                      })}
-                    </Carousel>
+                          );
+                        })}
+                      </Carousel>
+                    </div>
+                    <div className="sm:hidden">
+                      <SingleCarousel
+                        animation="slide"
+                        navButtonsAlwaysVisible={false}
+                        duration={1000}
+                        navButtonsProps={{
+                          style: {
+                            backgroundColor: "#20202090",
+                            color: "white",
+                            borderRadius: "50%",
+                          },
+                        }}
+                        indicators={true}
+                      >
+                        {article.content.values.map((cai, idx2) => {
+                          return (
+                            <div
+                              className={"mx-2 mb-8"}
+                              key={
+                                idx2 +
+                                "_" +
+                                cai.title +
+                                "-" +
+                                cai.description +
+                                "_" +
+                                cai.image
+                              }
+                            >
+                              <div
+                                className={"flex flex-col items-center"}
+                                style={{ margin: "10px" }}
+                              >
+                                {cai.image && (
+                                  <label className="text-center mx-auto w-full">
+                                    <Image
+                                      src={resizeProdImageSmall(cai.image)}
+                                      alt={cai.title + " image"}
+                                      width={300}
+                                      height={200}
+                                      className="w-full mx-auto aspect-video object-cover my-[10px] md:ml-0"
+                                    />
+                                  </label>
+                                )}
+                                {cai.title && (
+                                  <h2
+                                    className={
+                                      "my-1 px-3 leading-8 w-full font-bold"
+                                    }
+                                  >
+                                    {cai.title}
+                                  </h2>
+                                )}
+                                {cai.description && (
+                                  <h3 className={"px-3 leading-8 w-full"}>
+                                    {cai.description}
+                                  </h3>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </SingleCarousel>
+                    </div>
                   </div>
                 );
               }
