@@ -12,7 +12,6 @@ import { motion } from "framer-motion";
 import { useGlobalContext } from "@/Context/context";
 import { Button } from "@mui/material";
 import MySearchField from "../../SearchField/MySearchField";
-import { gtag } from "@/utils/gtag";
 
 const Timeless = ({
   productList,
@@ -23,7 +22,8 @@ const Timeless = ({
   template,
 }) => {
   const showPrice = profile.showPrice;
-  gtag("event", "view_item_list", {
+  let event = {
+    event: "view_item_list",
     item_list_name: type + " " + searchParam,
     items: productList.map((item, idx) => {
       return {
@@ -41,7 +41,10 @@ const Timeless = ({
         quantity: 1,
       };
     }),
-  });
+  };
+
+  let dataLayer = window.dataLayer || [];
+  dataLayer.push(event);
 
   const [filters, setFilters] = useState([]);
 

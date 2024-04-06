@@ -7,7 +7,6 @@ import ProductSection from "@/components/HomePage/Timeless/ProductSection/Produc
 import NavigateButtons from "@/components/NavigateButtons/NavigateButtons";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { gtag } from "@/utils/gtag";
 import Counter from "./Counter";
 import Product from "./Product";
 import MoreDetails from "./MoreDetails";
@@ -30,7 +29,8 @@ const Timeless = ({
   const variant = searchParams.get("variant");
   const source = searchParams.get("source");
 
-  gtag("event", "view_item", {
+  let event = {
+    event: "view_item",
     currency: "KES",
     value: product.price,
     items: [
@@ -49,8 +49,9 @@ const Timeless = ({
         quantity: 1,
       },
     ],
-  });
-
+  };
+  let dataLayer = window.dataLayer || [];
+  dataLayer.push(event);
   const showPrice = profile.showPrice;
 
   const { theme, bodyFont } = useGlobalContext();

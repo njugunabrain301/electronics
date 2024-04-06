@@ -18,7 +18,6 @@ import {
   Lock,
   Person,
 } from "@mui/icons-material";
-import { gtag } from "@/utils/gtag";
 
 function Checkout({
   closeModal,
@@ -295,13 +294,13 @@ function Checkout({
 
     setIsLoading(true);
     let dataLayer = window.dataLayer || [];
+    // let event = {
+    //   event: "purchase",
+    //   totalPrice: Number(cartTotal),
+    // };
+
     let event = {
       event: "purchase",
-      totalPrice: Number(cartTotal),
-    };
-    dataLayer.push(event);
-
-    gtag("event", "purchase", {
       transaction_id: "",
       totalPrice: Number(cartTotal),
       value: cartTotal,
@@ -326,8 +325,8 @@ function Checkout({
           quantity: item.amount,
         };
       }),
-    });
-
+    };
+    dataLayer.push(event);
     let res = {};
     if (authUser) {
       res = await checkout({
@@ -386,7 +385,8 @@ function Checkout({
           setSection(0);
           return;
         } else {
-          gtag("event", "add_shipping_info", {
+          let event = {
+            event: "add_shipping_info",
             currency: "KES",
             value: cartTotal,
             coupon: "",
@@ -403,7 +403,9 @@ function Checkout({
                 quantity: itm.amount,
               };
             }),
-          });
+          };
+          let dataLayer = window.dataLayer || [];
+          dataLayer.push(event);
         }
       }
 
@@ -413,7 +415,8 @@ function Checkout({
         setCError("Please select a delivery solution");
         return;
       } else {
-        gtag("event", "add_shipping_info", {
+        let event = {
+          event: "add_shipping_info",
           currency: "KES",
           value: cartTotal,
           coupon: "",
@@ -430,7 +433,9 @@ function Checkout({
               quantity: itm.amount,
             };
           }),
-        });
+        };
+        let dataLayer = window.dataLayer || [];
+        dataLayer.push(event);
         setSection(sec);
       }
     } else {

@@ -22,7 +22,7 @@ export default function SendMessage({ message, type }) {
     }
     if (send) {
       let res = await inquire();
-      console.log(res);
+
       if (res.success) {
         localStorage.setItem("lastSent", new Date().toString());
       }

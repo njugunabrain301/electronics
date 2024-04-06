@@ -94,7 +94,8 @@ export const GlobalContextProvider = ({
     cart.map((itm) => {
       cartTotal += itm.price * itm.amount;
     });
-    gtag("event", "view_cart", {
+    let event = {
+      event: "view_cart",
       currency: "KES",
       value: cartTotal,
       items: cart.map((item, idx) => {
@@ -114,7 +115,9 @@ export const GlobalContextProvider = ({
           quantity: item.amount,
         };
       }),
-    });
+    };
+    let dataLayer = window.dataLayer || [];
+    dataLayer.push(event);
     setOpenCart(true);
   };
   const handleCloseCart = () => {

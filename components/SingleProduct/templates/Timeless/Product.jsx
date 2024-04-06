@@ -23,7 +23,6 @@ import { Check } from "@mui/icons-material";
 import MyModal from "@/components/Modal/MyModal";
 import Cart from "@/components/cart/Cart";
 import { useSearchParams } from "next/navigation";
-import { gtag } from "@/utils/gtag";
 import { motion, useAnimation } from "framer-motion";
 
 export default function Product({
@@ -43,11 +42,19 @@ export default function Product({
   const searchParams = useSearchParams();
   const [selectedImage, setSelectedImage] = useState(product.img);
   const { setCart, cart } = useGlobalContext();
+  let authUser = localStorage.getItem("user") ? true : false;
 
   const showPrice = profile.showPrice;
 
-  const { theme, addToLocalCart, checkoutInfo, isVisible, setIsVisible } =
-    useGlobalContext();
+  const {
+    theme,
+    addToLocalCart,
+    checkoutInfo,
+    isVisible,
+    setIsVisible,
+    handleOpenCart,
+    totalCount,
+  } = useGlobalContext();
   const resizeProdImageSmall = (img) => {
     img = img.replace(
       "https://storage.googleapis.com/test-bucket001/",
@@ -99,9 +106,11 @@ export default function Product({
     };
     dataLayer.push(event);
 
-    gtag("event", "add_to_cart", {
+    event = {
+      event: "add_to_cart",
       currency: "KES",
       value: item.price,
+      item: { id: item._id, price: item.price, name: item.name },
       items: [
         {
           item_id: item._id,
@@ -119,7 +128,8 @@ export default function Product({
           quantity: 1,
         },
       ],
-    });
+    };
+    dataLayer.push(event);
 
     setAdding(true);
 
@@ -210,8 +220,15 @@ export default function Product({
         name: product.name + currOption.option,
       },
     };
-    gtag("event", "add_to_cart", {
+    dataLayer.push(event);
+    event = {
       currency: "KES",
+      event: "add_to_cart",
+      item: {
+        id: product._id,
+        price: selectedPrice,
+        name: product.name + currOption.option,
+      },
       value: product.price,
       items: [
         {
@@ -230,7 +247,7 @@ export default function Product({
           quantity: 1,
         },
       ],
-    });
+    };
     dataLayer.push(event);
     handleOpenBuyNow();
   };
@@ -832,8 +849,8 @@ export default function Product({
         transition={{ duration: 0.5 }}
       >
         <div className="flex justify-between items-center">
-          <div className="flex">
-            {cart.length > 0 ? (
+          <div className="flex cursor-pointer" onClick={handleOpenCart}>
+            {totalCount > 0 ? (
               <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -856,7 +873,7 @@ export default function Product({
                     color: theme.palette.text.inverted,
                   }}
                 >
-                  {cart.length}
+                  {totalCount}
                 </span>
               </span>
             ) : (
