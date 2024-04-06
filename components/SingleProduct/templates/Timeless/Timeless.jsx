@@ -491,20 +491,24 @@ const Timeless = ({
       {/* More Details Again */}
       {product && <MoreDetails product={product} profile={profile} />}
       {/* Related Products */}
-      <div>
-        <ProductSection
-          products={others}
-          showPrice={showPrice}
-          title="Related Products"
-        />
-      </div>
-      <div>
-        <NavigateButtons
-          categories={categories}
-          profile={profile}
-          minified={true}
-        />
-      </div>
+      {product.showRelated && (
+        <div>
+          <div>
+            <ProductSection
+              products={others}
+              showPrice={showPrice}
+              title="Related Products"
+            />
+          </div>
+          <div>
+            <NavigateButtons
+              categories={categories}
+              profile={profile}
+              minified={true}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
