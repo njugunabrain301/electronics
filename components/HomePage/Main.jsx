@@ -1,8 +1,11 @@
+"use client";
 import Timeless from "./Timeless/Main";
 import Opulence from "./Opulence/Main";
+import { getVisitorDetails } from "@/utils/functions";
 
 const Main = ({ products, slider, promoted, profile, categories }) => {
   const template = profile.template;
+  getVisitorDetails("Home Page");
   return (
     <div>
       {template === "Timeless" && (

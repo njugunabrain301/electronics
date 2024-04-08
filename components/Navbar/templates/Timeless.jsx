@@ -13,6 +13,7 @@ import { visit } from "@/utils/frontendAPIs/app";
 import Image from "next/image";
 import MySearchField from "@/components/SearchField/MySearchField";
 import { useRouter } from "next/navigation";
+import { getLeadDetails } from "@/utils/functions";
 
 const Timeless = ({ profile, checkoutInfo }) => {
   const [user, setUser] = useState({});
@@ -60,14 +61,14 @@ const Timeless = ({ profile, checkoutInfo }) => {
   useEffect(() => {
     updateLogin();
     //update visits
-    if (!cookies.get("visit-" + process.env.NEXT_PUBLIC_STORE_ID)) {
-      var d = new Date();
-      d.setTime(d.getTime() + 12 * 60 * 60 * 1000);
-      cookies.set("visit" + process.env.NEXT_PUBLIC_STORE_ID, "x", {
-        expires: d,
-      });
-      visit();
-    }
+    // if (!cookies.get("visit-" + process.env.NEXT_PUBLIC_STORE_ID)) {
+    //   var d = new Date();
+    //   d.setTime(d.getTime() + 12 * 60 * 60 * 1000);
+    //   cookies.set("visit" + process.env.NEXT_PUBLIC_STORE_ID, "x", {
+    //     expires: d,
+    //   });
+    //   visit();
+    // }
   }, []);
 
   //Auth Modal
@@ -412,7 +413,11 @@ const Timeless = ({ profile, checkoutInfo }) => {
         )}
 
         <p className="  text-base font-medium flex">
-          <a href={"mailto: " + profile.email} className="flex">
+          <a
+            href={"mailto: " + profile.email}
+            className="flex"
+            onClick={() => getLeadDetails("email_link")}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -439,7 +444,11 @@ const Timeless = ({ profile, checkoutInfo }) => {
             )}
           </a>
 
-          <a href={"tel: " + profile.phone} className="flex ml-4">
+          <a
+            href={"tel: " + profile.phone}
+            className="flex ml-4"
+            onClick={() => getLeadDetails("phone_link")}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

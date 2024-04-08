@@ -1,3 +1,5 @@
+"use client";
+import { getVisitorDetails } from "@/utils/functions";
 import Opulence from "./templates/Opulence";
 import Timeless from "./templates/Timeless";
 
@@ -9,7 +11,7 @@ const FilteredProducts = ({
   searchParam,
 }) => {
   const template = profile.template;
-
+  getVisitorDetails();
   return (
     <>
       {template === "Opulence" && (

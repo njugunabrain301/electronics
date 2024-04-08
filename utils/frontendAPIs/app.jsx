@@ -1,8 +1,8 @@
 import axios from "./axios.config";
 
-export const visit = async () => {
+export const visit = async (payload) => {
   try {
-    await axios.post("/visit");
+    await axios.post("/visit", payload);
   } catch (err) {}
 };
 
@@ -16,6 +16,15 @@ export const inquire = async () => {
 export const sendMessage = async (payload) => {
   try {
     let res = await axios.post("/message", payload);
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const lead = async (payload) => {
+  try {
+    let res = await axios.post("/lead", payload);
     return res.data;
   } catch (err) {
     return err;

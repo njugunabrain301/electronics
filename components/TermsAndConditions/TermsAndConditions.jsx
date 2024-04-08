@@ -1,10 +1,11 @@
 "use client";
 
 import { useGlobalContext } from "@/Context/context";
+import { getVisitorDetails } from "@/utils/functions";
 
 function TermsAndConditions({ profile }) {
   const { titleFont, theme } = useGlobalContext();
-  console.log(theme);
+  getVisitorDetails();
   return (
     <div
       className="w-[90%] mx-auto my-3 myPolicy"

@@ -13,14 +13,14 @@ const Navbar = ({ profile, checkoutInfo }) => {
 
   useEffect(() => {
     //update visits
-    if (!cookies.get("visit-" + process.env.NEXT_PUBLIC_STORE_ID)) {
-      var d = new Date();
-      d.setTime(d.getTime() + 12 * 60 * 60 * 1000);
-      cookies.set("visit" + process.env.NEXT_PUBLIC_STORE_ID, "x", {
-        expires: d,
-      });
-      visit();
-    }
+    // if (!cookies.get("visit-" + process.env.NEXT_PUBLIC_STORE_ID)) {
+    //   var d = new Date();
+    //   d.setTime(d.getTime() + 12 * 60 * 60 * 1000);
+    //   cookies.set("visit" + process.env.NEXT_PUBLIC_STORE_ID, "x", {
+    //     expires: d,
+    //   });
+    //   visit();
+    // }
 
     const ga4Tag = profile.ga4Tag
       ? profile.ga4Tag

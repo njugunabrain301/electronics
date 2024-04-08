@@ -1,3 +1,4 @@
+"use client";
 import Opulence from "./templates/Opulence/Opulence";
 import Timeless from "./templates/Timeless/Timeless";
 
@@ -13,6 +14,7 @@ const SingleProduct = ({
   unitsRefunded,
 }) => {
   let template = profile.template;
+  getVisitorDetails();
   return (
     <>
       {template === "Opulence" && (

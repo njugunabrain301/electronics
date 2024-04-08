@@ -7,6 +7,7 @@ import { Facebook, Google, Instagram } from "@mui/icons-material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
 import { sendMessage } from "@/utils/frontendAPIs/app";
+import { getLeadDetails } from "@/utils/functions";
 
 const Timeless = ({ contact }) => {
   const { titleFont } = useGlobalContext();
@@ -43,6 +44,7 @@ const Timeless = ({ contact }) => {
       setError("Please provide a message");
       return;
     }
+    getLeadDetails("contact_form");
     setSubmitting(true);
     let res = await sendMessage({ name, contact: mcontact, message });
     if (res.success) {

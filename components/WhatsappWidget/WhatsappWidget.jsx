@@ -5,6 +5,8 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
+import { lead } from "@/utils/frontendAPIs/app";
+import { getLeadDetails } from "@/utils/functions";
 
 export default function WhatsappWidget({ text }) {
   let { profile, isVisible } = useGlobalContext();
@@ -12,6 +14,7 @@ export default function WhatsappWidget({ text }) {
   const controls = useAnimation();
 
   const sendToWhatsapp = () => {
+    getLeadDetails("whatsapp");
     let number = profile.phone;
     if (number[0] === "0") {
       number = "+254" + number.slice(1);
