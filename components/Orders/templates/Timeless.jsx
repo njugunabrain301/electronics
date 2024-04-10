@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 function Timeless() {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [downloadStatus, setDownloadStatus] = useState("Download Recepit");
+  const [downloading, setDownloading] = useState("");
   const [sent, setSent] = useState([]);
   let loadOrders = async () => {
     let res = await fetchOrders();
@@ -32,8 +32,8 @@ function Timeless() {
   const { theme } = useGlobalContext();
 
   const downloadReceiptH = async (oid) => {
-    if (downloadStatus === "Downloading...") return;
-    setDownloadStatus("Downloading...");
+    if (downloading === oid) return;
+    setDownloading(oid);
     let url = downloadURL + "/" + oid;
     let bid = process.env.NEXT_PUBLIC_STORE_ID;
     const mtoken = localStorage.getItem("token");
@@ -58,11 +58,11 @@ function Timeless() {
         document.body.appendChild(aTag);
         aTag.click();
         aTag.remove();
-        setDownloadStatus("Download Recepit");
+        setDownloading("");
       })
       .catch((err) => {
         console.log("");
-        setDownloadStatus("Download Recepit");
+        setDownloading("");
       });
   };
 
@@ -100,7 +100,7 @@ function Timeless() {
               return (
                 item && (
                   <div
-                    key={index}
+                    key={index + item.oid + item.pid}
                     className="my-[10px] border p-[7px] rounded-md"
                     style={{
                       width: "100%",
@@ -129,7 +129,9 @@ function Timeless() {
                       <div className="pl-[20px]">
                         <p className="text-sm font-inter tracking-normal leading-none pt-2">
                           Order ID:{" "}
-                          <span className="ml-2">{item._id.slice(15)}</span>
+                          <span className="ml-2">
+                            {item.oid.slice(19) + item._id.slice(19)}
+                          </span>
                         </p>
 
                         {item.size.trim() !== "-" && (
@@ -171,18 +173,21 @@ function Timeless() {
                             <span className="ml-2">{item.arrivalDate}</span>
                           </p>
                         )}
-                        {!item.reviewed && !sent.includes(item._id) && (
-                          <span className="my-3 block">
-                            <Button
-                              onClick={() => setOpenReview(item._id)}
-                              color="primary"
-                              variant="contained"
-                              size="small"
-                            >
-                              Send Review
-                            </Button>
-                          </span>
-                        )}
+                        {!item.reviewed &&
+                          !sent.includes(item._id + item.oid) && (
+                            <span className="my-3 block">
+                              <Button
+                                onClick={() =>
+                                  setOpenReview(item._id + item.oid)
+                                }
+                                color="primary"
+                                variant="contained"
+                                size="small"
+                              >
+                                Send Review
+                              </Button>
+                            </span>
+                          )}
                         <div className="pt-4">
                           <Tooltip content="Status" placement="bottom">
                             <Typography className="text-sm font-inter tracking-normal leading-none pt-2 w-fit">
@@ -203,7 +208,10 @@ function Timeless() {
                               onClick={() => downloadReceiptH(item._id)}
                             >
                               <>
-                                <Download /> {downloadStatus}
+                                <Download />{" "}
+                                {downloading === item._id
+                                  ? "Downloading..."
+                                  : "Download Recepit"}
                               </>
                             </Typography>
                           </Tooltip>
@@ -216,7 +224,7 @@ function Timeless() {
                       </p>
                     </div> */}
                     <MyModal
-                      open={openReview === item._id}
+                      open={openReview === item._id + item.oid}
                       onClose={() => setOpenReview("")}
                     >
                       <Reviews

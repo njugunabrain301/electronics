@@ -138,17 +138,17 @@ function Login({ closeModal, toggleLogin, toggleForgotPass, selectedTheme }) {
 
         <div className="">
           {error && (
-            <Alert
-              className="flex align-items-center justify-center"
+            <div
+              className="flex align-items-center justify-center rounded-lg p-5"
               style={{
-                backgroundColor: theme.palette.error.main,
-                color: theme.palette.error.contrastText,
+                backgroundColor: "indianred",
+                color: "white",
               }}
             >
               <p className="font-medium flex items-center text-center tracking-normal leading-none">
                 {error}
               </p>
-            </Alert>
+            </div>
           )}
         </div>
         <div>

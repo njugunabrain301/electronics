@@ -1,6 +1,7 @@
 "use client";
 import Opulence from "./templates/Opulence/Opulence";
 import Timeless from "./templates/Timeless/Timeless";
+import { getVisitorDetails } from "@/utils/functions";
 
 const SingleProduct = ({
   product,

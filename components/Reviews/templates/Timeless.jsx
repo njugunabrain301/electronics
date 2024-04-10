@@ -46,14 +46,15 @@ function Timeless({ closeModal, item, sent, setSent }) {
     formData.append("comment", comment);
     formData.append("stars", stars);
     formData.append("iid", item.pid);
-    formData.append("oid", item._id);
+    formData.append("oid", item.oid);
     selectedFiles.forEach((file) => {
       formData.append("files", file);
     });
+
     setSubmitting(true);
     let res = await sendReview(formData);
     if (res.success) {
-      setSent([...sent, item._id]);
+      setSent([...sent, item._id + item.oid]);
       setSelectedFiles([]);
     } else {
       setError(
@@ -115,7 +116,7 @@ function Timeless({ closeModal, item, sent, setSent }) {
             )}
           </div>
         </div>
-        {sent.includes(item._id) ? (
+        {sent.includes(item._id + item.oid) ? (
           <div
             className="flex items-center justify-center p-5 text-center text-lg"
             style={{ color: theme.palette.text.base }}
