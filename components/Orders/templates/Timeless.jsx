@@ -18,10 +18,16 @@ function Timeless() {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [downloading, setDownloading] = useState("");
+  const [isLoaded, setIsLoaded] = useState(false);
   const [sent, setSent] = useState([]);
   let loadOrders = async () => {
     let res = await fetchOrders();
-    setOrders(res.data);
+
+    if (res.success) {
+      setOrders(res.data);
+      setIsLoaded(true);
+    }
+
     setIsLoading(false);
   };
 
@@ -92,7 +98,7 @@ function Timeless() {
           <div>
             <p>Loading...</p>
           </div>
-        ) : orders ? (
+        ) : isLoaded ? (
           orders
             .filter((o) => o != null)
             .reverse()

@@ -3,6 +3,7 @@ import { MUIThemes, Themes } from "@/utils/Themes/Themes";
 import { createContext, useContext, useState, useEffect } from "react";
 import { red } from "@mui/material/colors";
 import { ThemeProvider, createTheme } from "@mui/material";
+import { verifyAuth } from "@/utils/frontendAPIs/auth";
 
 const GlobalContext = createContext({});
 
@@ -124,6 +125,22 @@ export const GlobalContextProvider = ({
     setOpenCart(false);
   };
   const [isVisible, setIsVisible] = useState(false);
+
+  //Verify Auth
+  const [authUnVerified, setAuthUnVerified] = useState(false);
+  const verify = async () => {
+    if (localStorage.getItem("user") && localStorage.getItem("token")) {
+      let res = await verifyAuth();
+
+      if (!res.success) {
+        setAuthUnVerified(true);
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        localStorage.removeItem("cart");
+        setCart([]);
+      }
+    }
+  };
   return (
     <div
       style={{
@@ -134,6 +151,8 @@ export const GlobalContextProvider = ({
       <ThemeProvider theme={theme}>
         <GlobalContext.Provider
           value={{
+            authUnVerified,
+            verify,
             cart,
             openCart,
             handleOpenCart,

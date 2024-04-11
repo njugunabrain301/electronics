@@ -41,7 +41,7 @@ export default function Product({
 }) {
   const searchParams = useSearchParams();
   const [selectedImage, setSelectedImage] = useState(product.img);
-  const { setCart, cart } = useGlobalContext();
+  const { setCart, cart, verify } = useGlobalContext();
   let authUser = localStorage.getItem("user") ? true : false;
 
   const showPrice = profile.showPrice;
@@ -133,6 +133,8 @@ export default function Product({
 
     setAdding(true);
 
+    await verify();
+    authUser = localStorage.getItem("user") ? true : false;
     if (authUser) {
       let res = await addToCart(item);
       if (res.success) {
@@ -210,7 +212,9 @@ export default function Product({
     setOpenBuyNow(false);
   };
 
-  const buyNow = () => {
+  const buyNow = async () => {
+    await verify();
+    authUser = localStorage.getItem("user") ? true : false;
     let dataLayer = window.dataLayer || [];
     let event = {
       event: "buy-now",

@@ -125,12 +125,13 @@ function Timeless({ token, profile }) {
           <div style={{ textAlign: "center" }}>
             {error && (
               <Typography
-                variant="button"
                 fontWeight="light"
                 style={{
                   padding: "7px 10px",
+                  margin: "10px 0",
                   width: "100%",
                   color: "white",
+                  backgroundColor: "indianred",
                   borderRadius: "4px",
                 }}
                 className="bg-skin-alert-danger"

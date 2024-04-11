@@ -11,6 +11,16 @@ export const login = async (payload) => {
   }
 };
 
+export const verifyAuth = async () => {
+  try {
+    let res = await axios.get("/verify-auth");
+
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+};
+
 export const register = async (payload) => {
   try {
     let res = await axios.post("/register", payload);

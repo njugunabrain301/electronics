@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardHeader, Alert } from "@material-tailwind/react";
 import {
   deleteProfile,
@@ -8,7 +8,7 @@ import {
 import { useGlobalContext } from "@/Context/context";
 import { Button, TextField, Typography } from "@mui/material";
 
-function Timeless({ closeModal }) {
+function Timeless({ closeModal, authUnVerified }) {
   let use = localStorage.getItem("user");
   if (use) {
     use = JSON.parse(use);
@@ -103,6 +103,15 @@ function Timeless({ closeModal }) {
     }
     setDeleting(false);
   };
+
+  //Check  Auth Unverified
+  useEffect(() => {
+    console.log(authUnVerified);
+    if (authUnVerified) {
+      // handleLogOut();
+      console.log("Logged Out");
+    }
+  }, [authUnVerified]);
 
   return (
     <div className="w-full h-screen flex justify-center items-center">

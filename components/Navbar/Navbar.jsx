@@ -7,21 +7,12 @@ import Script from "next/script";
 import Opulence from "./templates/Opulence";
 import Timeless from "./templates/Timeless";
 import { gtag } from "@/utils/gtag";
+import { useGlobalContext } from "@/Context/context";
 
 const Navbar = ({ profile, checkoutInfo }) => {
-  let cookies = new Cookies();
+  const { authUnVerified, verify } = useGlobalContext();
 
   useEffect(() => {
-    //update visits
-    // if (!cookies.get("visit-" + process.env.NEXT_PUBLIC_STORE_ID)) {
-    //   var d = new Date();
-    //   d.setTime(d.getTime() + 12 * 60 * 60 * 1000);
-    //   cookies.set("visit" + process.env.NEXT_PUBLIC_STORE_ID, "x", {
-    //     expires: d,
-    //   });
-    //   visit();
-    // }
-
     const ga4Tag = profile.ga4Tag
       ? profile.ga4Tag
       : profile.url.includes("go-duka.com")
@@ -29,6 +20,8 @@ const Navbar = ({ profile, checkoutInfo }) => {
       : "empty";
     gtag("js", new Date());
     gtag("config", ga4Tag);
+
+    verify();
   }, []);
 
   const template = profile.template;
@@ -65,7 +58,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <Opulence profile={profile} checkoutInfo={checkoutInfo} />
       )}
       {template === "Timeless" && (
-        <Timeless profile={profile} checkoutInfo={checkoutInfo} />
+        <Timeless
+          profile={profile}
+          checkoutInfo={checkoutInfo}
+          authUnVerified={authUnVerified}
+        />
       )}
     </>
   );

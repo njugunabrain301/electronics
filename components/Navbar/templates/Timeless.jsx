@@ -15,7 +15,7 @@ import MySearchField from "@/components/SearchField/MySearchField";
 import { useRouter } from "next/navigation";
 import { getLeadDetails } from "@/utils/functions";
 
-const Timeless = ({ profile, checkoutInfo }) => {
+const Timeless = ({ profile, checkoutInfo, authUnVerified }) => {
   const [user, setUser] = useState({});
   const [authUser, setAuth] = useState(false);
   let cookies = new Cookies();
@@ -33,6 +33,7 @@ const Timeless = ({ profile, checkoutInfo }) => {
 
   let updateLogin = () => {
     let userProfile = localStorage.getItem("user");
+
     if (userProfile) {
       userProfile = JSON.parse(userProfile);
       if (
@@ -70,6 +71,19 @@ const Timeless = ({ profile, checkoutInfo }) => {
     //   visit();
     // }
   }, []);
+
+  let clearLogin = () => {
+    setAuth(false);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    setUser({});
+    localStorage.removeItem("cart");
+    setCart([]);
+  };
+
+  useEffect(() => {
+    if (authUnVerified) clearLogin();
+  }, [authUnVerified]);
 
   //Auth Modal
   let { openAuth, handleOpenAuth, handleCloseAuth } = useGlobalContext();
