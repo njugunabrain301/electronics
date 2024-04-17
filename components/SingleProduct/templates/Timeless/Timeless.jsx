@@ -62,13 +62,6 @@ const Timeless = ({
     );
     return img;
   };
-  const resizeProdImageLarge = (img) => {
-    img = img.replace(
-      "https://storage.googleapis.com/test-bucket001/",
-      "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-900/"
-    );
-    return img;
-  };
 
   const [currOption, setCurrOption] = useState({});
   const [selectedPrice, setSelectedPrice] = useState(product.price);
@@ -450,6 +443,50 @@ const Timeless = ({
                           );
                         })}
                       </SingleCarousel>
+                    </div>
+                  </div>
+                );
+              } else if (article.type === "video") {
+                return (
+                  <div
+                    key={idx + "_" + article._id}
+                    className="w-full relative text-center mb-3 py-10 px-5"
+                    style={{
+                      backgroundImage: article.content.image
+                        ? "url('" + imageUrl + "')"
+                        : "",
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  >
+                    <div
+                      style={{
+                        position: "relative",
+                        textAlign: "center",
+                        color: article.content.image
+                          ? theme.palette.text.inverted
+                          : theme.palette.text.base,
+                      }}
+                      id="video"
+                    >
+                      {article.content.title && (
+                        <h1 className="text-3xl md:text-3xl font-bold w-full text-center mb-[20px]">
+                          {article.content.title}
+                        </h1>
+                      )}
+                      <iframe
+                        style={{ aspectRatio: "3/2", marginBottom: "20px" }}
+                        width="100%"
+                        src={
+                          "https://www.youtube.com/embed/" +
+                          article.content.videoId
+                        }
+                      ></iframe>
+                      {article.content.caption && (
+                        <h2 className="m-3 text-center">
+                          {article.content.caption}
+                        </h2>
+                      )}
                     </div>
                   </div>
                 );
