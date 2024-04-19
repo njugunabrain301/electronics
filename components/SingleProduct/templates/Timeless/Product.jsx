@@ -24,6 +24,7 @@ import MyModal from "@/components/Modal/MyModal";
 import Cart from "@/components/cart/Cart";
 import { useSearchParams } from "next/navigation";
 import { motion, useAnimation } from "framer-motion";
+import { gtag } from "@/utils/gtag";
 
 export default function Product({
   product,
@@ -130,6 +131,7 @@ export default function Product({
       ],
     };
     dataLayer.push(event);
+    gtag("event", "add_to_cart", event);
 
     setAdding(true);
 

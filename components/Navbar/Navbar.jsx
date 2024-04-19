@@ -20,7 +20,7 @@ const Navbar = ({ profile, checkoutInfo }) => {
       : "empty";
     gtag("js", new Date());
     gtag("config", ga4Tag);
-
+    // gtag('config', 'G-TD28Z490EX', { 'debug_mode':true });
     verify();
   }, []);
 
