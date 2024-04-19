@@ -255,7 +255,7 @@ export default function Product({
       ],
     };
     dataLayer.push(event);
-    pushEvent("event", "add_to_cart", data);
+    pushEvent("event", "add_to_cart", event);
     handleOpenBuyNow();
   };
 
