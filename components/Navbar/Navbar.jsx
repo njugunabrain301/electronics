@@ -11,13 +11,12 @@ import { useGlobalContext } from "@/Context/context";
 
 const Navbar = ({ profile, checkoutInfo }) => {
   const { authUnVerified, verify } = useGlobalContext();
-
+  const ga4Tag = profile.ga4Tag
+    ? profile.ga4Tag
+    : profile.url.includes("go-duka.com")
+    ? "G-TD28Z490EX"
+    : "empty";
   useEffect(() => {
-    const ga4Tag = profile.ga4Tag
-      ? profile.ga4Tag
-      : profile.url.includes("go-duka.com")
-      ? "G-TD28Z490EX"
-      : "empty";
     gtag("js", new Date());
     gtag("config", ga4Tag);
     // gtag('config', 'G-TD28Z490EX', { 'debug_mode':true });
@@ -53,6 +52,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         ></iframe>
       </noscript>
       {/* <!-- End Google Tag Manager (noscript) --> */}
+
+      {/* Google Analytics 4 */}
+      <Script src={"https://www.googletagmanager.com/gtag/js?id=" + ga4Tag} />
+
+      {/* End Google Analytics 4 */}
 
       {template === "Opulence" && (
         <Opulence profile={profile} checkoutInfo={checkoutInfo} />

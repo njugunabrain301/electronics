@@ -102,15 +102,8 @@ export default async function RootLayout({ children }) {
   const holiday = getHoliday();
 
   if (profile.holidayTheme) profile.holiday = holiday;
-  const ga4Tag = profile.ga4Tag
-    ? profile.ga4Tag
-    : profile.url.includes("go-duka.com")
-    ? "G-TD28Z490EX"
-    : "empty";
   return (
     <html lang="en">
-      <Script src={"https://www.googletagmanager.com/gtag/js?id=" + ga4Tag} />
-
       <body className={bodyFont.className + " App min-w-[330px] p-0"}>
         <GlobalContextProvider
           profile={profile}
