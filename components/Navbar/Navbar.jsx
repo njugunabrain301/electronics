@@ -6,7 +6,7 @@ import { visit } from "@/utils/frontendAPIs/app";
 import Script from "next/script";
 import Opulence from "./templates/Opulence";
 import Timeless from "./templates/Timeless";
-import { gtag } from "@/utils/gtag";
+import { gtag, loadGA4Script } from "@/utils/gtag";
 import { useGlobalContext } from "@/Context/context";
 
 const Navbar = ({ profile, checkoutInfo }) => {
@@ -17,8 +17,9 @@ const Navbar = ({ profile, checkoutInfo }) => {
     ? "G-TD28Z490EX"
     : "empty";
   useEffect(() => {
-    gtag("js", new Date());
-    gtag("config", ga4Tag);
+    loadGA4Script(ga4Tag);
+    // gtag("js", new Date());
+    // gtag("config", ga4Tag);
     // gtag('config', 'G-TD28Z490EX', { 'debug_mode':true });
     verify();
   }, []);
