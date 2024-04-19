@@ -120,7 +120,7 @@ export const GlobalContextProvider = ({
     };
     let dataLayer = window.dataLayer || [];
     dataLayer.push(event);
-    pushEvent("event");
+    pushEvent("event", "view_cart", event);
     setOpenCart(true);
   };
   const handleCloseCart = () => {
