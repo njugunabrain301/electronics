@@ -4,6 +4,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { red } from "@mui/material/colors";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { verifyAuth } from "@/utils/frontendAPIs/auth";
+import { pushEvent } from "@/utils/gtag";
 
 const GlobalContext = createContext({});
 
@@ -119,6 +120,7 @@ export const GlobalContextProvider = ({
     };
     let dataLayer = window.dataLayer || [];
     dataLayer.push(event);
+    pushEvent("event");
     setOpenCart(true);
   };
   const handleCloseCart = () => {

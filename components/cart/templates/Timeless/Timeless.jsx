@@ -11,6 +11,7 @@ import { removeFromCart } from "@/utils/frontendAPIs/cart";
 import Image from "next/image";
 import { useGlobalContext } from "@/Context/context";
 import { Button } from "@mui/material";
+import { pushEvent } from "@/utils/gtag";
 
 const Timeless = ({
   closeModal,
@@ -52,6 +53,7 @@ const Timeless = ({
     };
     let dataLayer = window.dataLayer || [];
     dataLayer.push(event);
+    pushEvent("event", "remove_from_cart", event);
     if (localStorage.getItem("user")) {
       let res = await removeFromCart(item);
       if (res.success) {
@@ -96,6 +98,7 @@ const Timeless = ({
       }),
     };
     dataLayer.push(event);
+    pushEvent("event", "begin_checkout", event);
     setOpenCheckout(true);
   };
 

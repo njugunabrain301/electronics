@@ -4,9 +4,7 @@ let isLoaded = false;
 let ga4Id = "";
 
 export const loadGA4Script = (tagID, name, event, data) => {
-  console.log(ga4Id, " - ", tagID);
   ga4Id = tagID;
-  console.log(ga4Id, " - ", tagID);
   // Create gtag Script
   var gtagScript = document.createElement("script");
   gtagScript.type = "text/javascript";
@@ -19,7 +17,7 @@ export const loadGA4Script = (tagID, name, event, data) => {
   //Make sure gtag script above is loaded
 
   gtagScript.onload = function () {
-    // isLoaded = true
+    isLoaded = true;
     // Add gtag config
     window.dataLayer = window.dataLayer || [];
     function gtag() {
@@ -32,29 +30,32 @@ export const loadGA4Script = (tagID, name, event, data) => {
 };
 
 export const pushEvent = (name, event, data) => {
-  console.log(ga4Id, " is the id");
-  // Create gtag Script
-  var gtagScript = document.createElement("script");
-  gtagScript.type = "text/javascript";
-  gtagScript.setAttribute(
-    "src",
-    "https://www.googletagmanager.com/gtag/js?id=" + ga4Id
-  );
-  document.head.appendChild(gtagScript);
+  if (!isLoaded && !ga4Id) {
+    // Create gtag Script
+    var gtagScript = document.createElement("script");
+    gtagScript.type = "text/javascript";
+    gtagScript.setAttribute(
+      "src",
+      "https://www.googletagmanager.com/gtag/js?id=" + ga4Id
+    );
+    document.head.appendChild(gtagScript);
 
-  //Make sure gtag script above is loaded
+    //Make sure gtag script above is loaded
 
-  gtagScript.onload = function () {
-    // isLoaded = true
-    // Add gtag config
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag("js", new Date());
-    gtag("config", ga4Id);
+    gtagScript.onload = function () {
+      // isLoaded = true
+      // Add gtag config
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", ga4Id);
+      gtag(name, event, data);
+    };
+  } else {
     gtag(name, event, data);
-  };
+  }
 };
 
 export const gtag = (name, event, data) => {

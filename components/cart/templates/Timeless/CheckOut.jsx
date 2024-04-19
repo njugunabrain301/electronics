@@ -18,6 +18,7 @@ import {
   Lock,
   Person,
 } from "@mui/icons-material";
+import { pushEvent } from "@/utils/gtag";
 
 function Checkout({
   closeModal,
@@ -327,6 +328,7 @@ function Checkout({
       }),
     };
     dataLayer.push(event);
+    pushEvent("event", "purchase", event);
     let res = {};
     if (authUser) {
       res = await checkout({
@@ -406,6 +408,7 @@ function Checkout({
           };
           let dataLayer = window.dataLayer || [];
           dataLayer.push(event);
+          pushEvent("event", "add_shipping_info", event);
         }
       }
 
@@ -436,6 +439,7 @@ function Checkout({
         };
         let dataLayer = window.dataLayer || [];
         dataLayer.push(event);
+        pushEvent("event", "add_shipping_info", event);
         setSection(sec);
       }
     } else {
