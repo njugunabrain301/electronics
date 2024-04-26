@@ -867,7 +867,6 @@ function Checkout({
                       getDeliveryFee(v);
                       getDeliveryTime(v);
                       setCourier(v);
-                      console.log(v);
                       setCError("");
                     }}
                   />
