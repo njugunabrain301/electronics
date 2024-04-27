@@ -31,9 +31,9 @@ export const getVisitorDetails = async (page) => {
   let currentUrl = window.location.href;
   let fields = currentUrl.split("/");
   if (!page) page = fields[fields.length - 1];
-
+  page = page.split("?")[0];
   let type = "v-" + page;
-
+  // console.log(type, page, "yow");
   const cookies = new Cookies();
   const lastActionTimestamp = cookies.get(type);
   let cookieId = cookies.get("cid");
@@ -51,7 +51,7 @@ export const getVisitorDetails = async (page) => {
     return;
   }
 
-  console.log("sending visitor");
+  // console.log("sending visitor");
   //   var d = new Date();
   //       d.setTime(d.getTime() + 12 * 60 * 60 * 1000);
   //       cookies.set("visit" + process.env.NEXT_PUBLIC_STORE_ID, "x", {
