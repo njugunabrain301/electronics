@@ -33,7 +33,7 @@ export const getVisitorDetails = async (page) => {
   if (!page) page = fields[fields.length - 1];
   page = page.split("?")[0];
   let type = "v-" + page;
-  // console.log(type, page, "yow");
+
   const cookies = new Cookies();
   const lastActionTimestamp = cookies.get(type);
   let cookieId = cookies.get("cid");
