@@ -514,22 +514,24 @@ const Timeless = ({
         </Link>
       </p>
       {/* Product Main */}
-      {product && (
-        <Product
-          product={product}
-          profile={profile}
-          shipping={shipping}
-          returns={returns}
-          offers={offers}
-          unitsSold={unitsSold}
-          unitsRefunded={unitsRefunded}
-          currOption={currOption}
-          setCurrOption={setCurrOption}
-          selectedPrice={selectedPrice}
-          setSelectedPrice={setSelectedPrice}
-          sticky={true}
-        />
-      )}
+      <div id="product">
+        {product && (
+          <Product
+            product={product}
+            profile={profile}
+            shipping={shipping}
+            returns={returns}
+            offers={offers}
+            unitsSold={unitsSold}
+            unitsRefunded={unitsRefunded}
+            currOption={currOption}
+            setCurrOption={setCurrOption}
+            selectedPrice={selectedPrice}
+            setSelectedPrice={setSelectedPrice}
+            sticky={true}
+          />
+        )}
+      </div>
       {/* More Details Again */}
       {product && <MoreDetails product={product} profile={profile} />}
       {/* Related Products */}
