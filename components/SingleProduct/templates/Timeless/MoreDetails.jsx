@@ -136,7 +136,7 @@ const MoreDetails = ({ product, profile }) => {
       )}
       {active === 3 && (
         <div>
-          <p className="text-l font-inter tracking-normal leading-8 pb-4 rounded-md">
+          <div className="text-l font-inter tracking-normal leading-8 pb-4 rounded-md">
             {product.faqs.map((faq, idx) => {
               let qsn = faq.question.trim();
               qsn = qsn.endsWith("?") ? qsn : qsn + "? ";
@@ -152,12 +152,12 @@ const MoreDetails = ({ product, profile }) => {
                         : "#ffffff10"),
                   }}
                 >
-                  <b>{qsn}</b>
+                  <b className="pr-[10px]">{qsn}</b>
                   <span>{faq.answer}</span>
                 </div>
               );
             })}
-          </p>
+          </div>
         </div>
       )}
       {active === 4 && (

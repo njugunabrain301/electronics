@@ -30,4 +30,14 @@ export const fetchContactUs = async () => {
   }
 };
 
+export const fetchPOSInvoice = async (data) => {
+  try {
+    let res = await fetchData("/posInvoice/" + data);
+
+    return res;
+  } catch (err) {
+    return err;
+  }
+};
+
 export const runtime = "edge";

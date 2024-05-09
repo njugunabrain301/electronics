@@ -30,3 +30,21 @@ export const lead = async (payload) => {
     return err;
   }
 };
+
+export const payPOSInvoice = async (payload) => {
+  try {
+    let res = await axios.post("/posInvoice/pay", payload);
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const reviewPOSInvoice = async (payload) => {
+  try {
+    let res = await axios.post("/posInvoice/review", payload);
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+};

@@ -28,6 +28,7 @@ const Timeless = ({
   const searchParams = useSearchParams();
   const variant = searchParams.get("variant");
   const source = searchParams.get("source");
+  const lp = searchParams.get("lp");
 
   let event = {
     event: "view_item",
@@ -54,7 +55,7 @@ const Timeless = ({
   dataLayer.push(event);
   const showPrice = profile.showPrice;
 
-  const { theme, bodyFont } = useGlobalContext();
+  const { theme, bodyFont, setMiniHeader } = useGlobalContext();
   const resizeProdImageSmall = (img) => {
     img = img.replace(
       "https://storage.googleapis.com/test-bucket001/",
@@ -92,6 +93,24 @@ const Timeless = ({
     },
   };
 
+  let articles = [];
+  // setMiniHeader(true);
+  if (lp) {
+    product.landingPages.map((l) => {
+      if (l.name === lp) {
+        articles = l.articles;
+        setMiniHeader(l.miniHeader);
+      }
+    });
+  } else {
+    product.landingPages.map((lp) => {
+      if (lp.default || lp.name === "default") {
+        articles = lp.articles;
+        setMiniHeader(lp.miniHeader);
+      }
+    });
+  }
+
   return (
     <div
       className={"" + bodyFont.className}
@@ -101,7 +120,7 @@ const Timeless = ({
       }}
     >
       {/* Product First */}
-      {source === "google" && product.articles.length > 0 && product && (
+      {source === "google" && articles.length > 0 && product && (
         <Product
           product={product}
           profile={profile}
@@ -119,9 +138,9 @@ const Timeless = ({
       )}
       <div id="article">
         {/* Articles */}
-        {product.articles.length > 0 && (
+        {articles.length > 0 && (
           <div className="pb-8 flex flex-wrap w-full mx-auto max-w-7xl justify-between ">
-            {product.articles
+            {articles
               .filter((a) => a.visibility)
               .map((article, idx) => {
                 if (article.type === "article") {
@@ -138,12 +157,17 @@ const Timeless = ({
                       key={idx + "_" + article._id}
                     >
                       {article.content.title && (
-                        <h3
-                          className="text-2xl md:text-3xl font-bold w-full text-center"
-                          style={{ textAlign: hasImage ? "left" : "center" }}
-                        >
-                          {article.content.title}
-                        </h3>
+                        <>
+                          <h3
+                            className="text-2xl md:text-3xl font-bold w-full text-center hidden md:block"
+                            style={{ textAlign: hasImage ? "left" : "center" }}
+                          >
+                            {article.content.title}
+                          </h3>
+                          <h3 className="text-2xl md:text-3xl font-bold w-full text-center md:hidden">
+                            {article.content.title}
+                          </h3>
+                        </>
                       )}
                       <div
                         className={

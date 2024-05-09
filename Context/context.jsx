@@ -47,6 +47,8 @@ export const GlobalContextProvider = ({
   const theme = MUIThemes[profile.theme.toLowerCase()];
   // const theme = MUIThemes["dawn"];
 
+  const [miniHeader, setMiniHeader] = useState(false);
+
   const addToLocalCart = (item) => {
     let found = false;
     let nCart = cart.map((it) => {
@@ -176,6 +178,8 @@ export const GlobalContextProvider = ({
             checkoutInfo,
             isVisible,
             setIsVisible,
+            miniHeader,
+            setMiniHeader,
           }}
         >
           {children}

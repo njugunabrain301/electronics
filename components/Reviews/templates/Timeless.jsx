@@ -5,8 +5,9 @@ import { useGlobalContext } from "@/Context/context";
 import { Button, Input, TextField, Typography } from "@mui/material";
 import { sendReview } from "@/utils/frontendAPIs/orders";
 import Image from "next/image";
+import { reviewPOSInvoice } from "@/utils/frontendAPIs/app";
 
-function Timeless({ closeModal, item, sent, setSent }) {
+function Timeless({ closeModal, item, sent, setSent, pos, invoice }) {
   let [error, setError] = useState("");
 
   const [comment, setComment] = useState("");
@@ -29,7 +30,7 @@ function Timeless({ closeModal, item, sent, setSent }) {
   };
 
   useEffect(() => {
-    console.log(selectedFiles);
+    // console.log(selectedFiles);
     setNumFiles(selectedFiles.length);
   }, [selectedFiles]);
 
@@ -45,16 +46,27 @@ function Timeless({ closeModal, item, sent, setSent }) {
     formData.append("media", selectedFiles);
     formData.append("comment", comment);
     formData.append("stars", stars);
-    formData.append("iid", item.pid);
-    formData.append("oid", item.oid);
+    if (pos) {
+      formData.append("iid", invoice._id);
+    } else {
+      formData.append("iid", item.pid);
+      formData.append("oid", item.oid);
+    }
+
     selectedFiles.forEach((file) => {
       formData.append("files", file);
     });
 
     setSubmitting(true);
-    let res = await sendReview(formData);
+    let res = {};
+
+    if (pos) {
+      res = await reviewPOSInvoice(formData);
+    } else res = await sendReview(formData);
     if (res.success) {
-      setSent([...sent, item._id + item.oid]);
+      if (pos) {
+        setSent(true);
+      } else setSent([...sent, item._id + item.oid]);
       setSelectedFiles([]);
     } else {
       setError(
@@ -67,7 +79,13 @@ function Timeless({ closeModal, item, sent, setSent }) {
   const { theme } = useGlobalContext();
 
   return (
-    <div className="w-full h-screen flex justify-center items-center">
+    <div
+      className={
+        pos
+          ? "flex justify-center items-center"
+          : "w-full h-screen flex justify-center items-center"
+      }
+    >
       <Card
         className="min-w-[330px] w-[330px] sm:w-[400px] md:w-[600px] lg:w-[800px] p-4 rounded-md pt-0"
         style={{ background: theme.palette.background.primary }}
@@ -88,35 +106,38 @@ function Timeless({ closeModal, item, sent, setSent }) {
           </Typography>
         </CardHeader>
         <hr className="h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
-        <div
-          className="grid grid-cols-2 py-4"
-          style={{ color: theme.palette.text.base }}
-        >
-          <div className="">
-            <div>
-              <Image
-                className=" rounded-md max-w-full"
-                src={item.img}
-                alt={item.name}
-                width={300}
-                height={200}
-              />
+        {!pos && (
+          <div
+            className="grid grid-cols-2 py-4"
+            style={{ color: theme.palette.text.base }}
+          >
+            <div className="">
+              <div>
+                <Image
+                  className=" rounded-md max-w-full"
+                  src={item.img}
+                  alt={item.name}
+                  width={300}
+                  height={200}
+                />
+              </div>
+            </div>
+
+            <div className="pl-[20px] flex flex-col justify-center flex-wrap">
+              <div className="w-full">
+                <h4 className="font-inter font-bold tracking-normal leading-none">
+                  {item.name}
+                </h4>
+              </div>
+              {item.selectedOption && (
+                <p className="text-sm font-inter tracking-normal leading-none pt-1">
+                  Option: <span className="ml-2">{item.selectedOption}</span>
+                </p>
+              )}
             </div>
           </div>
-          <div className="pl-[20px] flex flex-col justify-center flex-wrap">
-            <div className="w-full">
-              <h4 className="font-inter font-bold tracking-normal leading-none">
-                {item.name}
-              </h4>
-            </div>
-            {item.selectedOption && (
-              <p className="text-sm font-inter tracking-normal leading-none pt-1">
-                Option: <span className="ml-2">{item.selectedOption}</span>
-              </p>
-            )}
-          </div>
-        </div>
-        {sent.includes(item._id + item.oid) ? (
+        )}
+        {(pos && sent) || (!pos && sent.includes(item._id + item.oid)) ? (
           <div
             className="flex items-center justify-center p-5 text-center text-lg"
             style={{ color: theme.palette.text.base }}
@@ -131,8 +152,9 @@ function Timeless({ closeModal, item, sent, setSent }) {
             style={{ color: theme.palette.text.base }}
           >
             <p className="mb-2">
-              How would you rate the above product and your overall shopping
-              experience
+              {pos
+                ? "How would you rate your shopping experience?"
+                : "How would you rate the above product and your overall shopping experience"}
             </p>
             <div className="mb-4 flex justify-between w-full mx-auto">
               <span

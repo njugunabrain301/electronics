@@ -1,7 +1,7 @@
 import Opulence from "./templates/Opulence";
 import Timeless from "./templates/Timeless";
 
-function Reviews({ closeModal, template, item, sent, setSent }) {
+function Reviews({ closeModal, template, item, sent, setSent, pos, invoice }) {
   return (
     <>
       {template === "Opulence" && (
@@ -10,6 +10,8 @@ function Reviews({ closeModal, template, item, sent, setSent }) {
           item={item}
           sent={sent}
           setSent={setSent}
+          pos={pos}
+          invoice={invoice}
         />
       )}
       {template === "Timeless" && (
@@ -18,6 +20,8 @@ function Reviews({ closeModal, template, item, sent, setSent }) {
           item={item}
           sent={sent}
           setSent={setSent}
+          pos={pos}
+          invoice={invoice}
         />
       )}
     </>
