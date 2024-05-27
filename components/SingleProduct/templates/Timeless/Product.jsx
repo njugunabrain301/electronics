@@ -160,27 +160,27 @@ export default function Product({
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    let btn = document.getElementById("share_btn");
-    btn.addEventListener("click", (event) => {
-      if (navigator.share) {
-        navigator
-          .share({
-            text: product.name,
-            url: currentUrl,
-          })
-          .then(() => {})
-          .catch((err) => {});
-      } else {
-        let urlText = document.getElementById("urlText");
+    // let btn = document.getElementById("share_btn");
+    // btn.addEventListener("click", (event) => {
+    //   if (navigator.share) {
+    //     navigator
+    //       .share({
+    //         text: product.name,
+    //         url: currentUrl,
+    //       })
+    //       .then(() => {})
+    //       .catch((err) => {});
+    //   } else {
+    //     let urlText = document.getElementById("urlText");
 
-        urlText.select();
-        urlText.setSelectionRange(0, 99999);
+    //     urlText.select();
+    //     urlText.setSelectionRange(0, 99999);
 
-        // Copy the text inside the text field
-        navigator.clipboard.writeText(urlText.value);
-        setCopied(true);
-      }
-    });
+    //     // Copy the text inside the text field
+    //     navigator.clipboard.writeText(urlText.value);
+    //     setCopied(true);
+    //   }
+    // });
 
     //load first price option if available
     if (product.priceOptions.length > 0) {
@@ -195,6 +195,27 @@ export default function Product({
       } else setCurrOption(product.priceOptions[0]);
     }
   }, []);
+
+  const shareLink = () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          text: product.name,
+          url: currentUrl,
+        })
+        .then(() => {})
+        .catch((err) => {});
+    } else {
+      let urlText = document.getElementById("urlText");
+
+      urlText.select();
+      urlText.setSelectionRange(0, 99999);
+
+      // Copy the text inside the text field
+      navigator.clipboard.writeText(urlText.value);
+      setCopied(true);
+    }
+  };
 
   function removeTags(str) {
     if (str === null || str === "") return false;
@@ -647,6 +668,7 @@ export default function Product({
             )}
             <span
               id="share_btn"
+              onClick={shareLink}
               className={
                 sticky
                   ? "py-2 rounded-full hover:underline cursor-pointer md:hidden"
@@ -792,6 +814,7 @@ export default function Product({
 
               <span
                 id="share_btn"
+                onClick={shareLink}
                 className="p-2 px-3 rounded-full hover:underline cursor-pointer"
               >
                 <ShareIcon className="pr-2" />
