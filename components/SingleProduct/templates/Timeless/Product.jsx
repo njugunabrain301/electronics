@@ -38,6 +38,7 @@ export default function Product({
   setCurrOption,
   selectedPrice,
   setSelectedPrice,
+  discount,
   sticky,
 }) {
   const searchParams = useSearchParams();
@@ -256,7 +257,7 @@ export default function Product({
         price: selectedPrice,
         name: product.name + currOption.option,
       },
-      value: product.price,
+      value: selectedPrice,
       items: [
         {
           item_id: product._id,
@@ -270,7 +271,7 @@ export default function Product({
           item_category2: product.subcategory,
           item_variant: color + " " + size + " " + currOption.option,
 
-          price: product.price,
+          price: selectedPrice,
           quantity: 1,
         },
       ],
@@ -282,7 +283,7 @@ export default function Product({
 
   useEffect(() => {
     if (currOption.option && currOption.price) {
-      setSelectedPrice(currOption.price);
+      setSelectedPrice(currOption.price - discount);
     }
   }, [currOption]);
 

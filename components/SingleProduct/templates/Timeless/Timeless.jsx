@@ -29,6 +29,7 @@ const Timeless = ({
   const variant = searchParams.get("variant");
   const source = searchParams.get("source");
   const lp = searchParams.get("lp");
+  let coupon = searchParams.get("coupon");
 
   let event = {
     event: "view_item",
@@ -65,7 +66,6 @@ const Timeless = ({
   };
 
   const [currOption, setCurrOption] = useState({});
-  const [selectedPrice, setSelectedPrice] = useState(product.price);
 
   const cleanHTML = (text) => {
     while (text.includes("\n")) text = text.replace("\n", "<br/>");
@@ -113,6 +113,17 @@ const Timeless = ({
 
   //Package
   let pkg = profile.package.toLowerCase();
+  let discount = 0;
+
+  if (coupon && product.coupons) {
+    product.coupons.map((c) => {
+      if (c._id === coupon) {
+        discount = c.discount;
+        coupon = c;
+      }
+    });
+  }
+  const [selectedPrice, setSelectedPrice] = useState(product.price - discount);
 
   return (
     <div
@@ -122,9 +133,21 @@ const Timeless = ({
         color: theme.palette.text.base,
       }}
     >
+      {coupon && (
+        <div
+          className="text-center text-2xl font-black py-2"
+          style={{
+            backgroundColor: theme.palette.background.inverted,
+            color: theme.palette.text.inverted,
+          }}
+        >
+          {coupon.name + " offer !! Save Ksh. " + discount + " !!"}
+        </div>
+      )}
       {/* Product First */}
       {source === "google" && articles.length > 0 && product && (
         <Product
+          discount={discount}
           product={product}
           profile={profile}
           shipping={shipping}
@@ -554,6 +577,8 @@ const Timeless = ({
       <div id="product">
         {product && (
           <Product
+            discount={discount}
+            coupon={coupon}
             product={product}
             profile={profile}
             shipping={shipping}

@@ -7,7 +7,18 @@ import {
   Typography,
   Alert,
 } from "@material-tailwind/react";
-import { Autocomplete, Button, Paper, Switch, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Paper,
+  Radio,
+  RadioGroup,
+  Switch,
+  TextField,
+} from "@mui/material";
 import { useGlobalContext } from "@/Context/context";
 import { anonymousCheckout, checkout } from "@/utils/frontendAPIs/cart";
 import Link from "next/link";
@@ -31,7 +42,7 @@ function Checkout({
 }) {
   let [error, setError] = useState("");
 
-  let counties = checkoutInfo.counties;
+  let [counties, setCounties] = useState(checkoutInfo.counties);
   let [subCounties, setSubCounties] = useState([]);
   let [couriers, setCouriers] = useState([]);
   let [deliveryCost, setDeliveryCost] = useState(0);
@@ -98,7 +109,11 @@ function Checkout({
     if (county && county !== "") {
       let subs = [];
       deliveryLocations.map((loc) => {
-        if (loc.county.replaceAll("*", "") === county) {
+        if (
+          ((loc.sameday && sameday === "sameday") ||
+            (loc.nextday && sameday === "nextday")) &&
+          loc.county.replaceAll("*", "") === county
+        ) {
           if (!added.includes(loc.subcounty)) {
             subs.push(loc.subcounty + "" + (loc.payOnDelivery ? "*" : ""));
             added.push(loc.subcounty);
@@ -127,6 +142,8 @@ function Checkout({
       let couriers = [];
       deliveryLocations.map((loc) => {
         if (
+          ((loc.sameday && sameday === "sameday") ||
+            (loc.nextday && sameday === "nextday")) &&
           loc.county.replaceAll("*", "") === mcounty &&
           loc.subcounty.replaceAll("*", "") === subcounty
         ) {
@@ -461,6 +478,28 @@ function Checkout({
     }
   }, [authUser]);
 
+  const [sameday, setSameDay] = React.useState("sameday");
+  const setDeliveryDay = (val) => {
+    if (val === sameday) return;
+    setSameDay(val);
+    setCounty("");
+    setSubCounty("");
+    setCourier("");
+
+    let locs = [];
+    deliveryLocations.map((loc) => {
+      if (
+        ((loc.sameday && val === "sameday") ||
+          (loc.nextday && val === "nextday")) &&
+        !locs.includes(loc.county.replaceAll("*", ""))
+      ) {
+        locs.push(loc.county);
+      }
+      return loc;
+    });
+    setCounties(locs);
+  };
+
   return (
     <Card
       className="w-85 max-w-[90%] min-w-[330px]"
@@ -686,6 +725,29 @@ function Checkout({
             )}
             {section === 0 && (
               <div>
+                <div>
+                  <FormControl>
+                    <FormLabel id="demo-controlled-radio-buttons-group"></FormLabel>
+                    <RadioGroup
+                      aria-labelledby="demo-controlled-radio-buttons-group"
+                      name="controlled-radio-buttons-group"
+                      value={sameday}
+                      onChange={(e) => setDeliveryDay(e.target.value)}
+                      row={true}
+                    >
+                      <FormControlLabel
+                        value={"sameday"}
+                        control={<Radio />}
+                        label="Same Day"
+                      />
+                      <FormControlLabel
+                        value={"nextday"}
+                        control={<Radio />}
+                        label="Next Day"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </div>
                 <div className="relative min-w-[200px] my-2">
                   <Autocomplete
                     disablePortal={true}
@@ -880,11 +942,17 @@ function Checkout({
                       (payOnDelivery ? " (Pay on delivery)" : "")}
                   </Typography>
                 )}
-                {deliveryTime && (
+                {sameday === "nextday" ? (
+                  <Typography style={{ fontSize: "11pt" }}>
+                    Arrives tomorrow
+                  </Typography>
+                ) : deliveryTime ? (
                   <Typography style={{ fontSize: "11pt" }}>
                     Arrives before
                     {" " + deliveryTime}
                   </Typography>
+                ) : (
+                  ""
                 )}
               </div>
             )}
