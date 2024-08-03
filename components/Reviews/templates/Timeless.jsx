@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 import { Card, CardHeader } from "@material-tailwind/react";
 import { useGlobalContext } from "@/Context/context";
 import { Button, Input, TextField, Typography } from "@mui/material";
-import { sendReview } from "@/utils/frontendAPIs/orders";
+import { downloadURL, sendReview } from "@/utils/frontendAPIs/orders";
 import Image from "next/image";
 import { reviewPOSInvoice } from "@/utils/frontendAPIs/app";
+import { Download } from "@mui/icons-material";
 
 function Timeless({ closeModal, item, sent, setSent, pos, invoice }) {
   let [error, setError] = useState("");
@@ -74,6 +75,41 @@ function Timeless({ closeModal, item, sent, setSent, pos, invoice }) {
       );
     }
     setSubmitting(false);
+  };
+
+  const [downloading, setDownloading] = useState(false);
+  const downloadReceipt = async () => {
+    let iid = invoice._id;
+    if (downloading) return;
+    setDownloading(true);
+    let url = downloadURL + "/pos/" + iid;
+    let bid = process.env.NEXT_PUBLIC_STORE_ID;
+
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/pdf",
+        business: bid,
+      },
+      mode: "cors",
+      next: { revalidate: 0 },
+    })
+      .then((response) => response.blob())
+      .then((blob) => {
+        const blobURL = window.URL.createObjectURL(new Blob([blob]));
+        const fileName = "Receipt.pdf";
+        const aTag = document.createElement("a");
+        aTag.href = blobURL;
+        aTag.setAttribute("download", fileName);
+        document.body.appendChild(aTag);
+        aTag.click();
+        aTag.remove();
+        setDownloading("");
+      })
+      .catch((err) => {
+        console.log("");
+        setDownloading("");
+      });
   };
 
   const { theme } = useGlobalContext();
@@ -320,6 +356,16 @@ function Timeless({ closeModal, item, sent, setSent, pos, invoice }) {
               </svg>
             </span>
           </Typography>
+
+          {invoice && (
+            <div
+              className="text-sm md:text-lg cursor-pointer"
+              style={{ color: theme.palette.highlight.main }}
+              onClick={downloadReceipt}
+            >
+              <Download /> Receipt
+            </div>
+          )}
         </div>
       </Card>
     </div>
