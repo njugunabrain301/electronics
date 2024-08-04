@@ -124,7 +124,7 @@ const Timeless = ({
     });
   }
   const [selectedPrice, setSelectedPrice] = useState(product.price - discount);
-
+  // console.log("Hello", articles);
   return (
     <div
       className={"" + bodyFont.className}
@@ -550,6 +550,72 @@ const Timeless = ({
                               {article.content.caption}
                             </h2>
                           )}
+                        </div>
+                      </div>
+                    );
+                  } else if (article.type === "banner-video") {
+                    return (
+                      <div
+                        key={idx + "_" + article._id}
+                        className="w-full relative text-center mb-3 py-10 px-5 flex flex-wrap flex-col flex-col-reverse md:flex-row"
+                        style={{
+                          backgroundColor: theme.palette.background.inverted,
+                          color: theme.palette.text.inverted,
+                        }}
+                      >
+                        <div className="w-[100%] md:w-[48%] flex flex-col justify-center ">
+                          {article.content.headline && (
+                            <h1 className="text-3xl md:text-3xl font-bold w-full text-center md:text-left mb-[20px]">
+                              {article.content.headline}
+                            </h1>
+                          )}
+                          {article.content.tagline && (
+                            <h2 className="my-3 text-center md:text-left">
+                              {article.content.tagline}
+                            </h2>
+                          )}
+                          <div className="mx-auto md:mr-auto md:justify-left justify-center md:text-lg cursor-pointer mt-4">
+                            <span
+                              className="p-3"
+                              style={{
+                                backgroundColor:
+                                  theme.palette.background.primary,
+                                color: theme.palette.text.primary,
+                              }}
+                            >
+                              Buy Now
+                            </span>
+
+                            <span
+                              className="p-3 ml-3 border-2"
+                              style={{
+                                borderColor: theme.palette.background.primary,
+                                // color: theme.palette.text.primary,
+                              }}
+                            >
+                              Download Manual
+                            </span>
+                          </div>
+                        </div>
+                        <div
+                          style={{
+                            position: "relative",
+                            textAlign: "center",
+                            color: article.content.image
+                              ? theme.palette.text.inverted
+                              : theme.palette.text.base,
+                          }}
+                          id="video"
+                          className="w-[100%] md:w-[48%]"
+                        >
+                          <iframe
+                            style={{ aspectRatio: "3/2", marginBottom: "20px" }}
+                            width="100%"
+                            src={
+                              "https://www.youtube.com/embed/" +
+                              article.content.videoId
+                            }
+                          ></iframe>
                         </div>
                       </div>
                     );
