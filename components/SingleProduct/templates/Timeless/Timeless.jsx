@@ -13,6 +13,9 @@ import MoreDetails from "./MoreDetails";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import SingleCarousel from "react-material-ui-carousel";
+import { pushEvent } from "@/utils/gtag";
+import MyModal from "@/components/Modal/MyModal";
+import Cart from "@/components/cart/Cart";
 
 const Timeless = ({
   product,
@@ -56,7 +59,8 @@ const Timeless = ({
   dataLayer.push(event);
   const showPrice = profile.showPrice;
 
-  const { theme, bodyFont, setMiniHeader } = useGlobalContext();
+  const { theme, bodyFont, setMiniHeader, verify, setCart, checkoutInfo } =
+    useGlobalContext();
   const resizeProdImageSmall = (img) => {
     img = img.replace(
       "https://storage.googleapis.com/test-bucket001/",
@@ -71,6 +75,15 @@ const Timeless = ({
     while (text.includes("\n")) text = text.replace("\n", "<br/>");
 
     return DOMPurify.sanitize(text);
+  };
+
+  //Cart Modal
+  const [openBuyNow, setOpenBuyNow] = useState(true);
+  const handleOpenBuyNow = () => {
+    setOpenBuyNow(true);
+  };
+  const handleCloseBuyNow = () => {
+    setOpenBuyNow(false);
   };
 
   let articleCount = 0;
@@ -124,7 +137,67 @@ const Timeless = ({
     });
   }
   const [selectedPrice, setSelectedPrice] = useState(product.price - discount);
-  // console.log("Hello", articles);
+
+  const productSize = product
+    ? product.sizes && product.sizes.length > 0
+      ? product.sizes[0]
+      : "-"
+    : "-";
+
+  const productColor = product
+    ? product.colors && product.colors.length > 0
+      ? product.colors[0]
+      : "-"
+    : "-";
+
+  const buyNow = async () => {
+    await verify();
+    // let authUser = localStorage.getItem("user") ? true : false;
+    let dataLayer = window.dataLayer || [];
+    let event = {
+      event: "buy-now",
+      item: {
+        id: product._id,
+        price: selectedPrice,
+        name: product.name + currOption.option,
+      },
+    };
+    dataLayer.push(event);
+    event = {
+      currency: "KES",
+      event: "add_to_cart",
+      item: {
+        id: product._id,
+        price: selectedPrice,
+        name: product.name + currOption.option,
+      },
+      value: selectedPrice,
+      items: [
+        {
+          item_id: product._id,
+          item_name: product.name,
+          affiliation: profile.name,
+          coupon: "",
+          discount: 0,
+          index: 0,
+          item_brand: product.brand,
+          item_category: product.category,
+          item_category2: product.subcategory,
+          item_variant:
+            productColor + " " + productSize + " " + currOption.option,
+
+          price: selectedPrice,
+          quantity: 1,
+        },
+      ],
+    };
+    dataLayer.push(event);
+    pushEvent("event", "add_to_cart", event);
+    handleOpenBuyNow();
+  };
+  const hello = () => {
+    alert("Here");
+  };
   return (
     <div
       className={"" + bodyFont.className}
@@ -160,6 +233,11 @@ const Timeless = ({
           selectedPrice={selectedPrice}
           setSelectedPrice={setSelectedPrice}
           sticky={false}
+          openBuyNow={openBuyNow}
+          setOpenBuyNow={setOpenBuyNow}
+          handleCloseBuyNow={handleCloseBuyNow}
+          handleOpenBuyNow={handleOpenBuyNow}
+          buyNow={hello}
         />
       )}
       {pkg !== "starter" && (
@@ -582,19 +660,23 @@ const Timeless = ({
                                   theme.palette.background.primary,
                                 color: theme.palette.text.primary,
                               }}
+                              onClick={buyNow}
                             >
                               Buy Now
                             </span>
 
-                            <span
-                              className="p-3 ml-3 border-2"
-                              style={{
-                                borderColor: theme.palette.background.primary,
-                                // color: theme.palette.text.primary,
-                              }}
-                            >
-                              Download Manual
-                            </span>
+                            {article.content.manualLink && (
+                              <Link
+                                className="p-3 ml-3 border-2"
+                                style={{
+                                  borderColor: theme.palette.background.primary,
+                                }}
+                                href={article.content.manualLink}
+                                target="_blank"
+                              >
+                                Download Manual
+                              </Link>
+                            )}
                           </div>
                         </div>
                         <div
@@ -617,6 +699,36 @@ const Timeless = ({
                             }
                           ></iframe>
                         </div>
+
+                        {/* Buy Now Modal */}
+                        <MyModal open={openBuyNow} onClose={handleCloseBuyNow}>
+                          <Cart
+                            closeModal={handleCloseBuyNow}
+                            totalPrice={selectedPrice}
+                            setCart={setCart}
+                            cart={[
+                              {
+                                _id: product._id,
+                                name: product.name,
+                                img: product.img,
+                                text: product.description,
+                                description: product.description,
+                                selectedOption: currOption.option,
+                                size: productSize,
+                                color: productColor,
+                                price: selectedPrice,
+                                amount: 1,
+                                totalPrice: selectedPrice,
+                                handlingTime: product.handlingTime,
+                              },
+                            ]}
+                            showPrice={profile.showPrice}
+                            checkoutInfo={checkoutInfo}
+                            selectedTheme={profile.theme.toLowerCase()}
+                            template={profile.template}
+                            single={true}
+                          ></Cart>
+                        </MyModal>
                       </div>
                     );
                   }

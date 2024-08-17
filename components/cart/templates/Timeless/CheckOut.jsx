@@ -60,6 +60,7 @@ function Checkout({
   const [county, setCounty] = useState(user.county || "");
   const [subcounty, setSubCounty] = useState(user.subcounty || "");
   const [courier, setCourier] = useState(user.courier || "");
+  const [specifications, setSpecification] = useState("");
   const [payOnDelivery, setPayOnDelivery] = useState(false);
   const [mode, setMode] = useState("");
   const [paymentInfo, setPaymentInfo] = useState({});
@@ -354,6 +355,7 @@ function Checkout({
         mode,
         total: Number(cartTotal) + Number(deliveryCost),
         single,
+        specifications,
         cart,
         fullDeliveryTime,
       });
@@ -365,6 +367,7 @@ function Checkout({
         cart,
         code,
         courier: courier.id,
+        specifications,
         mode,
         total: Number(cartTotal) + Number(deliveryCost),
         single,
@@ -933,6 +936,30 @@ function Checkout({
                     }}
                   />
                 </div>
+                <TextField
+                  label="Street/Building/House"
+                  type="text"
+                  name="specifications"
+                  size="small"
+                  fullWidth
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: theme.palette.input.border,
+                      },
+                      "&:hover fieldset": {
+                        borderColor: theme.palette.input.light,
+                      },
+                    },
+                    input: { color: theme.palette.text.base },
+                  }}
+                  InputLabelProps={{
+                    sx: { color: theme.palette.text.alt },
+                  }}
+                  color={"input"}
+                  value={specifications}
+                  onChange={(e) => setSpecification(e.target.value)}
+                />
                 {showPrice && (
                   <Typography style={{ fontSize: "11pt" }}>
                     Delivery Cost: Ksh.
