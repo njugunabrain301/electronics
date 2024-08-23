@@ -78,7 +78,7 @@ const Timeless = ({
   };
 
   //Cart Modal
-  const [openBuyNow, setOpenBuyNow] = useState(true);
+  const [openBuyNow, setOpenBuyNow] = useState(false);
   const handleOpenBuyNow = () => {
     setOpenBuyNow(true);
   };
@@ -674,7 +674,7 @@ const Timeless = ({
                                 href={article.content.manualLink}
                                 target="_blank"
                               >
-                                Download Manual
+                                Download&nbsp;Manual
                               </Link>
                             )}
                           </div>
