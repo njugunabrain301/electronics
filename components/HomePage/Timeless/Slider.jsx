@@ -11,7 +11,8 @@ const Slider = ({ slider }) => {
   const resizeCardImage = (img) => {
     img = img.replace(
       "https://storage.googleapis.com/test-bucket001/",
-      "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-600,h-400/"
+      "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-600/"
+      // "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-600,h-400/" //resize
     );
     return img;
   };

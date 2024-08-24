@@ -64,7 +64,7 @@ function SliderCarousel({ products }) {
           >
             <Link
               href={`/filter/item/` + item._id}
-              className="flex justify-center align-center bg-gray-300 rounded-md"
+              className="flex justify-center align-center rounded-md"
               style={{ aspectRatio: "3/2" }}
             >
               <img
