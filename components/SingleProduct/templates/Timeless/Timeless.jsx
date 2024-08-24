@@ -667,7 +667,9 @@ const Timeless = ({
                               </span>
                             </span>
                           ) : (
-                            <span>{selectedPrice}</span>
+                            <span className="sm:text-xl font-bold">
+                              {"Ksh. " + selectedPrice}
+                            </span>
                           )}
                           <div className="mx-auto md:mr-auto md:justify-left justify-center md:text-lg cursor-pointer mt-4">
                             <span
