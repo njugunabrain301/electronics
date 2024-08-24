@@ -195,9 +195,6 @@ const Timeless = ({
     pushEvent("event", "add_to_cart", event);
     handleOpenBuyNow();
   };
-  const hello = () => {
-    alert("Here");
-  };
   return (
     <div
       className={"" + bodyFont.className}
@@ -208,13 +205,21 @@ const Timeless = ({
     >
       {coupon && (
         <div
-          className="text-center text-2xl font-black py-2"
+          className="text-center text-sm sm:text-xl md:text-2xl font-black py-2"
           style={{
             backgroundColor: theme.palette.background.inverted,
             color: theme.palette.text.inverted,
           }}
         >
-          {coupon.name + " offer !! Save Ksh. " + discount + " !!"}
+          {coupon.name +
+            " offer !! " +
+            (discount / (selectedPrice + discount) > 0.01
+              ? Math.round((discount / (selectedPrice + discount)) * 100) +
+                "% Off !!"
+              : "") +
+            " Save Ksh. " +
+            discount +
+            " !!"}
         </div>
       )}
       {/* Product First */}
@@ -237,7 +242,6 @@ const Timeless = ({
           setOpenBuyNow={setOpenBuyNow}
           handleCloseBuyNow={handleCloseBuyNow}
           handleOpenBuyNow={handleOpenBuyNow}
-          buyNow={hello}
         />
       )}
       {pkg !== "starter" && (
@@ -652,6 +656,19 @@ const Timeless = ({
                               {article.content.tagline}
                             </h2>
                           )}
+                          {discount ? (
+                            <span className="w-full flex items-end justify-center">
+                              <span className="sm:text-xl mr-2 font-bold">
+                                {"Ksh. " + selectedPrice}
+                              </span>
+                              <span className="line-through text-sm sm:text-base">
+                                &nbsp;{" " + (selectedPrice + discount) + " "}
+                                &nbsp;
+                              </span>
+                            </span>
+                          ) : (
+                            <span>{selectedPrice}</span>
+                          )}
                           <div className="mx-auto md:mr-auto md:justify-left justify-center md:text-lg cursor-pointer mt-4">
                             <span
                               className="p-3"
@@ -662,7 +679,7 @@ const Timeless = ({
                               }}
                               onClick={buyNow}
                             >
-                              Buy Now
+                              Buy&nbsp;Now
                             </span>
 
                             {article.content.manualLink && (
