@@ -481,7 +481,7 @@ function Checkout({
     }
   }, [authUser]);
 
-  const [sameday, setSameDay] = React.useState("sameday");
+  const [sameday, setSameDay] = React.useState("nextday");
   const setDeliveryDay = (val) => {
     if (val === sameday) return;
     setSameDay(val);
