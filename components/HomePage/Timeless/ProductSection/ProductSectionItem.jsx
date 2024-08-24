@@ -25,7 +25,8 @@ const ProductSectionItem = ({
   const resizeCardImage = (img) => {
     img = img.replace(
       "https://storage.googleapis.com/test-bucket001/",
-      "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-400,h-267/"
+      "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-400/"
+      // "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-400,h-267/" //resize
     );
     return img;
   };
@@ -69,7 +70,7 @@ const ProductSectionItem = ({
           <img
             src={resizeCardImage(img)}
             alt={name}
-            style={{ aspectRatio: "3/2" }}
+            style={{ aspectRatio: "3/2", objectFit: "contain" }}
           />
         </CardHeader>
         <CardBody className="text-center">

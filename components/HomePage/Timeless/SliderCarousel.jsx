@@ -1,19 +1,23 @@
 "use client";
+import { getBackgroundColor } from "@/utils/Utils";
 import Link from "next/link";
+import { useEffect } from "react";
 import Carousel from "react-material-ui-carousel";
 
 function SliderCarousel({ products }) {
   const resizeSliderImage = (img) => {
     img = img.replace(
       "https://storage.googleapis.com/test-bucket001/",
-      "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-900,h-600/"
+      "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-900/"
+      // "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-900,h-600/" //resizing image
     );
     return img;
   };
   const resizeSliderImageSmall = (img) => {
     img = img.replace(
       "https://storage.googleapis.com/test-bucket001/",
-      "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-600,h-400/"
+      "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-600/"
+      // "https://ik.imagekit.io/d4mmlivtj/goduka/tr:w-600,h-400/" //resizing image
     );
     return img;
   };
@@ -26,6 +30,24 @@ function SliderCarousel({ products }) {
   }
 
   const prods = products.map((itm) => itm);
+
+  //TO DO:
+  //Code to determine whether image will be contained or covered depending on background
+  // useEffect(() => {
+  //   async function setBackgroundColors() {
+  //     for (const image of prods.map(itm > itm.img)) {
+  //       const color = await getBackgroundColor(image.url);
+  //       console.log(color);
+  //       const div = document.getElementById(image.id);
+
+  //       if (div) {
+  //         div.style.backgroundColor = color;
+  //       }
+  //     }
+  //   }
+
+  //   setBackgroundColors();
+  // }, []);
 
   return (
     <div>
@@ -47,12 +69,16 @@ function SliderCarousel({ products }) {
             >
               <img
                 src={resizeSliderImage(item.img)}
-                className="hidden w-full h-[100%] rounded-md lg:block"
+                className={
+                  "hidden w-full h-[100%] rounded-md lg:block img-" + index
+                }
                 alt="..."
               />
               <img
                 src={resizeSliderImageSmall(item.img)}
-                className="block w-full h-[100%] rounded-md lg:hidden"
+                className={
+                  "block w-full h-[100%] rounded-md lg:hidden img-" + index
+                }
                 alt="..."
               />
             </Link>

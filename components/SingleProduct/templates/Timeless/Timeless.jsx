@@ -300,7 +300,7 @@ const Timeless = ({
                                 alt={article.content.title + " image"}
                                 width={300}
                                 height={200}
-                                className="w-full mx-auto aspect-video object-cover my-[40px] md:ml-0"
+                                className="w-full mx-auto aspect-video object-contain my-[40px] md:ml-0"
                               />
                             </label>
                           )}

@@ -22,7 +22,18 @@ const Slider = ({ slider }) => {
     setTimeout(() => {
       setCarouselLoaded(true);
     }, 1000);
-  });
+
+    //TODO:
+    //determine fit by mage background color
+    // async function fetchColor() {
+    //   const color = await getBackgroundColor(
+    //     "https://example.com/path_to_image.jpg"
+    //   );
+    //   console.log(color);
+    // }
+
+    // fetchColor();
+  }, []);
 
   const { theme } = useGlobalContext();
   return (
