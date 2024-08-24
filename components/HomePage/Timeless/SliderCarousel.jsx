@@ -70,14 +70,16 @@ function SliderCarousel({ products }) {
               <img
                 src={resizeSliderImage(item.img)}
                 className={
-                  "hidden w-full h-[100%] rounded-md lg:block img-" + index
+                  "hidden w-full h-[100%] rounded-md lg:block object-contain img-" +
+                  index
                 }
                 alt="..."
               />
               <img
                 src={resizeSliderImageSmall(item.img)}
                 className={
-                  "block w-full h-[100%] rounded-md lg:hidden img-" + index
+                  "block w-full h-[100%] rounded-md lg:hidden object-contain img-" +
+                  index
                 }
                 alt="..."
               />

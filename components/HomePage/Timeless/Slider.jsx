@@ -60,6 +60,7 @@ const Slider = ({ slider }) => {
             <img
               src={sliderData[0].img}
               style={{ position: "absolute", width: "100%", height: "100%" }}
+              className="object-contain"
             />
           )}
           <SliderCarousel products={sliderData} className="rounded-md" />
@@ -87,7 +88,7 @@ const Slider = ({ slider }) => {
                   )}
                   alt="..."
                   style={{ aspectRatio: "3/2" }}
-                  className="w-full"
+                  className="w-full object-contain"
                 />
               </Link>
             </motion.div>
@@ -111,7 +112,7 @@ const Slider = ({ slider }) => {
                   )}
                   alt="..."
                   style={{ aspectRatio: "3/2" }}
-                  className="w-full"
+                  className="w-full object-contain"
                 />
               </Link>
             </motion.div>
@@ -137,7 +138,7 @@ const Slider = ({ slider }) => {
                   )}
                   alt="..."
                   style={{ aspectRatio: "3/2" }}
-                  className="w-full"
+                  className="w-full object-contain"
                 />
               </Link>
             </motion.div>
@@ -161,7 +162,7 @@ const Slider = ({ slider }) => {
                   )}
                   alt="..."
                   style={{ aspectRatio: "3/2" }}
-                  className="w-full"
+                  className="w-full object-contain"
                 />
               </Link>
             </motion.div>
