@@ -136,6 +136,16 @@ const Timeless = ({
       }
     });
   }
+
+  if (discount === 0 && product.coupons) {
+    product.coupons.map((c) => {
+      if (c.default) {
+        discount = c.discount;
+        coupon = c;
+      }
+    });
+  }
+
   const [selectedPrice, setSelectedPrice] = useState(product.price - discount);
 
   const productSize = product
@@ -673,18 +683,19 @@ const Timeless = ({
                           )}
                           <div className="mx-auto md:mr-auto md:justify-left justify-center md:text-lg cursor-pointer mt-4">
                             <span
-                              className="p-3"
+                              className="p-3 border-2"
                               style={{
                                 backgroundColor:
                                   theme.palette.background.primary,
                                 color: theme.palette.text.primary,
+                                borderColor: theme.palette.background.primary,
                               }}
                               onClick={buyNow}
                             >
                               Buy&nbsp;Now
                             </span>
 
-                            {article.content.manualLink && (
+                            {article.content.manualLink ? (
                               <Link
                                 className="p-3 ml-3 border-2"
                                 style={{
@@ -695,6 +706,17 @@ const Timeless = ({
                               >
                                 Download&nbsp;Manual
                               </Link>
+                            ) : (
+                              <a
+                                href={"tel: " + profile.phone}
+                                className="p-3 ml-3 border-2"
+                                style={{
+                                  borderColor: theme.palette.background.primary,
+                                }}
+                                target="_blank"
+                              >
+                                Call&nbsp;To&nbsp;Order
+                              </a>
                             )}
                           </div>
                         </div>
