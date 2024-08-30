@@ -822,6 +822,7 @@ const Timeless = ({
             <ProductSection
               products={others}
               showPrice={showPrice}
+              profile={profile}
               title="Related Products"
             />
           </div>
