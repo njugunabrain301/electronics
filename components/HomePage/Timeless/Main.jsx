@@ -16,6 +16,7 @@ const Main = ({ products, slider, promoted, profile, categories }) => {
       <ProductSection
         products={promoted}
         showPrice={profile.showPrice}
+        profile={profile}
       ></ProductSection>
       <div id="more-categories">
         <NavigateButtons

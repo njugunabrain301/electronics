@@ -21,6 +21,7 @@ const ProductSectionItem = ({
   showPrice,
   extras,
   subcategory,
+  discount,
 }) => {
   const resizeCardImage = (img) => {
     img = img.replace(
@@ -88,16 +89,28 @@ const ProductSectionItem = ({
           )}
           <div className="flex justify-between items-center pt-4">
             {showPrice && (
-              <Typography className="font-medium">
-                <span
-                  className="text-base"
-                  style={{ color: theme.palette.text.alt }}
-                >
-                  {price > 999999
-                    ? "Ksh. " + price / 1000000 + "M"
-                    : "Ksh. " + price}
-                </span>
-              </Typography>
+              <div className="flex flex-wrap items-center">
+                <Typography className="font-medium mr-1">
+                  <span
+                    className="text-base"
+                    style={{ color: theme.palette.text.alt }}
+                  >
+                    {price > 999999
+                      ? "Ksh. " + price / 1000000 + "M"
+                      : "Ksh. " + price}
+                  </span>
+                </Typography>
+
+                {discount > 0 && (
+                  <Typography variant="small" className="line-through">
+                    &nbsp;
+                    {price > 999999
+                      ? "Ksh. " + (price + discount) / 1000000 + "M"
+                      : "Ksh. " + (price + discount)}
+                    &nbsp;
+                  </Typography>
+                )}
+              </div>
             )}
             {colors && colors.length > 0 && (
               <Typography variant="small" className="flex gap-1">

@@ -277,6 +277,24 @@ const Timeless = ({
         ) : (
           <div className="flex justify-center py-8 flex-wrap">
             {products.map((product, index) => {
+              let price = product.price;
+              let discount = 0;
+              if (profile.package === "Business") {
+                if (product.priceOptions && product.priceOptions.length > 0) {
+                  price = product.priceOptions[0].price;
+                  product.priceOptions.map((p) => {
+                    if (p.default) {
+                      price = p.price;
+                    }
+                  });
+                }
+                if (product.coupons && product.coupons.length > 0) {
+                  product.coupons.map((c) => {
+                    if (c.default) discount = c.discount;
+                  });
+                }
+              }
+
               return (
                 <motion.div
                   key={index}
@@ -290,13 +308,14 @@ const Timeless = ({
                     name={product.name}
                     text={product.description}
                     img={product.img}
-                    price={product.price}
+                    price={price - discount}
                     colors={product.colors}
                     showPrice={showPrice}
                     extras={product.extras}
                     subcategory={product.subcategory}
                     theme={theme}
                     template={template}
+                    discount={discount}
                   ></ProductCard>
                 </motion.div>
               );

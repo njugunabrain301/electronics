@@ -16,6 +16,7 @@ const ProductCard = ({
   subcategory,
   theme,
   template,
+  discount,
 }) => {
   return (
     <>
@@ -49,6 +50,7 @@ const ProductCard = ({
           extras={extras}
           subcategory={subcategory}
           theme={theme}
+          discount={discount}
         />
       )}
     </>

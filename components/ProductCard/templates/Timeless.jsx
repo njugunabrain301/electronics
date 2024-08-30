@@ -21,6 +21,7 @@ const Timeless = ({
   extras,
   subcategory,
   theme,
+  discount,
 }) => {
   const resizeCardImage = (img) => {
     img = img.replace(
@@ -47,6 +48,7 @@ const Timeless = ({
     if (title.length > 100) title = title.slice(0, 100) + "...";
     return title;
   };
+
   return (
     <Link href={`/filter/item/` + id} className="flex justify-center">
       <Card
@@ -83,11 +85,22 @@ const Timeless = ({
           style={{ borderColor: theme.palette["flat-button"].main }}
         >
           {showPrice && (
-            <Typography variant="small">
-              {price > 999999
-                ? "Ksh. " + price / 1000000 + "M"
-                : "Ksh. " + price}
-            </Typography>
+            <div className="flex flex-wrap items-center">
+              <Typography variant="small" className="font-bold mr-1">
+                {price > 999999
+                  ? "Ksh. " + price / 1000000 + "M"
+                  : "Ksh. " + price}
+              </Typography>
+              {discount > 0 && (
+                <Typography variant="small" className="line-through">
+                  &nbsp;
+                  {price > 999999
+                    ? "Ksh. " + (price + discount) / 1000000 + "M"
+                    : "Ksh. " + (price + discount)}
+                  &nbsp;
+                </Typography>
+              )}
+            </div>
           )}
           {colors && colors.length > 0 && (
             <Typography variant="small" color="gray" className="flex gap-1">

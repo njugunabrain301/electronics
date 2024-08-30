@@ -186,14 +186,25 @@ export default function Product({
     //load first price option if available
     if (product.priceOptions.length > 0) {
       let variant = searchParams.get("variant");
+      let defaultOption = product.priceOptions[0];
       if (variant) {
         let optId = variant;
         product.priceOptions.map((opt) => {
           if (opt._id === optId) {
             setCurrOption(opt);
           }
+          if (opt.default) {
+            defaultOption = opt;
+          }
         });
-      } else setCurrOption(product.priceOptions[0]);
+      } else {
+        product.priceOptions.map((opt) => {
+          if (opt.default) {
+            defaultOption = opt;
+          }
+        });
+        setCurrOption(defaultOption);
+      }
     }
   }, []);
 
