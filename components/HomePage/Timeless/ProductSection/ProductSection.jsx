@@ -43,7 +43,7 @@ const ProductSection = ({ products, showPrice, title, profile }) => {
                 name={product.name}
                 img={product.img}
                 text={product.description}
-                price={product.price}
+                price={price - discount}
                 totalPrice={product.totalPrice}
                 colors={product.colors}
                 size={product.size}
