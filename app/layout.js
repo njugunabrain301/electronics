@@ -6,7 +6,6 @@ import { fetchCategories } from "@/utils/backendAPIs/products";
 import { GlobalContextProvider } from "@/Context/context";
 import { getCheckoutInfo } from "@/utils/backendAPIs/cart";
 import { getHoliday } from "@/utils/holidays";
-import "./App.scss";
 import "@/components/styles.css";
 import "./globals.css";
 import Expired from "@/components/Expired/Expired";
