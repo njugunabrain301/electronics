@@ -59,9 +59,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
       {/* End Google Analytics 4 */}
 
-      {template === "Opulence" && (
+      {/* {template === "Opulence" && (
         <Opulence profile={profile} checkoutInfo={checkoutInfo} />
-      )}
+      )} */}
       {template === "Timeless" && (
         <Timeless
           profile={profile}

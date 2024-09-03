@@ -5,24 +5,26 @@ function MyModal({ onClose, open, children }) {
     onClose();
   };
   return (
-    <Dialog
-      onClose={handleClose}
-      open={open}
-      PaperProps={{
-        style: {
-          backgroundColor: "transparent",
-          boxShadow: "none",
-        },
-      }}
-      scroll="body"
-    >
-      <div
-        style={{
-          marginTop: "30px",
+    <>
+      <Dialog
+        onClose={handleClose}
+        open={open}
+        PaperProps={{
+          style: {
+            backgroundColor: "transparent",
+            boxShadow: "none",
+          },
         }}
-      ></div>
-      {children}
-    </Dialog>
+        scroll="body"
+      >
+        <div
+          style={{
+            marginTop: "30px",
+          }}
+        ></div>
+        {children}
+      </Dialog>
+    </>
   );
 }
 

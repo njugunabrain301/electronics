@@ -17,6 +17,7 @@ export async function generateMetadata() {
   let categories = await fetchCategories();
   categories = categories.data;
   profile = profile.data;
+  let url = profile.customUrl ? profile.customUrl : profile.url;
 
   let icon = profile.icon
     ? profile.icon.replace(
@@ -25,6 +26,7 @@ export async function generateMetadata() {
       )
     : "https://storage.googleapis.com/test-bucket001/shop.png";
   let metadata = {
+    metadataBase: new URL("https://" + url),
     title: profile.name,
     description: profile.about,
     manifest: "/manifest.json",
@@ -71,6 +73,7 @@ const garamond = Cormorant_Garamond({ subsets: ["latin"], weight: "400" });
 export default async function RootLayout({ children }) {
   let res = await fetchBusinessProfile();
   let profile = res.data;
+
   let bodyFont = montserrat;
   let titleFont = garamond;
   let subtitleFont = garamond;

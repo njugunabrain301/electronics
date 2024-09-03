@@ -42,9 +42,11 @@ const Timeless = ({
       };
     }),
   };
-
-  let dataLayer = window.dataLayer || [];
-  dataLayer.push(event);
+  let dataLayer = [];
+  useEffect(() => {
+    dataLayer = window.dataLayer || [];
+    dataLayer.push(event);
+  }, []);
 
   const [filters, setFilters] = useState([]);
 

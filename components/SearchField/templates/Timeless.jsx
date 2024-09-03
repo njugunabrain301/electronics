@@ -1,7 +1,7 @@
 "use client";
 import { useGlobalContext } from "@/Context/context";
 import { Button, TextField } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 
 export default function Timeless({
@@ -10,8 +10,10 @@ export default function Timeless({
   onChange,
   onClick,
   inverted,
+  searching,
 }) {
   const { theme } = useGlobalContext();
+  useEffect(() => {}, [searching]);
   return (
     <div className="my-text-field flex pt-2">
       <TextField
@@ -70,7 +72,7 @@ export default function Timeless({
         onClick={onClick}
         color={"flat-button"}
       >
-        <SearchIcon />
+        {searching ? "..." : <SearchIcon />}
       </Button>
     </div>
   );

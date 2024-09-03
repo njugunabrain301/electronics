@@ -2,10 +2,14 @@
 import Timeless from "./Timeless/Main";
 import Opulence from "./Opulence/Main";
 import { getVisitorDetails } from "@/utils/functions";
+import { useEffect } from "react";
 
 const Main = ({ products, slider, promoted, profile, categories }) => {
   const template = profile.template;
-  getVisitorDetails("Home Page");
+  useEffect(() => {
+    getVisitorDetails("Home Page");
+  }, []);
+
   return (
     <div>
       {template === "Timeless" && (

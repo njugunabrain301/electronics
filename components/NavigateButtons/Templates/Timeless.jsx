@@ -24,9 +24,13 @@ const Timeless = ({ categories, profile, minified }) => {
   let [search, setSearch] = useState("");
 
   let router = useRouter();
+  const [searching, setSearching] = useState(false);
   const applySearch = () => {
     if (search !== "") {
+      setSearching(true);
       router.push("/filter/search/" + search);
+    } else {
+      setSearching(false);
     }
   };
   let template = profile.template;
@@ -47,6 +51,7 @@ const Timeless = ({ categories, profile, minified }) => {
             value={search}
             onClick={() => applySearch()}
             template={template}
+            searching={searching}
           />
         </div>
       </div>
@@ -55,7 +60,7 @@ const Timeless = ({ categories, profile, minified }) => {
           if (!minified && index > displayNum) return;
           return (
             <div key={index} className="mx-2 mb-3">
-              <Link href={"/filter/" + button}>
+              <Link href={"/filter/" + encodeURIComponent(button)}>
                 <Button variant="outlined" color="flat-button">
                   {button}
                 </Button>

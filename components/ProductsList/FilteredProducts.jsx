@@ -2,6 +2,7 @@
 import { getVisitorDetails } from "@/utils/functions";
 import Opulence from "./templates/Opulence";
 import Timeless from "./templates/Timeless";
+import { useEffect } from "react";
 
 const FilteredProducts = ({
   productList,
@@ -11,7 +12,10 @@ const FilteredProducts = ({
   searchParam,
 }) => {
   const template = profile.template;
-  getVisitorDetails();
+  useEffect(() => {
+    getVisitorDetails();
+  }, []);
+
   return (
     <>
       {template === "Opulence" && (
