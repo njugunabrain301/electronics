@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Button, Input, TextField, Typography } from "@mui/material";
-// import { Button, Input } from "@material-tailwind/react";
+import { Button, TextField, Typography } from "@mui/material";
 import { resetPassword } from "@/utils/frontendAPIs/auth";
 import { useGlobalContext } from "@/Context/context";
 

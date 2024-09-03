@@ -7,7 +7,6 @@ import { useGlobalContext } from "@/Context/context";
 import { addToCart } from "@/utils/frontendAPIs/cart";
 import Image from "next/image";
 import ShareIcon from "@mui/icons-material/Share";
-import DOMPurify from "dompurify";
 import addedImg from "@/public/added.gif";
 import {
   Button,

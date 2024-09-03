@@ -16,8 +16,6 @@ const ProductSectionItem = ({
   text,
   price,
   colors,
-  type,
-  onOffer,
   showPrice,
   extras,
   subcategory,

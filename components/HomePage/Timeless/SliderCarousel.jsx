@@ -1,7 +1,5 @@
 "use client";
-import { getBackgroundColor } from "@/utils/Utils";
 import Link from "next/link";
-import { useEffect } from "react";
 import Carousel from "react-material-ui-carousel";
 
 function SliderCarousel({ products }) {

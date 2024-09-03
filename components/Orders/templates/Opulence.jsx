@@ -1,10 +1,6 @@
 "use client";
 import { useGlobalContext } from "@/Context/context";
-import {
-  downloadReceipt,
-  downloadURL,
-  fetchOrders,
-} from "@/utils/frontendAPIs/orders";
+import { downloadURL, fetchOrders } from "@/utils/frontendAPIs/orders";
 import { DialogBody, Typography, Tooltip } from "@material-tailwind/react";
 import { Download } from "@mui/icons-material";
 import Image from "next/image";

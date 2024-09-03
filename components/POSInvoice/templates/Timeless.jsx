@@ -8,7 +8,6 @@ import {
   Paper,
   Grid,
 } from "@mui/material";
-import { resetPassword } from "@/utils/frontendAPIs/auth";
 import { useGlobalContext } from "@/Context/context";
 import { payPOSInvoice } from "@/utils/frontendAPIs/app";
 import Image from "next/image";
