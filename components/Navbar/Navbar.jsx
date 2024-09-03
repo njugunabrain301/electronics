@@ -2,7 +2,6 @@
 import { useEffect } from "react";
 import * as React from "react";
 import Script from "next/script";
-import Opulence from "./templates/Opulence";
 import Timeless from "./templates/Timeless";
 import { loadGA4Script } from "@/utils/gtag";
 import { useGlobalContext } from "@/Context/context";
@@ -21,8 +20,6 @@ const Navbar = ({ profile, checkoutInfo }) => {
     // gtag('config', 'G-TD28Z490EX', { 'debug_mode':true });
     verify();
   }, []);
-
-  const template = profile.template;
 
   return (
     <>
@@ -57,16 +54,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
       {/* End Google Analytics 4 */}
 
-      {/* {template === "Opulence" && (
-        <Opulence profile={profile} checkoutInfo={checkoutInfo} />
-      )} */}
-      {template === "Timeless" && (
-        <Timeless
-          profile={profile}
-          checkoutInfo={checkoutInfo}
-          authUnVerified={authUnVerified}
-        />
-      )}
+      <Timeless
+        profile={profile}
+        checkoutInfo={checkoutInfo}
+        authUnVerified={authUnVerified}
+      />
     </>
   );
 };

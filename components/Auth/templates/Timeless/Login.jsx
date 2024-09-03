@@ -4,7 +4,6 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  Alert,
 } from "@material-tailwind/react";
 import { colorComponent } from "@/utils/Utils";
 import { login } from "@/utils/frontendAPIs/auth";
@@ -12,7 +11,7 @@ import { useGlobalContext } from "@/Context/context";
 import { Button, TextField, Typography } from "@mui/material";
 import { addToCart } from "@/utils/frontendAPIs/cart";
 
-function Login({ closeModal, toggleLogin, toggleForgotPass, selectedTheme }) {
+function Login({ closeModal, toggleLogin, toggleForgotPass }) {
   let [error, setError] = useState("");
   let [isLoggingIn, setIsLoggingIn] = useState(false);
 

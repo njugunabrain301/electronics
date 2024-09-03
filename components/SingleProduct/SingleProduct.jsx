@@ -1,5 +1,5 @@
 "use client";
-import Opulence from "./templates/Opulence/Opulence";
+import { useEffect } from "react";
 import Timeless from "./templates/Timeless/Timeless";
 import { getVisitorDetails } from "@/utils/functions";
 
@@ -14,35 +14,23 @@ const SingleProduct = ({
   unitsSold,
   unitsRefunded,
 }) => {
-  let template = profile.template;
-  getVisitorDetails();
+  useEffect(() => {
+    getVisitorDetails();
+  }, []);
+
   return (
     <>
-      {template === "Opulence" && (
-        <Opulence
-          product={product}
-          profile={profile}
-          others={others}
-          categories={categories}
-          returns={returns}
-          shipping={shipping}
-          unitsSold={unitsSold}
-          unitsRefunded={unitsRefunded}
-        />
-      )}
-      {template === "Timeless" && (
-        <Timeless
-          product={product}
-          others={others}
-          categories={categories}
-          profile={profile}
-          returns={returns}
-          shipping={shipping}
-          offers={offers}
-          unitsSold={unitsSold}
-          unitsRefunded={unitsRefunded}
-        />
-      )}
+      <Timeless
+        product={product}
+        others={others}
+        categories={categories}
+        profile={profile}
+        returns={returns}
+        shipping={shipping}
+        offers={offers}
+        unitsSold={unitsSold}
+        unitsRefunded={unitsRefunded}
+      />
     </>
   );
 };
