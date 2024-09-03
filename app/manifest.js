@@ -1,5 +1,7 @@
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
 
+export const runtime = "edge";
+
 export default async function manifest() {
   let profile = await fetchBusinessProfile();
   profile = profile.data;
