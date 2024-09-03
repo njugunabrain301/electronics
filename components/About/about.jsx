@@ -1,15 +1,16 @@
 "use client";
 import { getVisitorDetails } from "@/utils/functions";
-import Opulence from "./templates/Opulence";
 import Timeless from "./templates/Timeless";
+import { useEffect } from "react";
 
 const About = ({ about }) => {
-  let template = about.template;
-  getVisitorDetails();
+  useEffect(() => {
+    getVisitorDetails();
+  }, []);
+
   return (
     <>
-      {template === "Opulence" && <Opulence about={about} />}
-      {template === "Timeless" && <Timeless about={about} />}
+      <Timeless about={about} />
     </>
   );
 };

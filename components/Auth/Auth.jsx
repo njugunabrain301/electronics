@@ -1,15 +1,9 @@
-import Opulence from "./templates/Opulence/Opulence";
 import Timeless from "./templates/Timeless/Timeless";
 
-const Auth = ({ closeModal, selectedTheme, template }) => {
+const Auth = ({ closeModal, selectedTheme }) => {
   return (
     <>
-      {template === "Opulence" && (
-        <Opulence closeModal={closeModal} selectedTheme={selectedTheme} />
-      )}
-      {template === "Timeless" && (
-        <Timeless closeModal={closeModal} selectedTheme={selectedTheme} />
-      )}
+      <Timeless closeModal={closeModal} selectedTheme={selectedTheme} />
     </>
   );
 };

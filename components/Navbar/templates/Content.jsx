@@ -33,7 +33,6 @@ const Content = ({
   miniHeader,
   openProfile,
   name,
-  logo,
   search,
   setSearch,
 }) => {

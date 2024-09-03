@@ -13,14 +13,7 @@ import { useGlobalContext } from "@/Context/context";
 import { Button } from "@mui/material";
 import MySearchField from "../../SearchField/MySearchField";
 
-const Timeless = ({
-  productList,
-  type,
-  wearables,
-  profile,
-  searchParam,
-  template,
-}) => {
+const Timeless = ({ productList, type, wearables, profile, searchParam }) => {
   const showPrice = profile.showPrice;
   let event = {
     event: "view_item_list",
@@ -316,7 +309,6 @@ const Timeless = ({
                     extras={product.extras}
                     subcategory={product.subcategory}
                     theme={theme}
-                    template={template}
                     discount={discount}
                   ></ProductCard>
                 </motion.div>
