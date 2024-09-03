@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGlobalContext } from "@/Context/context";
 import Image from "next/image";
 import DOMPurify from "dompurify";
@@ -55,8 +55,12 @@ const Timeless = ({
       },
     ],
   };
-  let dataLayer = window.dataLayer || [];
-  dataLayer.push(event);
+  let dataLayer = [];
+  useEffect(() => {
+    dataLayer = window.dataLayer || [];
+    dataLayer.push(event);
+  }, []);
+
   const showPrice = profile.showPrice;
 
   const { theme, bodyFont, setMiniHeader, verify, setCart, checkoutInfo } =

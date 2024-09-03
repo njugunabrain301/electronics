@@ -9,7 +9,7 @@ export default function MySearchField({
 }) {
   return (
     <>
-      <Opulence
+      <Timeless
         label={label}
         value={value}
         onClick={onClick}
