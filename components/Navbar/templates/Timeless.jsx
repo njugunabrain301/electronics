@@ -13,6 +13,8 @@ import MySearchField from "@/components/SearchField/MySearchField";
 import { useRouter } from "next/navigation";
 import { getLeadDetails } from "@/utils/functions";
 import Content from "./Content";
+import FullHeader from "./FullHeader";
+import MiniHeader from "./MiniHeader";
 
 const Timeless = ({ profile, checkoutInfo, authUnVerified }) => {
   const [user, setUser] = useState({});
@@ -155,33 +157,57 @@ const Timeless = ({ profile, checkoutInfo, authUnVerified }) => {
   };
 
   return (
-    <Content
-      handleCloseProfile={handleCloseProfile}
-      handleOpenProfile={handleOpenProfile}
-      genLogo={genLogo}
-      applySearch={applySearch}
-      customHandleCloseAuth={customHandleCloseAuth}
-      profile={profile}
-      checkoutInfo={checkoutInfo}
-      authUser={authUser}
-      cart={cart}
-      totalPrice={totalPrice}
-      totalCount={totalCount}
-      setCart={setCart}
-      theme={theme}
-      titleFont={titleFont}
-      handleOpenCart={handleOpenCart}
-      handleCloseCart={handleCloseCart}
-      openCart={openCart}
-      openAuth={openAuth}
-      handleOpenAuth={handleOpenAuth}
-      miniHeader={miniHeader}
-      openProfile={openProfile}
-      name={name}
-      businessName={businessName}
-      search={search}
-      setSearch={setSearch}
-    />
+    <main-content>
+      {miniHeader ? (
+        <MiniHeader
+          handleCloseProfile={handleCloseProfile}
+          handleOpenProfile={handleOpenProfile}
+          genLogo={genLogo}
+          applySearch={applySearch}
+          customHandleCloseAuth={customHandleCloseAuth}
+          profile={profile}
+          checkoutInfo={checkoutInfo}
+          authUser={authUser}
+          cart={cart}
+          totalPrice={totalPrice}
+          setCart={setCart}
+          theme={theme}
+          titleFont={titleFont}
+          handleCloseCart={handleCloseCart}
+          openCart={openCart}
+          openAuth={openAuth}
+          handleOpenAuth={handleOpenAuth}
+          openProfile={openProfile}
+          name={name}
+        />
+      ) : (
+        <FullHeader
+          handleCloseProfile={handleCloseProfile}
+          handleOpenProfile={handleOpenProfile}
+          genLogo={genLogo}
+          applySearch={applySearch}
+          customHandleCloseAuth={customHandleCloseAuth}
+          profile={profile}
+          checkoutInfo={checkoutInfo}
+          authUser={authUser}
+          cart={cart}
+          totalPrice={totalPrice}
+          totalCount={totalCount}
+          setCart={setCart}
+          theme={theme}
+          titleFont={titleFont}
+          handleOpenCart={handleOpenCart}
+          handleCloseCart={handleCloseCart}
+          openCart={openCart}
+          openAuth={openAuth}
+          handleOpenAuth={handleOpenAuth}
+          openProfile={openProfile}
+          name={name}
+          search={search}
+          setSearch={setSearch}
+        />
+      )}
+    </main-content>
   );
 };
 
