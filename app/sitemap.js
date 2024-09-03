@@ -1,6 +1,8 @@
 import { fetchBusinessProfile } from "@/utils/backendAPIs/app";
 import { fetchCategories, fetchProducts } from "@/utils/backendAPIs/products";
 
+export const runtime = "edge";
+
 export default async function sitemap() {
   let business = await fetchBusinessProfile();
   if (!business.success) console.log("Sitemap loading error");
