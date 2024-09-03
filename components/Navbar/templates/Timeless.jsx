@@ -156,41 +156,31 @@ const Timeless = ({ profile, checkoutInfo, authUnVerified }) => {
 
   return (
     <Content
-    // handleCloseProfile={handleCloseProfile}
-    // handleOpenProfile={handleOpenProfile}
-    // genLogo={genLogo}
-    // applySearch={applySearch}
-    // customHandleCloseAuth={customHandleCloseAuth}
-    // profile={profile}
-    // checkoutInfo={checkoutInfo}
-    // authUnVerified={authUnVerified}
-    // user={user}
-    // setUser={setUser}
-    // authUser={authUser}
-    // setAuth={setAuth}
-    // cart={cart}
-    // totalPrice={totalPrice}
-    // totalCount={totalCount}
-    // setCart={setCart}
-    // theme={theme}
-    // titleFont={titleFont}
-    // handleOpenCart={handleOpenCart}
-    // handleCloseCart={handleCloseCart}
-    // openCart={openCart}
-    // openAuth={openAuth}
-    // handleOpenAuth={handleOpenAuth}
-    // handleCloseAuth={handleCloseAuth}
-    // miniHeader={miniHeader}
-    // openProfile={openProfile}
-    // setOpenProfile={setOpenProfile}
-    // name={name}
-    // businessName={businessName}
-    // logo={logo}
-    // search={search}
-    // setSearch={setSearch}
-    // searching={searching}
-    // setSearching={setSearching}
-    // website={profile.website}
+      handleCloseProfile={handleCloseProfile}
+      handleOpenProfile={handleOpenProfile}
+      genLogo={genLogo}
+      applySearch={applySearch}
+      customHandleCloseAuth={customHandleCloseAuth}
+      profile={profile}
+      checkoutInfo={checkoutInfo}
+      authUser={authUser}
+      cart={cart}
+      totalPrice={totalPrice}
+      totalCount={totalCount}
+      setCart={setCart}
+      theme={theme}
+      titleFont={titleFont}
+      handleOpenCart={handleOpenCart}
+      handleCloseCart={handleCloseCart}
+      openCart={openCart}
+      openAuth={openAuth}
+      handleOpenAuth={handleOpenAuth}
+      miniHeader={miniHeader}
+      openProfile={openProfile}
+      name={name}
+      businessName={businessName}
+      search={search}
+      setSearch={setSearch}
     />
   );
 };
