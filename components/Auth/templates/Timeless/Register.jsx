@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Card, CardHeader, Checkbox, Alert } from "@material-tailwind/react";
+import { Card, CardHeader, Checkbox } from "@material-tailwind/react";
 import { register } from "@/utils/frontendAPIs/auth";
 import Link from "next/link";
 import { useGlobalContext } from "@/Context/context";
 import { Button, TextField, Typography } from "@mui/material";
 
-function Register({ closeModal, toggleLogin, selectedTheme }) {
+function Register({ closeModal, toggleLogin }) {
   let error = "";
   let [mError, setMerror] = useState("");
   let [isRegistering, setIsRegistering] = useState(false);

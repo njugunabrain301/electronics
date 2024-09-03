@@ -4,7 +4,7 @@ import { TextField, Typography, Button } from "@mui/material";
 import { resetPassword } from "@/utils/frontendAPIs/auth";
 import { useGlobalContext } from "@/Context/context";
 
-function Timeless({ token, profile }) {
+function Timeless({ token }) {
   const [password, setPassword] = useState("");
   const [cpassword, setCPassword] = useState("");
   const [error, setError] = useState("");

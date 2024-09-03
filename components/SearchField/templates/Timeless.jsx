@@ -1,7 +1,7 @@
 "use client";
 import { useGlobalContext } from "@/Context/context";
 import { Button, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 
 export default function Timeless({

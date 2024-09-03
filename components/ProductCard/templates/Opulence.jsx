@@ -1,11 +1,6 @@
 "use client";
 import React from "react";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  Typography,
-} from "@material-tailwind/react";
+import { CardBody, Typography } from "@material-tailwind/react";
 import Link from "next/link";
 import { useGlobalContext } from "@/Context/context";
 
@@ -13,11 +8,9 @@ const Opulence = ({
   id,
   img,
   name,
-  text,
   price,
   colors,
-  type,
-  onOffer,
+
   showPrice,
   extras,
   subcategory,
@@ -30,12 +23,12 @@ const Opulence = ({
     return img;
   };
 
-  function removeTags(str) {
-    if (str === null || str === "") return false;
-    else str = str.toString();
+  // function removeTags(str) {
+  //   if (str === null || str === "") return false;
+  //   else str = str.toString();
 
-    return str.replace(/(<([^>]+)>)/gi, "");
-  }
+  //   return str.replace(/(<([^>]+)>)/gi, "");
+  // }
 
   const { theme } = useGlobalContext();
   return (

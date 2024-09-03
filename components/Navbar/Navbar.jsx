@@ -1,12 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
-import Cookies from "universal-cookie";
+import { useEffect } from "react";
 import * as React from "react";
-import { visit } from "@/utils/frontendAPIs/app";
 import Script from "next/script";
-// import Opulence from "./templates/Opulence";
+import Opulence from "./templates/Opulence";
 import Timeless from "./templates/Timeless";
-import { gtag, loadGA4Script } from "@/utils/gtag";
+import { loadGA4Script } from "@/utils/gtag";
 import { useGlobalContext } from "@/Context/context";
 
 const Navbar = ({ profile, checkoutInfo }) => {

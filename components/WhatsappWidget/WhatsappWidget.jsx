@@ -5,7 +5,6 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
-import { lead } from "@/utils/frontendAPIs/app";
 import { getLeadDetails } from "@/utils/functions";
 
 export default function WhatsappWidget({ text }) {

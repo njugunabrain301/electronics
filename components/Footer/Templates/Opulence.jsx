@@ -1,15 +1,7 @@
 "use client";
 import { useGlobalContext } from "@/Context/context";
-import {
-  Facebook,
-  Google,
-  Instagram,
-  LocationOn,
-  Twitter,
-} from "@mui/icons-material";
-import Image from "next/image";
+import { Facebook, Google, Instagram, LocationOn } from "@mui/icons-material";
 import React from "react";
-import xlogo from "@/public/x.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
 

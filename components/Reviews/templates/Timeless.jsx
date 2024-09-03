@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardHeader } from "@material-tailwind/react";
 import { useGlobalContext } from "@/Context/context";
-import { Button, Input, TextField, Typography } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { downloadURL, sendReview } from "@/utils/frontendAPIs/orders";
 import Image from "next/image";
 import { reviewPOSInvoice } from "@/utils/frontendAPIs/app";
@@ -23,11 +23,6 @@ function Timeless({ closeModal, item, sent, setSent, pos, invoice }) {
       setNumFiles(newFiles.length);
       console.log(selectedFiles, e.target.files);
     }
-    // setSelectedFiles([...selectedFiles, ...event.target.files]);
-    // let fls = event.target.files.length;
-    // setNumFiles(fls);
-    // console.log(selectedFiles, event.target.files, fls);
-    // setNumFiles(event.target.files.length);
   };
 
   useEffect(() => {

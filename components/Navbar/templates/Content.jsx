@@ -1,5 +1,4 @@
 "use client";
-import { useEffect, useState } from "react";
 import { Tooltip } from "@material-tailwind/react";
 import Auth from "@/components/Auth/Auth";
 import MyModal from "../../Modal/MyModal";
@@ -7,10 +6,8 @@ import UserProfile from "@/components/UserProfile/UserProfile";
 import Link from "next/link";
 import * as React from "react";
 import Cart from "../../cart/Cart";
-import { useGlobalContext } from "@/Context/context";
 import Image from "next/image";
 import MySearchField from "@/components/SearchField/MySearchField";
-import { useRouter } from "next/navigation";
 import { getLeadDetails } from "@/utils/functions";
 
 const Content = ({

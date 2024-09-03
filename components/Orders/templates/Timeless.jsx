@@ -2,12 +2,7 @@
 import { useGlobalContext } from "@/Context/context";
 import MyModal from "@/components/Modal/MyModal";
 import Reviews from "@/components/Reviews/Reviews";
-import {
-  downloadReceipt,
-  downloadURL,
-  fetchOrders,
-  sendReview,
-} from "@/utils/frontendAPIs/orders";
+import { downloadURL, fetchOrders } from "@/utils/frontendAPIs/orders";
 import { DialogBody, Typography, Tooltip } from "@material-tailwind/react";
 import { Download } from "@mui/icons-material";
 import { Button } from "@mui/material";

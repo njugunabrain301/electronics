@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Tooltip, Typography, Option } from "@material-tailwind/react";
+import { Tooltip, Typography } from "@material-tailwind/react";
 
 import { colorComponent } from "@/utils/Utils";
 import { useGlobalContext } from "@/Context/context";

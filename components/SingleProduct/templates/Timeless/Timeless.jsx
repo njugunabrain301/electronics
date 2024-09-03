@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useGlobalContext } from "@/Context/context";
 import Image from "next/image";
 import DOMPurify from "dompurify";
