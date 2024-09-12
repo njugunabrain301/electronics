@@ -35,8 +35,6 @@ const FullHeader = ({
   search,
   setSearch,
 }) => {
-  console.log("hello");
-  //New code
   return (
     <main-content>
       <div
