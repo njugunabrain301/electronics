@@ -44,6 +44,7 @@ const FullHeader = ({
           color: theme.palette.text.inverted,
         }}
       >
+      Hello
         {profile.holiday && (
           <Image
             src={profile.holiday.sideBanner}
