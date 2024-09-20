@@ -76,7 +76,7 @@ function CheckoutContent({
   return (
     <main-content>
       <Card
-        className="w-85 max-w-[90%] min-w-[330px]"
+        className=""
         style={{
           backgroundColor: theme.palette.background.primary,
           color: theme.palette.text.base,
@@ -126,9 +126,9 @@ function CheckoutContent({
             </div>
           ) : (
             <div>
-              <ul className="flex justify-evenly pb-2flex-wrap">
+              <ul className="flex justify-between pb-2">
                 <li
-                  className="p-2 w-[170px] text-center border-b-2 cursor-pointer flex items-center justify-center"
+                  className="p-2 w-[33%] text-center border-b-2 cursor-pointer flex items-center justify-center"
                   style={{
                     transition: ".5s",
                     color:
@@ -146,7 +146,7 @@ function CheckoutContent({
                   &nbsp;Delivery
                 </li>
                 <li
-                  className="p-2 w-[190px] text-center border-b-2 cursor-pointer flex items-center justify-center"
+                  className="p-2 w-[33%] text-center border-b-2 cursor-pointer flex items-center justify-center"
                   style={{
                     transition: ".5s",
                     color:
@@ -165,7 +165,7 @@ function CheckoutContent({
                 </li>
                 {showPrice && (
                   <li
-                    className="p-2 w-[190px] text-center border-b-2 cursor-pointer flex items-center justify-center"
+                    className="p-2 w-[33%] text-center border-b-2 cursor-pointer flex items-center justify-center"
                     onClick={() => openSection(2)}
                     style={{
                       transition: ".5s",

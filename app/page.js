@@ -20,7 +20,7 @@ export default async function Home() {
 
   const loadPage = async () => {
     let res = await fetchHomePage();
-
+    console.log(res);
     if (res.success) {
       if (!res.data.ready) {
         empty = true;

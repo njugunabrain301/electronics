@@ -254,7 +254,7 @@ const CartContent = ({
             )}
           </div>
         ) : (
-          <div className="flex justify-center items-center">
+          <div className="w-[100%]">
             <Checkout
               closeModal={closeModal}
               setOpenCheckout={setOpenCheckout}
