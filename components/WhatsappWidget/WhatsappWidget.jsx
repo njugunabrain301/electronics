@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { getLeadDetails } from "@/utils/functions";
+import WhatsappWidgetContent from "./Content";
 
 export default function WhatsappWidget({ text }) {
   let { profile, isVisible } = useGlobalContext();
@@ -34,23 +35,10 @@ export default function WhatsappWidget({ text }) {
   }, [isVisible, controls]);
 
   return (
-    <motion.div
-      className={
-        prodPage
-          ? "w-[50px] h-[50px] fixed right-3 cursor-pointer"
-          : "w-[50px] h-[50px] fixed right-5 cursor-pointer"
-      }
-      initial={{ bottom: 10 }}
-      animate={controls}
-      transition={{ duration: 0.5 }}
-    >
-      <Image
-        height={50}
-        width={50}
-        alt="Whatsapp Icon"
-        src={whatsapp}
-        onClick={sendToWhatsapp}
-      />
-    </motion.div>
+    <WhatsappWidgetContent
+      controls={controls}
+      sendToWhatsapp={sendToWhatsapp}
+      prodPage={prodPage}
+    />
   );
 }

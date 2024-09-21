@@ -12,7 +12,6 @@ import Image from "next/image";
 import MySearchField from "@/components/SearchField/MySearchField";
 import { useRouter } from "next/navigation";
 import { getLeadDetails } from "@/utils/functions";
-import Content from "./Content";
 import FullHeader from "./FullHeader";
 import MiniHeader from "./MiniHeader";
 

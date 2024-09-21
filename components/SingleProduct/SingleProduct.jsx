@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import Timeless from "./templates/Timeless/Timeless";
+import Timeless from "./templates/Timeless";
 import { getVisitorDetails } from "@/utils/functions";
 
 const SingleProduct = ({

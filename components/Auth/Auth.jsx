@@ -1,4 +1,4 @@
-import Timeless from "./templates/Timeless/Timeless";
+import Timeless from "./templates/Timeless";
 
 const Auth = ({ closeModal, selectedTheme }) => {
   return (
