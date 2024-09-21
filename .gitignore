@@ -28,6 +28,12 @@ yarn-error.log*
 .env*.local
 .env
 
+# Ignore all files named Content.jsx or content.jsx
+**/[Cc]ontent.jsx
+
+# Ignore all files in folders named Content or content
+**/[Cc]ontent/**
+
 # vercel
 .vercel
 

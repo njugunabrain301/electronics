@@ -10,7 +10,7 @@ const Content = ({ about, titleFont, cleanHTML }) => {
             " text-3xl md:text-5xl text-center pt-[50px] pb-[20px]"
           }
         >
-          About Us
+          About Us Hello
         </h1>
         <p
           dangerouslySetInnerHTML={{
