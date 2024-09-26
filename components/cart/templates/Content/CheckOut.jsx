@@ -1,3 +1,4 @@
+"use client";
 import {
   Card,
   CardHeader,
@@ -72,6 +73,7 @@ function CheckoutContent({
   theme,
   sameday,
   setDeliveryDay,
+  deliveryAdvice,
 }) {
   return (
     <main-content>
@@ -536,6 +538,17 @@ function CheckoutContent({
                     value={specifications}
                     onChange={(e) => setSpecification(e.target.value)}
                   />
+                  {deliveryAdvice && (
+                    <Typography
+                      style={{
+                        fontSize: "11pt",
+                        fontStyle: "italic",
+                        color: "indianred",
+                      }}
+                    >
+                      {deliveryAdvice}
+                    </Typography>
+                  )}
                   {showPrice && (
                     <Typography style={{ fontSize: "11pt" }}>
                       Delivery Cost: Ksh.
