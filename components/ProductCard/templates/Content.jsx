@@ -30,7 +30,7 @@ const ProductCardContent = ({
           style={{
             backgroundColor: theme.palette.pane.main,
             color: theme.palette.text.base,
-            boxShadow: "0 0 10px 1px #bbbbbb90",
+            boxShadow: "0 0 20px 1px #bbbbbb",
           }}
         >
           <CardHeader className="relative h-60 m-[10px]">
