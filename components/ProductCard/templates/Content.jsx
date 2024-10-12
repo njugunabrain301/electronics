@@ -26,13 +26,14 @@ const ProductCardContent = ({
     <main-content>
       <Link href={`/filter/item/` + id} className="flex justify-center">
         <Card
-          className=" min-w-[250px] xs:max-w-[280px] sm:w-[300px] mt-5"
+          className=" min-w-[250px] xs:max-w-[280px] sm:w-[300px] mt-5 shadow-2"
           style={{
             backgroundColor: theme.palette.pane.main,
             color: theme.palette.text.base,
+            boxShadow: "0 0 10px 1px #bbbbbb90",
           }}
         >
-          <CardHeader className="relative h-60">
+          <CardHeader className="relative h-60 m-[10px]">
             <img
               src={resizeCardImage(img)}
               alt="img-blur-shadow"
