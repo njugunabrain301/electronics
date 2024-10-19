@@ -26,11 +26,11 @@ const ProductCardContent = ({
     <main-content>
       <Link href={`/filter/item/` + id} className="flex justify-center">
         <Card
-          className=" min-w-[250px] xs:max-w-[280px] sm:w-[300px] mt-5 shadow-2"
+          className=" min-w-[250px] xs:max-w-[280px] sm:w-[300px] mt-5 shadow-4"
           style={{
             backgroundColor: theme.palette.pane.main,
             color: theme.palette.text.base,
-            boxShadow: "0 0 20px 1px #bbbbbb",
+            // boxShadow: "0 0 20px 1px inherit",
           }}
         >
           <CardHeader className="relative h-60 m-[10px]">
@@ -40,7 +40,7 @@ const ProductCardContent = ({
               className="h-full w-full object-contain"
             />
           </CardHeader>
-          <CardBody className="text-center">
+          <CardBody className="text-center !p-1">
             <Typography variant="h5" className="mb-2">
               {getTitle()}
             </Typography>
@@ -53,12 +53,6 @@ const ProductCardContent = ({
                 </span>
               </Typography>
             )}
-          </CardBody>
-          <CardFooter
-            divider
-            className="flex items-center justify-between py-3"
-            style={{ borderColor: theme.palette["flat-button"].main }}
-          >
             {showPrice && (
               <div className="flex flex-wrap items-center">
                 <Typography variant="small" className="font-bold mr-1">
@@ -77,6 +71,13 @@ const ProductCardContent = ({
                 )}
               </div>
             )}
+          </CardBody>
+          <CardFooter
+            divider
+            className="flex items-center justify-between py-3"
+            style={{ borderColor: theme.palette["flat-button"].main }}
+          >
+            <span style={{ opacity: "0" }}>cart</span>
             {colors && colors.length > 0 && (
               <Typography variant="small" color="gray" className="flex gap-1">
                 {colors?.map((color, index) => {
