@@ -71,6 +71,7 @@ function Checkout({
   const [fullDeliveryTime, setFullDeliveryTime] = useState(
     user.phone ? user.phone : ""
   );
+  const [deliveryAdvice, setDeliveryAdvice] = useState("");
 
   // console.log(courier, checkoutInfo);
 
@@ -106,9 +107,11 @@ function Checkout({
   }, [paymentOptions, mode]);
 
   const setUpSubCounties = (county) => {
+    setDeliveryAdvice("");
     setPayOnDelivery(false);
     let added = [];
     county = county.replaceAll("*", "");
+
     if (county && county !== "") {
       let subs = [];
       deliveryLocations.map((loc) => {
@@ -124,6 +127,13 @@ function Checkout({
         }
         return loc;
       });
+      if (subs.length === 0) {
+        setDeliveryAdvice(
+          "* No delivery options available. Try switching to " +
+            (sameday === "sameday" ? "next day" : "same day") +
+            " delivery"
+        );
+      }
       setSubCounties(subs);
       setSubCounty("");
       setCourier("");
@@ -138,6 +148,7 @@ function Checkout({
   };
 
   const setUpCouriers = (subcounty) => {
+    setDeliveryAdvice("");
     setPayOnDelivery(false);
     let mcounty = county.replaceAll("*", "");
     subcounty = subcounty.replaceAll("*", "");
@@ -162,6 +173,13 @@ function Checkout({
         }
         return loc;
       });
+      if (couriers.length === 0) {
+        setDeliveryAdvice(
+          "* No delivery options available. Try switching to " +
+            (sameday === "sameday" ? "next day" : "same day") +
+            " delivery"
+        );
+      }
       setCourier("");
       setDeliveryCost(0);
       setCouriers(couriers);
@@ -567,6 +585,7 @@ function Checkout({
       theme={theme}
       sameday={sameday}
       setDeliveryDay={setDeliveryDay}
+      deliveryAdvice={deliveryAdvice}
     />
   );
 }
